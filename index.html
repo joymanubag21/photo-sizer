@@ -56,31 +56,50 @@ a.btn{text-decoration:none}
 .btn:disabled{opacity:.4; cursor:default}
 .btn.grow{flex:1}
 
-/* ───────── welcome ───────── */
-.welcome{
-  position:fixed; inset:0; z-index:50; overflow-y:auto;
-  background:var(--bg); display:block;
-}
-.w-in{
-  max-width:440px; margin:0 auto; width:100%;
-  padding:24px 22px calc(40px + env(safe-area-inset-bottom,0px));
-}
-.hero{text-align:center; padding-block:10px 0}
-.hero .rule{height:1px; background:linear-gradient(90deg,transparent,var(--line-2) 25%,var(--line-2) 75%,transparent); margin-bottom:20px}
-.hero h1{font-family:'Cormorant Garamond',Georgia,serif; font-weight:500; font-size:clamp(42px,12.5vw,58px); line-height:1.02; letter-spacing:-.01em; margin:10px 0 7px}
-.hero h1 em{font-style:italic; color:var(--rust)}
-.hero .place{font-size:11.5px; letter-spacing:.2em; text-transform:uppercase; color:var(--ink-3)}
-.w-card{margin:26px auto 0; width:100%; max-width:320px}
-.w-card .paper{background:#fff; box-shadow:var(--shadow-lift); overflow:hidden; transform:rotate(-1.4deg)}
-.w-card canvas{display:block; width:100%; height:auto}
-.cue{
-  margin-top:26px; font-size:10px; font-weight:600; letter-spacing:.22em;
-  text-transform:uppercase; color:var(--ink-3); display:flex;
-  align-items:center; justify-content:center; gap:9px;
-}
-.cue i{display:block; width:1px; height:22px; background:var(--line-2)}
+/* ───────── welcome: the Guest Guide hero, then the cards ───────── */
+.welcome{position:fixed; inset:0; z-index:50; overflow-y:auto; background:var(--bg); display:block}
+@keyframes jpFade{from{opacity:0; transform:translateY(14px)} to{opacity:1; transform:none}}
 
-.cards{display:flex; flex-direction:column; gap:10px; margin-top:30px}
+.hero{
+  position:relative; min-height:100svh; display:flex; flex-direction:column;
+  justify-content:flex-end; overflow:hidden; background:#2A2420;
+}
+.hero > img{
+  position:absolute; inset:0; width:100%; height:100%;
+  object-fit:cover; object-position:center 22%; display:block;
+}
+.hero .scrim{
+  position:absolute; inset:0;
+  background:linear-gradient(180deg,
+    rgba(28,20,14,.22) 0%, rgba(28,20,14,0) 26%,
+    rgba(28,20,14,.50) 64%, rgba(28,20,14,.93) 100%);
+}
+.hero-in{
+  position:relative; z-index:2; text-align:center; color:#fff;
+  padding:0 24px calc(52px + env(safe-area-inset-bottom,0px));
+  animation:jpFade 1.1s ease both;
+}
+@media (prefers-reduced-motion:reduce){ .hero-in{animation:none} }
+.invited{
+  display:inline-block; font-size:10px; font-weight:600; letter-spacing:.34em;
+  text-transform:uppercase; color:rgba(255,255,255,.82);
+  border:1px solid rgba(255,255,255,.35); padding:7px 18px; margin-bottom:22px;
+}
+.names{
+  font-family:'Cormorant Garamond',Georgia,serif; font-weight:400;
+  line-height:.92; letter-spacing:-.01em; text-shadow:0 2px 24px rgba(0,0,0,.45);
+}
+.names span{display:block; font-size:clamp(3.4rem,17vw,6rem)}
+.names em{display:block; font-style:italic; color:#DBA48C; font-size:clamp(1.6rem,7vw,2.4rem); margin:2px 0}
+.when{font-size:13px; letter-spacing:.16em; text-transform:uppercase; color:rgba(255,255,255,.9); margin-top:20px}
+.where{font-size:12.5px; letter-spacing:.06em; color:rgba(255,255,255,.66); margin-top:7px}
+.hero .cue{
+  margin-top:26px; font-size:10px; letter-spacing:.3em;
+  text-transform:uppercase; color:rgba(255,255,255,.55);
+}
+
+.w-in{max-width:440px; margin:0 auto; width:100%; padding:30px 22px calc(40px + env(safe-area-inset-bottom,0px))}
+.cards{display:flex; flex-direction:column; gap:10px}
 .wcard{
   display:flex; align-items:center; gap:14px; width:100%; text-align:left;
   background:var(--surface); border:1px solid var(--line); border-radius:var(--r);
@@ -92,13 +111,10 @@ a.btn{text-decoration:none}
 .wcard:active{transform:scale(.994)}
 .wcard .eyebrow{display:block}
 .wc-txt{flex:1; min-width:0}
-.wc-h{
-  display:block; font-family:'Cormorant Garamond',Georgia,serif; font-weight:500;
-  font-size:23px; line-height:1.15; margin:6px 0 2px;
-}
+.wc-h{display:block; font-family:'Cormorant Garamond',Georgia,serif; font-weight:500; font-size:23px; line-height:1.15; margin:6px 0 2px}
 .wc-p{display:block; font-size:13.5px; color:var(--ink-2); line-height:1.5}
 .wc-go{flex:none; font-size:17px; color:var(--ink-3); line-height:1}
-.w-foot{margin-top:24px; font-size:12px; color:var(--ink-3); text-align:center; line-height:1.6}
+.w-foot{margin-top:24px; font-size:12px; color:var(--ink-3); text-align:center}
 
 /* ───────── studio ───────── */
 .studio{display:flex; flex-direction:column; height:100%}
@@ -228,16 +244,19 @@ a.btn{text-decoration:none}
 </style>
 
 <section class="welcome" id="welcome">
-  <div class="w-in">
-    <div class="hero">
-      <div class="rule"></div>
-      <p class="eyebrow">Every guest is a photographer</p>
-      <h1>Joy &amp; <em>Patrick</em></h1>
-      <p class="place">Queenstown NZ &middot; 10.10.26</p>
-      <div class="w-card"><div class="paper"><canvas id="hero"></canvas></div></div>
-      <p class="cue"><i></i>Scroll for everything you need<i></i></p>
+  <header class="hero">
+    <img src="samples/hero.jpg" alt="Joy and Patrick above Lake Wakatipu">
+    <div class="scrim"></div>
+    <div class="hero-in">
+      <span class="invited">You are invited</span>
+      <div class="names"><span>Joy</span><em>&amp;</em><span>Patrick</span></div>
+      <p class="when">Saturday &middot; 10 October 2026</p>
+      <p class="where">The Canyons B&amp;B &middot; Queenstown, New Zealand</p>
+      <p class="cue">Scroll for everything you need</p>
     </div>
+  </header>
 
+  <div class="w-in">
     <div class="cards">
       <a class="wcard" id="albumLink" href="https://app.kululu.com/m4fvel" target="_blank" rel="noopener">
         <span class="wc-txt">
