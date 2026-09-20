@@ -109,28 +109,27 @@ a.btn{text-decoration:none}
 }
 .sec-h em{font-style:italic; color:var(--rose)}
 
-/* hairline grid, exactly as the guide sets its essentials */
-.cards{
-  display:grid; gap:1px; background:var(--line);
-  border:1px solid var(--line); border-radius:var(--r); overflow:hidden;
-}
+.cards{display:flex; flex-direction:column; gap:12px}
 .wcard{
-  display:flex; align-items:center; gap:14px; width:100%; text-align:left;
-  background:#fff; padding:19px 17px; border:0; color:inherit; text-decoration:none;
-  min-height:92px; cursor:pointer; transition:background .16s;
+  display:block; width:100%; text-align:left; cursor:pointer;
+  background:#fff; border:1px solid var(--line-2); border-radius:12px;
+  padding:22px 20px; color:inherit; text-decoration:none;
+  box-shadow:0 1px 2px rgba(42,36,32,.04);
+  transition:border-color .16s, box-shadow .16s, transform .12s;
 }
-.wcard:hover{background:var(--surface-2)}
-.wc-txt{flex:1; min-width:0}
+.wcard:hover{border-color:var(--rose); box-shadow:var(--shadow)}
+.wcard:active{transform:scale(.995)}
 .wcard .eyebrow{
-  display:block; font-size:9.5px; font-weight:600; letter-spacing:.18em;
+  display:block; font-size:10px; font-weight:600; letter-spacing:.18em;
   text-transform:uppercase; color:var(--green);
 }
 .wc-h{
-  display:block; font-family:'Cormorant Garamond',Georgia,serif; font-weight:400;
-  font-size:1.42rem; line-height:1.1; margin:7px 0 4px; color:var(--ink);
+  display:block; font-family:'Cormorant Garamond',Georgia,serif; font-weight:500;
+  font-size:1.62rem; line-height:1.15; margin:9px 0 6px; color:var(--ink);
 }
-.wc-p{display:block; font-size:11.8px; color:var(--ink-3); line-height:1.5}
-.wc-go{flex:none; font-size:16px; color:var(--rose); line-height:1}
+/* the muted grey the guide uses for captions is too light to read at this
+   size, so body copy steps up to the ink tone */
+.wc-p{display:block; font-size:14px; color:var(--ink-2); line-height:1.55}
 .w-foot{margin-top:26px; font-size:11.5px; color:var(--ink-3); text-align:center; letter-spacing:.04em}
 
 /* ───────── studio ───────── */
@@ -149,45 +148,32 @@ a.btn{text-decoration:none}
 .icon:hover{background:var(--surface-2)}
 
 /* no panel behind the card — it floats, the way SCRL floats its canvas */
-/* the card carousel: swiping it IS choosing the format */
 .stage{flex:1; min-height:0; display:flex; flex-direction:column; background:var(--bg)}
-.pager{
-  flex:1; min-height:0; display:flex; align-items:center;
-  overflow-x:auto; overflow-y:hidden;
-  scroll-snap-type:x mandatory; scroll-behavior:smooth; scrollbar-width:none;
-  padding-inline:6%;
-}
-.pager::-webkit-scrollbar{display:none}
+.pager{flex:1; min-height:0; display:flex; align-items:center; justify-content:center; padding:10px 14px}
+@keyframes cardIn{from{opacity:0; transform:translateY(7px) scale(.985)} to{opacity:1; transform:none}}
 .page{
-  flex:0 0 88%; scroll-snap-align:center; padding:0 7px;
-  display:flex; flex-direction:column; justify-content:center;
-  opacity:.4; transform:scale(.93);
-  transition:opacity .22s ease, transform .22s ease;
+  width:100%; display:flex; flex-direction:column; justify-content:center;
+  animation:cardIn .26s cubic-bezier(.2,.7,.3,1) both;
 }
-.page.on{opacity:1; transform:scale(1)}
-@media (prefers-reduced-motion:reduce){ .page{transition:none} }
+@media (prefers-reduced-motion:reduce){ .page{animation:none} }
 .paper{
-  position:relative; width:100%; aspect-ratio:119/89; background:#fff;
+  position:relative; width:100%; aspect-ratio:119/89; max-height:100%; background:#fff;
   border:1px solid var(--line); box-shadow:var(--shadow-lift);
 }
 .paper canvas{display:block; width:100%; height:100%}
-.cap{text-align:center; margin-top:15px; min-height:44px}
-.cap .nm{
-  display:block; font-family:'Cormorant Garamond',Georgia,serif; font-weight:400;
-  font-size:1.42rem; line-height:1.1; color:var(--ink);
-}
-.cap .sub{display:block; font-size:9.5px; font-weight:600; letter-spacing:.18em; text-transform:uppercase; color:var(--ink-3); margin-top:5px}
-.sheetdots{display:flex; gap:7px; justify-content:center; margin-top:9px}
-.sheetdots button{width:22px; height:22px; display:grid; place-items:center}
+.cap{text-align:center; margin-top:13px}
+.cap .sub{display:block; font-size:9.5px; font-weight:600; letter-spacing:.18em; text-transform:uppercase; color:var(--ink-3)}
+.sheetdots{display:flex; gap:7px; justify-content:center; margin-top:8px}
+.sheetdots button{width:24px; height:24px; display:grid; place-items:center}
 .sheetdots i{display:block; width:6px; height:6px; border-radius:50%; background:var(--line-2)}
 .sheetdots button[aria-current="true"] i{background:var(--green)}
 
 .hit{position:absolute; touch-action:none; cursor:grab; border:0; background:transparent; padding:0}
 .hit:active{cursor:grabbing}
 .hit.empty{
-  background:rgba(255,255,255,.55); border:1.5px dashed rgba(90,80,72,.45);
+  background:rgba(255,255,255,.55); border:1.5px dashed rgba(122,94,74,.45);
   display:flex; align-items:center; justify-content:center;
-  color:#6A6259; font-size:12px; font-weight:600; text-align:center;
+  color:#7B5E4A; font-size:12px; font-weight:600; text-align:center;
 }
 .hit.empty:hover{background:rgba(255,255,255,.9)}
 .hit.on{box-shadow:0 0 0 2px var(--rose)}
@@ -197,6 +183,28 @@ a.btn{text-decoration:none}
   padding:3px 8px; border-radius:20px; white-space:nowrap; pointer-events:none;
 }
 .stage-empty{flex:1; display:flex; align-items:center; justify-content:center; color:var(--ink-3); font-size:14px; text-align:center; padding:24px}
+
+/* the catalogue: a live render of each card, tap to switch */
+.cat{display:flex; gap:9px; overflow-x:auto; padding:13px 16px 0; scrollbar-width:none}
+.cat::-webkit-scrollbar{display:none}
+.cat button{
+  flex:0 0 auto; width:98px; padding:0; border:0; background:none;
+  text-align:center; cursor:pointer;
+}
+.cat .thumb{
+  display:block; border:1px solid var(--line-2); border-radius:6px;
+  background:#fff; overflow:hidden;
+  transition:border-color .2s ease, box-shadow .2s ease, transform .2s ease;
+}
+.cat button[aria-pressed="true"] .thumb{transform:translateY(-2px)}
+.cat .thumb canvas{display:block; width:100%; height:auto}
+.cat button[aria-pressed="true"] .thumb{border-color:var(--green); box-shadow:0 0 0 1px var(--green)}
+.cat .nm{
+  display:block; margin-top:6px; font-size:9.5px; font-weight:600;
+  letter-spacing:.12em; text-transform:uppercase; color:var(--ink-3);
+  white-space:nowrap; overflow:hidden; text-overflow:ellipsis;
+}
+.cat button[aria-pressed="true"] .nm{color:var(--green)}
 
 .tune{
   flex:none; display:flex; align-items:center; gap:12px;
@@ -278,21 +286,15 @@ a.btn{text-decoration:none}
     <h2 class="sec-h">Your <em>photos</em></h2>
     <div class="cards">
       <a class="wcard" id="albumLink" href="https://app.kululu.com/m4fvel" target="_blank" rel="noopener">
-        <span class="wc-txt">
-          <span class="eyebrow">Share the love</span>
-          <span class="wc-h">Put tonight in our album</span>
-          <span class="wc-p">One album, all of us.</span>
-        </span>
-        <span class="wc-go" aria-hidden="true">&rarr;</span>
+        <span class="eyebrow">Share the love</span>
+        <span class="wc-h">Put tonight in our album</span>
+        <span class="wc-p">One album, all of us.</span>
       </a>
 
       <button class="wcard" type="button" id="btnStart">
-        <span class="wc-txt">
-          <span class="eyebrow">Print my photos</span>
-          <span class="wc-h">Make a card to take home</span>
-          <span class="wc-p">Shoot one now, or use your camera roll.</span>
-        </span>
-        <span class="wc-go" aria-hidden="true">&rarr;</span>
+        <span class="eyebrow">Print my photos</span>
+        <span class="wc-h">Make a card to take home</span>
+        <span class="wc-p">Shoot one now, or use your camera roll.</span>
       </button>
     </div>
 
@@ -319,6 +321,7 @@ a.btn{text-decoration:none}
   </div>
 
   <footer class="bottom">
+    <div class="cat" id="cat"></div>
     <div class="acts">
       <button class="btn primary grow" id="btnMake">Print</button>
     </div>
@@ -1029,10 +1032,9 @@ function renderPunch() {
 /* ───────────── The studio: one big preview, a catalogue underneath ───────────── */
 const SHORT = { story: "Story card", instax: "Guest card", full: "Full photo" };
 let observers = [];
-let pageEls = [];
 let activeItem = null;
 
-const redrawEverything = () => { renderCarousel(); renderTray(); };
+const redrawEverything = () => { renderStage(); renderCat(); renderTray(); };
 
 function sheetsFor(fmt) {
   const out = [];
@@ -1050,22 +1052,41 @@ function updateAction() {
   $("#btnMake").textContent = list.length > 1 ? `Print ${list.length}` : "Print";
 }
 
-/** the centred card is the chosen format — there is no separate selector */
-function syncFocus() {
-  const pager = $("#pager");
-  if (!pageEls.length) return;
-  const mid = pager.scrollLeft + pager.clientWidth / 2;
-  let best = 0, bd = Infinity;
-  pageEls.forEach((el, i) => {
-    const d = Math.abs(el.offsetLeft + el.offsetWidth / 2 - mid);
-    if (d < bd) { bd = d; best = i; }
+/** a live render of one format, for the catalogue strip */
+function catThumb(fmt) {
+  const list = sheetsFor(fmt);
+  const items = list[Math.min(state.sheet, Math.max(0, list.length - 1))] || [];
+  const c = document.createElement("canvas");
+  const dpr = Math.min(2, window.devicePixelRatio || 1);
+  c.width = Math.round(96 * dpr);
+  c.height = Math.round(96 * dpr * SHEET.h / SHEET.w);
+  drawSheet(ctx2d(c), fmt, items, c.width / SHEET.w);
+  return c;
+}
+
+function renderCat() {
+  const cat = $("#cat");
+  cat.innerHTML = "";
+  if (!state.photos.length) return;
+  FORMATS.forEach((fmt) => {
+    const b = document.createElement("button");
+    b.type = "button";
+    b.setAttribute("aria-pressed", String(fmt.id === state.fmt.id));
+    const thumb = document.createElement("span");
+    thumb.className = "thumb";
+    thumb.appendChild(catThumb(fmt));
+    const nm = document.createElement("span");
+    nm.className = "nm";
+    nm.textContent = SHORT[fmt.id];
+    b.append(thumb, nm);
+    b.onclick = () => {
+      if (fmt.id === state.fmt.id) return;
+      state.fmt = fmt;
+      state.sheet = 0;
+      redrawEverything();
+    };
+    cat.appendChild(b);
   });
-  pageEls.forEach((el, i) => el.classList.toggle("on", i === best));
-  if (FORMATS[best] && FORMATS[best] !== state.fmt) {
-    state.fmt = FORMATS[best];
-    hideTune();
-    updateAction();
-  }
 }
 
 function hideTune() { activeItem = null; $("#tune").hidden = true; }
@@ -1078,12 +1099,11 @@ function selectFrame(item, hit) {
   $("#zoom").value = item.t.zoom;
 }
 
-function renderCarousel() {
+function renderStage() {
   const pager = $("#pager");
   observers.forEach((o) => o.disconnect());
   observers = [];
   sheetRedraws = [];
-  pageEls = [];
   pager.innerHTML = "";
   hideTune();
 
@@ -1095,92 +1115,83 @@ function renderCarousel() {
     return;
   }
 
-  FORMATS.forEach((fmt) => {
-    const list = sheetsFor(fmt);
-    const si = Math.min(state.sheet, Math.max(0, list.length - 1));
-    const items = list[si] || [];
+  const fmt = state.fmt;
+  const list = sheetsFor(fmt);
+  const si = Math.min(state.sheet, Math.max(0, list.length - 1));
+  const items = list[si] || [];
 
-    const page = document.createElement("div");
-    page.className = "page" + (fmt.id === state.fmt.id ? " on" : "");
-    page.innerHTML = `<div class="slot">
-        <div class="paper"><canvas></canvas></div>
-        <div class="cap"><span class="nm">${SHORT[fmt.id]}</span><span class="sub"></span></div>
-      </div>`;
-    const paper = page.querySelector(".paper");
-    const canvas = page.querySelector("canvas");
+  const page = document.createElement("div");
+  page.className = "page";
+  page.innerHTML = `<div class="paper"><canvas></canvas></div>
+    <div class="cap"><span class="sub"></span></div>`;
+  const paper = page.querySelector(".paper");
+  const canvas = page.querySelector("canvas");
 
-    const redraw = () => {
-      const w = paper.clientWidth, h = paper.clientHeight;
-      if (!w || !h) return;
-      const dpr = Math.min(2.5, window.devicePixelRatio || 1);
-      canvas.width = Math.round(w * dpr);
-      canvas.height = Math.round(h * dpr);
-      drawSheet(ctx2d(canvas), fmt, items, canvas.width / SHEET.w);
-      paper.querySelectorAll(".flag").forEach((el) => el.remove());
-      items.forEach((it, fi) => {
-        const [pw, ph] = sourcePx(it.photo, fmt.frames[fi], it.t);
-        if (pw >= fmt.minPx[0] && ph >= fmt.minPx[1]) return;
-        const f = fmt.frames[fi];
-        const flag = document.createElement("div");
-        flag.className = "flag";
-        flag.textContent = "Too zoomed in";
-        flag.style.left = `${(f.x + f.w / 2) / SHEET.w * 100}%`;
-        flag.style.bottom = `${(SHEET.h - (f.y + f.h) + 2.5) / SHEET.h * 100}%`;
-        paper.appendChild(flag);
-      });
-    };
-    sheetRedraws.push(redraw);
-
-    fmt.frames.forEach((f, fi) => {
-      const it = items[fi];
-      const hit = document.createElement("button");
-      hit.type = "button";
-      hit.className = "hit" + (it ? "" : " empty");
-      hit.style.cssText = `left:${f.x / SHEET.w * 100}%;top:${f.y / SHEET.h * 100}%;width:${f.w / SHEET.w * 100}%;height:${f.h / SHEET.h * 100}%`;
-      hit.setAttribute("aria-label", it ? `Adjust photo ${fi + 1}` : "Add a photo here");
-      if (!it) {
-        hit.innerHTML = "<span>+ photo</span>";
-        hit.onclick = () => $("#fileIn").click();
-      } else {
-        attachGestures(hit, it, () => {
-          if (activeItem === it) $("#zoom").value = it.t.zoom;
-          redraw();
-        });
-        hit.addEventListener("pointerdown", () => selectFrame(it, hit));
-      }
-      paper.appendChild(hit);
+  const redraw = () => {
+    const w = paper.clientWidth, h = paper.clientHeight;
+    if (!w || !h) return;
+    const dpr = Math.min(2.5, window.devicePixelRatio || 1);
+    canvas.width = Math.round(w * dpr);
+    canvas.height = Math.round(h * dpr);
+    drawSheet(ctx2d(canvas), fmt, items, canvas.width / SHEET.w);
+    paper.querySelectorAll(".flag").forEach((el) => el.remove());
+    items.forEach((it, fi) => {
+      const [pw, ph] = sourcePx(it.photo, fmt.frames[fi], it.t);
+      if (pw >= fmt.minPx[0] && ph >= fmt.minPx[1]) return;
+      const f = fmt.frames[fi];
+      const flag = document.createElement("div");
+      flag.className = "flag";
+      flag.textContent = "Too zoomed in";
+      flag.style.left = `${(f.x + f.w / 2) / SHEET.w * 100}%`;
+      flag.style.bottom = `${(SHEET.h - (f.y + f.h) + 2.5) / SHEET.h * 100}%`;
+      paper.appendChild(flag);
     });
+  };
+  sheetRedraws.push(redraw);
 
-    if (list.length > 1) {
-      page.querySelector(".sub").textContent = `Sheet ${si + 1} of ${list.length}`;
-      const dots = document.createElement("div");
-      dots.className = "sheetdots";
-      list.forEach((_, k) => {
-        const b = document.createElement("button");
-        b.type = "button";
-        b.setAttribute("aria-label", `Sheet ${k + 1}`);
-        b.setAttribute("aria-current", String(k === si));
-        b.innerHTML = "<i></i>";
-        b.onclick = () => { state.sheet = k; renderCarousel(); };
-        dots.appendChild(b);
+  fmt.frames.forEach((f, fi) => {
+    const it = items[fi];
+    const hit = document.createElement("button");
+    hit.type = "button";
+    hit.className = "hit" + (it ? "" : " empty");
+    hit.style.cssText = `left:${f.x / SHEET.w * 100}%;top:${f.y / SHEET.h * 100}%;width:${f.w / SHEET.w * 100}%;height:${f.h / SHEET.h * 100}%`;
+    hit.setAttribute("aria-label", it ? `Adjust photo ${fi + 1}` : "Add a photo here");
+    if (!it) {
+      hit.innerHTML = "<span>+ photo</span>";
+      hit.onclick = () => $("#fileIn").click();
+    } else {
+      attachGestures(hit, it, () => {
+        if (activeItem === it) $("#zoom").value = it.t.zoom;
+        redraw();
+        renderCat();
       });
-      page.querySelector(".cap").appendChild(dots);
+      hit.addEventListener("pointerdown", () => selectFrame(it, hit));
     }
-
-    pager.appendChild(page);
-    pageEls.push(page);
-    redraw();
-    const ro = new ResizeObserver(redraw);
-    ro.observe(paper);
-    observers.push(ro);
+    paper.appendChild(hit);
   });
 
+  if (list.length > 1) {
+    page.querySelector(".sub").textContent = `Sheet ${si + 1} of ${list.length}`;
+    const dots = document.createElement("div");
+    dots.className = "sheetdots";
+    list.forEach((_, k) => {
+      const b = document.createElement("button");
+      b.type = "button";
+      b.setAttribute("aria-label", `Sheet ${k + 1}`);
+      b.setAttribute("aria-current", String(k === si));
+      b.innerHTML = "<i></i>";
+      b.onclick = () => { state.sheet = k; redrawEverything(); };
+      dots.appendChild(b);
+    });
+    page.querySelector(".cap").appendChild(dots);
+  }
+
+  pager.appendChild(page);
+  redraw();
+  const ro = new ResizeObserver(redraw);
+  ro.observe(paper);
+  observers.push(ro);
   updateAction();
-  const idx = Math.max(0, FORMATS.findIndex((f) => f.id === state.fmt.id));
-  requestAnimationFrame(() => {
-    const el = pageEls[idx];
-    if (el) pager.scrollLeft = el.offsetLeft - (pager.clientWidth - el.offsetWidth) / 2;
-  });
 }
 
 function renderTray() {
@@ -1238,7 +1249,7 @@ function enterStudio() {
   requestAnimationFrame(redrawAllSheets);
 }
 $("#btnStart").onclick = enterStudio;
-$("#pager").addEventListener("scroll", syncFocus, { passive: true });
+
 
 $("#btnAdd").onclick = () => $("#fileIn").click();
 $("#fileIn").onchange = (e) => { addFiles(e.target.files); e.target.value = ""; };
@@ -1276,7 +1287,7 @@ window.addEventListener("drop", (e) => { e.preventDefault(); if (e.dataTransfer?
 function openOut(html) { $("#outBody").innerHTML = html; $("#out").hidden = false; }
 function closeOut() { $("#out").hidden = true; }
 
-renderCarousel();
+redrawEverything();
 renderTray();
 loadSamples().then(() => { redrawEverything(); renderHero(); });
 
