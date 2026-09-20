@@ -6,18 +6,19 @@
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400;1,500;1,600&family=Jost:wght@400;500;600&display=swap">
 <style>
 :root{
-  /* Joy & Patrick house palette, taken from the design project */
-  --bg:#EFE9DC; --bg-2:#E4DCCB;
-  --surface:#FDFCF9; --surface-2:#F5F0E6; --surface-3:#E8E0D2;
-  --line:rgba(196,120,90,0.25); --line-2:#C8B99A;
-  --ink:#2A2420; --ink-2:#5A5048; --ink-3:#9A8E82;
-  --brown:#7B5E4A;
+  /* Neutral chrome so nothing competes with the photographs. The house
+     terracotta and green stay, but only as accents. */
+  --bg:#F2F3F1; --bg-2:#F2F3F1;
+  --surface:#FFFFFF; --surface-2:#F7F8F6; --surface-3:#EAECE8;
+  --line:#E3E5E0; --line-2:#C9CCC4;
+  --ink:#191A17; --ink-2:#5A5C57; --ink-3:#95988F;
+  --brown:#5A5C57;
   --rust:#B5532A; --rust-2:#8F3F1E;
   --green:#4A6B4A;
   --warn:#B5532A; --warn-soft:#F7E6DC;
   --ok:#4A6B4A;
-  --shadow:0 1px 2px rgba(42,36,32,.06), 0 6px 18px -10px rgba(42,36,32,.20);
-  --shadow-lift:0 2px 8px rgba(42,36,32,.12), 0 22px 44px -18px rgba(42,36,32,.32);
+  --shadow:0 1px 2px rgba(20,22,18,.05), 0 6px 18px -10px rgba(20,22,18,.18);
+  --shadow-lift:0 2px 8px rgba(20,22,18,.10), 0 24px 46px -18px rgba(20,22,18,.30);
   --r:4px;
   color-scheme:light;
 }
@@ -41,8 +42,8 @@ a{color:inherit}
 .btn{
   display:inline-flex; align-items:center; justify-content:center; gap:9px;
   padding:13px 18px; border-radius:3px; font-weight:500; font-size:15px;
-  border:1px solid var(--line-2); background:var(--surface); min-height:48px;
-  box-shadow:0 1px 2px rgba(25,22,20,.04); transition:background .18s, border-color .18s;
+  border:1px solid var(--line-2); background:var(--surface); min-height:46px;
+  box-shadow:0 1px 2px rgba(20,22,18,.04); transition:background .18s, border-color .18s;
 }
 .btn:hover{background:var(--surface-2); border-color:var(--brown)}
 .btn.primary{
@@ -76,21 +77,22 @@ a{color:inherit}
 .studio{display:flex; flex-direction:column; height:100%}
 .bar{
   flex:none; display:flex; align-items:center; gap:12px;
-  padding:8px 18px; border-bottom:1px solid var(--line);
+  padding:6px 16px; border-bottom:1px solid var(--line);
   background:var(--surface);
 }
-.bar .wordmark{font-family:'Cormorant Garamond',Georgia,serif; font-size:18px; flex:1; letter-spacing:-.01em}
+.bar .wordmark{font-family:'Cormorant Garamond',Georgia,serif; font-size:17px; flex:1; letter-spacing:-.01em}
 .bar .count{font-size:12px; color:var(--ink-3)}
 .icon{
-  width:38px; height:38px; flex:none; border-radius:50%; border:1px solid var(--line-2);
+  width:36px; height:36px; flex:none; border-radius:50%; border:1px solid var(--line-2);
   background:var(--surface); font-size:15px; font-weight:600; color:var(--brown);
 }
 .icon:hover{background:var(--surface-2)}
 
-.stage{flex:1; min-height:0; display:flex; flex-direction:column; background:var(--bg-2)}
+/* no panel behind the card — it floats, the way SCRL floats its canvas */
+.stage{flex:1; min-height:0; display:flex; flex-direction:column; background:var(--bg)}
 .pager{flex:1; min-height:0; display:flex; overflow-x:auto; overflow-y:hidden; scroll-snap-type:x mandatory; scrollbar-width:none}
 .pager::-webkit-scrollbar{display:none}
-.page{flex:0 0 100%; scroll-snap-align:center; display:flex; align-items:center; justify-content:center; padding:12px 14px}
+.page{flex:0 0 100%; scroll-snap-align:center; display:flex; align-items:center; justify-content:center; padding:6px}
 .paper{position:relative; width:100%; aspect-ratio:119/89; max-height:100%; background:#fff; box-shadow:var(--shadow-lift)}
 .paper canvas{display:block; width:100%; height:100%}
 .hit{position:absolute; touch-action:none; cursor:grab; border:0; background:transparent; padding:0}
@@ -108,7 +110,7 @@ a{color:inherit}
   padding:3px 8px; border-radius:20px; white-space:nowrap; pointer-events:none;
   letter-spacing:.02em;
 }
-.dots{flex:none; display:flex; gap:6px; justify-content:center; padding:0 0 9px}
+.dots{flex:none; display:flex; gap:6px; justify-content:center; padding:0 0 8px}
 .dots i{width:6px; height:6px; border-radius:50%; background:var(--line-2)}
 .dots i.on{background:var(--green)}
 .dots:empty{padding:0}
@@ -116,25 +118,31 @@ a{color:inherit}
 
 .tune{
   flex:none; display:flex; align-items:center; gap:12px;
-  padding:2px 18px; border-top:1px solid var(--line); background:var(--surface);
+  padding:0 16px; border-top:1px solid var(--line); background:var(--surface);
 }
 .tune .lab{font-size:11px; text-transform:uppercase; letter-spacing:.12em; color:var(--ink-3); flex:none}
 .tune input[type=range]{flex:1; accent-color:var(--rust); min-width:0; height:44px}
 .tune button{font-size:12px; font-weight:600; color:var(--ink-2); padding:0 10px; min-height:44px; flex:none}
 
-.bottom{flex:none; background:var(--surface); border-top:1px solid var(--line); padding-bottom:env(safe-area-inset-bottom,0px)}
-.cat{display:flex; gap:9px; overflow-x:auto; padding:11px 18px 2px; scrollbar-width:none}
+.bottom{
+  flex:none; background:var(--surface); border-top:1px solid var(--line);
+  box-shadow:0 -6px 20px -14px rgba(20,22,18,.35);
+  padding-bottom:env(safe-area-inset-bottom,0px);
+}
+.cat{display:flex; gap:8px; overflow-x:auto; padding:10px 16px 0; scrollbar-width:none}
 .cat::-webkit-scrollbar{display:none}
 .cat button{
-  flex:0 0 auto; width:94px; padding:7px; border-radius:3px;
+  flex:0 0 auto; width:104px; padding:5px 5px 4px; border-radius:4px;
   border:1px solid var(--line); background:var(--surface-2); text-align:center;
   transition:border-color .16s, background .16s;
 }
+.cat .thumb{display:block; border:1px solid var(--line); background:#fff; overflow:hidden; margin-bottom:5px}
+.cat .thumb canvas{display:block; width:100%; height:auto}
 .cat button[aria-pressed="true"]{border-color:var(--green); background:var(--surface); box-shadow:0 0 0 1px var(--green)}
-.cat svg{display:block; width:100%; height:auto; margin-bottom:5px; border-radius:4px}
-.cat .nm{display:block; font-size:11px; font-weight:500; line-height:1.2; color:var(--ink-2)}
+
+.cat .nm{display:block; font-size:10px; font-weight:500; line-height:1.2; color:var(--ink-2); white-space:nowrap; overflow:hidden; text-overflow:ellipsis}
 .cat button[aria-pressed="true"] .nm{color:var(--green); font-weight:600}
-.acts{display:flex; gap:9px; padding:9px 18px 11px}
+.acts{display:flex; gap:8px; padding:8px 16px 10px}
 
 /* ───────── sheets over the top ───────── */
 .modal{position:fixed; inset:0; z-index:60; background:var(--bg); overflow-y:auto; overscroll-behavior:contain}
@@ -929,13 +937,36 @@ const SHORT = { story: "Story card", instax: "Guest card", full: "Full photo" };
 let observers = [];
 let activeItem = null;
 
-const redrawEverything = () => { renderPager(); renderTray(); };
+const redrawEverything = () => { renderPager(); renderCat(); renderTray(); };
+
+function catThumb(fmt) {
+  const items = state.photos.slice(0, fmt.slots)
+    .map((p) => ({ photo: p, img: p.src, t: p.t, sheetKey: "0" }));
+  const c = document.createElement("canvas");
+  const dpr = Math.min(2, window.devicePixelRatio || 1);
+  c.width = Math.round(96 * dpr);
+  c.height = Math.round(96 * dpr * SHEET.h / SHEET.w);
+  drawSheet(ctx2d(c), fmt, items, c.width / SHEET.w);
+  return c;
+}
 
 function renderCat() {
-  $("#cat").innerHTML = FORMATS.map((f) => `
-    <button type="button" data-id="${f.id}" aria-pressed="${f.id === state.fmt.id}">
-      ${miniSVG(f)}<span class="nm">${SHORT[f.id]}</span>
-    </button>`).join("");
+  const cat = $("#cat");
+  cat.innerHTML = "";
+  FORMATS.forEach((f) => {
+    const b = document.createElement("button");
+    b.type = "button";
+    b.dataset.id = f.id;
+    b.setAttribute("aria-pressed", String(f.id === state.fmt.id));
+    const thumb = document.createElement("span");
+    thumb.className = "thumb";
+    thumb.appendChild(catThumb(f));
+    const nm = document.createElement("span");
+    nm.className = "nm";
+    nm.textContent = SHORT[f.id];
+    b.append(thumb, nm);
+    cat.appendChild(b);
+  });
 }
 
 function hideTune() { activeItem = null; $("#tune").hidden = true; }
