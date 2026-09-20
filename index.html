@@ -3,19 +3,22 @@
 <title>Joy &amp; Patrick Prints</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bodoni+Moda:ital,opsz,wght@0,6..96,400;0,6..96,500;1,6..96,400&family=Archivo:wght@400;500;600&display=swap">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400;1,500;1,600&family=Jost:wght@400;500;600&display=swap">
 <style>
 :root{
-  --bg:#F3F2F0; --bg-2:#E7E4E0;
-  --surface:#FFFFFF; --surface-2:#FAF9F7; --surface-3:#EFEDE9;
-  --line:#E5E2DC; --line-2:#D1CBC3;
-  --ink:#191614; --ink-2:#5C554D; --ink-3:#928A80;
-  --gold:#9A7239; --gold-2:#7C5B2B; --gold-soft:rgba(154,114,57,.075); --gold-line:rgba(154,114,57,.28);
-  --warn:#A8571C; --warn-soft:#FDF0E4;
-  --ok:#2E7D5B;
-  --shadow:0 1px 2px rgba(25,22,20,.05), 0 6px 18px -10px rgba(25,22,20,.18);
-  --shadow-lift:0 3px 8px rgba(25,22,20,.10), 0 26px 50px -20px rgba(25,22,20,.38);
-  --r:16px;
+  /* Joy & Patrick house palette, taken from the design project */
+  --bg:#EFE9DC; --bg-2:#E4DCCB;
+  --surface:#FDFCF9; --surface-2:#F5F0E6; --surface-3:#E8E0D2;
+  --line:rgba(196,120,90,0.25); --line-2:#C8B99A;
+  --ink:#2A2420; --ink-2:#5A5048; --ink-3:#9A8E82;
+  --brown:#7B5E4A;
+  --rust:#B5532A; --rust-2:#8F3F1E;
+  --green:#4A6B4A;
+  --warn:#B5532A; --warn-soft:#F7E6DC;
+  --ok:#4A6B4A;
+  --shadow:0 1px 2px rgba(42,36,32,.06), 0 6px 18px -10px rgba(42,36,32,.20);
+  --shadow-lift:0 2px 8px rgba(42,36,32,.12), 0 22px 44px -18px rgba(42,36,32,.32);
+  --r:4px;
   color-scheme:light;
 }
 *{box-sizing:border-box}
@@ -24,7 +27,7 @@
 html,body{height:100%}
 body{
   background:var(--bg); color:var(--ink); overflow:hidden;
-  font-family:Archivo,"Helvetica Neue",Arial,sans-serif; font-size:15px; line-height:1.5;
+  font-family:'Jost','Helvetica Neue',Arial,sans-serif; font-size:15px; line-height:1.5;
   -webkit-text-size-adjust:100%; -webkit-tap-highlight-color:transparent;
 }
 h1,h2{margin:0; font-weight:400; text-wrap:balance}
@@ -33,20 +36,21 @@ button{font:inherit; color:inherit; border:0; background:none; cursor:pointer}
 button,a,label,input[type=range]{touch-action:manipulation}
 a{color:inherit}
 :focus-visible{outline:2px solid var(--ink); outline-offset:3px; border-radius:6px}
-.eyebrow{font-size:10.5px; font-weight:600; text-transform:uppercase; letter-spacing:.2em; color:var(--gold)}
+.eyebrow{font-size:10.5px; font-weight:600; text-transform:uppercase; letter-spacing:.24em; color:var(--green)}
 
 .btn{
   display:inline-flex; align-items:center; justify-content:center; gap:9px;
-  padding:13px 18px; border-radius:14px; font-weight:500; font-size:15px;
+  padding:13px 18px; border-radius:3px; font-weight:500; font-size:15px;
   border:1px solid var(--line-2); background:var(--surface); min-height:48px;
   box-shadow:0 1px 2px rgba(25,22,20,.04); transition:background .18s, border-color .18s;
 }
-.btn:hover{background:var(--surface-2); border-color:var(--ink-3)}
+.btn:hover{background:var(--surface-2); border-color:var(--brown)}
 .btn.primary{
-  background:var(--ink); color:#FBFAF8; border-color:var(--ink); font-weight:600;
-  box-shadow:0 2px 6px rgba(25,22,20,.22), 0 12px 26px -14px rgba(25,22,20,.55);
+  background:var(--green); color:var(--surface); border-color:var(--green);
+  font-weight:600; font-size:13px; letter-spacing:.14em; text-transform:uppercase;
+  box-shadow:0 2px 10px rgba(74,107,74,.28);
 }
-.btn.primary:hover{background:#2B2723; border-color:#2B2723}
+.btn.primary:hover{background:#3E5B3E; border-color:#3E5B3E}
 .btn:disabled{opacity:.4; cursor:default}
 .btn.grow{flex:1}
 
@@ -57,12 +61,12 @@ a{color:inherit}
   padding:28px 24px calc(28px + env(safe-area-inset-bottom,0px));
 }
 .w-in{max-width:440px; margin:0 auto; width:100%; text-align:center}
-.w-in .rule{height:1px; background:linear-gradient(90deg,transparent,var(--gold-line) 25%,var(--gold-line) 75%,transparent); margin-bottom:20px}
-.w-in h1{font-family:"Bodoni Moda",Didot,Georgia,serif; font-size:clamp(40px,12vw,56px); line-height:.98; letter-spacing:-.02em; margin:12px 0 7px}
-.w-in h1 em{font-style:italic; color:var(--gold-2)}
+.w-in .rule{height:1px; background:linear-gradient(90deg,transparent,var(--line-2) 25%,var(--line-2) 75%,transparent); margin-bottom:20px}
+.w-in h1{font-family:'Cormorant Garamond',Georgia,serif; font-weight:500; font-size:clamp(42px,12.5vw,58px); line-height:1.02; letter-spacing:-.01em; margin:10px 0 7px}
+.w-in h1 em{font-style:italic; color:var(--rust)}
 .w-in .place{font-size:11.5px; letter-spacing:.2em; text-transform:uppercase; color:var(--ink-3)}
 .w-card{margin:26px auto 24px; width:100%; max-width:330px}
-.w-card .paper{background:#fff; box-shadow:var(--shadow-lift); border-radius:3px; overflow:hidden; transform:rotate(-1.4deg)}
+.w-card .paper{background:#fff; box-shadow:var(--shadow-lift); overflow:hidden; transform:rotate(-1.4deg)}
 .w-card canvas{display:block; width:100%; height:auto}
 .w-body{color:var(--ink-2); font-size:14.5px; margin-bottom:22px; text-align:left}
 .w-in .btn{width:100%; min-height:56px; font-size:16px}
@@ -75,11 +79,11 @@ a{color:inherit}
   padding:8px 18px; border-bottom:1px solid var(--line);
   background:var(--surface);
 }
-.bar .wordmark{font-family:"Bodoni Moda",Georgia,serif; font-size:18px; flex:1; letter-spacing:-.01em}
+.bar .wordmark{font-family:'Cormorant Garamond',Georgia,serif; font-size:18px; flex:1; letter-spacing:-.01em}
 .bar .count{font-size:12px; color:var(--ink-3)}
 .icon{
-  width:38px; height:38px; flex:none; border-radius:50%; border:1px solid var(--line);
-  background:var(--surface); font-size:15px; font-weight:600; color:var(--ink-2);
+  width:38px; height:38px; flex:none; border-radius:50%; border:1px solid var(--line-2);
+  background:var(--surface); font-size:15px; font-weight:600; color:var(--brown);
 }
 .icon:hover{background:var(--surface-2)}
 
@@ -97,7 +101,7 @@ a{color:inherit}
   color:#6A6259; font-size:12px; font-weight:600; text-align:center;
 }
 .hit.empty:hover{background:rgba(255,255,255,.85)}
-.hit.on{box-shadow:0 0 0 2px var(--ink)}
+.hit.on{box-shadow:0 0 0 2px var(--rust)}
 .flag{
   position:absolute; left:50%; bottom:6%; transform:translateX(-50%);
   background:var(--warn); color:#fff; font-size:10px; font-weight:600;
@@ -106,7 +110,7 @@ a{color:inherit}
 }
 .dots{flex:none; display:flex; gap:6px; justify-content:center; padding:0 0 9px}
 .dots i{width:6px; height:6px; border-radius:50%; background:var(--line-2)}
-.dots i.on{background:var(--ink)}
+.dots i.on{background:var(--green)}
 .dots:empty{padding:0}
 .stage-empty{flex:1; display:flex; align-items:center; justify-content:center; color:var(--ink-3); font-size:14px; text-align:center; padding:24px}
 
@@ -115,43 +119,43 @@ a{color:inherit}
   padding:2px 18px; border-top:1px solid var(--line); background:var(--surface);
 }
 .tune .lab{font-size:11px; text-transform:uppercase; letter-spacing:.12em; color:var(--ink-3); flex:none}
-.tune input[type=range]{flex:1; accent-color:var(--ink); min-width:0; height:44px}
+.tune input[type=range]{flex:1; accent-color:var(--rust); min-width:0; height:44px}
 .tune button{font-size:12px; font-weight:600; color:var(--ink-2); padding:0 10px; min-height:44px; flex:none}
 
 .bottom{flex:none; background:var(--surface); border-top:1px solid var(--line); padding-bottom:env(safe-area-inset-bottom,0px)}
 .cat{display:flex; gap:9px; overflow-x:auto; padding:11px 18px 2px; scrollbar-width:none}
 .cat::-webkit-scrollbar{display:none}
 .cat button{
-  flex:0 0 auto; width:94px; padding:7px; border-radius:12px;
+  flex:0 0 auto; width:94px; padding:7px; border-radius:3px;
   border:1px solid var(--line); background:var(--surface-2); text-align:center;
   transition:border-color .16s, background .16s;
 }
-.cat button[aria-pressed="true"]{border-color:var(--ink); background:var(--surface); box-shadow:0 0 0 1px var(--ink)}
+.cat button[aria-pressed="true"]{border-color:var(--green); background:var(--surface); box-shadow:0 0 0 1px var(--green)}
 .cat svg{display:block; width:100%; height:auto; margin-bottom:5px; border-radius:4px}
 .cat .nm{display:block; font-size:11px; font-weight:500; line-height:1.2; color:var(--ink-2)}
-.cat button[aria-pressed="true"] .nm{color:var(--ink); font-weight:600}
+.cat button[aria-pressed="true"] .nm{color:var(--green); font-weight:600}
 .acts{display:flex; gap:9px; padding:9px 18px 11px}
 
 /* ───────── sheets over the top ───────── */
 .modal{position:fixed; inset:0; z-index:60; background:var(--bg); overflow-y:auto; overscroll-behavior:contain}
 .modal-in{max-width:600px; margin:0 auto; padding-inline:20px; padding-block:calc(10px + env(safe-area-inset-top,0px)) 44px}
 .modal-head{display:flex; align-items:center; gap:13px; position:sticky; top:env(safe-area-inset-top,0px); background:var(--bg); padding-block:12px; z-index:2}
-.modal-head h2{font-family:"Bodoni Moda",Georgia,serif; font-size:26px; flex:1}
+.modal-head h2{font-family:'Cormorant Garamond',Georgia,serif; font-size:26px; flex:1}
 .close{width:44px; height:44px; flex:none; border-radius:50%; border:1px solid var(--line-2); background:var(--surface); font-size:17px}
-.save-tip{display:flex; gap:10px; padding:14px; border-radius:var(--r); background:var(--gold-soft); border:1px solid var(--gold-line); font-size:13px; line-height:1.55; color:var(--ink-2); margin-bottom:18px}
+.save-tip{display:flex; gap:10px; padding:14px; border-radius:var(--r); background:var(--surface-2); border:1px solid var(--line-2); font-size:13px; line-height:1.55; color:var(--ink-2); margin-bottom:18px}
 .save-tip b{color:var(--ink); font-weight:600}
 .out-item{margin-bottom:26px}
 .out-item .cap{font-size:12px; color:var(--ink-3); margin-bottom:8px}
-.out-item img{display:block; width:100%; height:auto; border-radius:4px; box-shadow:var(--shadow-lift); background:#fff}
+.out-item img{display:block; width:100%; height:auto; box-shadow:var(--shadow-lift); background:#fff}
 .out-item .acts{display:flex; gap:9px; margin-top:11px; padding:0}
 .out-item .acts .btn{flex:1; min-height:46px}
 .busy{display:flex; align-items:center; gap:11px; color:var(--ink-2); font-size:14px; padding:26px 0}
-.spin{width:16px;height:16px;border:2px solid var(--line-2); border-top-color:var(--ink); border-radius:50%; animation:sp .7s linear infinite}
+.spin{width:16px;height:16px;border:2px solid var(--line-2); border-top-color:var(--green); border-radius:50%; animation:sp .7s linear infinite}
 @keyframes sp{to{transform:rotate(360deg)}}
 @media (prefers-reduced-motion:reduce){ .spin{animation-duration:2s} *{transition-duration:.01ms !important} }
 
 .hsec{margin-bottom:26px}
-.hsec h3{font-family:"Bodoni Moda",Georgia,serif; font-size:19px; font-weight:400; margin:0 0 10px}
+.hsec h3{font-family:'Cormorant Garamond',Georgia,serif; font-size:19px; font-weight:400; margin:0 0 10px}
 .settings{list-style:none; margin:0; padding:0; display:flex; flex-direction:column; gap:1px; background:var(--line); border:1px solid var(--line); border-radius:var(--r); overflow:hidden}
 .settings li{display:flex; gap:13px; align-items:baseline; background:var(--surface); padding:14px 16px}
 .settings .k{font-size:11px; text-transform:uppercase; letter-spacing:.1em; color:var(--ink-3); width:84px; flex:none}
@@ -164,15 +168,15 @@ a{color:inherit}
 .callout.fine b{color:var(--ink)}
 .routes{list-style:none; margin:0; padding:0; display:flex; flex-direction:column; gap:10px}
 .routes li{background:var(--surface); border:1px solid var(--line); border-radius:var(--r); padding:15px; font-size:13px; line-height:1.55; color:var(--ink-2)}
-.routes .rt{display:flex; align-items:baseline; gap:9px; margin-bottom:5px; font-family:"Bodoni Moda",Georgia,serif; font-size:17px; color:var(--ink)}
-.routes .rt span{font-size:9.5px; font-weight:600; text-transform:uppercase; letter-spacing:.12em; color:var(--gold); border:1px solid var(--gold-line); border-radius:4px; padding:2px 6px; white-space:nowrap}
+.routes .rt{display:flex; align-items:baseline; gap:9px; margin-bottom:5px; font-family:'Cormorant Garamond',Georgia,serif; font-size:17px; color:var(--ink)}
+.routes .rt span{font-size:9.5px; font-weight:600; text-transform:uppercase; letter-spacing:.12em; color:var(--rust); border:1px solid var(--line-2); border-radius:4px; padding:2px 6px; white-space:nowrap}
 .routes code{background:var(--surface-3); padding:1px 5px; border-radius:5px; color:var(--ink); font-size:12px}
-.seg{display:flex; gap:4px; padding:4px; background:var(--surface-3); border:1px solid var(--line); border-radius:14px}
-.seg button{flex:1; min-height:42px; border-radius:10px; font-size:13px; font-weight:500; color:var(--ink-2)}
-.seg button[aria-pressed="true"]{background:var(--surface); color:var(--ink); font-weight:600; box-shadow:0 1px 3px rgba(25,22,20,.12)}
+.seg{display:flex; gap:4px; padding:4px; background:var(--surface-3); border:1px solid var(--line); border-radius:4px}
+.seg button{flex:1; min-height:42px; border-radius:3px; font-size:13px; font-weight:500; color:var(--ink-2)}
+.seg button[aria-pressed="true"]{background:var(--surface); color:var(--green); font-weight:600; box-shadow:0 1px 3px rgba(42,36,32,.14)}
 .seg-note{font-size:12.5px; color:var(--ink-3); margin-top:9px; line-height:1.5}
 .thumbs{display:flex; flex-wrap:wrap; gap:9px; margin-top:12px}
-.chip{position:relative; width:78px; border-radius:12px; overflow:hidden; background:var(--surface-2); border:1px solid var(--line)}
+.chip{position:relative; width:78px; border-radius:3px; overflow:hidden; background:var(--surface-2); border:1px solid var(--line)}
 .chip canvas{display:block; width:100%; height:78px; object-fit:cover}
 .chip .x{position:absolute; top:4px; right:4px; width:28px; height:28px; border-radius:50%; background:rgba(8,6,10,.7); color:#fff; font-size:14px; line-height:28px; text-align:center}
 .chip .x::after,.chip .mv::after{content:""; position:absolute; inset:-8px}
@@ -282,7 +286,11 @@ const OUT_W = Math.round(SHEET.w * PPM);   // 1874
 const OUT_H = Math.round(SHEET.h * PPM);   // 1402
 const PAPER = "#FDFCF9";
 /** Signed on every card, every format. Not editable by design. */
-const BRAND = { names: "Joy & Patrick", place: "Queenstown NZ · 10.10.26" };
+const BRAND = {
+  line: "Joy & Patrick · 10.10.2026 · Queenstown",  // story card + full bleed
+  name: "Joy & Patrick",                                   // instax card, Cormorant 600
+  sub:  "10.10.2026 · Queenstown"                       // instax card, Jost caps
+};
 
 /** Dye-sub lays colour down flatter than a screen. This is the correction for that, not a gimmick. */
 const PUNCH = {
@@ -314,7 +322,8 @@ const FORMATS = [{
   meta: "1 card / sheet · frames 54 × 56 mm",
   slots: 2,
   // 4.23 + 54 + 2.54 (0.1in gap) + 54 + 4.23 = 119
-  frames: [{ x: 4.23, y: 4.23, w: 54, h: 56 }, { x: 60.77, y: 4.23, w: 54, h: 56 }],
+  // 0.13in top / 0.16in side+bottom padding, header band, 0.08in gap, then the photo row
+  frames: [{ x: 4.06, y: 28.93, w: 54.17, h: 56.0 }, { x: 60.77, y: 28.93, w: 54.17, h: 56.0 }],
   minPx: [830, 860],
   idealPx: [1100, 1140],
   specs: [
@@ -453,54 +462,52 @@ function drawSheet(ctx, fmt, items, px) {
   ctx.restore();
 }
 
-function drawBrand(ctx, px, cfg) {
+/** the italic Cormorant signature used on the story card and the full bleed */
+function drawSignature(ctx, px, cfg) {
   ctx.save();
-  ctx.textAlign = cfg.align;
+  ctx.textAlign = cfg.align || "center";
   ctx.textBaseline = "alphabetic";
   if (cfg.shadow) {
     ctx.shadowColor = "rgba(0,0,0,.55)";
     ctx.shadowBlur = 1.5 * px;
     ctx.shadowOffsetY = 0.3 * px;
   }
-  if (cfg.ruleY) {
-    ctx.strokeStyle = "rgba(60,48,40,.22)";
-    ctx.lineWidth = Math.max(1, 0.16 * px);
-    ctx.beginPath();
-    ctx.moveTo((cfg.x - 11) * px, cfg.ruleY * px);
-    ctx.lineTo((cfg.x + 11) * px, cfg.ruleY * px);
-    ctx.stroke();
-  }
-  ctx.fillStyle = cfg.nameColor;
-  ctx.font = `400 ${cfg.nameSize * px}px "Bodoni Moda", Didot, Georgia, serif`;
-  ctx.fillText(BRAND.names, cfg.x * px, cfg.nameY * px, cfg.maxW * px);
-  ctx.fillStyle = cfg.placeColor;
+  ctx.fillStyle = cfg.color || "#000";
+  ctx.font = `italic 500 ${cfg.size * px}px "Cormorant Garamond", Georgia, serif`;
+  ctx.fillText(BRAND.line, cfg.x * px, cfg.y * px, cfg.maxW * px);
+  ctx.restore();
+}
+
+/** the instax card mark: name in Cormorant, tracked caps beneath it */
+function drawCardMark(ctx, px, cfg) {
+  ctx.save();
+  ctx.textAlign = "center";
+  ctx.textBaseline = "alphabetic";
+  ctx.fillStyle = "#000";
+  ctx.font = `600 ${cfg.nameSize * px}px "Cormorant Garamond", Georgia, serif`;
+  ctx.fillText(BRAND.name, cfg.x * px, cfg.nameY * px, cfg.maxW * px);
   tracked(ctx, `${cfg.track * px}px`);
-  ctx.font = `500 ${cfg.placeSize * px}px Archivo, Helvetica, sans-serif`;
-  ctx.fillText(BRAND.place.toUpperCase(), cfg.x * px, cfg.placeY * px, cfg.maxW * px);
+  ctx.font = `500 ${cfg.subSize * px}px Jost, Helvetica, sans-serif`;
+  ctx.fillText(BRAND.sub.toUpperCase(), cfg.x * px, cfg.subY * px, cfg.maxW * px);
   tracked(ctx, "0px");
   ctx.restore();
 }
 
 function decorateFull(ctx, px) {
-  drawBrand(ctx, px, {
-    align: "right", x: SHEET.w - 7, shadow: true, maxW: 72,
-    nameSize: 4.4, nameY: 79.6, nameColor: "rgba(255,255,255,.97)",
-    placeSize: 2.1, placeY: 84.4, placeColor: "rgba(255,255,255,.85)", track: 0.3
+  drawSignature(ctx, px, {
+    align: "right", x: SHEET.w - 6, y: 83.5, size: 4.6, maxW: 86,
+    color: "rgba(255,255,255,.97)", shadow: true
   });
 }
 
 function decorateStory(ctx, fmt, items, px) {
-  ctx.strokeStyle = "rgba(60,48,40,.16)";
-  ctx.lineWidth = Math.max(1, 0.18 * px);
+  ctx.strokeStyle = "rgba(60,48,40,.14)";
+  ctx.lineWidth = Math.max(1, 0.16 * px);
   fmt.frames.forEach((f) => {
     ctx.strokeRect(f.x * px + ctx.lineWidth / 2, f.y * px + ctx.lineWidth / 2,
                    f.w * px - ctx.lineWidth, f.h * px - ctx.lineWidth);
   });
-  drawBrand(ctx, px, {
-    align: "center", x: SHEET.w / 2, ruleY: 65.2, maxW: 100,
-    nameSize: 6.4, nameY: 73.4, nameColor: "#211E1B",
-    placeSize: 2.5, placeY: 79.8, placeColor: "#7A736A", track: 0.34
-  });
+  drawSignature(ctx, px, { x: SHEET.w / 2, y: 17.5, size: 4.6, maxW: 100 });
 }
 
 function decorateInstax(ctx, fmt, items, px) {
@@ -519,10 +526,11 @@ function decorateInstax(ctx, fmt, items, px) {
       ctx.moveTo(px0 + sx * tick, py0); ctx.lineTo(px0, py0);
       ctx.lineTo(px0, py0 + sy * tick); ctx.stroke();
     });
-    drawBrand(ctx, px, {
-      align: "center", x: cxmm + fmt.cardW / 2, maxW: fmt.cardW - 8,
-      nameSize: 4.9, nameY: fmt.cardY + 74, nameColor: "#211E1B",
-      placeSize: 2.05, placeY: fmt.cardY + 80.6, placeColor: "#7A736A", track: 0.26
+    drawCardMark(ctx, px, {
+      x: cxmm + fmt.cardW / 2, maxW: fmt.cardW - 8,
+      nameSize: 4.23, nameY: fmt.cardY + 74.5,   // 12pt
+      subSize: 1.97, subY: fmt.cardY + 79.9,     // 5.6pt, 0.16em tracking
+      track: 0.32
     });
   });
 }
@@ -549,7 +557,7 @@ function miniSVG(fmt) {
     });
   }
   fmt.frames.forEach((f) => {
-    body += `<rect x="${(f.x * s).toFixed(2)}" y="${(f.y * s).toFixed(2)}" width="${(f.w * s).toFixed(2)}" height="${(f.h * s).toFixed(2)}" fill="var(--gold)" opacity=".85"/>`;
+    body += `<rect x="${(f.x * s).toFixed(2)}" y="${(f.y * s).toFixed(2)}" width="${(f.w * s).toFixed(2)}" height="${(f.h * s).toFixed(2)}" fill="var(--line-2)" opacity="1"/>`;
   });
   if (fmt.id === "story") body += `<rect x="24" y="${(70 * s).toFixed(2)}" width="16" height="1.6" rx=".8" fill="var(--ink-3)"/>`;
   return `<svg viewBox="0 0 64 ${H.toFixed(2)}" role="img" aria-hidden="true">${body}</svg>`;
@@ -731,7 +739,21 @@ function sampleImage(w, h, palette) {
   return c;
 }
 
-function loadSamples() {
+async function loadSamples() {
+  // the real photographs, shipped with the app; the drawn fallback is for
+  // the offline copy, where fetch of a relative path is blocked
+  const out = [];
+  for (const u of ["samples/01.jpg", "samples/02.jpg"]) {
+    try {
+      const r = await fetch(u);
+      if (!r.ok) throw new Error(r.status);
+      const blob = await r.blob();
+      const d = await decode(blob, 1500);
+      out.push({ id: ++state.seq, file: blob, src: d.src, w: d.w, h: d.h,
+                 name: "sample", sample: true, t: { zoom: 1, ox: 0, oy: 0 } });
+    } catch (e) { /* fall through to the drawn pair */ }
+  }
+  if (out.length === 2) { state.photos = out; return; }
   const a = sampleImage(1500, 1125, { stops: ["#F7C46B", "#E8734A", "#7B3563"], sx: .72, sy: .28, glow: "rgba(255,226,170,.85)", band: "rgba(58,26,52,.82)", hz: .74 });
   const b = sampleImage(1125, 1500, { stops: ["#BFE3E8", "#4E93B5", "#1E3F61"], sx: .3, sy: .2, glow: "rgba(238,250,252,.7)", band: "rgba(16,38,62,.78)", hz: .66 });
   state.photos = [
@@ -1110,11 +1132,10 @@ window.addEventListener("drop", (e) => { e.preventDefault(); if (e.dataTransfer?
 function openOut(html) { $("#outBody").innerHTML = html; $("#out").hidden = false; }
 function closeOut() { $("#out").hidden = true; }
 
-loadSamples();
 renderCat();
 renderPager();
 renderTray();
-renderHero();
+loadSamples().then(() => { redrawEverything(); renderHero(); });
 
 if (window.claude && typeof window.claude.use === "function") {
   window.claude.use("downloads").then((d) => {
@@ -1124,8 +1145,9 @@ if (window.claude && typeof window.claude.use === "function") {
 }
 if (document.fonts) {
   Promise.all([
-    document.fonts.load('400 100px "Bodoni Moda"'),
-    document.fonts.load('500 40px Archivo')
+    document.fonts.load('italic 500 100px "Cormorant Garamond"'),
+    document.fonts.load('600 100px "Cormorant Garamond"'),
+    document.fonts.load('500 40px Jost')
   ]).then(() => { redrawAllSheets(); renderHero(); }).catch(() => {});
 }
 })();
