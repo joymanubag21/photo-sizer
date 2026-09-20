@@ -1,0 +1,1098 @@
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>L-Size Photo Sizer</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500&family=Instrument+Serif:ital@0;1&display=swap">
+<style>
+:root{
+  --bg:#E7E3E6; --mount:#DCD6DA; --surface:#FFFFFF; --surface-2:#F5F1F4;
+  --line:#D5CCD2; --line-2:#BFB2BB;
+  --ink:#1B171A; --ink-2:#585057; --ink-3:#8C8189;
+  --accent:#C4136A; --accent-ink:#FFFFFF; --accent-soft:#FAE7F0; --accent-line:#EEC4DA;
+  --cyan:#0E93BC; --mag:#C4136A; --yel:#E0A916;
+  --warn:#A75110; --warn-soft:#FBEEE2; --ok:#1B7150;
+  --shadow:0 1px 2px rgba(40,20,34,.07), 0 8px 24px -12px rgba(40,20,34,.22);
+  --shadow-lift:0 2px 4px rgba(40,20,34,.10), 0 18px 40px -16px rgba(40,20,34,.34);
+  --r:10px;
+  --dock-h:78px;
+  color-scheme:light;
+}
+@media (prefers-color-scheme:dark){ :root:not([data-theme="light"]){
+  --bg:#151219; --mount:#0F0D12; --surface:#1F1B23; --surface-2:#2A242F;
+  --line:#352E3B; --line-2:#4A4152;
+  --ink:#F2EDF1; --ink-2:#B4A8B3; --ink-3:#847888;
+  --accent:#FF63A8; --accent-ink:#2A0418; --accent-soft:#33172A; --accent-line:#4E2339;
+  --cyan:#36B8DE; --mag:#FF63A8; --yel:#F0BE3C;
+  --warn:#E8974E; --warn-soft:#3A2717; --ok:#54C598;
+  --shadow:0 1px 2px rgba(0,0,0,.5), 0 8px 24px -12px rgba(0,0,0,.7);
+  --shadow-lift:0 2px 6px rgba(0,0,0,.55), 0 18px 40px -16px rgba(0,0,0,.8);
+  color-scheme:dark;
+}}
+:root[data-theme="dark"]{
+  --bg:#151219; --mount:#0F0D12; --surface:#1F1B23; --surface-2:#2A242F;
+  --line:#352E3B; --line-2:#4A4152;
+  --ink:#F2EDF1; --ink-2:#B4A8B3; --ink-3:#847888;
+  --accent:#FF63A8; --accent-ink:#2A0418; --accent-soft:#33172A; --accent-line:#4E2339;
+  --cyan:#36B8DE; --mag:#FF63A8; --yel:#F0BE3C;
+  --warn:#E8974E; --warn-soft:#3A2717; --ok:#54C598;
+  --shadow:0 1px 2px rgba(0,0,0,.5), 0 8px 24px -12px rgba(0,0,0,.7);
+  --shadow-lift:0 2px 6px rgba(0,0,0,.55), 0 18px 40px -16px rgba(0,0,0,.8);
+  color-scheme:dark;
+}
+
+*{box-sizing:border-box}
+body{
+  background:var(--bg); color:var(--ink);
+  font-family:Archivo,"Helvetica Neue",Arial,sans-serif;
+  font-size:15px; line-height:1.45;
+  -webkit-text-size-adjust:100%;
+  -webkit-tap-highlight-color:transparent;
+}
+h1,h2,h3{margin:0; text-wrap:balance; letter-spacing:-.02em; font-weight:600}
+p{margin:0}
+button{font:inherit; color:inherit; border:0; background:none; cursor:pointer}
+button,a,summary,label,input[type=range]{touch-action:manipulation}
+input,textarea{font:inherit; color:inherit}
+:focus-visible{outline:2px solid var(--accent); outline-offset:2px; border-radius:4px}
+
+.app{max-width:600px; margin:0 auto; padding-inline:16px; padding-block:0 calc(var(--dock-h) + 28px)}
+
+/* ---------- masthead ---------- */
+.head{padding-block:26px 22px}
+.ribbon{display:flex; gap:3px; margin-bottom:14px}
+.ribbon i{height:5px; border-radius:1px}
+.ribbon i:nth-child(1){width:34px; background:var(--yel)}
+.ribbon i:nth-child(2){width:34px; background:var(--mag)}
+.ribbon i:nth-child(3){width:34px; background:var(--cyan)}
+.head h1{font-size:30px; line-height:1.05; letter-spacing:-.035em}
+.head .machine{
+  font-family:"IBM Plex Mono",ui-monospace,monospace; font-size:11px; letter-spacing:.06em;
+  text-transform:uppercase; color:var(--ink-3); margin-top:8px;
+}
+.head .sub{margin-top:12px; color:var(--ink-2); font-size:14.5px; max-width:46ch}
+.head .sub b{color:var(--ink); font-weight:600}
+
+/* ---------- steps ---------- */
+.step{padding-block:22px; border-top:1px solid var(--line)}
+.step-head{display:flex; align-items:baseline; gap:10px; margin-bottom:14px}
+.step-head .num{
+  font-family:"IBM Plex Mono",monospace; font-size:11px; font-weight:500;
+  color:var(--accent); letter-spacing:.08em;
+}
+.step-head h2{font-size:17px; flex:1}
+.step-head .tag{font-family:"IBM Plex Mono",monospace; font-size:11px; color:var(--ink-3)}
+.hint{color:var(--ink-3); font-size:13px; margin-bottom:14px; line-height:1.5}
+
+/* ---------- format picker ---------- */
+.fmt-list{display:flex; flex-direction:column; gap:8px}
+.fmt{
+  display:grid; grid-template-columns:64px 1fr; gap:14px; align-items:center;
+  width:100%; text-align:left; padding:13px 14px; border-radius:var(--r);
+  background:var(--surface); border:1px solid var(--line);
+  transition:border-color .15s, background .15s;
+}
+.fmt:hover{border-color:var(--line-2)}
+.fmt[aria-pressed="true"]{border-color:var(--accent); background:var(--accent-soft); box-shadow:inset 3px 0 0 var(--accent)}
+.fmt svg{display:block; width:64px; height:auto}
+.fmt .fn,.fmt .fd,.fmt .fm{display:block}
+.fmt .fn{font-weight:600; font-size:15px; letter-spacing:-.01em}
+.fmt .fd{font-size:12.5px; color:var(--ink-2); margin-top:2px; line-height:1.35}
+.fmt .fm{font-family:"IBM Plex Mono",monospace; font-size:11px; color:var(--ink-3); margin-top:5px; letter-spacing:.01em}
+.fmt[aria-pressed="true"] .fd{color:var(--ink-2)}
+
+.specs{margin-top:12px; border:1px solid var(--line); border-radius:var(--r); background:var(--surface-2)}
+.specs summary{
+  padding:11px 14px; min-height:46px; cursor:pointer; font-size:12px; font-weight:600;
+  text-transform:uppercase; letter-spacing:.07em; color:var(--ink-2); list-style:none;
+  display:flex; justify-content:space-between; align-items:center;
+}
+.specs summary::-webkit-details-marker{display:none}
+.specs summary::after{content:"+"; font-family:"IBM Plex Mono",monospace; color:var(--ink-3); font-size:14px}
+.specs[open] summary::after{content:"–"}
+.specs .body{padding:2px 14px 14px}
+.specs dl{margin:0; display:grid; grid-template-columns:auto 1fr; gap:6px 16px; font-size:12.5px}
+.specs dt{font-family:"IBM Plex Mono",monospace; font-size:11px; color:var(--ink-3); text-transform:uppercase; letter-spacing:.05em; padding-top:1px}
+.specs dd{margin:0; color:var(--ink-2)}
+.specs dd b{color:var(--ink); font-weight:500; font-family:"IBM Plex Mono",monospace; font-size:12px}
+
+/* ---------- photo tray ---------- */
+.add-row{display:flex; gap:8px}
+.btn{
+  display:inline-flex; align-items:center; justify-content:center; gap:8px;
+  padding:12px 16px; border-radius:var(--r); font-weight:600; font-size:14.5px;
+  border:1px solid var(--line-2); background:var(--surface); min-height:46px;
+  transition:background .15s, border-color .15s;
+}
+.btn:hover{background:var(--surface-2)}
+.btn.primary{background:var(--accent); color:var(--accent-ink); border-color:var(--accent)}
+.btn.primary:hover{filter:brightness(1.07)}
+.btn.grow{flex:1}
+.btn:disabled{opacity:.45; cursor:default}
+.btn svg{flex:none}
+
+.tray{display:flex; flex-wrap:wrap; gap:8px; margin-top:12px}
+.tray:empty{display:none}
+.chip{
+  position:relative; width:86px; border-radius:8px; overflow:hidden;
+  background:var(--surface-2); border:1px solid var(--line);
+}
+.chip canvas{display:block; width:100%; height:86px; object-fit:cover}
+.chip .lbl{
+  font-family:"IBM Plex Mono",monospace; font-size:9.5px; color:var(--ink-3);
+  padding:3px 5px; text-align:center; letter-spacing:.02em;
+  white-space:nowrap; overflow:hidden; text-overflow:ellipsis;
+}
+.chip .x{
+  position:absolute; top:4px; right:4px; width:28px; height:28px; border-radius:50%;
+  background:rgba(12,6,10,.66); color:#fff; font-size:14px; line-height:28px; text-align:center;
+  backdrop-filter:blur(4px);
+}
+/* the drawn control stays small; the finger target is 44px */
+.chip .x::after,.chip .mv::after{content:""; position:absolute; inset:-8px}
+.chip.sample{border-style:dashed; border-color:var(--line-2)}
+.chip .mv{position:absolute; bottom:22px; width:30px; height:30px; background:rgba(12,6,10,.58); color:#fff; font-size:14px; line-height:30px; text-align:center}
+.chip .mv.l{left:0; border-radius:0 6px 0 0} .chip .mv.r{right:0; border-radius:6px 0 0 0}
+.sample-note{
+  display:flex; align-items:center; gap:8px; margin-top:10px; padding:9px 11px;
+  border:1px dashed var(--line-2); border-radius:8px; background:var(--surface-2);
+  font-size:12.5px; color:var(--ink-2);
+}
+.sample-note button{font-size:12.5px; padding:10px 8px; min-height:44px; min-width:52px; font-weight:600; color:var(--accent); text-decoration:underline; text-underline-offset:2px; margin-left:auto; white-space:nowrap}
+
+/* ---------- proof sheets ---------- */
+.sheet-wrap{margin-bottom:22px}
+.sheet-head{
+  display:flex; align-items:baseline; gap:8px; margin-bottom:8px;
+  font-family:"IBM Plex Mono",monospace; font-size:11px; letter-spacing:.06em;
+  text-transform:uppercase; color:var(--ink-3);
+}
+.sheet-head .n{color:var(--accent); font-weight:500}
+.proof{
+  position:relative; background:var(--mount); padding:10px; border-radius:var(--r);
+  box-shadow:var(--shadow);
+}
+.paper{position:relative; box-shadow:var(--shadow-lift); background:#FDFCF9}
+.paper canvas{display:block; width:100%; height:auto}
+.hit{
+  position:absolute; touch-action:none; cursor:grab;
+  border:0; background:transparent; padding:0;
+}
+.hit:active{cursor:grabbing}
+.hit.empty{
+  background:rgba(255,255,255,.55); border:1.5px dashed rgba(90,80,88,.45);
+  display:flex; align-items:center; justify-content:center;
+  color:#6E6570; font-size:12px; font-weight:600; letter-spacing:.01em; text-align:center; line-height:1.2;
+}
+.hit.empty:hover{background:rgba(255,255,255,.8)}
+.hit.on{box-shadow:0 0 0 2px var(--accent)}
+
+.ctrls{margin-top:10px; display:flex; flex-direction:column; gap:9px}
+.ctrl{display:flex; align-items:center; gap:10px; flex-wrap:wrap}
+.ctrl .sw{width:34px; height:34px; border-radius:6px; flex:none; border:1px solid var(--line); overflow:hidden}
+.ctrl .sw canvas{display:block; width:100%; height:100%; object-fit:cover}
+.ctrl input[type=range]{order:1; flex:1 0 100%; accent-color:var(--accent); min-width:0; height:44px; margin:-6px 0 0}
+.ctrl .rs{font-family:"IBM Plex Mono",monospace; font-size:11px; color:var(--ink-3); padding:0 12px; min-height:44px; margin-left:auto; border:1px solid var(--line); border-radius:6px}
+.res{
+  font-family:"IBM Plex Mono",monospace; font-size:10.5px; letter-spacing:.02em;
+  padding:3px 7px; border-radius:5px; line-height:1.35; flex:0 1 auto; min-width:0;
+}
+.res.ok{color:var(--ok)}
+.res.low{color:var(--warn); background:var(--warn-soft)}
+
+.fields{margin-top:11px; display:flex; flex-direction:column; gap:7px}
+.field{display:flex; align-items:center; gap:10px; background:var(--surface); border:1px solid var(--line); border-radius:8px; padding:0 11px}
+.field label{
+  font-family:"IBM Plex Mono",monospace; font-size:10px; text-transform:uppercase;
+  letter-spacing:.07em; color:var(--ink-3); flex:none; width:52px;
+}
+/* 16px is the floor: anything smaller makes iOS Safari zoom the page on focus */
+.field input{flex:1; border:0; background:none; padding:12px 0; min-width:0; font-size:16px; outline:none; min-height:46px}
+.field input::placeholder{color:var(--ink-3)}
+
+/* ---------- print settings ---------- */
+.settings{list-style:none; margin:0; padding:0; display:flex; flex-direction:column; gap:1px; background:var(--line); border:1px solid var(--line); border-radius:var(--r); overflow:hidden}
+.settings li{display:flex; gap:12px; align-items:baseline; background:var(--surface); padding:11px 14px}
+.settings .k{
+  font-family:"IBM Plex Mono",monospace; font-size:10.5px; text-transform:uppercase;
+  letter-spacing:.06em; color:var(--ink-3); width:96px; flex:none;
+}
+.settings .v{font-weight:500; font-size:14px}
+.settings .v small{display:block; font-weight:400; font-size:12.5px; color:var(--ink-2); margin-top:2px; letter-spacing:0}
+
+/* ---------- dock ---------- */
+.dock{
+  position:fixed; left:0; right:0; bottom:0; z-index:30;
+  background:color-mix(in srgb, var(--bg) 86%, transparent);
+  backdrop-filter:blur(14px) saturate(1.3);
+  border-top:1px solid var(--line);
+  padding:12px 16px calc(12px + env(safe-area-inset-bottom,0px));
+}
+.dock-in{max-width:600px; margin:0 auto; display:flex; align-items:center; gap:12px}
+.dock .meta{font-family:"IBM Plex Mono",monospace; font-size:10.5px; line-height:1.35; color:var(--ink-3); letter-spacing:.03em}
+.dock .meta b{display:block; color:var(--ink); font-size:12px; font-weight:500}
+.dock .btn{flex:1; max-width:250px; margin-left:auto}
+
+/* ---------- output ---------- */
+.modal{position:fixed; inset:0; z-index:60; background:var(--bg); overflow-y:auto; overscroll-behavior:contain}
+.modal-in{max-width:600px; margin:0 auto; padding-inline:16px; padding-block:calc(16px + env(safe-area-inset-top,0px)) 40px}
+.modal-head{display:flex; align-items:center; gap:12px; margin-bottom:6px; position:sticky; top:env(safe-area-inset-top,0px); background:var(--bg); padding-block:10px; z-index:2}
+.modal-head h2{font-size:20px; flex:1}
+.close{width:44px; height:44px; flex:none; border-radius:50%; border:1px solid var(--line); background:var(--surface); font-size:17px; line-height:1}
+.save-tip{
+  display:flex; gap:10px; padding:12px 13px; border-radius:var(--r);
+  background:var(--accent-soft); border:1px solid var(--accent-line);
+  font-size:13px; line-height:1.5; color:var(--ink-2); margin-bottom:18px;
+}
+.save-tip b{color:var(--ink)}
+.out-item{margin-bottom:24px}
+.out-item .cap{
+  display:flex; justify-content:space-between; align-items:baseline; gap:10px; margin-bottom:7px;
+  font-family:"IBM Plex Mono",monospace; font-size:11px; color:var(--ink-3); letter-spacing:.04em;
+}
+.out-item img{display:block; width:100%; height:auto; border-radius:4px; box-shadow:var(--shadow-lift); background:#fff}
+.out-item .acts{display:flex; gap:8px; margin-top:10px}
+.out-item .acts .btn{flex:1; padding:10px 12px; font-size:14px; min-height:46px}
+.busy{display:flex; align-items:center; gap:10px; color:var(--ink-2); font-size:14px; padding:24px 0}
+.spin{width:16px;height:16px;border:2px solid var(--line-2); border-top-color:var(--accent); border-radius:50%; animation:sp .7s linear infinite}
+@keyframes sp{to{transform:rotate(360deg)}}
+@media (prefers-reduced-motion:reduce){ .spin{animation-duration:2s} *{transition-duration:.01ms !important} }
+
+.foot{padding-block:8px 4px; border-top:1px solid var(--line); color:var(--ink-3); font-size:12px; line-height:1.6}
+.foot code{font-family:"IBM Plex Mono",monospace; font-size:11px; color:var(--ink-2)}
+</style>
+
+<div class="app">
+  <header class="head">
+    <div class="ribbon" aria-hidden="true"><i></i><i></i><i></i></div>
+    <h1>L-Size Photo Sizer</h1>
+    <p class="machine">Canon SELPHY CP1500 · L paper 119 × 89 mm · 400 dpi</p>
+    <p class="sub">Pick a card format, drop your photos in, nudge each one inside its printed frame. You get a print-resolution sheet ready for the SELPHY app. <b>Nothing is uploaded — it all happens on this device.</b></p>
+  </header>
+
+  <section class="step">
+    <div class="step-head"><span class="num">01</span><h2>Choose a format</h2></div>
+    <div class="fmt-list" id="fmtList"></div>
+    <details class="specs" id="specBox">
+      <summary>Exact print specs</summary>
+      <div class="body"><dl id="specList"></dl></div>
+    </details>
+  </section>
+
+  <section class="step">
+    <div class="step-head"><span class="num">02</span><h2>Add your photos</h2><span class="tag" id="photoCount"></span></div>
+    <div class="add-row">
+      <button class="btn grow" id="btnAdd">
+        <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="5" width="18" height="15" rx="2"/><circle cx="9" cy="10.5" r="1.6"/><path d="M3 17l5-4 4 3 3.5-3 5.5 5"/></svg>
+        Photo library
+      </button>
+      <button class="btn" id="btnCam">
+        <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 8h3l1.4-2h7.2L17 8h3a1 1 0 011 1v9a1 1 0 01-1 1H4a1 1 0 01-1-1V9a1 1 0 011-1z"/><circle cx="12" cy="13.5" r="3.4"/></svg>
+        Camera
+      </button>
+    </div>
+    <div class="tray" id="tray"></div>
+    <div class="sample-note" id="sampleNote" hidden>
+      <span>Showing two sample images so you can see the crop. Adding your own replaces them.</span>
+      <button id="clearSamples">Clear</button>
+    </div>
+  </section>
+
+  <section class="step">
+    <div class="step-head"><span class="num">03</span><h2>Position &amp; caption</h2><span class="tag" id="sheetCount"></span></div>
+    <p class="hint">Drag inside a frame to move the photo. Pinch, scroll or use the zoom slider to fill it. Double-tap a frame to reset.</p>
+    <div id="sheets"></div>
+  </section>
+
+  <section class="step">
+    <div class="step-head"><span class="num">04</span><h2>Print settings</h2></div>
+    <p class="hint">Set these in the Canon SELPHY app (or the printer's own menu) before you print.</p>
+    <ul class="settings" id="printSettings"></ul>
+  </section>
+
+  <footer class="foot">
+    <p>Sheets come out as JPEG at 1874 × 1402 px — 400 dpi on a 119 × 89 mm sheet. Cropping is done against the real frame geometry — <code>mm</code> on paper, <code>px</code> at 400 dpi — so what you see in the proof is exactly what the dye-sub head lays down. The low-res flag fires when a frame would be fed fewer source pixels than the format needs.</p>
+  </footer>
+</div>
+
+<div class="dock">
+  <div class="dock-in">
+    <div class="meta"><b id="dockCount">—</b><span id="dockSize">—</span></div>
+    <button class="btn primary" id="btnMake">Make prints</button>
+  </div>
+</div>
+
+<div class="modal" id="out" hidden>
+  <div class="modal-in">
+    <div class="modal-head">
+      <h2 id="outTitle">Your prints</h2>
+      <button class="close" id="outClose" aria-label="Close">✕</button>
+    </div>
+    <div id="outBody"></div>
+  </div>
+</div>
+
+<input type="file" id="fileIn" accept="image/*" multiple hidden>
+<input type="file" id="camIn" accept="image/*" capture="environment" hidden>
+
+<script>
+(() => {
+"use strict";
+
+/* ─────────── Paper geometry. Everything below is millimetres on a Canon L sheet. ─────────── */
+const SHEET = { w: 119, h: 89 };          // L size, landscape
+const DPI = 400;
+const PPM = DPI / 25.4;                    // 15.748 px per mm
+const OUT_W = Math.round(SHEET.w * PPM);   // 1874
+const OUT_H = Math.round(SHEET.h * PPM);   // 1402
+const PAPER = "#FDFCF9";
+const FRAMED = window.self !== window.top; // the viewer mediates saves through the downloads capability
+let dl = null;                             // Claude downloads namespace, or null where unavailable
+
+const FORMATS = [{
+  id: "story",
+  name: "Memory Lane story card",
+  desc: "Two square-ish frames side by side with a line of story underneath.",
+  meta: "1 card / sheet · frames 54 × 56 mm",
+  slots: 2,
+  // 4.23 + 54 + 2.54 (0.1in gap) + 54 + 4.23 = 119
+  frames: [{ x: 4.23, y: 4.23, w: 54, h: 56 }, { x: 60.77, y: 4.23, w: 54, h: 56 }],
+  minPx: [830, 860],
+  idealPx: [1100, 1140],
+  textScope: "sheet",
+  fields: [
+    { key: "title", label: "Title", ph: "Brighton, first light" },
+    { key: "note",  label: "Note",  ph: "We walked the pier before anyone else was awake." }
+  ],
+  specs: [
+    ["Card",   "4.7 × 3.5 in (119 × 89 mm), landscape, one per SELPHY L sheet."],
+    ["Frames", "Two at 2.14 × 2.22 in (54 × 56 mm), 0.1 in gap."],
+    ["Supply", "830 × 860 px minimum · 1100 × 1140 px for 400 dpi headroom."],
+    ["Print",  "L Borderless · Landscape · Fill Entire Paper · 100%."]
+  ],
+  print: [
+    ["Paper",   "L Borderless", "The card is the full sheet — no trimming afterwards."],
+    ["Layout",  "Landscape", ""],
+    ["Scaling", "Fill Entire Paper, 100%", "Do not let the app add its own margin."]
+  ]
+}, {
+  id: "instax",
+  name: "Instax mini guest card",
+  desc: "Portrait card with the classic wide white band under the picture.",
+  meta: "2 cards / sheet · card 54 × 86 mm",
+  slots: 2,
+  cardW: 54, cardH: 86, cardY: 1.5, cardX: [4, 61],
+  // window 46 × 62 mm, 4 mm border top and sides
+  frames: [{ x: 8, y: 5.5, w: 46, h: 62 }, { x: 65, y: 5.5, w: 46, h: 62 }],
+  minPx: [700, 940],
+  idealPx: [950, 1280],
+  textScope: "card",
+  fields: [
+    { key: "title", label: "Name", ph: "Nadia & Tom" },
+    { key: "note",  label: "Line", ph: "14 JUNE 2026" }
+  ],
+  specs: [
+    ["Card",   "54 × 86 mm portrait, image window 46 × 62 mm (1.81 × 2.44 in)."],
+    ["Borders","4 mm top and sides, ~20 mm white band below."],
+    ["Supply", "700 × 940 px minimum · 950 × 1280 px for 400 dpi."],
+    ["Sheet",  "Two cards per L sheet, cut on the hairlines."]
+  ],
+  print: [
+    ["Paper",   "L Borderless", ""],
+    ["Layout",  "Print Entire Image", "Not Fill Entire Paper — that would crop the cut marks off."],
+    ["Scaling", "100%", ""],
+    ["After",   "Cut on the hairlines", "Two guest cards per sheet."]
+  ]
+}, {
+  id: "full",
+  name: "Full L-size photo",
+  desc: "The whole sheet, edge to edge. No card, no text.",
+  meta: "1 photo / sheet · 119 × 89 mm",
+  slots: 1,
+  frames: [{ x: 0, y: 0, w: 119, h: 89 }],
+  minPx: [1400, 1050],
+  idealPx: [1800, 1344],
+  textScope: null,
+  fields: [],
+  specs: [
+    ["Image",  "4.69 × 3.5 in (119 × 89 mm) edge to edge."],
+    ["Supply", "1400 × 1050 px minimum · 1800 × 1344 px for 384 dpi."],
+    ["Print",  "L Borderless · Landscape · Fill Entire Paper · 100%."]
+  ],
+  print: [
+    ["Paper",   "L Borderless", ""],
+    ["Layout",  "Landscape", ""],
+    ["Scaling", "Fill Entire Paper, 100%", "The printer bleeds a little past the edge by design."]
+  ]
+}];
+
+/* ─────────── State ─────────── */
+const state = {
+  fmt: FORMATS[0],
+  photos: [],            // {id, src(bitmap|canvas), file, w, h, name, sample, t:{zoom,ox,oy}}
+  text: {},              // key -> {title, note}
+  seq: 0
+};
+let results = [];
+
+const $ = (s) => document.querySelector(s);
+const clamp = (v, a, b) => Math.min(b, Math.max(a, v));
+const txt = (k) => (state.text[k] ||= { title: "", note: "" });
+
+/* ─────────── Cover-fit maths, shared by preview and export ─────────── */
+function cover(iw, ih, fw, fh, zoom) {
+  const s = Math.max(fw / iw, fh / ih) * zoom;
+  const dw = iw * s, dh = ih * s;
+  return { s, dw, dh, mx: (dw - fw) / 2, my: (dh - fh) / 2 };
+}
+function drawCover(ctx, img, fx, fy, fw, fh, t) {
+  const c = cover(img.width, img.height, fw, fh, t.zoom);
+  ctx.save();
+  ctx.beginPath(); ctx.rect(fx, fy, fw, fh); ctx.clip();
+  ctx.drawImage(img, fx + (fw - c.dw) / 2 + t.ox * c.mx, fy + (fh - c.dh) / 2 + t.oy * c.my, c.dw, c.dh);
+  ctx.restore();
+}
+/** source pixels actually fed into the frame */
+function sourcePx(photo, frame, t) {
+  const fw = frame.w * PPM, fh = frame.h * PPM;
+  const c = cover(photo.w, photo.h, fw, fh, t.zoom);
+  return [Math.round(fw / c.s), Math.round(fh / c.s)];
+}
+
+/* ─────────── Canvas text helpers ─────────── */
+function wrap(ctx, text, maxW) {
+  const out = [];
+  for (const para of String(text).split("\n")) {
+    let line = "";
+    for (const word of para.split(/\s+/).filter(Boolean)) {
+      const test = line ? line + " " + word : word;
+      if (ctx.measureText(test).width > maxW && line) { out.push(line); line = word; }
+      else line = test;
+    }
+    out.push(line);
+  }
+  return out.filter((l, i) => l || i === 0);
+}
+function tracked(ctx, v) { try { ctx.letterSpacing = v; } catch (e) {} }
+
+/* ─────────── Sheet renderer — one function for proof and print ─────────── */
+function drawSheet(ctx, fmt, items, px) {
+  const W = SHEET.w * px, H = SHEET.h * px;
+  ctx.save();
+  ctx.imageSmoothingEnabled = true;
+  ctx.imageSmoothingQuality = "high";
+  ctx.fillStyle = fmt.id === "full" ? "#E8E4DE" : PAPER;
+  ctx.fillRect(0, 0, W, H);
+
+  fmt.frames.forEach((f, i) => {
+    const it = items[i];
+    const r = [f.x * px, f.y * px, f.w * px, f.h * px];
+    if (it) drawCover(ctx, it.img, r[0], r[1], r[2], r[3], it.t);
+    else if (fmt.id === "story") { ctx.fillStyle = "#F1EEE8"; ctx.fillRect(...r); }
+  });
+
+  if (fmt.id === "story") decorateStory(ctx, fmt, items, px);
+  if (fmt.id === "instax") decorateInstax(ctx, fmt, items, px);
+  ctx.restore();
+}
+
+function decorateStory(ctx, fmt, items, px) {
+  ctx.strokeStyle = "rgba(60,48,40,.16)";
+  ctx.lineWidth = Math.max(1, 0.18 * px);
+  fmt.frames.forEach((f) => {
+    ctx.strokeRect(f.x * px + ctx.lineWidth / 2, f.y * px + ctx.lineWidth / 2,
+                   f.w * px - ctx.lineWidth, f.h * px - ctx.lineWidth);
+  });
+  const t = items.length ? txt("sheet:" + items[0].sheetKey) : { title: "", note: "" };
+  const cx = (SHEET.w / 2) * px;
+  ctx.textAlign = "center"; ctx.textBaseline = "alphabetic";
+
+  ctx.strokeStyle = "rgba(60,48,40,.22)";
+  ctx.lineWidth = Math.max(1, 0.16 * px);
+  ctx.beginPath(); ctx.moveTo(cx - 11 * px, 65.2 * px); ctx.lineTo(cx + 11 * px, 65.2 * px); ctx.stroke();
+
+  if (t.title) {
+    ctx.fillStyle = "#211E1B";
+    ctx.font = `400 ${6.2 * px}px "Instrument Serif", Georgia, serif`;
+    ctx.fillText(t.title, cx, 72.6 * px, 108 * px);
+  }
+  if (t.note) {
+    ctx.fillStyle = "#6B645C";
+    ctx.font = `400 ${3.3 * px}px Archivo, Helvetica, sans-serif`;
+    const lines = wrap(ctx, t.note, 100 * px).slice(0, 2);
+    lines.forEach((l, i) => ctx.fillText(l, cx, (77.6 + i * 4.3) * px));
+  }
+}
+
+function decorateInstax(ctx, fmt, items, px) {
+  fmt.cardX.forEach((cxmm, i) => {
+    const it = items[i];
+    if (!it) return;                       // a card only exists once it has a photo
+    const x = cxmm * px, y = fmt.cardY * px, w = fmt.cardW * px, h = fmt.cardH * px;
+    const lw = Math.max(1, 0.14 * px);
+    // crop hairlines + corner ticks
+    ctx.strokeStyle = "rgba(60,48,40,.28)"; ctx.lineWidth = lw;
+    ctx.strokeRect(x + lw / 2, y + lw / 2, w - lw, h - lw);
+    ctx.strokeStyle = "rgba(60,48,40,.5)";
+    const tick = 1.2 * px;
+    [[x, y, -1, -1], [x + w, y, 1, -1], [x, y + h, -1, 1], [x + w, y + h, 1, 1]].forEach(([px0, py0, sx, sy]) => {
+      ctx.beginPath();
+      ctx.moveTo(px0 + sx * tick, py0); ctx.lineTo(px0, py0);
+      ctx.lineTo(px0, py0 + sy * tick); ctx.stroke();
+    });
+    const t = txt("photo:" + it.photo.id);
+    const mid = x + w / 2;
+    ctx.textAlign = "center";
+    if (t.title) {
+      ctx.fillStyle = "#211E1B";
+      ctx.font = `400 ${5.2 * px}px "Instrument Serif", Georgia, serif`;
+      ctx.fillText(t.title, mid, (fmt.cardY + 73.5) * px, (fmt.cardW - 8) * px);
+    }
+    if (t.note) {
+      ctx.fillStyle = "#77706A";
+      tracked(ctx, `${0.28 * px}px`);
+      ctx.font = `500 ${2.5 * px}px Archivo, Helvetica, sans-serif`;
+      ctx.fillText(String(t.note).toUpperCase(), mid, (fmt.cardY + 80.2) * px, (fmt.cardW - 8) * px);
+      tracked(ctx, "0px");
+    }
+  });
+}
+
+/* ─────────── Sheets = photos chunked by slots ─────────── */
+function sheets() {
+  const out = [];
+  const n = state.fmt.slots;
+  for (let i = 0; i < state.photos.length; i += n) {
+    out.push(state.photos.slice(i, i + n).map((p) => ({
+      photo: p, img: p.src, t: p.t, sheetKey: String(out.length)
+    })));
+  }
+  return out;
+}
+
+/* ─────────── Format picker ─────────── */
+function miniSVG(fmt) {
+  const s = 64 / SHEET.w, H = SHEET.h * s;
+  let body = `<rect x="0" y="0" width="64" height="${H.toFixed(2)}" rx="1.5" fill="var(--surface-2)" stroke="var(--line-2)" stroke-width="1"/>`;
+  if (fmt.id === "instax") {
+    fmt.cardX.forEach((cx) => {
+      body += `<rect x="${(cx * s).toFixed(2)}" y="${(fmt.cardY * s).toFixed(2)}" width="${(fmt.cardW * s).toFixed(2)}" height="${(fmt.cardH * s).toFixed(2)}" fill="var(--surface)" stroke="var(--line-2)" stroke-width=".6"/>`;
+    });
+  }
+  fmt.frames.forEach((f) => {
+    body += `<rect x="${(f.x * s).toFixed(2)}" y="${(f.y * s).toFixed(2)}" width="${(f.w * s).toFixed(2)}" height="${(f.h * s).toFixed(2)}" fill="var(--accent)" opacity=".85"/>`;
+  });
+  if (fmt.id === "story") body += `<rect x="24" y="${(70 * s).toFixed(2)}" width="16" height="1.6" rx=".8" fill="var(--ink-3)"/>`;
+  return `<svg viewBox="0 0 64 ${H.toFixed(2)}" role="img" aria-hidden="true">${body}</svg>`;
+}
+
+function renderFormats() {
+  $("#fmtList").innerHTML = FORMATS.map((f) => `
+    <button class="fmt" data-id="${f.id}" aria-pressed="${f.id === state.fmt.id}">
+      ${miniSVG(f)}
+      <span>
+        <span class="fn">${f.name}</span>
+        <span class="fd">${f.desc}</span>
+        <span class="fm">${f.meta}</span>
+      </span>
+    </button>`).join("");
+  $("#specList").innerHTML = state.fmt.specs
+    .map(([k, v]) => `<dt>${k}</dt><dd>${v.replace(/([\d.]+ ?× ?[\d.]+ ?(?:mm|in|px))/g, "<b>$1</b>")}</dd>`).join("");
+  $("#printSettings").innerHTML = state.fmt.print
+    .map(([k, v, s]) => `<li><span class="k">${k}</span><span class="v">${v}${s ? `<small>${s}</small>` : ""}</span></li>`).join("");
+}
+
+/* ─────────── Photo tray ─────────── */
+function thumbCanvas(p, size) {
+  const c = document.createElement("canvas");
+  const dpr = Math.min(2, window.devicePixelRatio || 1);
+  c.width = size * dpr; c.height = size * dpr;
+  const ctx = c.getContext("2d");
+  ctx.imageSmoothingQuality = "high";
+  const sc = Math.max(c.width / p.w, c.height / p.h);
+  ctx.drawImage(p.src, (c.width - p.w * sc) / 2, (c.height - p.h * sc) / 2, p.w * sc, p.h * sc);
+  return c;
+}
+
+function renderTray() {
+  const tray = $("#tray");
+  tray.innerHTML = "";
+  state.photos.forEach((p, i) => {
+    const el = document.createElement("div");
+    el.className = "chip" + (p.sample ? " sample" : "");
+    el.innerHTML = `<button class="x" aria-label="Remove ${p.name}">✕</button>
+      ${i > 0 ? '<button class="mv l" aria-label="Move earlier">‹</button>' : ""}
+      ${i < state.photos.length - 1 ? '<button class="mv r" aria-label="Move later">›</button>' : ""}
+      <div class="lbl">${p.sample ? "sample" : p.w + "×" + p.h}</div>`;
+    el.prepend(thumbCanvas(p, 74));
+    el.querySelector(".x").onclick = () => { state.photos.splice(i, 1); redrawEverything(); };
+    const l = el.querySelector(".mv.l"), r = el.querySelector(".mv.r");
+    if (l) l.onclick = () => { state.photos.splice(i - 1, 0, state.photos.splice(i, 1)[0]); redrawEverything(); };
+    if (r) r.onclick = () => { state.photos.splice(i + 1, 0, state.photos.splice(i, 1)[0]); redrawEverything(); };
+    tray.appendChild(el);
+  });
+  const anySample = state.photos.some((p) => p.sample);
+  $("#sampleNote").hidden = !anySample;
+  const n = state.photos.length;
+  $("#photoCount").textContent = n ? `${n} photo${n > 1 ? "s" : ""}` : "";
+}
+
+/* ─────────── Proof sheets ─────────── */
+let observers = [];
+function renderSheets() {
+  const host = $("#sheets");
+  observers.forEach((o) => o.disconnect());
+  observers = [];
+  host.innerHTML = "";
+  const list = sheets();
+  const fmt = state.fmt;
+
+  $("#sheetCount").textContent = list.length ? `${list.length} sheet${list.length > 1 ? "s" : ""}` : "";
+  $("#dockCount").textContent = list.length ? `${list.length} sheet${list.length > 1 ? "s" : ""}` : "No photos yet";
+  $("#dockSize").textContent = `${OUT_W} × ${OUT_H} px · JPEG`;
+  $("#btnMake").disabled = !list.length;
+
+  if (!list.length) {
+    host.innerHTML = `<p class="hint" style="margin:0">Add a photo and the proof sheet appears here.</p>`;
+    return;
+  }
+
+  list.forEach((items, si) => {
+    const wrapEl = document.createElement("div");
+    wrapEl.className = "sheet-wrap";
+    wrapEl.innerHTML = `<div class="sheet-head"><span class="n">Sheet ${si + 1}</span>
+      <span>L · 119 × 89 mm</span></div>
+      <div class="proof"><div class="paper"><canvas></canvas></div></div>
+      <div class="ctrls"></div><div class="fields"></div>`;
+    const paper = wrapEl.querySelector(".paper");
+    const canvas = wrapEl.querySelector("canvas");
+    const ctrls = wrapEl.querySelector(".ctrls");
+    const fields = wrapEl.querySelector(".fields");
+
+    const redraw = () => {
+      const cssW = paper.clientWidth || 300;
+      const dpr = Math.min(2.5, window.devicePixelRatio || 1);
+      canvas.width = Math.round(cssW * dpr);
+      canvas.height = Math.round(cssW * dpr * SHEET.h / SHEET.w);
+      drawSheet(canvas.getContext("2d"), fmt, items, canvas.width / SHEET.w);
+      ctrls.querySelectorAll("[data-res]").forEach((el) => {
+        const it = items[+el.dataset.res];
+        const [w, h] = sourcePx(it.photo, fmt.frames[+el.dataset.res], it.t);
+        const low = w < fmt.minPx[0] || h < fmt.minPx[1];
+        el.className = "res " + (low ? "low" : "ok");
+        el.textContent = low ? `${w}×${h} · needs ${fmt.minPx[0]}×${fmt.minPx[1]}` : `${w}×${h} px`;
+      });
+    };
+
+    // zoom + resolution row per photo
+    const ranges = [];
+    items.forEach((it, fi) => {
+      const row = document.createElement("div");
+      row.className = "ctrl";
+      row.innerHTML = `<span class="sw"></span>
+        <input type="range" id="z-${si}-${fi}" min="1" max="5" step="0.01" value="${it.t.zoom}" aria-label="Zoom photo ${fi + 1}">
+        <span class="res" data-res="${fi}"></span>
+        <button class="rs" type="button">Reset</button>`;
+      row.querySelector(".sw").appendChild(thumbCanvas(it.photo, 30));
+      const range = row.querySelector("input");
+      range.oninput = () => { it.t.zoom = +range.value; clampT(it.t); redraw(); };
+      row.querySelector(".rs").onclick = () => { it.t.zoom = 1; it.t.ox = 0; it.t.oy = 0; range.value = 1; redraw(); };
+      ranges[fi] = range;
+      ctrls.appendChild(row);
+    });
+
+    // interactive frames, laid over the proof
+    fmt.frames.forEach((f, fi) => {
+      const it = items[fi];
+      const hit = document.createElement("button");
+      hit.className = "hit" + (it ? "" : " empty");
+      hit.style.cssText = `left:${f.x / SHEET.w * 100}%;top:${f.y / SHEET.h * 100}%;width:${f.w / SHEET.w * 100}%;height:${f.h / SHEET.h * 100}%`;
+      hit.setAttribute("aria-label", it ? `Adjust photo ${fi + 1}` : "Add a photo here");
+      if (!it) { hit.innerHTML = "<span>+ photo</span>"; hit.onclick = () => $("#fileIn").click(); }
+      else attachGestures(hit, it, () => { ranges[fi].value = it.t.zoom; redraw(); });
+      paper.appendChild(hit);
+    });
+
+    // caption fields
+    if (fmt.textScope) {
+      const groups = fmt.textScope === "sheet"
+        ? [{ key: "sheet:" + si, label: null }]
+        : items.map((it, i) => ({ key: "photo:" + it.photo.id, label: `Card ${i + 1}` }));
+      groups.forEach((g) => {
+        if (g.label) {
+          const h = document.createElement("div");
+          h.className = "sheet-head"; h.style.margin = "4px 0 0";
+          h.innerHTML = `<span>${g.label}</span>`;
+          fields.appendChild(h);
+        }
+        fmt.fields.forEach((fd) => {
+          const el = document.createElement("div");
+          el.className = "field";
+          const id = `t-${g.key.replace(/\W/g, "")}-${fd.key}`;
+          el.innerHTML = `<label for="${id}">${fd.label}</label><input id="${id}" type="text" placeholder="${fd.ph}" value="${(txt(g.key)[fd.key] || "").replace(/"/g, "&quot;")}">`;
+          el.querySelector("input").oninput = (e) => { txt(g.key)[fd.key] = e.target.value; redraw(); };
+          fields.appendChild(el);
+        });
+      });
+    }
+
+    host.appendChild(wrapEl);
+    redraw();
+    const ro = new ResizeObserver(redraw);
+    ro.observe(paper);
+    observers.push(ro);
+  });
+}
+
+function clampT(t) {
+  t.zoom = clamp(t.zoom, 1, 5);
+  t.ox = clamp(t.ox, -1, 1);
+  t.oy = clamp(t.oy, -1, 1);
+}
+
+/* ─────────── Drag / pinch / wheel / keyboard on a frame ─────────── */
+function attachGestures(el, item, onChange) {
+  const pts = new Map();
+  let base = null, lastTap = 0;
+
+  const geo = () => {
+    const r = el.getBoundingClientRect();
+    return cover(item.photo.w, item.photo.h, r.width, r.height, item.t.zoom);
+  };
+  const dist = () => {
+    const [a, b] = [...pts.values()];
+    return Math.hypot(a.x - b.x, a.y - b.y);
+  };
+  const centroid = () => {
+    const v = [...pts.values()];
+    return { x: v.reduce((s, p) => s + p.x, 0) / v.length, y: v.reduce((s, p) => s + p.y, 0) / v.length };
+  };
+  const snapshot = () => {
+    const c = geo();
+    base = { t: { ...item.t }, c: centroid(), d: pts.size > 1 ? dist() : 0, mx: c.mx, my: c.my };
+  };
+
+  el.addEventListener("pointerdown", (e) => {
+    e.preventDefault();
+    el.setPointerCapture(e.pointerId);
+    pts.set(e.pointerId, { x: e.clientX, y: e.clientY });
+    snapshot();
+    el.classList.add("on");
+    const now = Date.now();
+    if (pts.size === 1 && now - lastTap < 300) { item.t.zoom = 1; item.t.ox = 0; item.t.oy = 0; onChange(); }
+    lastTap = now;
+  });
+
+  el.addEventListener("pointermove", (e) => {
+    if (!pts.has(e.pointerId) || !base) return;
+    pts.set(e.pointerId, { x: e.clientX, y: e.clientY });
+    if (pts.size > 1 && base.d) item.t.zoom = clamp(base.t.zoom * (dist() / base.d), 1, 5);
+    const c = centroid();
+    if (base.mx > 0) item.t.ox = clamp(base.t.ox + (c.x - base.c.x) / base.mx, -1, 1);
+    if (base.my > 0) item.t.oy = clamp(base.t.oy + (c.y - base.c.y) / base.my, -1, 1);
+    clampT(item.t);
+    onChange();
+  });
+
+  const end = (e) => {
+    pts.delete(e.pointerId);
+    if (pts.size) snapshot(); else { base = null; el.classList.remove("on"); }
+  };
+  el.addEventListener("pointerup", end);
+  el.addEventListener("pointercancel", end);
+
+  el.addEventListener("wheel", (e) => {
+    e.preventDefault();
+    item.t.zoom = clamp(item.t.zoom * (e.deltaY < 0 ? 1.06 : 0.94), 1, 5);
+    clampT(item.t); onChange();
+  }, { passive: false });
+
+  el.addEventListener("keydown", (e) => {
+    const step = e.shiftKey ? 0.2 : 0.06;
+    const map = { ArrowLeft: ["ox", -step], ArrowRight: ["ox", step], ArrowUp: ["oy", -step], ArrowDown: ["oy", step], "+": ["zoom", 0.15], "=": ["zoom", 0.15], "-": ["zoom", -0.15] };
+    const m = map[e.key];
+    if (!m) return;
+    e.preventDefault();
+    item.t[m[0]] += m[1];
+    clampT(item.t); onChange();
+  });
+}
+
+/* ─────────── Import ─────────── */
+async function decode(file, maxDim) {
+  let bmp;
+  try { bmp = await createImageBitmap(file, { imageOrientation: "from-image" }); }
+  catch (e) {
+    bmp = await new Promise((res, rej) => {
+      const img = new Image();
+      img.onload = () => res(img);
+      img.onerror = rej;
+      img.src = URL.createObjectURL(file);
+    });
+  }
+  const w = bmp.width, h = bmp.height;
+  if (maxDim && Math.max(w, h) > maxDim) {
+    const sc = maxDim / Math.max(w, h);
+    const c = document.createElement("canvas");
+    c.width = Math.round(w * sc); c.height = Math.round(h * sc);
+    const cx = c.getContext("2d");
+    cx.imageSmoothingQuality = "high";
+    cx.drawImage(bmp, 0, 0, c.width, c.height);
+    if (bmp.close) bmp.close();
+    return { src: c, w, h };
+  }
+  return { src: bmp, w, h };
+}
+
+async function addFiles(files) {
+  const list = [...files].filter((f) => f.type.startsWith("image/"));
+  if (!list.length) return;
+  if (state.photos.some((p) => p.sample)) state.photos = state.photos.filter((p) => !p.sample);
+  for (const file of list) {
+    try {
+      const d = await decode(file, 1500);
+      state.photos.push({
+        id: ++state.seq, file, src: d.src, w: d.w, h: d.h,
+        name: file.name.replace(/\.[^.]+$/, ""), sample: false,
+        t: { zoom: 1, ox: 0, oy: 0 }
+      });
+    } catch (e) { console.warn("Could not read", file.name, e); }
+  }
+  redrawEverything();
+}
+
+/* ─────────── Sample images so the page opens in a working state ─────────── */
+function sampleImage(w, h, palette) {
+  const c = document.createElement("canvas");
+  c.width = w; c.height = h;
+  const ctx = c.getContext("2d");
+  const g = ctx.createLinearGradient(0, 0, w * .3, h);
+  palette.stops.forEach((s, i) => g.addColorStop(i / (palette.stops.length - 1), s));
+  ctx.fillStyle = g; ctx.fillRect(0, 0, w, h);
+  const sun = ctx.createRadialGradient(w * palette.sx, h * palette.sy, 0, w * palette.sx, h * palette.sy, Math.max(w, h) * .55);
+  sun.addColorStop(0, palette.glow); sun.addColorStop(1, "rgba(0,0,0,0)");
+  ctx.fillStyle = sun; ctx.fillRect(0, 0, w, h);
+  ctx.fillStyle = palette.band;
+  ctx.beginPath();
+  ctx.moveTo(0, h * palette.hz);
+  for (let x = 0; x <= w; x += w / 24) ctx.lineTo(x, h * palette.hz + Math.sin(x / w * 7) * h * .012);
+  ctx.lineTo(w, h); ctx.lineTo(0, h); ctx.closePath(); ctx.fill();
+  // grain
+  const n = document.createElement("canvas"); n.width = 180; n.height = 180;
+  const nc = n.getContext("2d"), id = nc.createImageData(180, 180);
+  for (let i = 0; i < id.data.length; i += 4) {
+    const v = 128 + (Math.random() - .5) * 190;
+    id.data[i] = id.data[i + 1] = id.data[i + 2] = v; id.data[i + 3] = 255;
+  }
+  nc.putImageData(id, 0, 0);
+  ctx.globalAlpha = .055; ctx.globalCompositeOperation = "overlay";
+  for (let y = 0; y < h; y += 180) for (let x = 0; x < w; x += 180) ctx.drawImage(n, x, y);
+  ctx.globalAlpha = 1; ctx.globalCompositeOperation = "source-over";
+  return c;
+}
+
+function loadSamples() {
+  const a = sampleImage(1500, 1125, { stops: ["#F7C46B", "#E8734A", "#7B3563"], sx: .72, sy: .28, glow: "rgba(255,226,170,.85)", band: "rgba(58,26,52,.82)", hz: .74 });
+  const b = sampleImage(1125, 1500, { stops: ["#BFE3E8", "#4E93B5", "#1E3F61"], sx: .3, sy: .2, glow: "rgba(238,250,252,.7)", band: "rgba(16,38,62,.78)", hz: .66 });
+  state.photos = [
+    { id: ++state.seq, file: null, src: a, w: 1500, h: 1125, name: "sample-warm", sample: true, t: { zoom: 1, ox: 0, oy: 0 } },
+    { id: ++state.seq, file: null, src: b, w: 1125, h: 1500, name: "sample-cool", sample: true, t: { zoom: 1, ox: 0, oy: 0 } }
+  ];
+  state.text["sheet:0"] = { title: "Brighton, first light", note: "We walked the pier before anyone else was awake." };
+  state.text["photo:" + state.photos[0].id] = { title: "Nadia & Tom", note: "14 June 2026" };
+  state.text["photo:" + state.photos[1].id] = { title: "Priya", note: "Table four" };
+}
+
+/* ─────────── Export at print resolution ─────────── */
+function prescale(src, targetScale) {
+  let cur = src, curScale = 1;
+  while (curScale / 2 > targetScale * 1.05) {
+    const w = Math.max(1, Math.round(cur.width / 2)), h = Math.max(1, Math.round(cur.height / 2));
+    const c = document.createElement("canvas");
+    c.width = w; c.height = h;
+    const cx = c.getContext("2d");
+    cx.imageSmoothingQuality = "high";
+    cx.drawImage(cur, 0, 0, w, h);
+    cur = c; curScale /= 2;
+  }
+  return cur;
+}
+
+async function fullRes(photo, frame, t) {
+  const src = photo.file ? (await decode(photo.file, null)).src : photo.src;
+  const fw = frame.w * PPM, fh = frame.h * PPM;
+  const s = Math.max(fw / src.width, fh / src.height) * t.zoom;
+  return prescale(src, s);
+}
+
+async function makePrints() {
+  const list = sheets();
+  if (!list.length) return;
+  const fmt = state.fmt;
+  openOut(`<div class="busy"><span class="spin"></span><span>Rendering ${list.length} sheet${list.length > 1 ? "s" : ""} at ${OUT_W} × ${OUT_H} px…</span></div>`);
+  results.forEach((r) => URL.revokeObjectURL(r.url));
+  results = [];
+
+  await new Promise((r) => setTimeout(r, 30));
+
+  for (let i = 0; i < list.length; i++) {
+    const items = list[i];
+    const hi = [];
+    for (let k = 0; k < items.length; k++) {
+      hi.push({ ...items[k], img: await fullRes(items[k].photo, fmt.frames[k], items[k].t) });
+    }
+    const c = document.createElement("canvas");
+    c.width = OUT_W; c.height = OUT_H;
+    drawSheet(c.getContext("2d"), fmt, hi, PPM);
+    const blob = await new Promise((res) => c.toBlob(res, "image/jpeg", 0.94));
+    results.push({
+      blob,
+      url: URL.createObjectURL(blob),
+      name: `selphy-${fmt.id}-${String(i + 1).padStart(2, "0")}.jpg`,
+      kb: Math.round(blob.size / 1024)
+    });
+  }
+  showResults();
+}
+
+function canShare(items) {
+  if (!navigator.canShare || !navigator.share) return false;
+  try { return navigator.canShare({ files: items.map((r) => new File([r.blob], r.name, { type: "image/jpeg" })) }); }
+  catch (e) { return false; }
+}
+
+function showResults() {
+  const shareOne = canShare(results.slice(0, 1));
+  const shareAll = results.length > 1 && canShare(results);
+  const canSave = !!dl || !FRAMED;
+  const tip = shareOne
+    ? `<b>Share</b> sends the sheet straight to Photos — then print it from the Canon SELPHY app.${canSave ? " <b>Save</b> puts a copy in your downloads." : ""}`
+    : canSave
+      ? `<b>Save</b> puts the sheet in your downloads at full print resolution. Then print it from the Canon SELPHY app.`
+      : `<b>To keep a sheet:</b> press and hold the picture and pick Save to Photos, then print it from the Canon SELPHY app.`;
+
+  const acts = (i) => [
+    shareOne ? `<button class="btn primary" data-share="${i}">Share</button>` : "",
+    dl ? `<button class="btn${shareOne ? "" : " primary"}" data-save="${i}">Save</button>`
+       : (!FRAMED ? `<a class="btn${shareOne ? "" : " primary"}" href="${results[i].url}" download="${results[i].name}">Save</a>` : "")
+  ].join("");
+
+  openOut(`<div class="save-tip"><span>${tip}</span></div>` +
+    (shareAll ? `<button class="btn primary" id="shareAll" style="width:100%;margin-bottom:20px">Share all ${results.length} sheets</button>` : "") +
+    results.map((r, i) => `
+      <div class="out-item">
+        <div class="cap"><span>${r.name}</span><span>${OUT_W} × ${OUT_H} px · ${r.kb} KB</span></div>
+        <img src="${r.url}" alt="Sheet ${i + 1} ready to print">
+        <div class="acts">${acts(i)}</div>
+      </div>`).join(""));
+
+  $("#outBody").querySelectorAll("[data-share]").forEach((b) => {
+    b.onclick = () => shareFiles([results[+b.dataset.share]], b);
+  });
+  $("#outBody").querySelectorAll("[data-save]").forEach((b) => {
+    b.onclick = () => saveOne(results[+b.dataset.save], b);
+  });
+  const all = $("#shareAll");
+  if (all) all.onclick = () => shareFiles(results, all);
+}
+
+function flash(btn, msg, ms) {
+  const old = btn.dataset.label || btn.textContent;
+  btn.dataset.label = old;
+  btn.textContent = msg;
+  setTimeout(() => { btn.textContent = old; btn.disabled = false; }, ms || 2200);
+}
+
+async function saveOne(r, btn) {
+  if (!dl) {
+    const a = document.createElement("a");
+    a.href = r.url; a.download = r.name; a.click();
+    return;
+  }
+  btn.disabled = true;
+  const label = btn.textContent;
+  btn.textContent = "Saving…";
+  try {
+    await dl.save({ filename: r.name, data: r.blob });
+    btn.textContent = "Saved";
+    flash(btn, "Saved", 1800);
+    btn.dataset.label = label;
+  } catch (e) {
+    const code = e && e.code;
+    if (code === "declined") { btn.textContent = label; btn.disabled = false; return; }
+    if (code === "rate_limited") { flash(btn, "One at a time"); return; }
+    if (code === "too_large") { flash(btn, "Too large — use Share", 2600); return; }
+    dl = null;                                  // capability gone: fall back for the rest of this view
+    showResults();
+  }
+}
+
+async function shareFiles(items, btn) {
+  const files = items.map((r) => new File([r.blob], r.name, { type: "image/jpeg" }));
+  try { await navigator.share({ files, title: "SELPHY print" }); return; }
+  catch (e) { if (e.name === "AbortError") return; }
+  if (dl) { saveOne(items[0], btn); return; }
+  flash(btn, "Press and hold the picture to save", 2800);
+}
+
+let lockY = 0;
+function openOut(html) {
+  $("#outBody").innerHTML = html;
+  if ($("#out").hidden) {
+    lockY = window.scrollY;
+    // iOS Safari ignores body{overflow:hidden}; pinning the body is the one that holds
+    document.body.style.cssText += ";position:fixed;width:100%;top:" + -lockY + "px;";
+  }
+  $("#out").hidden = false;
+}
+function closeOut() {
+  $("#out").hidden = true;
+  document.body.style.position = "";
+  document.body.style.width = "";
+  document.body.style.top = "";
+  window.scrollTo(0, lockY);
+}
+
+/* ─────────── Wiring ─────────── */
+function redrawEverything() { renderTray(); renderSheets(); }
+
+$("#fmtList").addEventListener("click", (e) => {
+  const b = e.target.closest(".fmt");
+  if (!b) return;
+  state.fmt = FORMATS.find((f) => f.id === b.dataset.id);
+  renderFormats();
+  redrawEverything();
+});
+$("#btnAdd").onclick = () => $("#fileIn").click();
+$("#btnCam").onclick = () => $("#camIn").click();
+$("#fileIn").onchange = (e) => { addFiles(e.target.files); e.target.value = ""; };
+$("#camIn").onchange = (e) => { addFiles(e.target.files); e.target.value = ""; };
+$("#clearSamples").onclick = () => { state.photos = state.photos.filter((p) => !p.sample); redrawEverything(); };
+$("#btnMake").onclick = makePrints;
+$("#outClose").onclick = closeOut;
+document.addEventListener("keydown", (e) => { if (e.key === "Escape" && !$("#out").hidden) closeOut(); });
+
+window.addEventListener("dragover", (e) => e.preventDefault());
+window.addEventListener("drop", (e) => { e.preventDefault(); if (e.dataTransfer?.files?.length) addFiles(e.dataTransfer.files); });
+
+loadSamples();
+renderFormats();
+redrawEverything();
+
+// the viewer answers about saving after first paint; light the button up when it does
+if (window.claude && typeof window.claude.use === "function") {
+  window.claude.use("downloads").then((d) => {
+    dl = d || null;
+    if (dl && results.length && !$("#out").hidden) showResults();
+  }).catch(() => {});
+}
+
+// captions are drawn with a webfont — redraw once it is actually available
+if (document.fonts) {
+  Promise.all([
+    document.fonts.load('400 100px "Instrument Serif"'),
+    document.fonts.load('500 40px Archivo')
+  ]).then(() => renderSheets()).catch(() => {});
+}
+})();
+</script>
