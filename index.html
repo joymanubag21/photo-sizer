@@ -3,275 +3,228 @@
 <title>Joy &amp; Patrick Prints</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bodoni+Moda:ital,opsz,wght@0,6..96,400;0,6..96,500;0,6..96,600;1,6..96,400&family=Archivo:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bodoni+Moda:ital,opsz,wght@0,6..96,400;0,6..96,500;1,6..96,400&family=Archivo:wght@400;500;600&display=swap">
 <style>
-/* One committed world: a dark editorial keepsake app. No light variant —
-   the printed card stays paper-white inside it, because that is the paper. */
 :root{
-  /* Light, committed. White cards floating on a warm neutral ground; the
-     printed card is the one true white in the page. */
   --bg:#F3F2F0; --bg-2:#E7E4E0;
   --surface:#FFFFFF; --surface-2:#FAF9F7; --surface-3:#EFEDE9;
   --line:#E5E2DC; --line-2:#D1CBC3;
   --ink:#191614; --ink-2:#5C554D; --ink-3:#928A80;
   --gold:#9A7239; --gold-2:#7C5B2B; --gold-soft:rgba(154,114,57,.075); --gold-line:rgba(154,114,57,.28);
-  --warn:#A8571C; --warn-soft:rgba(168,87,28,.09);
+  --warn:#A8571C; --warn-soft:#FDF0E4;
   --ok:#2E7D5B;
-  --paper:#FFFFFF;
   --shadow:0 1px 2px rgba(25,22,20,.05), 0 6px 18px -10px rgba(25,22,20,.18);
-  --shadow-lift:0 2px 6px rgba(25,22,20,.07), 0 22px 44px -18px rgba(25,22,20,.30);
+  --shadow-lift:0 3px 8px rgba(25,22,20,.10), 0 26px 50px -20px rgba(25,22,20,.38);
   --r:16px;
-  --dock-h:80px;
   color-scheme:light;
 }
 *{box-sizing:border-box}
+/* a class setting display outranks the UA [hidden] rule, so state it outright */
+[hidden]{display:none !important}
+html,body{height:100%}
 body{
-  background:var(--bg); color:var(--ink);
-  font-family:Archivo,"Helvetica Neue",Arial,sans-serif;
-  font-size:15px; line-height:1.5;
+  background:var(--bg); color:var(--ink); overflow:hidden;
+  font-family:Archivo,"Helvetica Neue",Arial,sans-serif; font-size:15px; line-height:1.5;
   -webkit-text-size-adjust:100%; -webkit-tap-highlight-color:transparent;
 }
-h1,h2,h3{margin:0; text-wrap:balance; font-weight:400}
+h1,h2{margin:0; font-weight:400; text-wrap:balance}
 p{margin:0}
 button{font:inherit; color:inherit; border:0; background:none; cursor:pointer}
-button,a,summary,label,input[type=range]{touch-action:manipulation}
-input{font:inherit; color:inherit}
-a.btn{color:inherit; text-decoration:none}
-:focus-visible{outline:2px solid var(--gold); outline-offset:3px; border-radius:4px}
+button,a,label,input[type=range]{touch-action:manipulation}
+a{color:inherit}
+:focus-visible{outline:2px solid var(--ink); outline-offset:3px; border-radius:6px}
+.eyebrow{font-size:10.5px; font-weight:600; text-transform:uppercase; letter-spacing:.2em; color:var(--gold)}
 
-.eyebrow{
-  font-family:"IBM Plex Mono",ui-monospace,monospace; font-size:10.5px; font-weight:500;
-  text-transform:uppercase; letter-spacing:.18em; color:var(--gold);
-}
-.app{max-width:600px; margin:0 auto; padding-inline:20px; padding-block:0 calc(var(--dock-h) + 32px)}
-
-/* ---------- masthead ---------- */
-.head{padding-block:34px 26px; text-align:center}
-.head .rule{height:1px; background:linear-gradient(90deg,transparent,var(--gold-line) 22%,var(--gold-line) 78%,transparent); margin-bottom:22px}
-.head h1{
-  font-family:"Bodoni Moda",Didot,Georgia,serif; font-weight:400;
-  font-size:clamp(44px,13.5vw,62px); line-height:.94; letter-spacing:-.015em;
-  margin-block:14px 6px; color:var(--ink);
-}
-.head h1 em{font-style:italic; color:var(--gold-2)}
-.head .place{font-family:"IBM Plex Mono",monospace; font-size:11px; letter-spacing:.2em; text-transform:uppercase; color:var(--ink-3)}
-.head .sub{margin-top:18px; color:var(--ink-2); font-size:14.5px; text-align:left; max-width:46ch}
-.head .sub b{color:var(--ink); font-weight:500}
-
-/* ---------- steps ---------- */
-.step{padding-block:26px; border-top:1px solid var(--line)}
-.step-head{display:flex; align-items:baseline; gap:11px; margin-bottom:16px}
-.step-head .num{font-family:"IBM Plex Mono",monospace; font-size:11px; font-weight:500; color:var(--gold); letter-spacing:.1em}
-.step-head h2{font-family:"Bodoni Moda",Georgia,serif; font-size:23px; flex:1; letter-spacing:-.01em}
-.step-head .tag{font-family:"IBM Plex Mono",monospace; font-size:11px; color:var(--ink-3)}
-.hint{color:var(--ink-3); font-size:13px; margin-bottom:16px; line-height:1.55}
-
-/* ---------- format picker ---------- */
-.fmt-list{display:flex; flex-direction:column; gap:9px}
-.fmt{
-  display:grid; grid-template-columns:66px 1fr; gap:15px; align-items:center;
-  width:100%; text-align:left; padding:16px; border-radius:var(--r);
-  background:var(--surface); border:1px solid var(--line);
-  transition:border-color .18s, background .18s, box-shadow .18s;
-}
-.fmt:hover{border-color:var(--line-2); box-shadow:var(--shadow)}
-.fmt[aria-pressed="true"]{border-color:var(--ink); background:var(--surface); box-shadow:0 0 0 1px var(--ink), var(--shadow)}
-.fmt svg{display:block; width:66px; height:auto}
-.fmt .fn,.fmt .fd,.fmt .fm{display:block}
-.fmt .fn{font-family:"Bodoni Moda",Georgia,serif; font-size:19px; letter-spacing:-.01em}
-.fmt[aria-pressed="true"] .fn{color:var(--ink)}
-.fmt .fd{font-size:12.5px; color:var(--ink-2); margin-top:3px; line-height:1.4}
-.fmt .fm{font-family:"IBM Plex Mono",monospace; font-size:10.5px; color:var(--ink-3); margin-top:7px; letter-spacing:.03em}
-
-.specs{margin-top:14px; border:1px solid var(--line); border-radius:var(--r); background:var(--surface); box-shadow:0 1px 2px rgba(25,22,20,.04)}
-.specs summary{
-  padding:13px 15px; min-height:46px; cursor:pointer; list-style:none;
-  font-family:"IBM Plex Mono",monospace; font-size:10.5px; font-weight:500;
-  text-transform:uppercase; letter-spacing:.16em; color:var(--ink-2);
-  display:flex; justify-content:space-between; align-items:center;
-}
-.specs summary::-webkit-details-marker{display:none}
-.specs summary::after{content:"+"; color:var(--gold); font-size:15px}
-.specs[open] summary::after{content:"\2013"}
-.specs .body{padding:2px 15px 15px}
-.specs dl{margin:0; display:grid; grid-template-columns:auto 1fr; gap:7px 16px; font-size:12.5px}
-.specs dt{font-family:"IBM Plex Mono",monospace; font-size:10px; color:var(--ink-3); text-transform:uppercase; letter-spacing:.1em; padding-top:2px}
-.specs dd{margin:0; color:var(--ink-2)}
-.specs dd b{color:var(--ink); font-weight:500; font-family:"IBM Plex Mono",monospace; font-size:12px}
-
-/* ---------- buttons ---------- */
-.add-row{display:flex; gap:9px}
 .btn{
   display:inline-flex; align-items:center; justify-content:center; gap:9px;
-  padding:13px 17px; border-radius:14px; font-weight:500; font-size:14.5px;
+  padding:13px 18px; border-radius:14px; font-weight:500; font-size:15px;
   border:1px solid var(--line-2); background:var(--surface); min-height:48px;
-  box-shadow:0 1px 2px rgba(25,22,20,.04);
-  transition:background .18s, border-color .18s, box-shadow .18s;
+  box-shadow:0 1px 2px rgba(25,22,20,.04); transition:background .18s, border-color .18s;
 }
 .btn:hover{background:var(--surface-2); border-color:var(--ink-3)}
 .btn.primary{
-  background:var(--ink); color:#FBFAF8; border-color:var(--ink);
-  font-weight:600; letter-spacing:.01em;
-  box-shadow:0 2px 6px rgba(25,22,20,.22), 0 10px 24px -12px rgba(25,22,20,.5);
+  background:var(--ink); color:#FBFAF8; border-color:var(--ink); font-weight:600;
+  box-shadow:0 2px 6px rgba(25,22,20,.22), 0 12px 26px -14px rgba(25,22,20,.55);
 }
-.btn.primary:hover{background:#2A2622; border-color:#2A2622}
-.btn.grow{flex:1}
+.btn.primary:hover{background:#2B2723; border-color:#2B2723}
 .btn:disabled{opacity:.4; cursor:default}
-.btn svg{flex:none}
+.btn.grow{flex:1}
 
-/* ---------- photo tray ---------- */
-.tray{display:flex; flex-wrap:wrap; gap:9px; margin-top:14px}
-.tray:empty{display:none}
-.chip{position:relative; width:86px; border-radius:13px; overflow:hidden; background:var(--surface-2); border:1px solid var(--line)}
-.chip canvas{display:block; width:100%; height:86px; object-fit:cover}
-.chip .lbl{font-family:"IBM Plex Mono",monospace; font-size:9.5px; color:var(--ink-3); padding:4px 5px; text-align:center; white-space:nowrap; overflow:hidden; text-overflow:ellipsis}
-.chip .x{position:absolute; top:4px; right:4px; width:28px; height:28px; border-radius:50%; background:rgba(8,6,10,.72); color:#fff; font-size:14px; line-height:28px; text-align:center; backdrop-filter:blur(5px)}
-.chip .x::after,.chip .mv::after{content:""; position:absolute; inset:-8px}
-.chip .mv{position:absolute; bottom:24px; width:30px; height:30px; background:rgba(8,6,10,.6); color:#fff; font-size:14px; line-height:30px; text-align:center}
-.chip .mv.l{left:0; border-radius:0 7px 0 0} .chip .mv.r{right:0; border-radius:7px 0 0 0}
-.chip.sample{border-style:dashed; border-color:var(--line-2)}
-.sample-note{display:flex; align-items:center; gap:9px; margin-top:12px; padding:10px 12px; border:1px dashed var(--line-2); border-radius:10px; background:var(--surface); font-size:12.5px; color:var(--ink-2)}
-.sample-note button{font-size:12.5px; font-weight:600; color:var(--gold); padding:10px 8px; min-height:44px; min-width:52px; margin-left:auto; white-space:nowrap}
+/* ───────── welcome ───────── */
+.welcome{
+  position:fixed; inset:0; z-index:50; overflow-y:auto; background:var(--bg);
+  display:flex; flex-direction:column; justify-content:center;
+  padding:28px 24px calc(28px + env(safe-area-inset-bottom,0px));
+}
+.w-in{max-width:440px; margin:0 auto; width:100%; text-align:center}
+.w-in .rule{height:1px; background:linear-gradient(90deg,transparent,var(--gold-line) 25%,var(--gold-line) 75%,transparent); margin-bottom:20px}
+.w-in h1{font-family:"Bodoni Moda",Didot,Georgia,serif; font-size:clamp(40px,12vw,56px); line-height:.98; letter-spacing:-.02em; margin:12px 0 7px}
+.w-in h1 em{font-style:italic; color:var(--gold-2)}
+.w-in .place{font-size:11.5px; letter-spacing:.2em; text-transform:uppercase; color:var(--ink-3)}
+.w-card{margin:26px auto 24px; width:100%; max-width:330px}
+.w-card .paper{background:#fff; box-shadow:var(--shadow-lift); border-radius:3px; overflow:hidden; transform:rotate(-1.4deg)}
+.w-card canvas{display:block; width:100%; height:auto}
+.w-body{color:var(--ink-2); font-size:14.5px; margin-bottom:22px; text-align:left}
+.w-in .btn{width:100%; min-height:56px; font-size:16px}
+.w-foot{margin-top:14px; font-size:12.5px; color:var(--ink-3)}
 
-/* ---------- proof ---------- */
-.sheet-wrap{margin-bottom:26px}
-.sheet-head{display:flex; align-items:baseline; gap:9px; margin-bottom:9px; font-family:"IBM Plex Mono",monospace; font-size:10.5px; letter-spacing:.14em; text-transform:uppercase; color:var(--ink-3)}
-.sheet-head .n{color:var(--gold)}
-.proof{position:relative; background:var(--bg-2); border:1px solid var(--line); padding:14px; border-radius:var(--r)}
-.paper{position:relative; box-shadow:var(--shadow-lift); background:var(--paper)}
-.paper canvas{display:block; width:100%; height:auto}
+/* ───────── studio ───────── */
+.studio{display:flex; flex-direction:column; height:100%}
+.bar{
+  flex:none; display:flex; align-items:center; gap:12px;
+  padding:8px 18px; border-bottom:1px solid var(--line);
+  background:var(--surface);
+}
+.bar .wordmark{font-family:"Bodoni Moda",Georgia,serif; font-size:18px; flex:1; letter-spacing:-.01em}
+.bar .count{font-size:12px; color:var(--ink-3)}
+.icon{
+  width:38px; height:38px; flex:none; border-radius:50%; border:1px solid var(--line);
+  background:var(--surface); font-size:15px; font-weight:600; color:var(--ink-2);
+}
+.icon:hover{background:var(--surface-2)}
+
+.stage{flex:1; min-height:0; display:flex; flex-direction:column; background:var(--bg-2)}
+.pager{flex:1; min-height:0; display:flex; overflow-x:auto; overflow-y:hidden; scroll-snap-type:x mandatory; scrollbar-width:none}
+.pager::-webkit-scrollbar{display:none}
+.page{flex:0 0 100%; scroll-snap-align:center; display:flex; align-items:center; justify-content:center; padding:12px 14px}
+.paper{position:relative; width:100%; aspect-ratio:119/89; max-height:100%; background:#fff; box-shadow:var(--shadow-lift)}
+.paper canvas{display:block; width:100%; height:100%}
 .hit{position:absolute; touch-action:none; cursor:grab; border:0; background:transparent; padding:0}
 .hit:active{cursor:grabbing}
 .hit.empty{
-  background:rgba(255,255,255,.5); border:1.5px dashed rgba(60,50,60,.45);
+  background:rgba(255,255,255,.55); border:1.5px dashed rgba(90,80,72,.5);
   display:flex; align-items:center; justify-content:center;
-  color:#5C5460; font-size:12px; font-weight:600; text-align:center; line-height:1.2;
+  color:#6A6259; font-size:12px; font-weight:600; text-align:center;
 }
+.hit.empty:hover{background:rgba(255,255,255,.85)}
 .hit.on{box-shadow:0 0 0 2px var(--ink)}
-
-.ctrls{margin-top:12px; display:flex; flex-direction:column; gap:10px}
-.ctrl{display:flex; align-items:center; gap:11px; flex-wrap:wrap}
-.ctrl .sw{width:34px; height:34px; border-radius:7px; flex:none; border:1px solid var(--line-2); overflow:hidden}
-.ctrl .sw canvas{display:block; width:100%; height:100%; object-fit:cover}
-.ctrl input[type=range]{order:1; flex:1 0 100%; accent-color:var(--gold); min-width:0; height:44px; margin:-6px 0 0}
-.ctrl .rs{font-family:"IBM Plex Mono",monospace; font-size:10.5px; color:var(--ink-3); padding:0 12px; min-height:44px; margin-left:auto; border:1px solid var(--line); border-radius:7px; letter-spacing:.06em; text-transform:uppercase}
-.res{font-family:"IBM Plex Mono",monospace; font-size:10.5px; padding:3px 7px; border-radius:5px; line-height:1.35; flex:0 1 auto; min-width:0}
-.res.ok{color:var(--ok)}
-.res.low{color:var(--warn); background:var(--warn-soft)}
-
-/* ---------- segmented control (print colour) ---------- */
-.seg-wrap{margin-bottom:16px}
-.seg-label{display:flex; justify-content:space-between; align-items:baseline; gap:10px; margin-bottom:8px}
-.seg-label .k{font-family:"IBM Plex Mono",monospace; font-size:10px; text-transform:uppercase; letter-spacing:.14em; color:var(--ink-3)}
-.seg{display:flex; gap:4px; padding:4px; background:var(--surface-3); border:1px solid var(--line); border-radius:14px}
-.seg button{
-  flex:1; min-height:42px; border-radius:8px; font-size:13px; font-weight:500;
-  color:var(--ink-2); transition:background .16s, color .16s;
+.flag{
+  position:absolute; left:50%; bottom:6%; transform:translateX(-50%);
+  background:var(--warn); color:#fff; font-size:10px; font-weight:600;
+  padding:3px 8px; border-radius:20px; white-space:nowrap; pointer-events:none;
+  letter-spacing:.02em;
 }
-.seg button[aria-pressed="true"]{background:var(--surface); color:var(--ink); font-weight:600; box-shadow:0 1px 2px rgba(25,22,20,.10), 0 2px 8px -3px rgba(25,22,20,.16)}
-.seg-note{font-size:12.5px; color:var(--ink-3); margin-top:9px; line-height:1.5}
+.dots{flex:none; display:flex; gap:6px; justify-content:center; padding:0 0 9px}
+.dots i{width:6px; height:6px; border-radius:50%; background:var(--line-2)}
+.dots i.on{background:var(--ink)}
+.dots:empty{padding:0}
+.stage-empty{flex:1; display:flex; align-items:center; justify-content:center; color:var(--ink-3); font-size:14px; text-align:center; padding:24px}
 
-/* ---------- print settings ---------- */
-.settings{list-style:none; margin:0; padding:0; display:flex; flex-direction:column; gap:1px; background:var(--line); border:1px solid var(--line); border-radius:var(--r); overflow:hidden}
-.settings li{display:flex; gap:13px; align-items:baseline; background:var(--surface); padding:14px 16px}
-.settings .k{font-family:"IBM Plex Mono",monospace; font-size:10px; text-transform:uppercase; letter-spacing:.12em; color:var(--ink-3); width:92px; flex:none}
-.settings .v{font-weight:500; font-size:14px}
-.settings .v small{display:block; font-weight:400; font-size:12.5px; color:var(--ink-2); margin-top:3px; letter-spacing:0}
-
-/* ---------- delivery routes ---------- */
-.callout{display:flex; gap:10px; padding:13px; border-radius:var(--r); font-size:13px; line-height:1.55; margin-bottom:15px}
-.callout.bad{background:var(--warn-soft); border:1px solid var(--warn); color:var(--ink-2)}
-.callout.bad b{color:var(--warn)}
-.callout.fine{background:var(--surface); border:1px solid var(--line); color:var(--ink-2)}
-.callout.fine b{color:var(--ink)}
-.routes{list-style:none; margin:0; padding:0; display:flex; flex-direction:column; gap:10px}
-.routes li{background:var(--surface); border:1px solid var(--line); border-radius:var(--r); padding:15px; box-shadow:0 1px 2px rgba(25,22,20,.04); font-size:13px; line-height:1.55; color:var(--ink-2)}
-.routes .rt{display:flex; align-items:baseline; gap:9px; margin-bottom:5px; font-family:"Bodoni Moda",Georgia,serif; font-size:17px; color:var(--ink)}
-.routes .rt span{font-family:"IBM Plex Mono",monospace; font-size:9.5px; font-weight:500; text-transform:uppercase; letter-spacing:.12em; color:var(--gold); border:1px solid var(--gold-line); border-radius:4px; padding:2px 6px; white-space:nowrap}
-.routes code{font-family:"IBM Plex Mono",monospace; font-size:12px; color:var(--ink); background:var(--surface-3); padding:1px 5px; border-radius:5px}
-
-/* ---------- dock ---------- */
-.dock{
-  position:fixed; left:0; right:0; bottom:0; z-index:30;
-  background:color-mix(in srgb, var(--bg) 88%, transparent);
-  backdrop-filter:blur(16px) saturate(1.3);
-  border-top:1px solid var(--line);
-  padding:13px 20px calc(13px + env(safe-area-inset-bottom,0px));
+.tune{
+  flex:none; display:flex; align-items:center; gap:12px;
+  padding:2px 18px; border-top:1px solid var(--line); background:var(--surface);
 }
-.dock-in{max-width:600px; margin:0 auto; display:flex; align-items:center; gap:13px}
-.dock .meta{font-family:"IBM Plex Mono",monospace; font-size:10px; line-height:1.4; color:var(--ink-3); letter-spacing:.06em}
-.dock .meta b{display:block; color:var(--ink); font-size:12px; font-weight:500}
-.dock .btn{flex:1; max-width:250px; margin-left:auto}
+.tune .lab{font-size:11px; text-transform:uppercase; letter-spacing:.12em; color:var(--ink-3); flex:none}
+.tune input[type=range]{flex:1; accent-color:var(--ink); min-width:0; height:44px}
+.tune button{font-size:12px; font-weight:600; color:var(--ink-2); padding:0 10px; min-height:44px; flex:none}
 
-/* ---------- output ---------- */
+.bottom{flex:none; background:var(--surface); border-top:1px solid var(--line); padding-bottom:env(safe-area-inset-bottom,0px)}
+.cat{display:flex; gap:9px; overflow-x:auto; padding:11px 18px 2px; scrollbar-width:none}
+.cat::-webkit-scrollbar{display:none}
+.cat button{
+  flex:0 0 auto; width:94px; padding:7px; border-radius:12px;
+  border:1px solid var(--line); background:var(--surface-2); text-align:center;
+  transition:border-color .16s, background .16s;
+}
+.cat button[aria-pressed="true"]{border-color:var(--ink); background:var(--surface); box-shadow:0 0 0 1px var(--ink)}
+.cat svg{display:block; width:100%; height:auto; margin-bottom:5px; border-radius:4px}
+.cat .nm{display:block; font-size:11px; font-weight:500; line-height:1.2; color:var(--ink-2)}
+.cat button[aria-pressed="true"] .nm{color:var(--ink); font-weight:600}
+.acts{display:flex; gap:9px; padding:9px 18px 11px}
+
+/* ───────── sheets over the top ───────── */
 .modal{position:fixed; inset:0; z-index:60; background:var(--bg); overflow-y:auto; overscroll-behavior:contain}
-.modal-in{max-width:600px; margin:0 auto; padding-inline:20px; padding-block:calc(16px + env(safe-area-inset-top,0px)) 44px}
-.modal-head{display:flex; align-items:center; gap:13px; margin-bottom:8px; position:sticky; top:env(safe-area-inset-top,0px); background:var(--bg); padding-block:12px; z-index:2}
+.modal-in{max-width:600px; margin:0 auto; padding-inline:20px; padding-block:calc(10px + env(safe-area-inset-top,0px)) 44px}
+.modal-head{display:flex; align-items:center; gap:13px; position:sticky; top:env(safe-area-inset-top,0px); background:var(--bg); padding-block:12px; z-index:2}
 .modal-head h2{font-family:"Bodoni Moda",Georgia,serif; font-size:26px; flex:1}
-.close{width:44px; height:44px; flex:none; border-radius:50%; border:1px solid var(--line-2); background:var(--surface); font-size:17px; line-height:1; box-shadow:0 1px 2px rgba(25,22,20,.05)}
-.save-tip{display:flex; gap:10px; padding:13px; border-radius:var(--r); background:var(--gold-soft); border:1px solid var(--gold-line); font-size:13px; line-height:1.55; color:var(--ink-2); margin-bottom:18px}
+.close{width:44px; height:44px; flex:none; border-radius:50%; border:1px solid var(--line-2); background:var(--surface); font-size:17px}
+.save-tip{display:flex; gap:10px; padding:14px; border-radius:var(--r); background:var(--gold-soft); border:1px solid var(--gold-line); font-size:13px; line-height:1.55; color:var(--ink-2); margin-bottom:18px}
 .save-tip b{color:var(--ink); font-weight:600}
 .out-item{margin-bottom:26px}
-.out-item .cap{display:flex; justify-content:space-between; align-items:baseline; gap:10px; margin-bottom:8px; font-family:"IBM Plex Mono",monospace; font-size:10.5px; color:var(--ink-3); letter-spacing:.06em}
+.out-item .cap{font-size:12px; color:var(--ink-3); margin-bottom:8px}
 .out-item img{display:block; width:100%; height:auto; border-radius:4px; box-shadow:var(--shadow-lift); background:#fff}
-.out-item .acts{display:flex; gap:9px; margin-top:11px}
-.out-item .acts .btn{flex:1; padding:10px 12px; font-size:14px; min-height:46px}
+.out-item .acts{display:flex; gap:9px; margin-top:11px; padding:0}
+.out-item .acts .btn{flex:1; min-height:46px}
 .busy{display:flex; align-items:center; gap:11px; color:var(--ink-2); font-size:14px; padding:26px 0}
 .spin{width:16px;height:16px;border:2px solid var(--line-2); border-top-color:var(--ink); border-radius:50%; animation:sp .7s linear infinite}
 @keyframes sp{to{transform:rotate(360deg)}}
 @media (prefers-reduced-motion:reduce){ .spin{animation-duration:2s} *{transition-duration:.01ms !important} }
 
-.foot{padding-block:10px 4px; border-top:1px solid var(--line); color:var(--ink-3); font-size:12px; line-height:1.65}
-.foot code{font-family:"IBM Plex Mono",monospace; font-size:11px; color:var(--ink-2)}
+.hsec{margin-bottom:26px}
+.hsec h3{font-family:"Bodoni Moda",Georgia,serif; font-size:19px; font-weight:400; margin:0 0 10px}
+.settings{list-style:none; margin:0; padding:0; display:flex; flex-direction:column; gap:1px; background:var(--line); border:1px solid var(--line); border-radius:var(--r); overflow:hidden}
+.settings li{display:flex; gap:13px; align-items:baseline; background:var(--surface); padding:14px 16px}
+.settings .k{font-size:11px; text-transform:uppercase; letter-spacing:.1em; color:var(--ink-3); width:84px; flex:none}
+.settings .v{font-weight:500; font-size:14px}
+.settings .v small{display:block; font-weight:400; font-size:12.5px; color:var(--ink-2); margin-top:3px; letter-spacing:0}
+.callout{display:flex; padding:13px; border-radius:var(--r); font-size:13px; line-height:1.55; margin-bottom:14px}
+.callout.bad{background:var(--warn-soft); border:1px solid var(--warn); color:var(--ink-2)}
+.callout.bad b{color:var(--warn)}
+.callout.fine{background:var(--surface); border:1px solid var(--line); color:var(--ink-2)}
+.callout.fine b{color:var(--ink)}
+.routes{list-style:none; margin:0; padding:0; display:flex; flex-direction:column; gap:10px}
+.routes li{background:var(--surface); border:1px solid var(--line); border-radius:var(--r); padding:15px; font-size:13px; line-height:1.55; color:var(--ink-2)}
+.routes .rt{display:flex; align-items:baseline; gap:9px; margin-bottom:5px; font-family:"Bodoni Moda",Georgia,serif; font-size:17px; color:var(--ink)}
+.routes .rt span{font-size:9.5px; font-weight:600; text-transform:uppercase; letter-spacing:.12em; color:var(--gold); border:1px solid var(--gold-line); border-radius:4px; padding:2px 6px; white-space:nowrap}
+.routes code{background:var(--surface-3); padding:1px 5px; border-radius:5px; color:var(--ink); font-size:12px}
+.seg{display:flex; gap:4px; padding:4px; background:var(--surface-3); border:1px solid var(--line); border-radius:14px}
+.seg button{flex:1; min-height:42px; border-radius:10px; font-size:13px; font-weight:500; color:var(--ink-2)}
+.seg button[aria-pressed="true"]{background:var(--surface); color:var(--ink); font-weight:600; box-shadow:0 1px 3px rgba(25,22,20,.12)}
+.seg-note{font-size:12.5px; color:var(--ink-3); margin-top:9px; line-height:1.5}
+.thumbs{display:flex; flex-wrap:wrap; gap:9px; margin-top:12px}
+.chip{position:relative; width:78px; border-radius:12px; overflow:hidden; background:var(--surface-2); border:1px solid var(--line)}
+.chip canvas{display:block; width:100%; height:78px; object-fit:cover}
+.chip .x{position:absolute; top:4px; right:4px; width:28px; height:28px; border-radius:50%; background:rgba(8,6,10,.7); color:#fff; font-size:14px; line-height:28px; text-align:center}
+.chip .x::after,.chip .mv::after{content:""; position:absolute; inset:-8px}
+.chip .mv{position:absolute; bottom:0; width:30px; height:30px; background:rgba(8,6,10,.58); color:#fff; font-size:14px; line-height:30px; text-align:center}
+.chip .mv.l{left:0; border-radius:0 8px 0 0} .chip .mv.r{right:0; border-radius:8px 0 0 0}
 </style>
 
-<div class="app">
-  <header class="head">
+<section class="welcome" id="welcome">
+  <div class="w-in">
     <div class="rule"></div>
     <p class="eyebrow">Every guest is a photographer</p>
     <h1>Joy &amp; <em>Patrick</em></h1>
     <p class="place">Queenstown NZ &middot; 10.10.26</p>
-    <p class="sub">Pick a card, drop your photos in, nudge each one inside its printed frame. Every card comes out signed and dated, ready for the SELPHY. <b>Nothing is uploaded — it all happens on this device.</b></p>
+    <div class="w-card"><div class="paper"><canvas id="hero"></canvas></div></div>
+    <p class="w-body">Pick a card, drop your photos in, nudge each one inside its printed frame. Every card comes out signed and dated, ready for the SELPHY.</p>
+    <button class="btn primary" id="btnStart">Start printing</button>
+    <p class="w-foot">Nothing is uploaded — it all happens on this device.</p>
+  </div>
+</section>
+
+<div class="studio" id="studio" hidden>
+  <header class="bar">
+    <span class="wordmark">Joy &amp; Patrick</span>
+    <span class="count" id="count"></span>
+    <button class="icon" id="btnHelp" aria-label="How to print">?</button>
   </header>
 
-  <section class="step">
-    <div class="step-head"><span class="num">01</span><h2>Choose a format</h2></div>
-    <div class="fmt-list" id="fmtList"></div>
-    <details class="specs" id="specBox">
-      <summary>Exact print specs</summary>
-      <div class="body"><dl id="specList"></dl></div>
-    </details>
-  </section>
+  <main class="stage">
+    <div class="pager" id="pager"></div>
+    <div class="dots" id="dots"></div>
+  </main>
 
-  <section class="step">
-    <div class="step-head"><span class="num">02</span><h2>Add your photos</h2><span class="tag" id="photoCount"></span></div>
-    <div class="add-row">
-      <button class="btn grow" id="btnAdd">
-        <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="5" width="18" height="15" rx="2"/><circle cx="9" cy="10.5" r="1.6"/><path d="M3 17l5-4 4 3 3.5-3 5.5 5"/></svg>
-        Photo library
-      </button>
-      <button class="btn" id="btnCam">
-        <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 8h3l1.4-2h7.2L17 8h3a1 1 0 011 1v9a1 1 0 01-1 1H4a1 1 0 01-1-1V9a1 1 0 011-1z"/><circle cx="12" cy="13.5" r="3.4"/></svg>
-        Camera
-      </button>
+  <div class="tune" id="tune" hidden>
+    <span class="lab">Zoom</span>
+    <input type="range" id="zoom" min="1" max="5" step="0.01" value="1" aria-label="Zoom the selected photo">
+    <button id="btnReset">Reset</button>
+  </div>
+
+  <footer class="bottom">
+    <div class="cat" id="cat"></div>
+    <div class="acts">
+      <button class="btn grow" id="btnAdd">Add photos</button>
+      <button class="btn primary grow" id="btnMake">Print</button>
     </div>
-    <div class="tray" id="tray"></div>
-    <div class="sample-note" id="sampleNote" hidden>
-      <span>Showing two sample images so you can see the crop. Adding your own replaces them.</span>
-      <button id="clearSamples">Clear</button>
-    </div>
-  </section>
+  </footer>
+</div>
 
-  <section class="step">
-    <div class="step-head"><span class="num">03</span><h2>Position &amp; caption</h2><span class="tag" id="sheetCount"></span></div>
-    <p class="hint">Drag inside a frame to move the photo. Pinch, scroll or use the zoom slider to fill it. Double-tap a frame to reset. Every card is signed <b style="color:var(--ink-2)">Joy &amp; Patrick · Queenstown NZ · 10.10.26</b> automatically.</p>
-    <div id="sheets"></div>
-  </section>
-
-  <section class="step">
-    <div class="step-head"><span class="num">04</span><h2>Print settings</h2></div>
-    <div class="seg-wrap">
-      <div class="seg-label"><span class="k">Colour</span></div>
+<div class="modal" id="help" hidden>
+  <div class="modal-in">
+    <div class="modal-head"><h2>How to print</h2><button class="close" id="helpClose" aria-label="Close">✕</button></div>
+    <div class="hsec">
+      <h3>Colour</h3>
       <div class="seg" id="punchSeg" role="group" aria-label="Print colour">
         <button data-punch="off" type="button">True</button>
         <button data-punch="subtle" type="button">Warm</button>
@@ -279,67 +232,48 @@ a.btn{color:inherit; text-decoration:none}
       </div>
       <p class="seg-note" id="punchNote"></p>
     </div>
-    <p class="hint">Set these in the Canon SELPHY app (or the printer's own menu) before you print.</p>
-    <ul class="settings" id="printSettings"></ul>
-  </section>
-
-  <section class="step">
-    <div class="step-head"><span class="num">05</span><h2>Getting it to the printer</h2></div>
-    <div id="airprintNote"></div>
-    <ul class="routes">
-      <li>
-        <div class="rt">Canon SELPHY Photo Layout app <span>every setting</span></div>
-        On the printer: <code>Wi-Fi settings &rarr; Connection Settings &rarr; Other &rarr;
-        Direct Connection &rarr; On</code>, then note the password it gives you. On your phone:
-        Settings &rarr; Wi-Fi &rarr; join the SELPHY's network and enter that password. Then pick the
-        sheet from inside the Canon app — not from Photos.
-        <br><br>Faster: <code>Wi-Fi settings &rarr; Display Wi-Fi status</code> shows a QR code that
-        connects you without typing anything.
-      </li>
-      <li>
-        <div class="rt">SD card <span>no network</span></div>
-        Copy the sheets onto a card and choose them on the printer's own screen. The layout and
-        borderless settings live in the printer menu, so nothing depends on Wi-Fi.
-      </li>
-      <li>
-        <div class="rt">AirPrint <span>no scaling control</span></div>
-        Photos &rarr; Share &rarr; Print. Only finds the printer when both are on the same
-        <b>2.4&nbsp;GHz</b> network — the SELPHY has no 5&nbsp;GHz radio, and guest networks block
-        the discovery it needs. <em>No AirPrint Printers Found</em> almost always means the printer
-        is on a different network, or still in direct-connection mode.
-      </li>
-    </ul>
-  </section>
-
-  <footer class="foot">
-    <p>Sheets come out as JPEG at 1874 × 1402 px — 400 dpi on a 119 × 89 mm sheet. Cropping is done against the real frame geometry — <code>mm</code> on paper, <code>px</code> at 400 dpi — so what you see in the proof is exactly what the dye-sub head lays down. The low-res flag fires when a frame would be fed fewer source pixels than the format needs.</p>
-  </footer>
-</div>
-
-<div class="dock">
-  <div class="dock-in">
-    <div class="meta"><b id="dockCount">—</b><span id="dockSize">—</span></div>
-    <button class="btn primary" id="btnMake">Make prints</button>
+    <div class="hsec">
+      <h3>Your photos</h3>
+      <div class="thumbs" id="tray"></div>
+      <p class="seg-note" id="trayNote"></p>
+    </div>
+    <div class="hsec">
+      <h3>Printer settings</h3>
+      <div id="airprintNote"></div>
+      <ul class="settings" id="printSettings"></ul>
+    </div>
+    <div class="hsec">
+      <h3>Getting it to the printer</h3>
+      <ul class="routes">
+        <li>
+          <div class="rt">Canon SELPHY Photo Layout app <span>every setting</span></div>
+          On the printer: <code>Wi-Fi settings → Connection Settings → Other → Direct Connection → On</code>, then note the password. On your phone: Settings → Wi-Fi → join the SELPHY's network. Then pick the sheet from inside the Canon app, not from Photos.
+          <br><br>Faster: <code>Wi-Fi settings → Display Wi-Fi status</code> shows a QR code.
+        </li>
+        <li>
+          <div class="rt">SD card <span>no network</span></div>
+          Copy the sheets onto a card and choose them on the printer's own screen. Nothing depends on Wi-Fi.
+        </li>
+        <li>
+          <div class="rt">AirPrint <span>no scaling control</span></div>
+          Photos → Share → Print. Only finds the printer when both are on the same <b>2.4&nbsp;GHz</b> network. <em>No AirPrint Printers Found</em> usually means the printer is on a different network, or still in direct-connection mode.
+        </li>
+      </ul>
+    </div>
   </div>
 </div>
 
 <div class="modal" id="out" hidden>
   <div class="modal-in">
-    <div class="modal-head">
-      <h2 id="outTitle">Your prints</h2>
-      <button class="close" id="outClose" aria-label="Close">✕</button>
-    </div>
+    <div class="modal-head"><h2>Your prints</h2><button class="close" id="outClose" aria-label="Close">✕</button></div>
     <div id="outBody"></div>
   </div>
 </div>
 
 <input type="file" id="fileIn" accept="image/*" multiple hidden>
-<input type="file" id="camIn" accept="image/*" capture="environment" hidden>
-
 <script>
 (() => {
 "use strict";
-
 /* ─────────── Paper geometry. Everything below is millimetres on a Canon L sheet. ─────────── */
 const SHEET = { w: 119, h: 89 };          // L size, landscape
 const DPI = 400;
@@ -605,7 +539,7 @@ function sheets() {
   return out;
 }
 
-/* ─────────── Format picker ─────────── */
+
 function miniSVG(fmt) {
   const s = 64 / SHEET.w, H = SHEET.h * s;
   let body = `<rect x="0" y="0" width="64" height="${H.toFixed(2)}" rx="1.5" fill="var(--surface-2)" stroke="var(--line-2)" stroke-width="1"/>`;
@@ -621,30 +555,6 @@ function miniSVG(fmt) {
   return `<svg viewBox="0 0 64 ${H.toFixed(2)}" role="img" aria-hidden="true">${body}</svg>`;
 }
 
-function renderFormats() {
-  $("#fmtList").innerHTML = FORMATS.map((f) => `
-    <button class="fmt" data-id="${f.id}" aria-pressed="${f.id === state.fmt.id}">
-      ${miniSVG(f)}
-      <span>
-        <span class="fn">${f.name}</span>
-        <span class="fd">${f.desc}</span>
-        <span class="fm">${f.meta}</span>
-      </span>
-    </button>`).join("");
-  $("#specList").innerHTML = state.fmt.specs
-    .map(([k, v]) => `<dt>${k}</dt><dd>${v.replace(/([\d.]+ ?× ?[\d.]+ ?(?:mm|in|px))/g, "<b>$1</b>")}</dd>`).join("");
-  $("#printSettings").innerHTML = state.fmt.print
-    .map(([k, v, s]) => `<li><span class="k">${k}</span><span class="v">${v}${s ? `<small>${s}</small>` : ""}</span></li>`).join("");
-  $("#airprintNote").innerHTML = state.fmt.airprint
-    ? `<div class="callout fine"><span><b>AirPrint works for this format.</b> It scales up to fill the
-       sheet, which is exactly what an edge-to-edge design wants.</span></div>`
-    : `<div class="callout bad"><span><b>Don't use AirPrint for this format.</b> It fills the sheet with
-       no way to say otherwise, so it scales the image up and crops the cut hairlines off the edge —
-       leaving you nothing to cut against. Use the Canon app or an SD card, and set
-       <em>Print Entire Image</em>.</span></div>`;
-}
-
-/* ─────────── Photo tray ─────────── */
 function thumbCanvas(p, size) {
   const c = document.createElement("canvas");
   const dpr = Math.min(2, window.devicePixelRatio || 1);
@@ -656,121 +566,6 @@ function thumbCanvas(p, size) {
   return c;
 }
 
-function renderTray() {
-  const tray = $("#tray");
-  tray.innerHTML = "";
-  state.photos.forEach((p, i) => {
-    const el = document.createElement("div");
-    el.className = "chip" + (p.sample ? " sample" : "");
-    el.innerHTML = `<button class="x" aria-label="Remove ${p.name}">✕</button>
-      ${i > 0 ? '<button class="mv l" aria-label="Move earlier">‹</button>' : ""}
-      ${i < state.photos.length - 1 ? '<button class="mv r" aria-label="Move later">›</button>' : ""}
-      <div class="lbl">${p.sample ? "sample" : p.w + "×" + p.h}</div>`;
-    el.prepend(thumbCanvas(p, 74));
-    el.querySelector(".x").onclick = () => { state.photos.splice(i, 1); redrawEverything(); };
-    const l = el.querySelector(".mv.l"), r = el.querySelector(".mv.r");
-    if (l) l.onclick = () => { state.photos.splice(i - 1, 0, state.photos.splice(i, 1)[0]); redrawEverything(); };
-    if (r) r.onclick = () => { state.photos.splice(i + 1, 0, state.photos.splice(i, 1)[0]); redrawEverything(); };
-    tray.appendChild(el);
-  });
-  const anySample = state.photos.some((p) => p.sample);
-  $("#sampleNote").hidden = !anySample;
-  const n = state.photos.length;
-  $("#photoCount").textContent = n ? `${n} photo${n > 1 ? "s" : ""}` : "";
-}
-
-/* ─────────── Proof sheets ─────────── */
-let observers = [];
-function renderSheets() {
-  const host = $("#sheets");
-  observers.forEach((o) => o.disconnect());
-  observers = [];
-  sheetRedraws = [];
-  host.innerHTML = "";
-  const list = sheets();
-  const fmt = state.fmt;
-
-  $("#sheetCount").textContent = list.length ? `${list.length} sheet${list.length > 1 ? "s" : ""}` : "";
-  $("#dockCount").textContent = list.length ? `${list.length} sheet${list.length > 1 ? "s" : ""}` : "No photos yet";
-  $("#dockSize").textContent = `${OUT_W} × ${OUT_H} px · JPEG`;
-  $("#btnMake").disabled = !list.length;
-
-  if (!list.length) {
-    host.innerHTML = `<p class="hint" style="margin:0">Add a photo and the proof sheet appears here.</p>`;
-    return;
-  }
-
-  list.forEach((items, si) => {
-    const wrapEl = document.createElement("div");
-    wrapEl.className = "sheet-wrap";
-    wrapEl.innerHTML = `<div class="sheet-head"><span class="n">Sheet ${si + 1}</span>
-      <span>L · 119 × 89 mm</span></div>
-      <div class="proof"><div class="paper"><canvas></canvas></div></div>
-      <div class="ctrls"></div>`;
-    const paper = wrapEl.querySelector(".paper");
-    const canvas = wrapEl.querySelector("canvas");
-    const ctrls = wrapEl.querySelector(".ctrls");
-
-    const redraw = () => {
-      const cssW = paper.clientWidth || 300;
-      const dpr = Math.min(2.5, window.devicePixelRatio || 1);
-      canvas.width = Math.round(cssW * dpr);
-      canvas.height = Math.round(cssW * dpr * SHEET.h / SHEET.w);
-      drawSheet(ctx2d(canvas), fmt, items, canvas.width / SHEET.w);
-      ctrls.querySelectorAll("[data-res]").forEach((el) => {
-        const it = items[+el.dataset.res];
-        const [w, h] = sourcePx(it.photo, fmt.frames[+el.dataset.res], it.t);
-        const low = w < fmt.minPx[0] || h < fmt.minPx[1];
-        el.className = "res " + (low ? "low" : "ok");
-        el.textContent = low ? `${w}×${h} · needs ${fmt.minPx[0]}×${fmt.minPx[1]}` : `${w}×${h} px`;
-      });
-    };
-    sheetRedraws.push(redraw);
-
-    // zoom + resolution row per photo
-    const ranges = [];
-    items.forEach((it, fi) => {
-      const row = document.createElement("div");
-      row.className = "ctrl";
-      row.innerHTML = `<span class="sw"></span>
-        <input type="range" id="z-${si}-${fi}" min="1" max="5" step="0.01" value="${it.t.zoom}" aria-label="Zoom photo ${fi + 1}">
-        <span class="res" data-res="${fi}"></span>
-        <button class="rs" type="button">Reset</button>`;
-      row.querySelector(".sw").appendChild(thumbCanvas(it.photo, 30));
-      const range = row.querySelector("input");
-      range.oninput = () => { it.t.zoom = +range.value; clampT(it.t); redraw(); };
-      row.querySelector(".rs").onclick = () => { it.t.zoom = 1; it.t.ox = 0; it.t.oy = 0; range.value = 1; redraw(); };
-      ranges[fi] = range;
-      ctrls.appendChild(row);
-    });
-
-    // interactive frames, laid over the proof
-    fmt.frames.forEach((f, fi) => {
-      const it = items[fi];
-      const hit = document.createElement("button");
-      hit.className = "hit" + (it ? "" : " empty");
-      hit.style.cssText = `left:${f.x / SHEET.w * 100}%;top:${f.y / SHEET.h * 100}%;width:${f.w / SHEET.w * 100}%;height:${f.h / SHEET.h * 100}%`;
-      hit.setAttribute("aria-label", it ? `Adjust photo ${fi + 1}` : "Add a photo here");
-      if (!it) { hit.innerHTML = "<span>+ photo</span>"; hit.onclick = () => $("#fileIn").click(); }
-      else attachGestures(hit, it, () => { ranges[fi].value = it.t.zoom; redraw(); });
-      paper.appendChild(hit);
-    });
-
-    host.appendChild(wrapEl);
-    redraw();
-    const ro = new ResizeObserver(redraw);
-    ro.observe(paper);
-    observers.push(ro);
-  });
-}
-
-function clampT(t) {
-  t.zoom = clamp(t.zoom, 1, 5);
-  t.ox = clamp(t.ox, -1, 1);
-  t.oy = clamp(t.oy, -1, 1);
-}
-
-/* ─────────── Drag / pinch / wheel / keyboard on a frame ─────────── */
 function attachGestures(el, item, onChange) {
   const pts = new Map();
   let base = null, lastTap = 0;
@@ -838,7 +633,33 @@ function attachGestures(el, item, onChange) {
   });
 }
 
-/* ─────────── Import ─────────── */
+function clampT(t) {
+  t.zoom = clamp(t.zoom, 1, 5);
+  t.ox = clamp(t.ox, -1, 1);
+  t.oy = clamp(t.oy, -1, 1);
+}
+
+function prescale(src, targetScale) {
+  let cur = src, curScale = 1;
+  while (curScale / 2 > targetScale * 1.05) {
+    const w = Math.max(1, Math.round(cur.width / 2)), h = Math.max(1, Math.round(cur.height / 2));
+    const c = document.createElement("canvas");
+    c.width = w; c.height = h;
+    const cx = ctx2d(c);
+    cx.imageSmoothingQuality = "high";
+    cx.drawImage(cur, 0, 0, w, h);
+    cur = c; curScale /= 2;
+  }
+  return cur;
+}
+
+async function fullRes(photo, frame, t) {
+  const src = photo.file ? (await decode(photo.file, null)).src : photo.src;
+  const fw = frame.w * PPM, fh = frame.h * PPM;
+  const s = Math.max(fw / src.width, fh / src.height) * t.zoom;
+  return prescale(src, s);
+}
+
 async function decode(file, maxDim) {
   let bmp;
   try { bmp = await createImageBitmap(file, { imageOrientation: "from-image" }); }
@@ -881,7 +702,6 @@ async function addFiles(files) {
   redrawEverything();
 }
 
-/* ─────────── Sample images so the page opens in a working state ─────────── */
 function sampleImage(w, h, palette) {
   const c = document.createElement("canvas");
   c.width = w; c.height = h;
@@ -918,58 +738,6 @@ function loadSamples() {
     { id: ++state.seq, file: null, src: a, w: 1500, h: 1125, name: "sample-warm", sample: true, t: { zoom: 1, ox: 0, oy: 0 } },
     { id: ++state.seq, file: null, src: b, w: 1125, h: 1500, name: "sample-cool", sample: true, t: { zoom: 1, ox: 0, oy: 0 } }
   ];
-}
-
-/* ─────────── Export at print resolution ─────────── */
-function prescale(src, targetScale) {
-  let cur = src, curScale = 1;
-  while (curScale / 2 > targetScale * 1.05) {
-    const w = Math.max(1, Math.round(cur.width / 2)), h = Math.max(1, Math.round(cur.height / 2));
-    const c = document.createElement("canvas");
-    c.width = w; c.height = h;
-    const cx = ctx2d(c);
-    cx.imageSmoothingQuality = "high";
-    cx.drawImage(cur, 0, 0, w, h);
-    cur = c; curScale /= 2;
-  }
-  return cur;
-}
-
-async function fullRes(photo, frame, t) {
-  const src = photo.file ? (await decode(photo.file, null)).src : photo.src;
-  const fw = frame.w * PPM, fh = frame.h * PPM;
-  const s = Math.max(fw / src.width, fh / src.height) * t.zoom;
-  return prescale(src, s);
-}
-
-async function makePrints() {
-  const list = sheets();
-  if (!list.length) return;
-  const fmt = state.fmt;
-  openOut(`<div class="busy"><span class="spin"></span><span>Rendering ${list.length} sheet${list.length > 1 ? "s" : ""} at ${OUT_W} × ${OUT_H} px…</span></div>`);
-  results.forEach((r) => URL.revokeObjectURL(r.url));
-  results = [];
-
-  await new Promise((r) => setTimeout(r, 30));
-
-  for (let i = 0; i < list.length; i++) {
-    const items = list[i];
-    const hi = [];
-    for (let k = 0; k < items.length; k++) {
-      hi.push({ ...items[k], img: await fullRes(items[k].photo, fmt.frames[k], items[k].t) });
-    }
-    const c = document.createElement("canvas");
-    c.width = OUT_W; c.height = OUT_H;
-    drawSheet(ctx2d(c), fmt, hi, PPM);
-    const blob = await new Promise((res) => c.toBlob(res, "image/jpeg", 0.97));
-    results.push({
-      blob,
-      url: URL.createObjectURL(blob),
-      name: `selphy-${fmt.id}-${String(i + 1).padStart(2, "0")}.jpg`,
-      kb: Math.round(blob.size / 1024)
-    });
-  }
-  showResults();
 }
 
 function canShare(items) {
@@ -1034,7 +802,6 @@ function flash(btn, msg, ms) {
   setTimeout(() => { btn.textContent = old; btn.disabled = false; }, ms || 2200);
 }
 
-/** the save itself; rejects so each caller can decide how to report it */
 function rawSave(r) {
   if (dl) return dl.save({ filename: r.name, data: r.blob });
   const a = document.createElement("a");
@@ -1095,25 +862,36 @@ async function shareFiles(items, btn) {
   flash(btn, "Press and hold the picture to save", 2800);
 }
 
-let lockY = 0;
-function openOut(html) {
-  $("#outBody").innerHTML = html;
-  if ($("#out").hidden) {
-    lockY = window.scrollY;
-    // iOS Safari ignores body{overflow:hidden}; pinning the body is the one that holds
-    document.body.style.cssText += ";position:fixed;width:100%;top:" + -lockY + "px;";
+async function makePrints() {
+  const list = sheets();
+  if (!list.length) return;
+  const fmt = state.fmt;
+  openOut(`<div class="busy"><span class="spin"></span><span>Rendering ${list.length} sheet${list.length > 1 ? "s" : ""} at ${OUT_W} × ${OUT_H} px…</span></div>`);
+  results.forEach((r) => URL.revokeObjectURL(r.url));
+  results = [];
+
+  await new Promise((r) => setTimeout(r, 30));
+
+  for (let i = 0; i < list.length; i++) {
+    const items = list[i];
+    const hi = [];
+    for (let k = 0; k < items.length; k++) {
+      hi.push({ ...items[k], img: await fullRes(items[k].photo, fmt.frames[k], items[k].t) });
+    }
+    const c = document.createElement("canvas");
+    c.width = OUT_W; c.height = OUT_H;
+    drawSheet(ctx2d(c), fmt, hi, PPM);
+    const blob = await new Promise((res) => c.toBlob(res, "image/jpeg", 0.97));
+    results.push({
+      blob,
+      url: URL.createObjectURL(blob),
+      name: `selphy-${fmt.id}-${String(i + 1).padStart(2, "0")}.jpg`,
+      kb: Math.round(blob.size / 1024)
+    });
   }
-  $("#out").hidden = false;
-}
-function closeOut() {
-  $("#out").hidden = true;
-  document.body.style.position = "";
-  document.body.style.width = "";
-  document.body.style.top = "";
-  window.scrollTo(0, lockY);
+  showResults();
 }
 
-/* ─────────── Wiring ─────────── */
 function renderPunch() {
   $("#punchSeg").querySelectorAll("[data-punch]").forEach((b) => {
     b.setAttribute("aria-pressed", String(b.dataset.punch === state.punch));
@@ -1124,20 +902,196 @@ function renderPunch() {
         : " This browser only offers sRGB, so very vivid reds and greens will flatten a little.");
 }
 
-function redrawEverything() { renderTray(); renderSheets(); }
+/* ───────────── The studio: one big preview, a catalogue underneath ───────────── */
+const SHORT = { story: "Story card", instax: "Guest card", full: "Full photo" };
+let observers = [];
+let activeItem = null;
 
-$("#fmtList").addEventListener("click", (e) => {
-  const b = e.target.closest(".fmt");
+const redrawEverything = () => { renderPager(); renderTray(); };
+
+function renderCat() {
+  $("#cat").innerHTML = FORMATS.map((f) => `
+    <button type="button" data-id="${f.id}" aria-pressed="${f.id === state.fmt.id}">
+      ${miniSVG(f)}<span class="nm">${SHORT[f.id]}</span>
+    </button>`).join("");
+}
+
+function hideTune() { activeItem = null; $("#tune").hidden = true; }
+
+function selectFrame(item, hit) {
+  document.querySelectorAll(".hit.on").forEach((h) => h.classList.remove("on"));
+  hit.classList.add("on");
+  activeItem = item;
+  $("#tune").hidden = false;
+  $("#zoom").value = item.t.zoom;
+}
+
+function renderPager() {
+  const pager = $("#pager");
+  observers.forEach((o) => o.disconnect());
+  observers = [];
+  sheetRedraws = [];
+  pager.innerHTML = "";
+  hideTune();
+
+  const list = sheets();
+  const fmt = state.fmt;
+  const n = state.photos.length;
+  $("#count").textContent = n ? `${n} photo${n > 1 ? "s" : ""}` : "";
+  $("#btnMake").disabled = !list.length;
+  $("#btnMake").textContent = list.length > 1 ? `Print ${list.length}` : "Print";
+
+  if (!list.length) {
+    pager.innerHTML = `<div class="stage-empty">Add a photo and your card appears here.</div>`;
+    $("#dots").innerHTML = "";
+    return;
+  }
+
+  list.forEach((items) => {
+    const page = document.createElement("div");
+    page.className = "page";
+    page.innerHTML = `<div class="paper"><canvas></canvas></div>`;
+    const paper = page.querySelector(".paper");
+    const canvas = page.querySelector("canvas");
+
+    const redraw = () => {
+      const w = paper.clientWidth, h = paper.clientHeight;
+      if (!w || !h) return;                       // the studio is still hidden
+      const dpr = Math.min(2.5, window.devicePixelRatio || 1);
+      canvas.width = Math.round(w * dpr);
+      canvas.height = Math.round(h * dpr);
+      drawSheet(ctx2d(canvas), fmt, items, canvas.width / SHEET.w);
+
+      // one plain-language flag, in place of a pixel count nobody wants to read
+      paper.querySelectorAll(".flag").forEach((el) => el.remove());
+      items.forEach((it, fi) => {
+        const [pw, ph] = sourcePx(it.photo, fmt.frames[fi], it.t);
+        if (pw >= fmt.minPx[0] && ph >= fmt.minPx[1]) return;
+        const f = fmt.frames[fi];
+        const flag = document.createElement("div");
+        flag.className = "flag";
+        flag.textContent = "Too zoomed in to print sharp";
+        flag.style.left = `${(f.x + f.w / 2) / SHEET.w * 100}%`;
+        flag.style.bottom = `${(SHEET.h - (f.y + f.h) + 2.5) / SHEET.h * 100}%`;
+        paper.appendChild(flag);
+      });
+    };
+    sheetRedraws.push(redraw);
+
+    fmt.frames.forEach((f, fi) => {
+      const it = items[fi];
+      const hit = document.createElement("button");
+      hit.type = "button";
+      hit.className = "hit" + (it ? "" : " empty");
+      hit.style.cssText = `left:${f.x / SHEET.w * 100}%;top:${f.y / SHEET.h * 100}%;width:${f.w / SHEET.w * 100}%;height:${f.h / SHEET.h * 100}%`;
+      hit.setAttribute("aria-label", it ? `Adjust photo ${fi + 1}` : "Add a photo here");
+      if (!it) {
+        hit.innerHTML = "<span>+ photo</span>";
+        hit.onclick = () => $("#fileIn").click();
+      } else {
+        attachGestures(hit, it, () => {
+          if (activeItem === it) $("#zoom").value = it.t.zoom;
+          redraw();
+        });
+        hit.addEventListener("pointerdown", () => selectFrame(it, hit));
+      }
+      paper.appendChild(hit);
+    });
+
+    pager.appendChild(page);
+    redraw();
+    const ro = new ResizeObserver(redraw);
+    ro.observe(paper);
+    observers.push(ro);
+  });
+
+  $("#dots").innerHTML = list.length > 1
+    ? list.map((_, i) => `<i class="${i === 0 ? "on" : ""}"></i>`).join("") : "";
+}
+
+function renderTray() {
+  const tray = $("#tray");
+  if (!tray) return;
+  tray.innerHTML = "";
+  state.photos.forEach((p, i) => {
+    const el = document.createElement("div");
+    el.className = "chip";
+    el.innerHTML = `<button class="x" type="button" aria-label="Remove photo ${i + 1}">✕</button>
+      ${i > 0 ? '<button class="mv l" type="button" aria-label="Move earlier">‹</button>' : ""}
+      ${i < state.photos.length - 1 ? '<button class="mv r" type="button" aria-label="Move later">›</button>' : ""}`;
+    el.prepend(thumbCanvas(p, 78));
+    el.querySelector(".x").onclick = () => { state.photos.splice(i, 1); redrawEverything(); };
+    const l = el.querySelector(".mv.l"), r = el.querySelector(".mv.r");
+    if (l) l.onclick = () => { state.photos.splice(i - 1, 0, state.photos.splice(i, 1)[0]); redrawEverything(); };
+    if (r) r.onclick = () => { state.photos.splice(i + 1, 0, state.photos.splice(i, 1)[0]); redrawEverything(); };
+    tray.appendChild(el);
+  });
+  $("#trayNote").textContent = !state.photos.length
+    ? "No photos yet."
+    : state.photos.some((p) => p.sample)
+      ? "These are samples so you can see the crop. Adding your own replaces them."
+      : "The order here decides which photos share a card.";
+}
+
+function renderHelp() {
+  const fmt = state.fmt;
+  $("#printSettings").innerHTML = fmt.print
+    .map(([k, v, s]) => `<li><span class="k">${k}</span><span class="v">${v}${s ? `<small>${s}</small>` : ""}</span></li>`).join("");
+  $("#airprintNote").innerHTML = fmt.airprint
+    ? `<div class="callout fine"><span><b>AirPrint works for this card.</b> It fills the sheet, which is what an edge-to-edge design wants.</span></div>`
+    : `<div class="callout bad"><span><b>Don't use AirPrint for this card.</b> It fills the sheet with no way to say otherwise, so it crops the cut lines off the edge. Use the Canon app or an SD card, and set <em>Print Entire Image</em>.</span></div>`;
+  renderPunch();
+  renderTray();
+}
+
+function renderHero() {
+  const c = $("#hero");
+  if (!c) return;
+  const w = c.clientWidth || 320;
+  const dpr = Math.min(2, window.devicePixelRatio || 1);
+  c.width = Math.round(w * dpr);
+  c.height = Math.round(w * dpr * SHEET.h / SHEET.w);
+  const items = state.photos.slice(0, 2).map((p) => ({ photo: p, img: p.src, t: p.t, sheetKey: "0" }));
+  drawSheet(ctx2d(c), FORMATS[0], items, c.width / SHEET.w);
+}
+
+/* ───────────── wiring ───────────── */
+$("#btnStart").onclick = () => {
+  $("#welcome").hidden = true;
+  $("#studio").hidden = false;
+  requestAnimationFrame(redrawAllSheets);
+};
+$("#cat").addEventListener("click", (e) => {
+  const b = e.target.closest("[data-id]");
   if (!b) return;
   state.fmt = FORMATS.find((f) => f.id === b.dataset.id);
-  renderFormats();
-  redrawEverything();
+  renderCat();
+  renderPager();
 });
+$("#pager").addEventListener("scroll", () => {
+  const w = $("#pager").clientWidth || 1;
+  const i = Math.round($("#pager").scrollLeft / w);
+  $("#dots").querySelectorAll("i").forEach((d, k) => d.classList.toggle("on", k === i));
+}, { passive: true });
+
 $("#btnAdd").onclick = () => $("#fileIn").click();
-$("#btnCam").onclick = () => $("#camIn").click();
 $("#fileIn").onchange = (e) => { addFiles(e.target.files); e.target.value = ""; };
-$("#camIn").onchange = (e) => { addFiles(e.target.files); e.target.value = ""; };
-$("#clearSamples").onclick = () => { state.photos = state.photos.filter((p) => !p.sample); redrawEverything(); };
+$("#btnMake").onclick = makePrints;
+$("#zoom").oninput = () => {
+  if (!activeItem) return;
+  activeItem.t.zoom = +$("#zoom").value;
+  clampT(activeItem.t);
+  redrawAllSheets();
+};
+$("#btnReset").onclick = () => {
+  if (!activeItem) return;
+  activeItem.t.zoom = 1; activeItem.t.ox = 0; activeItem.t.oy = 0;
+  $("#zoom").value = 1;
+  redrawAllSheets();
+};
+$("#btnHelp").onclick = () => { renderHelp(); $("#help").hidden = false; };
+$("#helpClose").onclick = () => { $("#help").hidden = true; };
+$("#outClose").onclick = closeOut;
 $("#punchSeg").addEventListener("click", (e) => {
   const b = e.target.closest("[data-punch]");
   if (!b) return;
@@ -1145,32 +1099,34 @@ $("#punchSeg").addEventListener("click", (e) => {
   renderPunch();
   redrawAllSheets();
 });
-$("#btnMake").onclick = makePrints;
-$("#outClose").onclick = closeOut;
-document.addEventListener("keydown", (e) => { if (e.key === "Escape" && !$("#out").hidden) closeOut(); });
-
+document.addEventListener("keydown", (e) => {
+  if (e.key !== "Escape") return;
+  if (!$("#out").hidden) closeOut();
+  else if (!$("#help").hidden) $("#help").hidden = true;
+});
 window.addEventListener("dragover", (e) => e.preventDefault());
 window.addEventListener("drop", (e) => { e.preventDefault(); if (e.dataTransfer?.files?.length) addFiles(e.dataTransfer.files); });
 
-loadSamples();
-renderFormats();
-redrawEverything();
-renderPunch();
+function openOut(html) { $("#outBody").innerHTML = html; $("#out").hidden = false; }
+function closeOut() { $("#out").hidden = true; }
 
-// the viewer answers about saving after first paint; light the button up when it does
+loadSamples();
+renderCat();
+renderPager();
+renderTray();
+renderHero();
+
 if (window.claude && typeof window.claude.use === "function") {
   window.claude.use("downloads").then((d) => {
     dl = d || null;
     if (dl && results.length && !$("#out").hidden) showResults();
   }).catch(() => {});
 }
-
-// captions are drawn with a webfont — redraw once it is actually available
 if (document.fonts) {
   Promise.all([
     document.fonts.load('400 100px "Bodoni Moda"'),
     document.fonts.load('500 40px Archivo')
-  ]).then(() => renderSheets()).catch(() => {});
+  ]).then(() => { redrawAllSheets(); renderHero(); }).catch(() => {});
 }
 })();
 </script>
