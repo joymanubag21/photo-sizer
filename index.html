@@ -177,6 +177,20 @@ a.btn{text-decoration:none}
 }
 .hit.empty:hover{background:rgba(255,255,255,.9)}
 .hit.on{box-shadow:0 0 0 2px var(--rose)}
+/* preview-only: the exported canvas never sees this */
+.hit.sample{background:rgba(255,255,255,.22); border:1px dashed rgba(122,94,74,.55)}
+.hit.sample::after{
+  content:"Tap to replace"; position:absolute; left:50%; top:50%;
+  transform:translate(-50%,-50%); background:rgba(42,36,32,.74); color:#fff;
+  font-size:8.5px; font-weight:600; letter-spacing:.1em; text-transform:uppercase;
+  padding:4px 8px; border-radius:20px; white-space:nowrap; pointer-events:none;
+}
+.hit.sample.on::after{opacity:0}
+.cat button .thumb{position:relative}
+.cat button.has-sample .thumb::after{
+  content:""; position:absolute; inset:0; border:1px dashed rgba(122,94,74,.5);
+  pointer-events:none;
+}
 .flag{
   position:absolute; left:50%; bottom:6%; transform:translateX(-50%);
   background:var(--warn); color:#fff; font-size:10px; font-weight:600;
@@ -426,10 +440,13 @@ const FORMATS = [{
   meta: "1 card / sheet · frames 54 × 56 mm",
   slots: 2,
   // 4.23 + 54 + 2.54 (0.1in gap) + 54 + 4.23 = 119
-  // 0.13in top / 0.16in side+bottom padding, header band, 0.08in gap, then the photo row
-  frames: [{ x: 4.06, y: 28.93, w: 54.17, h: 56.0 }, { x: 60.77, y: 28.93, w: 54.17, h: 56.0 }],
-  minPx: [830, 860],
-  idealPx: [1100, 1140],
+  // their card is flex: the header sizes to its content and the photo row takes
+  // the rest. Their header holds a title and three lines of story; mine holds one
+  // signature, so the photos grow into the 18 mm that frees up.
+  grid: true,
+  frames: [{ x: 4.06, y: 10.83, w: 54.17, h: 74.11 }, { x: 60.77, y: 10.83, w: 54.17, h: 74.11 }],
+  minPx: [830, 1139],
+  idealPx: [1100, 1510],
   specs: [
     ["Card",   "4.7 × 3.5 in (119 × 89 mm), landscape, one per SELPHY L sheet."],
     ["Frames", "Two at 2.14 × 2.22 in (54 × 56 mm), 0.1 in gap."],
@@ -441,6 +458,56 @@ const FORMATS = [{
     ["Paper",   "L Borderless", "The card is the full sheet — no trimming afterwards."],
     ["Layout",  "Landscape", ""],
     ["Scaling", "Fill Entire Paper, 100%", "Do not let the app add its own margin."]
+  ]
+}, {
+  id: "four",
+  name: "Four up",
+  desc: "Two by two, signed across the top.",
+  meta: "4 photos / sheet",
+  slots: 4,
+  grid: true,
+  frames: [
+    { x: 4.06, y: 10.83, w: 54.17, h: 35.78 }, { x: 60.77, y: 10.83, w: 54.17, h: 35.78 },
+    { x: 4.06, y: 49.16, w: 54.17, h: 35.78 }, { x: 60.77, y: 49.16, w: 54.17, h: 35.78 }
+  ],
+  minPx: [830, 550],
+  idealPx: [1100, 730],
+  airprint: true,
+  specs: [
+    ["Card",   "119 × 89 mm, landscape, one per L sheet."],
+    ["Frames", "Four at 54.17 × 35.78 mm, 2.54 mm gaps."],
+    ["Supply", "830 × 550 px minimum · 1100 × 730 px for headroom."],
+    ["Print",  "L Borderless · Landscape · Fill Entire Paper · 100%."]
+  ],
+  print: [
+    ["Paper",   "L Borderless", "The card is the whole sheet — nothing to trim."],
+    ["Layout",  "Landscape", ""],
+    ["Scaling", "Fill Entire Paper, 100%", ""]
+  ]
+}, {
+  id: "six",
+  name: "Six up",
+  desc: "Three across, two down — a contact sheet of the night.",
+  meta: "6 photos / sheet",
+  slots: 6,
+  grid: true,
+  frames: [
+    { x: 4.06, y: 10.83, w: 35.26, h: 35.78 }, { x: 41.86, y: 10.83, w: 35.26, h: 35.78 }, { x: 79.66, y: 10.83, w: 35.26, h: 35.78 },
+    { x: 4.06, y: 49.16, w: 35.26, h: 35.78 }, { x: 41.86, y: 49.16, w: 35.26, h: 35.78 }, { x: 79.66, y: 49.16, w: 35.26, h: 35.78 }
+  ],
+  minPx: [540, 550],
+  idealPx: [720, 730],
+  airprint: true,
+  specs: [
+    ["Card",   "119 × 89 mm, landscape, one per L sheet."],
+    ["Frames", "Six at 35.26 × 35.78 mm, 2.54 mm gaps."],
+    ["Supply", "540 × 550 px minimum · 720 × 730 px for headroom."],
+    ["Print",  "L Borderless · Landscape · Fill Entire Paper · 100%."]
+  ],
+  print: [
+    ["Paper",   "L Borderless", "The card is the whole sheet — nothing to trim."],
+    ["Layout",  "Landscape", ""],
+    ["Scaling", "Fill Entire Paper, 100%", ""]
   ]
 }, {
   id: "instax",
@@ -559,10 +626,10 @@ function drawSheet(ctx, fmt, items, px) {
       drawCover(ctx, it.img, r[0], r[1], r[2], r[3], it.t);
       try { ctx.filter = "none"; } catch (e) {}
     }
-    else if (fmt.id === "story") { ctx.fillStyle = "#F1EEE8"; ctx.fillRect(...r); }
+    else if (fmt.grid) { ctx.fillStyle = "#F4F1EC"; ctx.fillRect(...r); }
   });
 
-  if (fmt.id === "story") decorateStory(ctx, fmt, items, px);
+  if (fmt.grid) decorateStory(ctx, fmt, items, px);
   if (fmt.id === "instax") decorateInstax(ctx, fmt, items, px);
   if (fmt.id === "full" && items[0]) decorateFull(ctx, px);
   ctx.restore();
@@ -613,7 +680,7 @@ function decorateStory(ctx, fmt, items, px) {
     ctx.strokeRect(f.x * px + ctx.lineWidth / 2, f.y * px + ctx.lineWidth / 2,
                    f.w * px - ctx.lineWidth, f.h * px - ctx.lineWidth);
   });
-  drawSignature(ctx, px, { x: SHEET.w / 2, y: 17.5, size: 4.6, maxW: 100 });
+  drawSignature(ctx, px, { x: SHEET.w / 2, y: 7.9, size: 4.6, maxW: 100 });
 }
 
 function decorateInstax(ctx, fmt, items, px) {
@@ -1031,7 +1098,7 @@ function renderPunch() {
 }
 
 /* ───────────── The studio: one big preview, a catalogue underneath ───────────── */
-const SHORT = { story: "Story card", instax: "Guest card", full: "Full photo" };
+const SHORT = { story: "Story card", four: "Four up", six: "Six up", instax: "Guest card", full: "Full photo" };
 let observers = [];
 let activeItem = null;
 
@@ -1073,6 +1140,7 @@ function renderCat() {
     const b = document.createElement("button");
     b.type = "button";
     b.setAttribute("aria-pressed", String(fmt.id === state.fmt.id));
+    if (state.photos.some((p) => p.sample)) b.classList.add("has-sample");
     const thumb = document.createElement("span");
     thumb.className = "thumb";
     thumb.appendChild(catThumb(fmt));
@@ -1109,7 +1177,9 @@ function renderStage() {
   hideTune();
 
   const n = state.photos.length;
-  $("#count").textContent = n ? `${n} photo${n > 1 ? "s" : ""}` : "";
+  $("#count").textContent = state.photos.some((p) => p.sample)
+    ? "Sample photos"
+    : (n ? `${n} photo${n > 1 ? "s" : ""}` : "");
   if (!n) {
     pager.innerHTML = `<div class="stage-empty">Add a photo and your card appears here.</div>`;
     updateAction();
@@ -1154,7 +1224,7 @@ function renderStage() {
     const it = items[fi];
     const hit = document.createElement("button");
     hit.type = "button";
-    hit.className = "hit" + (it ? "" : " empty");
+    hit.className = "hit" + (it ? (it.photo.sample ? " sample" : "") : " empty");
     hit.style.cssText = `left:${f.x / SHEET.w * 100}%;top:${f.y / SHEET.h * 100}%;width:${f.w / SHEET.w * 100}%;height:${f.h / SHEET.h * 100}%`;
     hit.setAttribute("aria-label", it ? `Adjust photo ${fi + 1}` : "Add a photo here");
     if (!it) {
