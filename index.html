@@ -124,6 +124,7 @@ input,textarea{font:inherit; color:inherit}
   border:1px solid var(--line-2); background:var(--surface); min-height:46px;
   transition:background .15s, border-color .15s;
 }
+a.btn{color:inherit; text-decoration:none}
 .btn:hover{background:var(--surface-2)}
 .btn.primary{background:var(--accent); color:var(--accent-ink); border-color:var(--accent)}
 .btn.primary:hover{filter:brightness(1.07)}
@@ -219,6 +220,16 @@ input,textarea{font:inherit; color:inherit}
 }
 .settings .v{font-weight:500; font-size:14px}
 .settings .v small{display:block; font-weight:400; font-size:12.5px; color:var(--ink-2); margin-top:2px; letter-spacing:0}
+
+.shared-block{
+  margin-bottom:18px; padding:12px; border-radius:var(--r);
+  border:1px solid var(--accent-line); background:var(--accent-soft);
+}
+.shared-head{
+  font-family:"IBM Plex Mono",monospace; font-size:10px; font-weight:500;
+  text-transform:uppercase; letter-spacing:.07em; color:var(--accent); margin-bottom:2px;
+}
+.shared-note{font-size:12px; color:var(--ink-2); margin-top:2px; line-height:1.4}
 
 /* ---------- delivery routes ---------- */
 .callout{
@@ -326,6 +337,7 @@ input,textarea{font:inherit; color:inherit}
   <section class="step">
     <div class="step-head"><span class="num">03</span><h2>Position &amp; caption</h2><span class="tag" id="sheetCount"></span></div>
     <p class="hint">Drag inside a frame to move the photo. Pinch, scroll or use the zoom slider to fill it. Double-tap a frame to reset.</p>
+    <div class="fields shared-block" id="sharedFields" hidden></div>
     <div id="sheets"></div>
   </section>
 
@@ -486,14 +498,29 @@ const FORMATS = [{
 const state = {
   fmt: FORMATS[0],
   photos: [],            // {id, src(bitmap|canvas), file, w, h, name, sample, t:{zoom,ox,oy}}
-  text: {},              // key -> {title, note}
+  text: {},              // key -> {title, note}   per card, overrides shared
+  shared: {},            // formatId -> {title, note}   typed once, used by every card
   seq: 0
 };
 let results = [];
+let sheetRedraws = [];
+let cardInputs = [];
 
 const $ = (s) => document.querySelector(s);
 const clamp = (v, a, b) => Math.min(b, Math.max(a, v));
 const txt = (k) => (state.text[k] ||= { title: "", note: "" });
+const shared = (fid) => (state.shared[fid] ||= { title: "", note: "" });
+const esc = (v) => String(v == null ? "" : v).replace(/&/g, "&amp;").replace(/"/g, "&quot;").replace(/</g, "&lt;");
+/** a card's own text wins; anything it leaves blank falls back to the shared line */
+function cardText(key) {
+  const own = state.text[key] || {};
+  const sh = shared(state.fmt.id);
+  return {
+    title: (own.title || "").trim() || sh.title,
+    note: (own.note || "").trim() || sh.note
+  };
+}
+function redrawAllSheets() { sheetRedraws.forEach((fn) => fn()); }
 
 /* ─────────── Cover-fit maths, shared by preview and export ─────────── */
 function cover(iw, ih, fw, fh, zoom) {
@@ -559,7 +586,7 @@ function decorateStory(ctx, fmt, items, px) {
     ctx.strokeRect(f.x * px + ctx.lineWidth / 2, f.y * px + ctx.lineWidth / 2,
                    f.w * px - ctx.lineWidth, f.h * px - ctx.lineWidth);
   });
-  const t = items.length ? txt("sheet:" + items[0].sheetKey) : { title: "", note: "" };
+  const t = items.length ? cardText("sheet:" + items[0].sheetKey) : { title: "", note: "" };
   const cx = (SHEET.w / 2) * px;
   ctx.textAlign = "center"; ctx.textBaseline = "alphabetic";
 
@@ -596,7 +623,7 @@ function decorateInstax(ctx, fmt, items, px) {
       ctx.moveTo(px0 + sx * tick, py0); ctx.lineTo(px0, py0);
       ctx.lineTo(px0, py0 + sy * tick); ctx.stroke();
     });
-    const t = txt("photo:" + it.photo.id);
+    const t = cardText("photo:" + it.photo.id);
     const mid = x + w / 2;
     ctx.textAlign = "center";
     if (t.title) {
@@ -706,6 +733,8 @@ function renderSheets() {
   const host = $("#sheets");
   observers.forEach((o) => o.disconnect());
   observers = [];
+  sheetRedraws = [];
+  cardInputs = [];
   host.innerHTML = "";
   const list = sheets();
   const fmt = state.fmt;
@@ -746,6 +775,7 @@ function renderSheets() {
         el.textContent = low ? `${w}×${h} · needs ${fmt.minPx[0]}×${fmt.minPx[1]}` : `${w}×${h} px`;
       });
     };
+    sheetRedraws.push(redraw);
 
     // zoom + resolution row per photo
     const ranges = [];
@@ -792,8 +822,11 @@ function renderSheets() {
           const el = document.createElement("div");
           el.className = "field";
           const id = `t-${g.key.replace(/\W/g, "")}-${fd.key}`;
-          el.innerHTML = `<label for="${id}">${fd.label}</label><input id="${id}" type="text" placeholder="${fd.ph}" value="${(txt(g.key)[fd.key] || "").replace(/"/g, "&quot;")}">`;
-          el.querySelector("input").oninput = (e) => { txt(g.key)[fd.key] = e.target.value; redraw(); };
+          const inherited = shared(fmt.id)[fd.key];
+          el.innerHTML = `<label for="${id}">${fd.label}</label><input id="${id}" type="text" placeholder="${esc(inherited || fd.ph)}" value="${esc(txt(g.key)[fd.key])}">`;
+          const inp = el.querySelector("input");
+          inp.oninput = (e) => { txt(g.key)[fd.key] = e.target.value; redraw(); };
+          cardInputs.push({ el: inp, key: fd.key, ph: fd.ph });
           fields.appendChild(el);
         });
       });
@@ -804,6 +837,32 @@ function renderSheets() {
     const ro = new ResizeObserver(redraw);
     ro.observe(paper);
     observers.push(ro);
+  });
+}
+
+function renderShared() {
+  const host = $("#sharedFields");
+  const fmt = state.fmt;
+  if (!fmt.textScope || !state.photos.length) { host.hidden = true; host.innerHTML = ""; return; }
+  const unit = fmt.textScope === "card" ? "card" : "sheet";
+  const sh = shared(fmt.id);
+  host.hidden = false;
+  host.innerHTML =
+    `<div><div class="shared-head">Same on every ${unit}</div>
+     <div class="shared-note">Type it once here. Any ${unit} below that you fill in overrides it.</div></div>` +
+    fmt.fields.map((fd) => {
+      const id = `sh-${fmt.id}-${fd.key}`;
+      return `<div class="field"><label for="${id}">${fd.label}</label>
+        <input id="${id}" type="text" placeholder="${esc(fd.ph)}" value="${esc(sh[fd.key])}"></div>`;
+    }).join("");
+  host.querySelectorAll("input").forEach((inp, i) => {
+    const fd = fmt.fields[i];
+    inp.oninput = (e) => {
+      sh[fd.key] = e.target.value;
+      // every empty card field shows the shared line as its placeholder
+      cardInputs.forEach((ci) => { if (ci.key === fd.key) ci.el.placeholder = e.target.value || ci.ph; });
+      redrawAllSheets();
+    };
   });
 }
 
@@ -1026,22 +1085,36 @@ function canShare(items) {
 
 function showResults() {
   const shareOne = canShare(results.slice(0, 1));
-  const shareAll = results.length > 1 && canShare(results);
+  const batch = results.length > 1;
+  const shareAll = batch && canShare(results);
   const canSave = !!dl || !FRAMED;
-  const tip = shareOne
-    ? `<b>Share</b> sends the sheet straight to Photos — then print it from the Canon SELPHY app.${canSave ? " <b>Save</b> puts a copy in your downloads." : ""}`
-    : canSave
-      ? `<b>Save</b> puts the sheet in your downloads at full print resolution. Then print it from the Canon SELPHY app.`
-      : `<b>To keep a sheet:</b> press and hold the picture and pick Save to Photos, then print it from the Canon SELPHY app.`;
+  const saveAllable = batch && canSave;
+  const batchAction = shareAll || saveAllable;
 
+  // the costly step is the trip into the Canon app, so lead with whatever makes it once
+  const tip = batchAction
+    ? `Send <b>all ${results.length} sheets at once</b> and you only make the trip to the Canon SELPHY app once.`
+    : shareOne
+      ? `<b>Share</b> sends the sheet straight to Photos — then print it from the Canon SELPHY app.`
+      : canSave
+        ? `<b>Save</b> puts the sheet in your downloads at full print resolution.`
+        : `<b>To keep a sheet:</b> press and hold the picture and pick Save to Photos.`;
+
+  const head = shareAll
+    ? `<button class="btn primary" id="batchBtn" data-mode="share" style="width:100%;margin-bottom:20px">Share all ${results.length} sheets</button>`
+    : saveAllable
+      ? `<button class="btn primary" id="batchBtn" data-mode="save" style="width:100%;margin-bottom:20px">Save all ${results.length} sheets</button>`
+      : "";
+
+  // per-sheet buttons drop to secondary once a batch action is carrying the page
+  const lead = (cond) => (cond && !batchAction ? " primary" : "");
   const acts = (i) => [
-    shareOne ? `<button class="btn primary" data-share="${i}">Share</button>` : "",
-    dl ? `<button class="btn${shareOne ? "" : " primary"}" data-save="${i}">Save</button>`
-       : (!FRAMED ? `<a class="btn${shareOne ? "" : " primary"}" href="${results[i].url}" download="${results[i].name}">Save</a>` : "")
+    shareOne ? `<button class="btn${lead(true)}" data-share="${i}">Share</button>` : "",
+    dl ? `<button class="btn${lead(!shareOne)}" data-save="${i}">Save</button>`
+       : (!FRAMED ? `<a class="btn${lead(!shareOne)}" href="${results[i].url}" download="${results[i].name}">Save</a>` : "")
   ].join("");
 
-  openOut(`<div class="save-tip"><span>${tip}</span></div>` +
-    (shareAll ? `<button class="btn primary" id="shareAll" style="width:100%;margin-bottom:20px">Share all ${results.length} sheets</button>` : "") +
+  openOut(`<div class="save-tip"><span>${tip}</span></div>` + head +
     results.map((r, i) => `
       <div class="out-item">
         <div class="cap"><span>${r.name}</span><span>${OUT_W} × ${OUT_H} px · ${r.kb} KB</span></div>
@@ -1055,8 +1128,8 @@ function showResults() {
   $("#outBody").querySelectorAll("[data-save]").forEach((b) => {
     b.onclick = () => saveOne(results[+b.dataset.save], b);
   });
-  const all = $("#shareAll");
-  if (all) all.onclick = () => shareFiles(results, all);
+  const bb = $("#batchBtn");
+  if (bb) bb.onclick = () => (bb.dataset.mode === "share" ? shareFiles(results, bb) : saveAll(bb));
 }
 
 function flash(btn, msg, ms) {
@@ -1066,18 +1139,21 @@ function flash(btn, msg, ms) {
   setTimeout(() => { btn.textContent = old; btn.disabled = false; }, ms || 2200);
 }
 
+/** the save itself; rejects so each caller can decide how to report it */
+function rawSave(r) {
+  if (dl) return dl.save({ filename: r.name, data: r.blob });
+  const a = document.createElement("a");
+  a.href = r.url; a.download = r.name;
+  document.body.appendChild(a); a.click(); a.remove();
+  return Promise.resolve({ status: "saved" });
+}
+
 async function saveOne(r, btn) {
-  if (!dl) {
-    const a = document.createElement("a");
-    a.href = r.url; a.download = r.name; a.click();
-    return;
-  }
   btn.disabled = true;
   const label = btn.textContent;
   btn.textContent = "Saving…";
   try {
-    await dl.save({ filename: r.name, data: r.blob });
-    btn.textContent = "Saved";
+    await rawSave(r);
     flash(btn, "Saved", 1800);
     btn.dataset.label = label;
   } catch (e) {
@@ -1085,9 +1161,35 @@ async function saveOne(r, btn) {
     if (code === "declined") { btn.textContent = label; btn.disabled = false; return; }
     if (code === "rate_limited") { flash(btn, "One at a time"); return; }
     if (code === "too_large") { flash(btn, "Too large — use Share", 2600); return; }
-    dl = null;                                  // capability gone: fall back for the rest of this view
+    dl = null;
     showResults();
   }
+}
+
+async function saveAll(btn) {
+  const total = results.length;
+  const label = `Save all ${total} sheets`;
+  btn.disabled = true;
+  for (let i = 0; i < total; i++) {
+    btn.textContent = `Saving ${i + 1} of ${total}…`;
+    try {
+      await rawSave(results[i]);
+    } catch (e) {
+      const code = e && e.code;
+      if (code === "rate_limited") {
+        await new Promise((r) => setTimeout(r, 1000));
+        try { await rawSave(results[i]); }
+        catch (e2) { if (e2 && e2.code === "declined") break; }
+      } else if (code === "declined") {
+        break;                                  // they said no once; stop asking
+      } else {
+        dl = null; showResults(); return;
+      }
+    }
+    await new Promise((r) => setTimeout(r, 300));
+  }
+  btn.disabled = false;
+  btn.textContent = label;
 }
 
 async function shareFiles(items, btn) {
@@ -1117,7 +1219,7 @@ function closeOut() {
 }
 
 /* ─────────── Wiring ─────────── */
-function redrawEverything() { renderTray(); renderSheets(); }
+function redrawEverything() { renderTray(); renderSheets(); renderShared(); }
 
 $("#fmtList").addEventListener("click", (e) => {
   const b = e.target.closest(".fmt");
