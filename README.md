@@ -1,8 +1,9 @@
-# L-Size Photo Sizer
+# Joy & Patrick Prints
 
-Crops photos to the exact printed frame for a **Canon SELPHY CP1500** on L-size
-paper (119 × 89 mm), and renders a print-resolution JPEG at 400 dpi
-(1874 × 1402 px per sheet).
+Wedding photo cards for **Joy & Patrick, Queenstown NZ, 10.10.26**. Crops photos
+to the exact printed frame for a **Canon SELPHY CP1500** on L-size paper
+(119 × 89 mm) and renders a print-resolution JPEG at 400 dpi (1874 × 1402 px per
+sheet). Every card is signed and dated automatically.
 
 **Live: https://joymanubag21.github.io/photo-sizer/**
 
@@ -20,3 +21,9 @@ app is one self-contained `index.html`. Photos never leave the device.
 The resolution warning is computed live from the source pixels actually fed into
 a frame at the current zoom, not from the file's dimensions, so zooming past what
 a photo can carry flags it and names the pixel count you need.
+
+**Colour** is managed end to end: canvases are requested in Display P3, so a
+photo shot on an iPhone is not silently gamut-compressed into sRGB on its way to
+the file, and JPEG is written at q0.97. The Colour control adds an optional
+correction for how flat dye-sublimation lays ink down; it applies to the
+photograph only, never to the card or the signature.

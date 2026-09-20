@@ -1,309 +1,233 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<title>L-Size Photo Sizer</title>
+<title>Joy &amp; Patrick Prints</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500&family=Instrument+Serif:ital@0;1&display=swap">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bodoni+Moda:ital,opsz,wght@0,6..96,400;0,6..96,500;0,6..96,600;1,6..96,400&family=Archivo:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap">
 <style>
+/* One committed world: a dark editorial keepsake app. No light variant —
+   the printed card stays paper-white inside it, because that is the paper. */
 :root{
-  --bg:#E7E3E6; --mount:#DCD6DA; --surface:#FFFFFF; --surface-2:#F5F1F4;
-  --line:#D5CCD2; --line-2:#BFB2BB;
-  --ink:#1B171A; --ink-2:#585057; --ink-3:#8C8189;
-  --accent:#C4136A; --accent-ink:#FFFFFF; --accent-soft:#FAE7F0; --accent-line:#EEC4DA;
-  --cyan:#0E93BC; --mag:#C4136A; --yel:#E0A916;
-  --warn:#A75110; --warn-soft:#FBEEE2; --ok:#1B7150;
-  --shadow:0 1px 2px rgba(40,20,34,.07), 0 8px 24px -12px rgba(40,20,34,.22);
-  --shadow-lift:0 2px 4px rgba(40,20,34,.10), 0 18px 40px -16px rgba(40,20,34,.34);
-  --r:10px;
-  --dock-h:78px;
-  color-scheme:light;
-}
-@media (prefers-color-scheme:dark){ :root:not([data-theme="light"]){
-  --bg:#151219; --mount:#0F0D12; --surface:#1F1B23; --surface-2:#2A242F;
-  --line:#352E3B; --line-2:#4A4152;
-  --ink:#F2EDF1; --ink-2:#B4A8B3; --ink-3:#847888;
-  --accent:#FF63A8; --accent-ink:#2A0418; --accent-soft:#33172A; --accent-line:#4E2339;
-  --cyan:#36B8DE; --mag:#FF63A8; --yel:#F0BE3C;
-  --warn:#E8974E; --warn-soft:#3A2717; --ok:#54C598;
-  --shadow:0 1px 2px rgba(0,0,0,.5), 0 8px 24px -12px rgba(0,0,0,.7);
-  --shadow-lift:0 2px 6px rgba(0,0,0,.55), 0 18px 40px -16px rgba(0,0,0,.8);
-  color-scheme:dark;
-}}
-:root[data-theme="dark"]{
-  --bg:#151219; --mount:#0F0D12; --surface:#1F1B23; --surface-2:#2A242F;
-  --line:#352E3B; --line-2:#4A4152;
-  --ink:#F2EDF1; --ink-2:#B4A8B3; --ink-3:#847888;
-  --accent:#FF63A8; --accent-ink:#2A0418; --accent-soft:#33172A; --accent-line:#4E2339;
-  --cyan:#36B8DE; --mag:#FF63A8; --yel:#F0BE3C;
-  --warn:#E8974E; --warn-soft:#3A2717; --ok:#54C598;
-  --shadow:0 1px 2px rgba(0,0,0,.5), 0 8px 24px -12px rgba(0,0,0,.7);
-  --shadow-lift:0 2px 6px rgba(0,0,0,.55), 0 18px 40px -16px rgba(0,0,0,.8);
+  --bg:#0A090C; --bg-2:#100E13;
+  --surface:#16141A; --surface-2:#1E1B23; --surface-3:#272230;
+  --line:#2A2531; --line-2:#3C3546;
+  --ink:#F5F1EC; --ink-2:#A79FAB; --ink-3:#6F6878;
+  --gold:#D8B573; --gold-2:#EFD9AC; --gold-soft:rgba(216,181,115,.10); --gold-line:rgba(216,181,115,.30);
+  --warn:#E4975C; --warn-soft:rgba(228,151,92,.12);
+  --ok:#86BFA2;
+  --paper:#FDFCF9;
+  --shadow:0 1px 2px rgba(0,0,0,.5), 0 10px 30px -14px rgba(0,0,0,.85);
+  --shadow-lift:0 4px 10px rgba(0,0,0,.55), 0 26px 50px -18px rgba(0,0,0,.95);
+  --r:12px;
+  --dock-h:80px;
   color-scheme:dark;
 }
-
 *{box-sizing:border-box}
 body{
   background:var(--bg); color:var(--ink);
   font-family:Archivo,"Helvetica Neue",Arial,sans-serif;
-  font-size:15px; line-height:1.45;
-  -webkit-text-size-adjust:100%;
-  -webkit-tap-highlight-color:transparent;
+  font-size:15px; line-height:1.5;
+  -webkit-text-size-adjust:100%; -webkit-tap-highlight-color:transparent;
 }
-h1,h2,h3{margin:0; text-wrap:balance; letter-spacing:-.02em; font-weight:600}
+h1,h2,h3{margin:0; text-wrap:balance; font-weight:400}
 p{margin:0}
 button{font:inherit; color:inherit; border:0; background:none; cursor:pointer}
 button,a,summary,label,input[type=range]{touch-action:manipulation}
-input,textarea{font:inherit; color:inherit}
-:focus-visible{outline:2px solid var(--accent); outline-offset:2px; border-radius:4px}
+input{font:inherit; color:inherit}
+a.btn{color:inherit; text-decoration:none}
+:focus-visible{outline:2px solid var(--gold); outline-offset:3px; border-radius:4px}
 
-.app{max-width:600px; margin:0 auto; padding-inline:16px; padding-block:0 calc(var(--dock-h) + 28px)}
+.eyebrow{
+  font-family:"IBM Plex Mono",ui-monospace,monospace; font-size:10.5px; font-weight:500;
+  text-transform:uppercase; letter-spacing:.18em; color:var(--gold);
+}
+.app{max-width:600px; margin:0 auto; padding-inline:20px; padding-block:0 calc(var(--dock-h) + 32px)}
 
 /* ---------- masthead ---------- */
-.head{padding-block:26px 22px}
-.ribbon{display:flex; gap:3px; margin-bottom:14px}
-.ribbon i{height:5px; border-radius:1px}
-.ribbon i:nth-child(1){width:34px; background:var(--yel)}
-.ribbon i:nth-child(2){width:34px; background:var(--mag)}
-.ribbon i:nth-child(3){width:34px; background:var(--cyan)}
-.head h1{font-size:30px; line-height:1.05; letter-spacing:-.035em}
-.head .machine{
-  font-family:"IBM Plex Mono",ui-monospace,monospace; font-size:11px; letter-spacing:.06em;
-  text-transform:uppercase; color:var(--ink-3); margin-top:8px;
+.head{padding-block:34px 26px; text-align:center}
+.head .rule{height:1px; background:linear-gradient(90deg,transparent,var(--gold-line) 22%,var(--gold-line) 78%,transparent); margin-bottom:22px}
+.head h1{
+  font-family:"Bodoni Moda",Didot,Georgia,serif; font-weight:400;
+  font-size:clamp(44px,13.5vw,62px); line-height:.94; letter-spacing:-.015em;
+  margin-block:14px 6px; color:var(--ink);
 }
-.head .sub{margin-top:12px; color:var(--ink-2); font-size:14.5px; max-width:46ch}
-.head .sub b{color:var(--ink); font-weight:600}
+.head h1 em{font-style:italic; color:var(--gold-2)}
+.head .place{font-family:"IBM Plex Mono",monospace; font-size:11px; letter-spacing:.2em; text-transform:uppercase; color:var(--ink-3)}
+.head .sub{margin-top:18px; color:var(--ink-2); font-size:14.5px; text-align:left; max-width:46ch}
+.head .sub b{color:var(--ink); font-weight:500}
 
 /* ---------- steps ---------- */
-.step{padding-block:22px; border-top:1px solid var(--line)}
-.step-head{display:flex; align-items:baseline; gap:10px; margin-bottom:14px}
-.step-head .num{
-  font-family:"IBM Plex Mono",monospace; font-size:11px; font-weight:500;
-  color:var(--accent); letter-spacing:.08em;
-}
-.step-head h2{font-size:17px; flex:1}
+.step{padding-block:26px; border-top:1px solid var(--line)}
+.step-head{display:flex; align-items:baseline; gap:11px; margin-bottom:16px}
+.step-head .num{font-family:"IBM Plex Mono",monospace; font-size:11px; font-weight:500; color:var(--gold); letter-spacing:.1em}
+.step-head h2{font-family:"Bodoni Moda",Georgia,serif; font-size:23px; flex:1; letter-spacing:-.01em}
 .step-head .tag{font-family:"IBM Plex Mono",monospace; font-size:11px; color:var(--ink-3)}
-.hint{color:var(--ink-3); font-size:13px; margin-bottom:14px; line-height:1.5}
+.hint{color:var(--ink-3); font-size:13px; margin-bottom:16px; line-height:1.55}
 
 /* ---------- format picker ---------- */
-.fmt-list{display:flex; flex-direction:column; gap:8px}
+.fmt-list{display:flex; flex-direction:column; gap:9px}
 .fmt{
-  display:grid; grid-template-columns:64px 1fr; gap:14px; align-items:center;
-  width:100%; text-align:left; padding:13px 14px; border-radius:var(--r);
+  display:grid; grid-template-columns:66px 1fr; gap:15px; align-items:center;
+  width:100%; text-align:left; padding:15px; border-radius:var(--r);
   background:var(--surface); border:1px solid var(--line);
-  transition:border-color .15s, background .15s;
+  transition:border-color .18s, background .18s;
 }
-.fmt:hover{border-color:var(--line-2)}
-.fmt[aria-pressed="true"]{border-color:var(--accent); background:var(--accent-soft); box-shadow:inset 3px 0 0 var(--accent)}
-.fmt svg{display:block; width:64px; height:auto}
+.fmt:hover{border-color:var(--line-2); background:var(--surface-2)}
+.fmt[aria-pressed="true"]{border-color:var(--gold-line); background:var(--surface-2); box-shadow:inset 3px 0 0 var(--gold)}
+.fmt svg{display:block; width:66px; height:auto}
 .fmt .fn,.fmt .fd,.fmt .fm{display:block}
-.fmt .fn{font-weight:600; font-size:15px; letter-spacing:-.01em}
-.fmt .fd{font-size:12.5px; color:var(--ink-2); margin-top:2px; line-height:1.35}
-.fmt .fm{font-family:"IBM Plex Mono",monospace; font-size:11px; color:var(--ink-3); margin-top:5px; letter-spacing:.01em}
-.fmt[aria-pressed="true"] .fd{color:var(--ink-2)}
+.fmt .fn{font-family:"Bodoni Moda",Georgia,serif; font-size:19px; letter-spacing:-.01em}
+.fmt[aria-pressed="true"] .fn{color:var(--gold-2)}
+.fmt .fd{font-size:12.5px; color:var(--ink-2); margin-top:3px; line-height:1.4}
+.fmt .fm{font-family:"IBM Plex Mono",monospace; font-size:10.5px; color:var(--ink-3); margin-top:7px; letter-spacing:.03em}
 
-.specs{margin-top:12px; border:1px solid var(--line); border-radius:var(--r); background:var(--surface-2)}
+.specs{margin-top:14px; border:1px solid var(--line); border-radius:var(--r); background:var(--surface)}
 .specs summary{
-  padding:11px 14px; min-height:46px; cursor:pointer; font-size:12px; font-weight:600;
-  text-transform:uppercase; letter-spacing:.07em; color:var(--ink-2); list-style:none;
+  padding:13px 15px; min-height:46px; cursor:pointer; list-style:none;
+  font-family:"IBM Plex Mono",monospace; font-size:10.5px; font-weight:500;
+  text-transform:uppercase; letter-spacing:.16em; color:var(--ink-2);
   display:flex; justify-content:space-between; align-items:center;
 }
 .specs summary::-webkit-details-marker{display:none}
-.specs summary::after{content:"+"; font-family:"IBM Plex Mono",monospace; color:var(--ink-3); font-size:14px}
-.specs[open] summary::after{content:"–"}
-.specs .body{padding:2px 14px 14px}
-.specs dl{margin:0; display:grid; grid-template-columns:auto 1fr; gap:6px 16px; font-size:12.5px}
-.specs dt{font-family:"IBM Plex Mono",monospace; font-size:11px; color:var(--ink-3); text-transform:uppercase; letter-spacing:.05em; padding-top:1px}
+.specs summary::after{content:"+"; color:var(--gold); font-size:15px}
+.specs[open] summary::after{content:"\2013"}
+.specs .body{padding:2px 15px 15px}
+.specs dl{margin:0; display:grid; grid-template-columns:auto 1fr; gap:7px 16px; font-size:12.5px}
+.specs dt{font-family:"IBM Plex Mono",monospace; font-size:10px; color:var(--ink-3); text-transform:uppercase; letter-spacing:.1em; padding-top:2px}
 .specs dd{margin:0; color:var(--ink-2)}
 .specs dd b{color:var(--ink); font-weight:500; font-family:"IBM Plex Mono",monospace; font-size:12px}
 
-/* ---------- photo tray ---------- */
-.add-row{display:flex; gap:8px}
+/* ---------- buttons ---------- */
+.add-row{display:flex; gap:9px}
 .btn{
-  display:inline-flex; align-items:center; justify-content:center; gap:8px;
-  padding:12px 16px; border-radius:var(--r); font-weight:600; font-size:14.5px;
-  border:1px solid var(--line-2); background:var(--surface); min-height:46px;
-  transition:background .15s, border-color .15s;
+  display:inline-flex; align-items:center; justify-content:center; gap:9px;
+  padding:13px 17px; border-radius:var(--r); font-weight:500; font-size:14.5px;
+  border:1px solid var(--line-2); background:var(--surface-2); min-height:48px;
+  transition:background .18s, border-color .18s;
 }
-a.btn{color:inherit; text-decoration:none}
-.btn:hover{background:var(--surface-2)}
-.btn.primary{background:var(--accent); color:var(--accent-ink); border-color:var(--accent)}
-.btn.primary:hover{filter:brightness(1.07)}
+.btn:hover{background:var(--surface-3); border-color:var(--gold-line)}
+.btn.primary{
+  background:linear-gradient(180deg,var(--gold-2),var(--gold)); color:#241B0C;
+  border-color:var(--gold); font-weight:600; letter-spacing:.01em;
+}
+.btn.primary:hover{filter:brightness(1.06)}
 .btn.grow{flex:1}
-.btn:disabled{opacity:.45; cursor:default}
+.btn:disabled{opacity:.4; cursor:default}
 .btn svg{flex:none}
 
-.tray{display:flex; flex-wrap:wrap; gap:8px; margin-top:12px}
+/* ---------- photo tray ---------- */
+.tray{display:flex; flex-wrap:wrap; gap:9px; margin-top:14px}
 .tray:empty{display:none}
-.chip{
-  position:relative; width:86px; border-radius:8px; overflow:hidden;
-  background:var(--surface-2); border:1px solid var(--line);
-}
+.chip{position:relative; width:86px; border-radius:10px; overflow:hidden; background:var(--surface-2); border:1px solid var(--line)}
 .chip canvas{display:block; width:100%; height:86px; object-fit:cover}
-.chip .lbl{
-  font-family:"IBM Plex Mono",monospace; font-size:9.5px; color:var(--ink-3);
-  padding:3px 5px; text-align:center; letter-spacing:.02em;
-  white-space:nowrap; overflow:hidden; text-overflow:ellipsis;
-}
-.chip .x{
-  position:absolute; top:4px; right:4px; width:28px; height:28px; border-radius:50%;
-  background:rgba(12,6,10,.66); color:#fff; font-size:14px; line-height:28px; text-align:center;
-  backdrop-filter:blur(4px);
-}
-/* the drawn control stays small; the finger target is 44px */
+.chip .lbl{font-family:"IBM Plex Mono",monospace; font-size:9.5px; color:var(--ink-3); padding:4px 5px; text-align:center; white-space:nowrap; overflow:hidden; text-overflow:ellipsis}
+.chip .x{position:absolute; top:4px; right:4px; width:28px; height:28px; border-radius:50%; background:rgba(8,6,10,.72); color:#fff; font-size:14px; line-height:28px; text-align:center; backdrop-filter:blur(5px)}
 .chip .x::after,.chip .mv::after{content:""; position:absolute; inset:-8px}
+.chip .mv{position:absolute; bottom:24px; width:30px; height:30px; background:rgba(8,6,10,.6); color:#fff; font-size:14px; line-height:30px; text-align:center}
+.chip .mv.l{left:0; border-radius:0 7px 0 0} .chip .mv.r{right:0; border-radius:7px 0 0 0}
 .chip.sample{border-style:dashed; border-color:var(--line-2)}
-.chip .mv{position:absolute; bottom:22px; width:30px; height:30px; background:rgba(12,6,10,.58); color:#fff; font-size:14px; line-height:30px; text-align:center}
-.chip .mv.l{left:0; border-radius:0 6px 0 0} .chip .mv.r{right:0; border-radius:6px 0 0 0}
-.sample-note{
-  display:flex; align-items:center; gap:8px; margin-top:10px; padding:9px 11px;
-  border:1px dashed var(--line-2); border-radius:8px; background:var(--surface-2);
-  font-size:12.5px; color:var(--ink-2);
-}
-.sample-note button{font-size:12.5px; padding:10px 8px; min-height:44px; min-width:52px; font-weight:600; color:var(--accent); text-decoration:underline; text-underline-offset:2px; margin-left:auto; white-space:nowrap}
+.sample-note{display:flex; align-items:center; gap:9px; margin-top:12px; padding:10px 12px; border:1px dashed var(--line-2); border-radius:10px; background:var(--surface); font-size:12.5px; color:var(--ink-2)}
+.sample-note button{font-size:12.5px; font-weight:600; color:var(--gold); padding:10px 8px; min-height:44px; min-width:52px; margin-left:auto; white-space:nowrap}
 
-/* ---------- proof sheets ---------- */
-.sheet-wrap{margin-bottom:22px}
-.sheet-head{
-  display:flex; align-items:baseline; gap:8px; margin-bottom:8px;
-  font-family:"IBM Plex Mono",monospace; font-size:11px; letter-spacing:.06em;
-  text-transform:uppercase; color:var(--ink-3);
-}
-.sheet-head .n{color:var(--accent); font-weight:500}
-.proof{
-  position:relative; background:var(--mount); padding:10px; border-radius:var(--r);
-  box-shadow:var(--shadow);
-}
-.paper{position:relative; box-shadow:var(--shadow-lift); background:#FDFCF9}
+/* ---------- proof ---------- */
+.sheet-wrap{margin-bottom:26px}
+.sheet-head{display:flex; align-items:baseline; gap:9px; margin-bottom:9px; font-family:"IBM Plex Mono",monospace; font-size:10.5px; letter-spacing:.14em; text-transform:uppercase; color:var(--ink-3)}
+.sheet-head .n{color:var(--gold)}
+.proof{position:relative; background:var(--bg-2); border:1px solid var(--line); padding:12px; border-radius:var(--r)}
+.paper{position:relative; box-shadow:var(--shadow-lift); background:var(--paper)}
 .paper canvas{display:block; width:100%; height:auto}
-.hit{
-  position:absolute; touch-action:none; cursor:grab;
-  border:0; background:transparent; padding:0;
-}
+.hit{position:absolute; touch-action:none; cursor:grab; border:0; background:transparent; padding:0}
 .hit:active{cursor:grabbing}
 .hit.empty{
-  background:rgba(255,255,255,.55); border:1.5px dashed rgba(90,80,88,.45);
+  background:rgba(255,255,255,.5); border:1.5px dashed rgba(60,50,60,.45);
   display:flex; align-items:center; justify-content:center;
-  color:#6E6570; font-size:12px; font-weight:600; letter-spacing:.01em; text-align:center; line-height:1.2;
+  color:#5C5460; font-size:12px; font-weight:600; text-align:center; line-height:1.2;
 }
-.hit.empty:hover{background:rgba(255,255,255,.8)}
-.hit.on{box-shadow:0 0 0 2px var(--accent)}
+.hit.on{box-shadow:0 0 0 2px var(--gold)}
 
-.ctrls{margin-top:10px; display:flex; flex-direction:column; gap:9px}
-.ctrl{display:flex; align-items:center; gap:10px; flex-wrap:wrap}
-.ctrl .sw{width:34px; height:34px; border-radius:6px; flex:none; border:1px solid var(--line); overflow:hidden}
+.ctrls{margin-top:12px; display:flex; flex-direction:column; gap:10px}
+.ctrl{display:flex; align-items:center; gap:11px; flex-wrap:wrap}
+.ctrl .sw{width:34px; height:34px; border-radius:7px; flex:none; border:1px solid var(--line-2); overflow:hidden}
 .ctrl .sw canvas{display:block; width:100%; height:100%; object-fit:cover}
-.ctrl input[type=range]{order:1; flex:1 0 100%; accent-color:var(--accent); min-width:0; height:44px; margin:-6px 0 0}
-.ctrl .rs{font-family:"IBM Plex Mono",monospace; font-size:11px; color:var(--ink-3); padding:0 12px; min-height:44px; margin-left:auto; border:1px solid var(--line); border-radius:6px}
-.res{
-  font-family:"IBM Plex Mono",monospace; font-size:10.5px; letter-spacing:.02em;
-  padding:3px 7px; border-radius:5px; line-height:1.35; flex:0 1 auto; min-width:0;
-}
+.ctrl input[type=range]{order:1; flex:1 0 100%; accent-color:var(--gold); min-width:0; height:44px; margin:-6px 0 0}
+.ctrl .rs{font-family:"IBM Plex Mono",monospace; font-size:10.5px; color:var(--ink-3); padding:0 12px; min-height:44px; margin-left:auto; border:1px solid var(--line); border-radius:7px; letter-spacing:.06em; text-transform:uppercase}
+.res{font-family:"IBM Plex Mono",monospace; font-size:10.5px; padding:3px 7px; border-radius:5px; line-height:1.35; flex:0 1 auto; min-width:0}
 .res.ok{color:var(--ok)}
 .res.low{color:var(--warn); background:var(--warn-soft)}
 
-.fields{margin-top:11px; display:flex; flex-direction:column; gap:7px}
-.field{display:flex; align-items:center; gap:10px; background:var(--surface); border:1px solid var(--line); border-radius:8px; padding:0 11px}
-.field label{
-  font-family:"IBM Plex Mono",monospace; font-size:10px; text-transform:uppercase;
-  letter-spacing:.07em; color:var(--ink-3); flex:none; width:52px;
+/* ---------- segmented control (print colour) ---------- */
+.seg-wrap{margin-bottom:16px}
+.seg-label{display:flex; justify-content:space-between; align-items:baseline; gap:10px; margin-bottom:8px}
+.seg-label .k{font-family:"IBM Plex Mono",monospace; font-size:10px; text-transform:uppercase; letter-spacing:.14em; color:var(--ink-3)}
+.seg{display:flex; gap:4px; padding:4px; background:var(--surface); border:1px solid var(--line); border-radius:11px}
+.seg button{
+  flex:1; min-height:42px; border-radius:8px; font-size:13px; font-weight:500;
+  color:var(--ink-2); transition:background .16s, color .16s;
 }
-/* 16px is the floor: anything smaller makes iOS Safari zoom the page on focus */
-.field input{flex:1; border:0; background:none; padding:12px 0; min-width:0; font-size:16px; outline:none; min-height:46px}
-.field input::placeholder{color:var(--ink-3)}
+.seg button[aria-pressed="true"]{background:var(--surface-3); color:var(--gold-2); box-shadow:inset 0 0 0 1px var(--gold-line)}
+.seg-note{font-size:12.5px; color:var(--ink-3); margin-top:9px; line-height:1.5}
 
 /* ---------- print settings ---------- */
 .settings{list-style:none; margin:0; padding:0; display:flex; flex-direction:column; gap:1px; background:var(--line); border:1px solid var(--line); border-radius:var(--r); overflow:hidden}
-.settings li{display:flex; gap:12px; align-items:baseline; background:var(--surface); padding:11px 14px}
-.settings .k{
-  font-family:"IBM Plex Mono",monospace; font-size:10.5px; text-transform:uppercase;
-  letter-spacing:.06em; color:var(--ink-3); width:96px; flex:none;
-}
+.settings li{display:flex; gap:13px; align-items:baseline; background:var(--surface); padding:13px 15px}
+.settings .k{font-family:"IBM Plex Mono",monospace; font-size:10px; text-transform:uppercase; letter-spacing:.12em; color:var(--ink-3); width:92px; flex:none}
 .settings .v{font-weight:500; font-size:14px}
-.settings .v small{display:block; font-weight:400; font-size:12.5px; color:var(--ink-2); margin-top:2px; letter-spacing:0}
-
-.shared-block{
-  margin-bottom:18px; padding:12px; border-radius:var(--r);
-  border:1px solid var(--accent-line); background:var(--accent-soft);
-}
-.shared-head{
-  font-family:"IBM Plex Mono",monospace; font-size:10px; font-weight:500;
-  text-transform:uppercase; letter-spacing:.07em; color:var(--accent); margin-bottom:2px;
-}
-.shared-note{font-size:12px; color:var(--ink-2); margin-top:2px; line-height:1.4}
+.settings .v small{display:block; font-weight:400; font-size:12.5px; color:var(--ink-2); margin-top:3px; letter-spacing:0}
 
 /* ---------- delivery routes ---------- */
-.callout{
-  display:flex; gap:10px; padding:12px 13px; border-radius:var(--r);
-  font-size:13px; line-height:1.5; margin-bottom:14px;
-}
-.callout b{font-weight:600}
+.callout{display:flex; gap:10px; padding:13px; border-radius:var(--r); font-size:13px; line-height:1.55; margin-bottom:15px}
 .callout.bad{background:var(--warn-soft); border:1px solid var(--warn); color:var(--ink-2)}
 .callout.bad b{color:var(--warn)}
-.callout.fine{background:var(--surface-2); border:1px solid var(--line); color:var(--ink-2)}
+.callout.fine{background:var(--surface); border:1px solid var(--line); color:var(--ink-2)}
+.callout.fine b{color:var(--ink)}
 .routes{list-style:none; margin:0; padding:0; display:flex; flex-direction:column; gap:10px}
-.routes li{
-  background:var(--surface); border:1px solid var(--line); border-radius:var(--r);
-  padding:12px 14px; font-size:13px; line-height:1.5; color:var(--ink-2);
-}
-.routes .rt{
-  display:flex; align-items:baseline; gap:8px; margin-bottom:4px;
-  font-size:14.5px; font-weight:600; color:var(--ink); letter-spacing:-.01em;
-}
-.routes .rt span{
-  font-family:"IBM Plex Mono",monospace; font-size:10px; font-weight:500;
-  text-transform:uppercase; letter-spacing:.07em; color:var(--ink-3);
-  border:1px solid var(--line); border-radius:4px; padding:1px 5px; white-space:nowrap;
-}
-.routes code{font-family:"IBM Plex Mono",monospace; font-size:12px; color:var(--ink)}
+.routes li{background:var(--surface); border:1px solid var(--line); border-radius:var(--r); padding:13px 15px; font-size:13px; line-height:1.55; color:var(--ink-2)}
+.routes .rt{display:flex; align-items:baseline; gap:9px; margin-bottom:5px; font-family:"Bodoni Moda",Georgia,serif; font-size:17px; color:var(--ink)}
+.routes .rt span{font-family:"IBM Plex Mono",monospace; font-size:9.5px; font-weight:500; text-transform:uppercase; letter-spacing:.12em; color:var(--gold); border:1px solid var(--gold-line); border-radius:4px; padding:2px 6px; white-space:nowrap}
+.routes code{font-family:"IBM Plex Mono",monospace; font-size:12px; color:var(--gold-2)}
 
 /* ---------- dock ---------- */
 .dock{
   position:fixed; left:0; right:0; bottom:0; z-index:30;
-  background:color-mix(in srgb, var(--bg) 86%, transparent);
-  backdrop-filter:blur(14px) saturate(1.3);
+  background:color-mix(in srgb, var(--bg) 88%, transparent);
+  backdrop-filter:blur(16px) saturate(1.3);
   border-top:1px solid var(--line);
-  padding:12px 16px calc(12px + env(safe-area-inset-bottom,0px));
+  padding:13px 20px calc(13px + env(safe-area-inset-bottom,0px));
 }
-.dock-in{max-width:600px; margin:0 auto; display:flex; align-items:center; gap:12px}
-.dock .meta{font-family:"IBM Plex Mono",monospace; font-size:10.5px; line-height:1.35; color:var(--ink-3); letter-spacing:.03em}
+.dock-in{max-width:600px; margin:0 auto; display:flex; align-items:center; gap:13px}
+.dock .meta{font-family:"IBM Plex Mono",monospace; font-size:10px; line-height:1.4; color:var(--ink-3); letter-spacing:.06em}
 .dock .meta b{display:block; color:var(--ink); font-size:12px; font-weight:500}
 .dock .btn{flex:1; max-width:250px; margin-left:auto}
 
 /* ---------- output ---------- */
 .modal{position:fixed; inset:0; z-index:60; background:var(--bg); overflow-y:auto; overscroll-behavior:contain}
-.modal-in{max-width:600px; margin:0 auto; padding-inline:16px; padding-block:calc(16px + env(safe-area-inset-top,0px)) 40px}
-.modal-head{display:flex; align-items:center; gap:12px; margin-bottom:6px; position:sticky; top:env(safe-area-inset-top,0px); background:var(--bg); padding-block:10px; z-index:2}
-.modal-head h2{font-size:20px; flex:1}
-.close{width:44px; height:44px; flex:none; border-radius:50%; border:1px solid var(--line); background:var(--surface); font-size:17px; line-height:1}
-.save-tip{
-  display:flex; gap:10px; padding:12px 13px; border-radius:var(--r);
-  background:var(--accent-soft); border:1px solid var(--accent-line);
-  font-size:13px; line-height:1.5; color:var(--ink-2); margin-bottom:18px;
-}
-.save-tip b{color:var(--ink)}
-.out-item{margin-bottom:24px}
-.out-item .cap{
-  display:flex; justify-content:space-between; align-items:baseline; gap:10px; margin-bottom:7px;
-  font-family:"IBM Plex Mono",monospace; font-size:11px; color:var(--ink-3); letter-spacing:.04em;
-}
+.modal-in{max-width:600px; margin:0 auto; padding-inline:20px; padding-block:calc(16px + env(safe-area-inset-top,0px)) 44px}
+.modal-head{display:flex; align-items:center; gap:13px; margin-bottom:8px; position:sticky; top:env(safe-area-inset-top,0px); background:var(--bg); padding-block:12px; z-index:2}
+.modal-head h2{font-family:"Bodoni Moda",Georgia,serif; font-size:26px; flex:1}
+.close{width:44px; height:44px; flex:none; border-radius:50%; border:1px solid var(--line-2); background:var(--surface); font-size:17px; line-height:1}
+.save-tip{display:flex; gap:10px; padding:13px; border-radius:var(--r); background:var(--gold-soft); border:1px solid var(--gold-line); font-size:13px; line-height:1.55; color:var(--ink-2); margin-bottom:18px}
+.save-tip b{color:var(--gold-2); font-weight:600}
+.out-item{margin-bottom:26px}
+.out-item .cap{display:flex; justify-content:space-between; align-items:baseline; gap:10px; margin-bottom:8px; font-family:"IBM Plex Mono",monospace; font-size:10.5px; color:var(--ink-3); letter-spacing:.06em}
 .out-item img{display:block; width:100%; height:auto; border-radius:4px; box-shadow:var(--shadow-lift); background:#fff}
-.out-item .acts{display:flex; gap:8px; margin-top:10px}
+.out-item .acts{display:flex; gap:9px; margin-top:11px}
 .out-item .acts .btn{flex:1; padding:10px 12px; font-size:14px; min-height:46px}
-.busy{display:flex; align-items:center; gap:10px; color:var(--ink-2); font-size:14px; padding:24px 0}
-.spin{width:16px;height:16px;border:2px solid var(--line-2); border-top-color:var(--accent); border-radius:50%; animation:sp .7s linear infinite}
+.busy{display:flex; align-items:center; gap:11px; color:var(--ink-2); font-size:14px; padding:26px 0}
+.spin{width:16px;height:16px;border:2px solid var(--line-2); border-top-color:var(--gold); border-radius:50%; animation:sp .7s linear infinite}
 @keyframes sp{to{transform:rotate(360deg)}}
 @media (prefers-reduced-motion:reduce){ .spin{animation-duration:2s} *{transition-duration:.01ms !important} }
 
-.foot{padding-block:8px 4px; border-top:1px solid var(--line); color:var(--ink-3); font-size:12px; line-height:1.6}
+.foot{padding-block:10px 4px; border-top:1px solid var(--line); color:var(--ink-3); font-size:12px; line-height:1.65}
 .foot code{font-family:"IBM Plex Mono",monospace; font-size:11px; color:var(--ink-2)}
 </style>
 
 <div class="app">
   <header class="head">
-    <div class="ribbon" aria-hidden="true"><i></i><i></i><i></i></div>
-    <h1>L-Size Photo Sizer</h1>
-    <p class="machine">Canon SELPHY CP1500 · L paper 119 × 89 mm · 400 dpi</p>
-    <p class="sub">Pick a card format, drop your photos in, nudge each one inside its printed frame. You get a print-resolution sheet ready for the SELPHY app. <b>Nothing is uploaded — it all happens on this device.</b></p>
+    <div class="rule"></div>
+    <p class="eyebrow">Every guest is a photographer</p>
+    <h1>Joy &amp; <em>Patrick</em></h1>
+    <p class="place">Queenstown NZ &middot; 10.10.26</p>
+    <p class="sub">Pick a card, drop your photos in, nudge each one inside its printed frame. Every card comes out signed and dated, ready for the SELPHY. <b>Nothing is uploaded — it all happens on this device.</b></p>
   </header>
 
   <section class="step">
@@ -336,13 +260,21 @@ a.btn{color:inherit; text-decoration:none}
 
   <section class="step">
     <div class="step-head"><span class="num">03</span><h2>Position &amp; caption</h2><span class="tag" id="sheetCount"></span></div>
-    <p class="hint">Drag inside a frame to move the photo. Pinch, scroll or use the zoom slider to fill it. Double-tap a frame to reset.</p>
-    <div class="fields shared-block" id="sharedFields" hidden></div>
+    <p class="hint">Drag inside a frame to move the photo. Pinch, scroll or use the zoom slider to fill it. Double-tap a frame to reset. Every card is signed <b style="color:var(--ink-2)">Joy &amp; Patrick · Queenstown NZ · 10.10.26</b> automatically.</p>
     <div id="sheets"></div>
   </section>
 
   <section class="step">
     <div class="step-head"><span class="num">04</span><h2>Print settings</h2></div>
+    <div class="seg-wrap">
+      <div class="seg-label"><span class="k">Colour</span></div>
+      <div class="seg" id="punchSeg" role="group" aria-label="Print colour">
+        <button data-punch="off" type="button">True</button>
+        <button data-punch="subtle" type="button">Warm</button>
+        <button data-punch="strong" type="button">Rich</button>
+      </div>
+      <p class="seg-note" id="punchNote"></p>
+    </div>
     <p class="hint">Set these in the Canon SELPHY app (or the printer's own menu) before you print.</p>
     <ul class="settings" id="printSettings"></ul>
   </section>
@@ -411,6 +343,29 @@ const PPM = DPI / 25.4;                    // 15.748 px per mm
 const OUT_W = Math.round(SHEET.w * PPM);   // 1874
 const OUT_H = Math.round(SHEET.h * PPM);   // 1402
 const PAPER = "#FDFCF9";
+/** Signed on every card, every format. Not editable by design. */
+const BRAND = { names: "Joy & Patrick", place: "Queenstown NZ · 10.10.26" };
+
+/** Dye-sub lays colour down flatter than a screen. This is the correction for that, not a gimmick. */
+const PUNCH = {
+  off:    { s: 1,    c: 1,    note: "Straight out of the camera, colour-managed end to end. Start here." },
+  subtle: { s: 1.10, c: 1.03, note: "A touch more depth to answer the flatness of dye-sublimation. Safe on skin tones." },
+  strong: { s: 1.26, c: 1.08, note: "Pushed hard, for dim candlelit shots. Can tip warm skin towards orange." }
+};
+
+/** A canvas is sRGB unless asked otherwise, which silently flattens Display P3 photos. */
+let P3 = false;
+function ctx2d(canvas) {
+  try {
+    const c = canvas.getContext("2d", { colorSpace: "display-p3" });
+    if (c) {
+      const a = c.getContextAttributes && c.getContextAttributes();
+      P3 = !!(a && a.colorSpace === "display-p3");
+      return c;
+    }
+  } catch (e) { /* older engines ignore the option */ }
+  return canvas.getContext("2d");
+}
 const FRAMED = window.self !== window.top; // the viewer mediates saves through the downloads capability
 let dl = null;                             // Claude downloads namespace, or null where unavailable
 
@@ -424,11 +379,6 @@ const FORMATS = [{
   frames: [{ x: 4.23, y: 4.23, w: 54, h: 56 }, { x: 60.77, y: 4.23, w: 54, h: 56 }],
   minPx: [830, 860],
   idealPx: [1100, 1140],
-  textScope: "sheet",
-  fields: [
-    { key: "title", label: "Title", ph: "Brighton, first light" },
-    { key: "note",  label: "Note",  ph: "We walked the pier before anyone else was awake." }
-  ],
   specs: [
     ["Card",   "4.7 × 3.5 in (119 × 89 mm), landscape, one per SELPHY L sheet."],
     ["Frames", "Two at 2.14 × 2.22 in (54 × 56 mm), 0.1 in gap."],
@@ -452,11 +402,6 @@ const FORMATS = [{
   frames: [{ x: 8, y: 5.5, w: 46, h: 62 }, { x: 65, y: 5.5, w: 46, h: 62 }],
   minPx: [700, 940],
   idealPx: [950, 1280],
-  textScope: "card",
-  fields: [
-    { key: "title", label: "Name", ph: "Nadia & Tom" },
-    { key: "note",  label: "Line", ph: "14 JUNE 2026" }
-  ],
   specs: [
     ["Card",   "54 × 86 mm portrait, image window 46 × 62 mm (1.81 × 2.44 in)."],
     ["Borders","4 mm top and sides, ~20 mm white band below."],
@@ -479,8 +424,6 @@ const FORMATS = [{
   frames: [{ x: 0, y: 0, w: 119, h: 89 }],
   minPx: [1400, 1050],
   idealPx: [1800, 1344],
-  textScope: null,
-  fields: [],
   specs: [
     ["Image",  "4.69 × 3.5 in (119 × 89 mm) edge to edge."],
     ["Supply", "1400 × 1050 px minimum · 1800 × 1344 px for 384 dpi."],
@@ -498,28 +441,14 @@ const FORMATS = [{
 const state = {
   fmt: FORMATS[0],
   photos: [],            // {id, src(bitmap|canvas), file, w, h, name, sample, t:{zoom,ox,oy}}
-  text: {},              // key -> {title, note}   per card, overrides shared
-  shared: {},            // formatId -> {title, note}   typed once, used by every card
+  punch: "subtle",       // print colour correction
   seq: 0
 };
 let results = [];
 let sheetRedraws = [];
-let cardInputs = [];
 
 const $ = (s) => document.querySelector(s);
 const clamp = (v, a, b) => Math.min(b, Math.max(a, v));
-const txt = (k) => (state.text[k] ||= { title: "", note: "" });
-const shared = (fid) => (state.shared[fid] ||= { title: "", note: "" });
-const esc = (v) => String(v == null ? "" : v).replace(/&/g, "&amp;").replace(/"/g, "&quot;").replace(/</g, "&lt;");
-/** a card's own text wins; anything it leaves blank falls back to the shared line */
-function cardText(key) {
-  const own = state.text[key] || {};
-  const sh = shared(state.fmt.id);
-  return {
-    title: (own.title || "").trim() || sh.title,
-    note: (own.note || "").trim() || sh.note
-  };
-}
 function redrawAllSheets() { sheetRedraws.forEach((fn) => fn()); }
 
 /* ─────────── Cover-fit maths, shared by preview and export ─────────── */
@@ -570,13 +499,56 @@ function drawSheet(ctx, fmt, items, px) {
   fmt.frames.forEach((f, i) => {
     const it = items[i];
     const r = [f.x * px, f.y * px, f.w * px, f.h * px];
-    if (it) drawCover(ctx, it.img, r[0], r[1], r[2], r[3], it.t);
+    if (it) {
+      const p = PUNCH[state.punch] || PUNCH.off;
+      const f = (p.s === 1 && p.c === 1) ? "none" : `saturate(${p.s}) contrast(${p.c})`;
+      try { ctx.filter = f; } catch (e) { /* no filter support: ship it straight */ }
+      drawCover(ctx, it.img, r[0], r[1], r[2], r[3], it.t);
+      try { ctx.filter = "none"; } catch (e) {}
+    }
     else if (fmt.id === "story") { ctx.fillStyle = "#F1EEE8"; ctx.fillRect(...r); }
   });
 
   if (fmt.id === "story") decorateStory(ctx, fmt, items, px);
   if (fmt.id === "instax") decorateInstax(ctx, fmt, items, px);
+  if (fmt.id === "full" && items[0]) decorateFull(ctx, px);
   ctx.restore();
+}
+
+function drawBrand(ctx, px, cfg) {
+  ctx.save();
+  ctx.textAlign = cfg.align;
+  ctx.textBaseline = "alphabetic";
+  if (cfg.shadow) {
+    ctx.shadowColor = "rgba(0,0,0,.55)";
+    ctx.shadowBlur = 1.5 * px;
+    ctx.shadowOffsetY = 0.3 * px;
+  }
+  if (cfg.ruleY) {
+    ctx.strokeStyle = "rgba(60,48,40,.22)";
+    ctx.lineWidth = Math.max(1, 0.16 * px);
+    ctx.beginPath();
+    ctx.moveTo((cfg.x - 11) * px, cfg.ruleY * px);
+    ctx.lineTo((cfg.x + 11) * px, cfg.ruleY * px);
+    ctx.stroke();
+  }
+  ctx.fillStyle = cfg.nameColor;
+  ctx.font = `400 ${cfg.nameSize * px}px "Bodoni Moda", Didot, Georgia, serif`;
+  ctx.fillText(BRAND.names, cfg.x * px, cfg.nameY * px, cfg.maxW * px);
+  ctx.fillStyle = cfg.placeColor;
+  tracked(ctx, `${cfg.track * px}px`);
+  ctx.font = `500 ${cfg.placeSize * px}px Archivo, Helvetica, sans-serif`;
+  ctx.fillText(BRAND.place.toUpperCase(), cfg.x * px, cfg.placeY * px, cfg.maxW * px);
+  tracked(ctx, "0px");
+  ctx.restore();
+}
+
+function decorateFull(ctx, px) {
+  drawBrand(ctx, px, {
+    align: "right", x: SHEET.w - 7, shadow: true, maxW: 72,
+    nameSize: 4.4, nameY: 79.6, nameColor: "rgba(255,255,255,.97)",
+    placeSize: 2.1, placeY: 84.4, placeColor: "rgba(255,255,255,.85)", track: 0.3
+  });
 }
 
 function decorateStory(ctx, fmt, items, px) {
@@ -586,25 +558,11 @@ function decorateStory(ctx, fmt, items, px) {
     ctx.strokeRect(f.x * px + ctx.lineWidth / 2, f.y * px + ctx.lineWidth / 2,
                    f.w * px - ctx.lineWidth, f.h * px - ctx.lineWidth);
   });
-  const t = items.length ? cardText("sheet:" + items[0].sheetKey) : { title: "", note: "" };
-  const cx = (SHEET.w / 2) * px;
-  ctx.textAlign = "center"; ctx.textBaseline = "alphabetic";
-
-  ctx.strokeStyle = "rgba(60,48,40,.22)";
-  ctx.lineWidth = Math.max(1, 0.16 * px);
-  ctx.beginPath(); ctx.moveTo(cx - 11 * px, 65.2 * px); ctx.lineTo(cx + 11 * px, 65.2 * px); ctx.stroke();
-
-  if (t.title) {
-    ctx.fillStyle = "#211E1B";
-    ctx.font = `400 ${6.2 * px}px "Instrument Serif", Georgia, serif`;
-    ctx.fillText(t.title, cx, 72.6 * px, 108 * px);
-  }
-  if (t.note) {
-    ctx.fillStyle = "#6B645C";
-    ctx.font = `400 ${3.3 * px}px Archivo, Helvetica, sans-serif`;
-    const lines = wrap(ctx, t.note, 100 * px).slice(0, 2);
-    lines.forEach((l, i) => ctx.fillText(l, cx, (77.6 + i * 4.3) * px));
-  }
+  drawBrand(ctx, px, {
+    align: "center", x: SHEET.w / 2, ruleY: 65.2, maxW: 100,
+    nameSize: 6.4, nameY: 73.4, nameColor: "#211E1B",
+    placeSize: 2.5, placeY: 79.8, placeColor: "#7A736A", track: 0.34
+  });
 }
 
 function decorateInstax(ctx, fmt, items, px) {
@@ -623,21 +581,11 @@ function decorateInstax(ctx, fmt, items, px) {
       ctx.moveTo(px0 + sx * tick, py0); ctx.lineTo(px0, py0);
       ctx.lineTo(px0, py0 + sy * tick); ctx.stroke();
     });
-    const t = cardText("photo:" + it.photo.id);
-    const mid = x + w / 2;
-    ctx.textAlign = "center";
-    if (t.title) {
-      ctx.fillStyle = "#211E1B";
-      ctx.font = `400 ${5.2 * px}px "Instrument Serif", Georgia, serif`;
-      ctx.fillText(t.title, mid, (fmt.cardY + 73.5) * px, (fmt.cardW - 8) * px);
-    }
-    if (t.note) {
-      ctx.fillStyle = "#77706A";
-      tracked(ctx, `${0.28 * px}px`);
-      ctx.font = `500 ${2.5 * px}px Archivo, Helvetica, sans-serif`;
-      ctx.fillText(String(t.note).toUpperCase(), mid, (fmt.cardY + 80.2) * px, (fmt.cardW - 8) * px);
-      tracked(ctx, "0px");
-    }
+    drawBrand(ctx, px, {
+      align: "center", x: cxmm + fmt.cardW / 2, maxW: fmt.cardW - 8,
+      nameSize: 4.9, nameY: fmt.cardY + 74, nameColor: "#211E1B",
+      placeSize: 2.05, placeY: fmt.cardY + 80.6, placeColor: "#7A736A", track: 0.26
+    });
   });
 }
 
@@ -663,7 +611,7 @@ function miniSVG(fmt) {
     });
   }
   fmt.frames.forEach((f) => {
-    body += `<rect x="${(f.x * s).toFixed(2)}" y="${(f.y * s).toFixed(2)}" width="${(f.w * s).toFixed(2)}" height="${(f.h * s).toFixed(2)}" fill="var(--accent)" opacity=".85"/>`;
+    body += `<rect x="${(f.x * s).toFixed(2)}" y="${(f.y * s).toFixed(2)}" width="${(f.w * s).toFixed(2)}" height="${(f.h * s).toFixed(2)}" fill="var(--gold)" opacity=".85"/>`;
   });
   if (fmt.id === "story") body += `<rect x="24" y="${(70 * s).toFixed(2)}" width="16" height="1.6" rx=".8" fill="var(--ink-3)"/>`;
   return `<svg viewBox="0 0 64 ${H.toFixed(2)}" role="img" aria-hidden="true">${body}</svg>`;
@@ -697,7 +645,7 @@ function thumbCanvas(p, size) {
   const c = document.createElement("canvas");
   const dpr = Math.min(2, window.devicePixelRatio || 1);
   c.width = size * dpr; c.height = size * dpr;
-  const ctx = c.getContext("2d");
+  const ctx = ctx2d(c);
   ctx.imageSmoothingQuality = "high";
   const sc = Math.max(c.width / p.w, c.height / p.h);
   ctx.drawImage(p.src, (c.width - p.w * sc) / 2, (c.height - p.h * sc) / 2, p.w * sc, p.h * sc);
@@ -734,7 +682,6 @@ function renderSheets() {
   observers.forEach((o) => o.disconnect());
   observers = [];
   sheetRedraws = [];
-  cardInputs = [];
   host.innerHTML = "";
   const list = sheets();
   const fmt = state.fmt;
@@ -755,18 +702,17 @@ function renderSheets() {
     wrapEl.innerHTML = `<div class="sheet-head"><span class="n">Sheet ${si + 1}</span>
       <span>L · 119 × 89 mm</span></div>
       <div class="proof"><div class="paper"><canvas></canvas></div></div>
-      <div class="ctrls"></div><div class="fields"></div>`;
+      <div class="ctrls"></div>`;
     const paper = wrapEl.querySelector(".paper");
     const canvas = wrapEl.querySelector("canvas");
     const ctrls = wrapEl.querySelector(".ctrls");
-    const fields = wrapEl.querySelector(".fields");
 
     const redraw = () => {
       const cssW = paper.clientWidth || 300;
       const dpr = Math.min(2.5, window.devicePixelRatio || 1);
       canvas.width = Math.round(cssW * dpr);
       canvas.height = Math.round(cssW * dpr * SHEET.h / SHEET.w);
-      drawSheet(canvas.getContext("2d"), fmt, items, canvas.width / SHEET.w);
+      drawSheet(ctx2d(canvas), fmt, items, canvas.width / SHEET.w);
       ctrls.querySelectorAll("[data-res]").forEach((el) => {
         const it = items[+el.dataset.res];
         const [w, h] = sourcePx(it.photo, fmt.frames[+el.dataset.res], it.t);
@@ -806,63 +752,11 @@ function renderSheets() {
       paper.appendChild(hit);
     });
 
-    // caption fields
-    if (fmt.textScope) {
-      const groups = fmt.textScope === "sheet"
-        ? [{ key: "sheet:" + si, label: null }]
-        : items.map((it, i) => ({ key: "photo:" + it.photo.id, label: `Card ${i + 1}` }));
-      groups.forEach((g) => {
-        if (g.label) {
-          const h = document.createElement("div");
-          h.className = "sheet-head"; h.style.margin = "4px 0 0";
-          h.innerHTML = `<span>${g.label}</span>`;
-          fields.appendChild(h);
-        }
-        fmt.fields.forEach((fd) => {
-          const el = document.createElement("div");
-          el.className = "field";
-          const id = `t-${g.key.replace(/\W/g, "")}-${fd.key}`;
-          const inherited = shared(fmt.id)[fd.key];
-          el.innerHTML = `<label for="${id}">${fd.label}</label><input id="${id}" type="text" placeholder="${esc(inherited || fd.ph)}" value="${esc(txt(g.key)[fd.key])}">`;
-          const inp = el.querySelector("input");
-          inp.oninput = (e) => { txt(g.key)[fd.key] = e.target.value; redraw(); };
-          cardInputs.push({ el: inp, key: fd.key, ph: fd.ph });
-          fields.appendChild(el);
-        });
-      });
-    }
-
     host.appendChild(wrapEl);
     redraw();
     const ro = new ResizeObserver(redraw);
     ro.observe(paper);
     observers.push(ro);
-  });
-}
-
-function renderShared() {
-  const host = $("#sharedFields");
-  const fmt = state.fmt;
-  if (!fmt.textScope || !state.photos.length) { host.hidden = true; host.innerHTML = ""; return; }
-  const unit = fmt.textScope === "card" ? "card" : "sheet";
-  const sh = shared(fmt.id);
-  host.hidden = false;
-  host.innerHTML =
-    `<div><div class="shared-head">Same on every ${unit}</div>
-     <div class="shared-note">Type it once here. Any ${unit} below that you fill in overrides it.</div></div>` +
-    fmt.fields.map((fd) => {
-      const id = `sh-${fmt.id}-${fd.key}`;
-      return `<div class="field"><label for="${id}">${fd.label}</label>
-        <input id="${id}" type="text" placeholder="${esc(fd.ph)}" value="${esc(sh[fd.key])}"></div>`;
-    }).join("");
-  host.querySelectorAll("input").forEach((inp, i) => {
-    const fd = fmt.fields[i];
-    inp.oninput = (e) => {
-      sh[fd.key] = e.target.value;
-      // every empty card field shows the shared line as its placeholder
-      cardInputs.forEach((ci) => { if (ci.key === fd.key) ci.el.placeholder = e.target.value || ci.ph; });
-      redrawAllSheets();
-    };
   });
 }
 
@@ -957,7 +851,7 @@ async function decode(file, maxDim) {
     const sc = maxDim / Math.max(w, h);
     const c = document.createElement("canvas");
     c.width = Math.round(w * sc); c.height = Math.round(h * sc);
-    const cx = c.getContext("2d");
+    const cx = ctx2d(c);
     cx.imageSmoothingQuality = "high";
     cx.drawImage(bmp, 0, 0, c.width, c.height);
     if (bmp.close) bmp.close();
@@ -1020,9 +914,6 @@ function loadSamples() {
     { id: ++state.seq, file: null, src: a, w: 1500, h: 1125, name: "sample-warm", sample: true, t: { zoom: 1, ox: 0, oy: 0 } },
     { id: ++state.seq, file: null, src: b, w: 1125, h: 1500, name: "sample-cool", sample: true, t: { zoom: 1, ox: 0, oy: 0 } }
   ];
-  state.text["sheet:0"] = { title: "Brighton, first light", note: "We walked the pier before anyone else was awake." };
-  state.text["photo:" + state.photos[0].id] = { title: "Nadia & Tom", note: "14 June 2026" };
-  state.text["photo:" + state.photos[1].id] = { title: "Priya", note: "Table four" };
 }
 
 /* ─────────── Export at print resolution ─────────── */
@@ -1032,7 +923,7 @@ function prescale(src, targetScale) {
     const w = Math.max(1, Math.round(cur.width / 2)), h = Math.max(1, Math.round(cur.height / 2));
     const c = document.createElement("canvas");
     c.width = w; c.height = h;
-    const cx = c.getContext("2d");
+    const cx = ctx2d(c);
     cx.imageSmoothingQuality = "high";
     cx.drawImage(cur, 0, 0, w, h);
     cur = c; curScale /= 2;
@@ -1065,8 +956,8 @@ async function makePrints() {
     }
     const c = document.createElement("canvas");
     c.width = OUT_W; c.height = OUT_H;
-    drawSheet(c.getContext("2d"), fmt, hi, PPM);
-    const blob = await new Promise((res) => c.toBlob(res, "image/jpeg", 0.94));
+    drawSheet(ctx2d(c), fmt, hi, PPM);
+    const blob = await new Promise((res) => c.toBlob(res, "image/jpeg", 0.97));
     results.push({
       blob,
       url: URL.createObjectURL(blob),
@@ -1219,7 +1110,17 @@ function closeOut() {
 }
 
 /* ─────────── Wiring ─────────── */
-function redrawEverything() { renderTray(); renderSheets(); renderShared(); }
+function renderPunch() {
+  $("#punchSeg").querySelectorAll("[data-punch]").forEach((b) => {
+    b.setAttribute("aria-pressed", String(b.dataset.punch === state.punch));
+  });
+  const p = PUNCH[state.punch] || PUNCH.off;
+  $("#punchNote").textContent = p.note +
+    (P3 ? " Wide-gamut colour is on, so nothing is thrown away on the way to the file."
+        : " This browser only offers sRGB, so very vivid reds and greens will flatten a little.");
+}
+
+function redrawEverything() { renderTray(); renderSheets(); }
 
 $("#fmtList").addEventListener("click", (e) => {
   const b = e.target.closest(".fmt");
@@ -1233,6 +1134,13 @@ $("#btnCam").onclick = () => $("#camIn").click();
 $("#fileIn").onchange = (e) => { addFiles(e.target.files); e.target.value = ""; };
 $("#camIn").onchange = (e) => { addFiles(e.target.files); e.target.value = ""; };
 $("#clearSamples").onclick = () => { state.photos = state.photos.filter((p) => !p.sample); redrawEverything(); };
+$("#punchSeg").addEventListener("click", (e) => {
+  const b = e.target.closest("[data-punch]");
+  if (!b) return;
+  state.punch = b.dataset.punch;
+  renderPunch();
+  redrawAllSheets();
+});
 $("#btnMake").onclick = makePrints;
 $("#outClose").onclick = closeOut;
 document.addEventListener("keydown", (e) => { if (e.key === "Escape" && !$("#out").hidden) closeOut(); });
@@ -1243,6 +1151,7 @@ window.addEventListener("drop", (e) => { e.preventDefault(); if (e.dataTransfer?
 loadSamples();
 renderFormats();
 redrawEverything();
+renderPunch();
 
 // the viewer answers about saving after first paint; light the button up when it does
 if (window.claude && typeof window.claude.use === "function") {
@@ -1255,7 +1164,7 @@ if (window.claude && typeof window.claude.use === "function") {
 // captions are drawn with a webfont — redraw once it is actually available
 if (document.fonts) {
   Promise.all([
-    document.fonts.load('400 100px "Instrument Serif"'),
+    document.fonts.load('400 100px "Bodoni Moda"'),
     document.fonts.load('500 40px Archivo')
   ]).then(() => renderSheets()).catch(() => {});
 }
