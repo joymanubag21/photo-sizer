@@ -80,15 +80,24 @@ a.btn{text-decoration:none}
 }
 .cue i{display:block; width:1px; height:22px; background:var(--line-2)}
 
-.cards{display:flex; flex-direction:column; gap:14px; margin-top:30px}
+.cards{display:flex; flex-direction:column; gap:10px; margin-top:30px}
 .wcard{
+  display:flex; align-items:center; gap:14px; width:100%; text-align:left;
   background:var(--surface); border:1px solid var(--line); border-radius:var(--r);
-  padding:20px 18px; box-shadow:var(--shadow); text-align:left;
+  padding:17px 18px; box-shadow:var(--shadow); color:inherit; text-decoration:none;
+  min-height:92px; cursor:pointer;
+  transition:border-color .16s, box-shadow .16s, transform .12s;
 }
-.wcard h2{font-family:'Cormorant Garamond',Georgia,serif; font-weight:500; font-size:25px; line-height:1.1; margin:7px 0 9px}
-.wcard p{color:var(--ink-2); font-size:14px; line-height:1.62}
-.wcard-acts{display:flex; gap:8px; margin-top:17px; flex-wrap:wrap}
-.wcard-acts .btn{flex:1 1 auto; min-width:148px; min-height:48px}
+.wcard:hover{border-color:var(--line-2); box-shadow:var(--shadow-lift)}
+.wcard:active{transform:scale(.994)}
+.wcard .eyebrow{display:block}
+.wc-txt{flex:1; min-width:0}
+.wc-h{
+  display:block; font-family:'Cormorant Garamond',Georgia,serif; font-weight:500;
+  font-size:23px; line-height:1.15; margin:6px 0 2px;
+}
+.wc-p{display:block; font-size:13.5px; color:var(--ink-2); line-height:1.5}
+.wc-go{flex:none; font-size:17px; color:var(--ink-3); line-height:1}
 .w-foot{margin-top:24px; font-size:12px; color:var(--ink-3); text-align:center; line-height:1.6}
 
 /* ───────── studio ───────── */
@@ -222,36 +231,35 @@ a.btn{text-decoration:none}
     </div>
 
     <div class="cards">
-      <article class="wcard">
-        <p class="eyebrow">Share the love</p>
-        <h2>Put tonight in our album</h2>
-        <p>Every photo you take goes into one album we all share. The ones we love most get printed right here, before the night is out.</p>
-        <div class="wcard-acts">
-          <a class="btn primary" id="albumLink" href="https://app.kululu.com/m4fvel" target="_blank" rel="noopener">Open the album</a>
-          <button class="btn" type="button" id="btnShareAlbum">Send the link</button>
-        </div>
-      </article>
+      <a class="wcard" id="albumLink" href="https://app.kululu.com/m4fvel" target="_blank" rel="noopener">
+        <span class="wc-txt">
+          <span class="eyebrow">Share the love</span>
+          <span class="wc-h">Put tonight in our album</span>
+          <span class="wc-p">One album, all of us.</span>
+        </span>
+        <span class="wc-go" aria-hidden="true">&rarr;</span>
+      </a>
 
-      <article class="wcard">
-        <p class="eyebrow">Capture the love</p>
-        <h2>Take one right now</h2>
-        <p>Point it at whoever is sitting next to you. It lands straight into a card, ready to print.</p>
-        <div class="wcard-acts">
-          <button class="btn primary" type="button" id="btnCapture">Open the camera</button>
-        </div>
-      </article>
+      <button class="wcard" type="button" id="btnCapture">
+        <span class="wc-txt">
+          <span class="eyebrow">Capture the love</span>
+          <span class="wc-h">Take a photo now</span>
+          <span class="wc-p">Straight into a card.</span>
+        </span>
+        <span class="wc-go" aria-hidden="true">&rarr;</span>
+      </button>
 
-      <article class="wcard">
-        <p class="eyebrow">Print my photos</p>
-        <h2>Take a piece of tonight home</h2>
-        <p>Pick a card, nudge your photo into its printed frame, and walk away with something you can actually hold.</p>
-        <div class="wcard-acts">
-          <button class="btn primary" type="button" id="btnStart">Start printing</button>
-        </div>
-      </article>
+      <button class="wcard" type="button" id="btnStart">
+        <span class="wc-txt">
+          <span class="eyebrow">Print my photos</span>
+          <span class="wc-h">Print one you&rsquo;ve taken</span>
+          <span class="wc-p">From your camera roll.</span>
+        </span>
+        <span class="wc-go" aria-hidden="true">&rarr;</span>
+      </button>
     </div>
 
-    <p class="w-foot">Your prints are made on this phone &mdash; nothing is uploaded to make them.</p>
+    <p class="w-foot">Prints are made on this phone.</p>
   </div>
 </section>
 
@@ -1175,16 +1183,6 @@ $("#camIn").onchange = async (e) => {
   if (!files || !files.length) return;
   enterStudio();
   await addFiles(files);
-};
-$("#btnShareAlbum").onclick = async (btn) => {
-  const b = $("#btnShareAlbum");
-  // a phone can pass this to WhatsApp or AirDrop; a QR cannot
-  if (navigator.share) {
-    try { await navigator.share({ title: "Joy & Patrick", text: "Our shared album", url: ALBUM }); return; }
-    catch (e) { if (e.name === "AbortError") return; }
-  }
-  try { await navigator.clipboard.writeText(ALBUM); flash(b, "Link copied"); }
-  catch (e) { flash(b, "Copy from the button above", 2600); }
 };
 $("#cat").addEventListener("click", (e) => {
   const b = e.target.closest("[data-id]");
