@@ -388,7 +388,7 @@ const DPI = 400;
 const PPM = DPI / 25.4;                    // 15.748 px per mm
 const OUT_W = Math.round(SHEET.w * PPM);   // 1874
 const OUT_H = Math.round(SHEET.h * PPM);   // 1402
-const PAPER = "#FDFCF9";
+const PAPER = "#FFFFFF";   // the sheet is white, as the design files set it
 /** Signed on every card, every format. Not editable by design. */
 const BRAND = {
   line: "Joy & Patrick · 10.10.2026 · Queenstown",  // story card + full bleed
@@ -448,9 +448,10 @@ const FORMATS = [{
   desc: "Portrait card with the classic wide white band under the picture.",
   meta: "2 cards / sheet · card 54 × 86 mm",
   slots: 2,
-  cardW: 54, cardH: 86, cardY: 1.5, cardX: [4, 61],
+  // each card centred in its half of the sheet: one cut at 59.5 mm splits it
+  cardW: 54, cardH: 86, cardY: 1.5, cardX: [2.75, 62.25],
   // window 46 × 62 mm, 4 mm border top and sides
-  frames: [{ x: 8, y: 5.5, w: 46, h: 62 }, { x: 65, y: 5.5, w: 46, h: 62 }],
+  frames: [{ x: 6.75, y: 5.5, w: 46, h: 62 }, { x: 66.25, y: 5.5, w: 46, h: 62 }],
   minPx: [700, 940],
   idealPx: [950, 1280],
   specs: [
@@ -616,21 +617,21 @@ function decorateStory(ctx, fmt, items, px) {
 }
 
 function decorateInstax(ctx, fmt, items, px) {
+  // a single hairline down the middle — fold or cut once, get two cards
+  if (items.length) {
+    ctx.save();
+    ctx.strokeStyle = "rgba(60,48,40,.30)";
+    ctx.lineWidth = Math.max(1, 0.14 * px);
+    ctx.beginPath();
+    ctx.moveTo((SHEET.w / 2) * px, 0);
+    ctx.lineTo((SHEET.w / 2) * px, SHEET.h * px);
+    ctx.stroke();
+    ctx.restore();
+  }
+
   fmt.cardX.forEach((cxmm, i) => {
     const it = items[i];
-    if (!it) return;                       // a card only exists once it has a photo
-    const x = cxmm * px, y = fmt.cardY * px, w = fmt.cardW * px, h = fmt.cardH * px;
-    const lw = Math.max(1, 0.14 * px);
-    // crop hairlines + corner ticks
-    ctx.strokeStyle = "rgba(60,48,40,.28)"; ctx.lineWidth = lw;
-    ctx.strokeRect(x + lw / 2, y + lw / 2, w - lw, h - lw);
-    ctx.strokeStyle = "rgba(60,48,40,.5)";
-    const tick = 1.2 * px;
-    [[x, y, -1, -1], [x + w, y, 1, -1], [x, y + h, -1, 1], [x + w, y + h, 1, 1]].forEach(([px0, py0, sx, sy]) => {
-      ctx.beginPath();
-      ctx.moveTo(px0 + sx * tick, py0); ctx.lineTo(px0, py0);
-      ctx.lineTo(px0, py0 + sy * tick); ctx.stroke();
-    });
+    if (!it) return;
     drawCardMark(ctx, px, {
       x: cxmm + fmt.cardW / 2, maxW: fmt.cardW - 8,
       nameSize: 4.23, nameY: fmt.cardY + 74.5,   // 12pt
