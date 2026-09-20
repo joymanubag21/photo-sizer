@@ -36,6 +36,7 @@ p{margin:0}
 button{font:inherit; color:inherit; border:0; background:none; cursor:pointer}
 button,a,label,input[type=range]{touch-action:manipulation}
 a{color:inherit}
+a.btn{text-decoration:none}
 :focus-visible{outline:2px solid var(--ink); outline-offset:3px; border-radius:6px}
 .eyebrow{font-size:10.5px; font-weight:600; text-transform:uppercase; letter-spacing:.24em; color:var(--green)}
 
@@ -57,34 +58,51 @@ a{color:inherit}
 
 /* ───────── welcome ───────── */
 .welcome{
-  position:fixed; inset:0; z-index:50; overflow-y:auto; background:var(--bg);
-  display:flex; flex-direction:column; justify-content:center;
-  padding:28px 24px calc(28px + env(safe-area-inset-bottom,0px));
+  position:fixed; inset:0; z-index:50; overflow-y:auto;
+  background:var(--bg); display:block;
 }
-.w-in{max-width:440px; margin:0 auto; width:100%; text-align:center}
-.w-in .rule{height:1px; background:linear-gradient(90deg,transparent,var(--line-2) 25%,var(--line-2) 75%,transparent); margin-bottom:20px}
-.w-in h1{font-family:'Cormorant Garamond',Georgia,serif; font-weight:500; font-size:clamp(42px,12.5vw,58px); line-height:1.02; letter-spacing:-.01em; margin:10px 0 7px}
-.w-in h1 em{font-style:italic; color:var(--rust)}
-.w-in .place{font-size:11.5px; letter-spacing:.2em; text-transform:uppercase; color:var(--ink-3)}
-.w-card{margin:26px auto 24px; width:100%; max-width:330px}
+.w-in{
+  max-width:440px; margin:0 auto; width:100%;
+  padding:24px 22px calc(40px + env(safe-area-inset-bottom,0px));
+}
+.hero{text-align:center; padding-block:10px 0}
+.hero .rule{height:1px; background:linear-gradient(90deg,transparent,var(--line-2) 25%,var(--line-2) 75%,transparent); margin-bottom:20px}
+.hero h1{font-family:'Cormorant Garamond',Georgia,serif; font-weight:500; font-size:clamp(42px,12.5vw,58px); line-height:1.02; letter-spacing:-.01em; margin:10px 0 7px}
+.hero h1 em{font-style:italic; color:var(--rust)}
+.hero .place{font-size:11.5px; letter-spacing:.2em; text-transform:uppercase; color:var(--ink-3)}
+.w-card{margin:26px auto 0; width:100%; max-width:320px}
 .w-card .paper{background:#fff; box-shadow:var(--shadow-lift); overflow:hidden; transform:rotate(-1.4deg)}
 .w-card canvas{display:block; width:100%; height:auto}
-.w-body{color:var(--ink-2); font-size:14.5px; margin-bottom:22px; text-align:left}
-.w-in .btn{width:100%; min-height:56px; font-size:16px}
-.w-foot{margin-top:14px; font-size:12.5px; color:var(--ink-3)}
+.cue{
+  margin-top:26px; font-size:10px; font-weight:600; letter-spacing:.22em;
+  text-transform:uppercase; color:var(--ink-3); display:flex;
+  align-items:center; justify-content:center; gap:9px;
+}
+.cue i{display:block; width:1px; height:22px; background:var(--line-2)}
+
+.cards{display:flex; flex-direction:column; gap:14px; margin-top:30px}
+.wcard{
+  background:var(--surface); border:1px solid var(--line); border-radius:var(--r);
+  padding:20px 18px; box-shadow:var(--shadow); text-align:left;
+}
+.wcard h2{font-family:'Cormorant Garamond',Georgia,serif; font-weight:500; font-size:25px; line-height:1.1; margin:7px 0 9px}
+.wcard p{color:var(--ink-2); font-size:14px; line-height:1.62}
+.wcard-acts{display:flex; gap:8px; margin-top:17px; flex-wrap:wrap}
+.wcard-acts .btn{flex:1 1 auto; min-width:148px; min-height:48px}
+.w-foot{margin-top:24px; font-size:12px; color:var(--ink-3); text-align:center; line-height:1.6}
 
 /* ───────── studio ───────── */
 .studio{display:flex; flex-direction:column; height:100%}
 .bar{
-  flex:none; display:flex; align-items:center; gap:12px;
-  padding:6px 16px; border-bottom:1px solid var(--line);
+  flex:none; display:flex; align-items:center; gap:8px;
+  padding:9px 12px 9px 18px; border-bottom:1px solid var(--line);
   background:var(--surface);
 }
 .bar .wordmark{font-family:'Cormorant Garamond',Georgia,serif; font-size:17px; flex:1; letter-spacing:-.01em}
-.bar .count{font-size:12px; color:var(--ink-3)}
+.bar .count{font-size:11.5px; color:var(--ink-3); margin-right:4px}
 .icon{
-  width:36px; height:36px; flex:none; border-radius:50%; border:1px solid var(--line-2);
-  background:var(--surface); font-size:15px; font-weight:600; color:var(--brown);
+  width:38px; height:38px; flex:none; border-radius:50%; border:1px solid var(--line-2);
+  background:var(--surface); font-size:17px; font-weight:500; line-height:1; color:var(--ink-2);
 }
 .icon:hover{background:var(--surface-2)}
 
@@ -129,10 +147,10 @@ a{color:inherit}
   box-shadow:0 -6px 20px -14px rgba(20,22,18,.35);
   padding-bottom:env(safe-area-inset-bottom,0px);
 }
-.cat{display:flex; gap:8px; overflow-x:auto; padding:10px 16px 0; scrollbar-width:none}
+.cat{display:flex; gap:10px; overflow-x:auto; padding:16px 18px 0; scrollbar-width:none}
 .cat::-webkit-scrollbar{display:none}
 .cat button{
-  flex:0 0 auto; width:104px; padding:5px 5px 4px; border-radius:4px;
+  flex:0 0 auto; width:100px; padding:5px 5px 6px; border-radius:4px;
   border:1px solid var(--line); background:var(--surface-2); text-align:center;
   transition:border-color .16s, background .16s;
 }
@@ -142,7 +160,7 @@ a{color:inherit}
 
 .cat .nm{display:block; font-size:10px; font-weight:500; line-height:1.2; color:var(--ink-2); white-space:nowrap; overflow:hidden; text-overflow:ellipsis}
 .cat button[aria-pressed="true"] .nm{color:var(--green); font-weight:600}
-.acts{display:flex; gap:8px; padding:8px 16px 10px}
+.acts{display:flex; gap:8px; padding:14px 18px 16px}
 
 /* ───────── sheets over the top ───────── */
 .modal{position:fixed; inset:0; z-index:60; background:var(--bg); overflow-y:auto; overscroll-behavior:contain}
@@ -194,14 +212,46 @@ a{color:inherit}
 
 <section class="welcome" id="welcome">
   <div class="w-in">
-    <div class="rule"></div>
-    <p class="eyebrow">Every guest is a photographer</p>
-    <h1>Joy &amp; <em>Patrick</em></h1>
-    <p class="place">Queenstown NZ &middot; 10.10.26</p>
-    <div class="w-card"><div class="paper"><canvas id="hero"></canvas></div></div>
-    <p class="w-body">Pick a card, drop your photos in, nudge each one inside its printed frame. Every card comes out signed and dated, ready for the SELPHY.</p>
-    <button class="btn primary" id="btnStart">Start printing</button>
-    <p class="w-foot">Nothing is uploaded — it all happens on this device.</p>
+    <div class="hero">
+      <div class="rule"></div>
+      <p class="eyebrow">Every guest is a photographer</p>
+      <h1>Joy &amp; <em>Patrick</em></h1>
+      <p class="place">Queenstown NZ &middot; 10.10.26</p>
+      <div class="w-card"><div class="paper"><canvas id="hero"></canvas></div></div>
+      <p class="cue"><i></i>Scroll for everything you need<i></i></p>
+    </div>
+
+    <div class="cards">
+      <article class="wcard">
+        <p class="eyebrow">Share the love</p>
+        <h2>Put tonight in our album</h2>
+        <p>Every photo you take goes into one album we all share. The ones we love most get printed right here, before the night is out.</p>
+        <div class="wcard-acts">
+          <a class="btn primary" id="albumLink" href="https://app.kululu.com/m4fvel" target="_blank" rel="noopener">Open the album</a>
+          <button class="btn" type="button" id="btnShareAlbum">Send the link</button>
+        </div>
+      </article>
+
+      <article class="wcard">
+        <p class="eyebrow">Capture the love</p>
+        <h2>Take one right now</h2>
+        <p>Point it at whoever is sitting next to you. It lands straight into a card, ready to print.</p>
+        <div class="wcard-acts">
+          <button class="btn primary" type="button" id="btnCapture">Open the camera</button>
+        </div>
+      </article>
+
+      <article class="wcard">
+        <p class="eyebrow">Print my photos</p>
+        <h2>Take a piece of tonight home</h2>
+        <p>Pick a card, nudge your photo into its printed frame, and walk away with something you can actually hold.</p>
+        <div class="wcard-acts">
+          <button class="btn primary" type="button" id="btnStart">Start printing</button>
+        </div>
+      </article>
+    </div>
+
+    <p class="w-foot">Your prints are made on this phone &mdash; nothing is uploaded to make them.</p>
   </div>
 </section>
 
@@ -209,6 +259,7 @@ a{color:inherit}
   <header class="bar">
     <span class="wordmark">Joy &amp; Patrick</span>
     <span class="count" id="count"></span>
+    <button class="icon" id="btnAdd" aria-label="Add photos">+</button>
     <button class="icon" id="btnHelp" aria-label="How to print">?</button>
   </header>
 
@@ -226,7 +277,6 @@ a{color:inherit}
   <footer class="bottom">
     <div class="cat" id="cat"></div>
     <div class="acts">
-      <button class="btn grow" id="btnAdd">Add photos</button>
       <button class="btn primary grow" id="btnMake">Print</button>
     </div>
   </footer>
@@ -283,6 +333,7 @@ a{color:inherit}
 </div>
 
 <input type="file" id="fileIn" accept="image/*" multiple hidden>
+<input type="file" id="camIn" accept="image/*" capture="environment" hidden>
 <script>
 (() => {
 "use strict";
@@ -1109,10 +1160,31 @@ function renderHero() {
 }
 
 /* ───────────── wiring ───────────── */
-$("#btnStart").onclick = () => {
+const ALBUM = "https://app.kululu.com/m4fvel";
+
+function enterStudio() {
   $("#welcome").hidden = true;
   $("#studio").hidden = false;
   requestAnimationFrame(redrawAllSheets);
+}
+$("#btnStart").onclick = enterStudio;
+$("#btnCapture").onclick = () => $("#camIn").click();
+$("#camIn").onchange = async (e) => {
+  const files = e.target.files;
+  e.target.value = "";
+  if (!files || !files.length) return;
+  enterStudio();
+  await addFiles(files);
+};
+$("#btnShareAlbum").onclick = async (btn) => {
+  const b = $("#btnShareAlbum");
+  // a phone can pass this to WhatsApp or AirDrop; a QR cannot
+  if (navigator.share) {
+    try { await navigator.share({ title: "Joy & Patrick", text: "Our shared album", url: ALBUM }); return; }
+    catch (e) { if (e.name === "AbortError") return; }
+  }
+  try { await navigator.clipboard.writeText(ALBUM); flash(b, "Link copied"); }
+  catch (e) { flash(b, "Copy from the button above", 2600); }
 };
 $("#cat").addEventListener("click", (e) => {
   const b = e.target.closest("[data-id]");
