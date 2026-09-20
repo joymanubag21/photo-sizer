@@ -8,9 +8,9 @@
 :root{
   /* Neutral chrome so nothing competes with the photographs. The house
      terracotta and green stay, but only as accents. */
-  --bg:#F2F3F1; --bg-2:#F2F3F1;
-  --surface:#FFFFFF; --surface-2:#F7F8F6; --surface-3:#EAECE8;
-  --line:#E3E5E0; --line-2:#C9CCC4;
+  --bg:#FFFFFF; --bg-2:#FFFFFF;
+  --surface:#FFFFFF; --surface-2:#F7F8F6; --surface-3:#EFF0EE;
+  --line:#E6E7E4; --line-2:#C9CCC4;
   --ink:#191A17; --ink-2:#5A5C57; --ink-3:#95988F;
   --brown:#5A5C57;
   --rust:#B5532A; --rust-2:#8F3F1E;
@@ -116,31 +116,53 @@ a.btn{text-decoration:none}
 .icon:hover{background:var(--surface-2)}
 
 /* no panel behind the card — it floats, the way SCRL floats its canvas */
+/* the card carousel: swiping it IS choosing the format */
 .stage{flex:1; min-height:0; display:flex; flex-direction:column; background:var(--bg)}
-.pager{flex:1; min-height:0; display:flex; overflow-x:auto; overflow-y:hidden; scroll-snap-type:x mandatory; scrollbar-width:none}
+.pager{
+  flex:1; min-height:0; display:flex; align-items:center;
+  overflow-x:auto; overflow-y:hidden;
+  scroll-snap-type:x mandatory; scroll-behavior:smooth; scrollbar-width:none;
+  padding-inline:6%;
+}
 .pager::-webkit-scrollbar{display:none}
-.page{flex:0 0 100%; scroll-snap-align:center; display:flex; align-items:center; justify-content:center; padding:6px}
-.paper{position:relative; width:100%; aspect-ratio:119/89; max-height:100%; background:#fff; box-shadow:var(--shadow-lift)}
+.page{
+  flex:0 0 88%; scroll-snap-align:center; padding:0 7px;
+  display:flex; flex-direction:column; justify-content:center;
+  opacity:.4; transform:scale(.93);
+  transition:opacity .22s ease, transform .22s ease;
+}
+.page.on{opacity:1; transform:scale(1)}
+@media (prefers-reduced-motion:reduce){ .page{transition:none} }
+.paper{
+  position:relative; width:100%; aspect-ratio:119/89; background:#fff;
+  border:1px solid var(--line); box-shadow:var(--shadow-lift);
+}
 .paper canvas{display:block; width:100%; height:100%}
+.cap{text-align:center; margin-top:15px; min-height:44px}
+.cap .nm{
+  display:block; font-family:'Cormorant Garamond',Georgia,serif;
+  font-size:20px; line-height:1.1; color:var(--ink);
+}
+.cap .sub{display:block; font-size:11px; letter-spacing:.14em; text-transform:uppercase; color:var(--ink-3); margin-top:4px}
+.sheetdots{display:flex; gap:7px; justify-content:center; margin-top:9px}
+.sheetdots button{width:22px; height:22px; display:grid; place-items:center}
+.sheetdots i{display:block; width:6px; height:6px; border-radius:50%; background:var(--line-2)}
+.sheetdots button[aria-current="true"] i{background:var(--green)}
+
 .hit{position:absolute; touch-action:none; cursor:grab; border:0; background:transparent; padding:0}
 .hit:active{cursor:grabbing}
 .hit.empty{
-  background:rgba(255,255,255,.55); border:1.5px dashed rgba(90,80,72,.5);
+  background:rgba(255,255,255,.55); border:1.5px dashed rgba(90,80,72,.45);
   display:flex; align-items:center; justify-content:center;
   color:#6A6259; font-size:12px; font-weight:600; text-align:center;
 }
-.hit.empty:hover{background:rgba(255,255,255,.85)}
+.hit.empty:hover{background:rgba(255,255,255,.9)}
 .hit.on{box-shadow:0 0 0 2px var(--rust)}
 .flag{
   position:absolute; left:50%; bottom:6%; transform:translateX(-50%);
   background:var(--warn); color:#fff; font-size:10px; font-weight:600;
   padding:3px 8px; border-radius:20px; white-space:nowrap; pointer-events:none;
-  letter-spacing:.02em;
 }
-.dots{flex:none; display:flex; gap:6px; justify-content:center; padding:0 0 8px}
-.dots i{width:6px; height:6px; border-radius:50%; background:var(--line-2)}
-.dots i.on{background:var(--green)}
-.dots:empty{padding:0}
 .stage-empty{flex:1; display:flex; align-items:center; justify-content:center; color:var(--ink-3); font-size:14px; text-align:center; padding:24px}
 
 .tune{
@@ -153,23 +175,9 @@ a.btn{text-decoration:none}
 
 .bottom{
   flex:none; background:var(--surface); border-top:1px solid var(--line);
-  box-shadow:0 -6px 20px -14px rgba(20,22,18,.35);
   padding-bottom:env(safe-area-inset-bottom,0px);
 }
-.cat{display:flex; gap:10px; overflow-x:auto; padding:16px 18px 0; scrollbar-width:none}
-.cat::-webkit-scrollbar{display:none}
-.cat button{
-  flex:0 0 auto; width:100px; padding:5px 5px 6px; border-radius:4px;
-  border:1px solid var(--line); background:var(--surface-2); text-align:center;
-  transition:border-color .16s, background .16s;
-}
-.cat .thumb{display:block; border:1px solid var(--line); background:#fff; overflow:hidden; margin-bottom:5px}
-.cat .thumb canvas{display:block; width:100%; height:auto}
-.cat button[aria-pressed="true"]{border-color:var(--green); background:var(--surface); box-shadow:0 0 0 1px var(--green)}
-
-.cat .nm{display:block; font-size:10px; font-weight:500; line-height:1.2; color:var(--ink-2); white-space:nowrap; overflow:hidden; text-overflow:ellipsis}
-.cat button[aria-pressed="true"] .nm{color:var(--green); font-weight:600}
-.acts{display:flex; gap:8px; padding:14px 18px 16px}
+.acts{display:flex; gap:8px; padding:12px 18px 14px}
 
 /* ───────── sheets over the top ───────── */
 .modal{position:fixed; inset:0; z-index:60; background:var(--bg); overflow-y:auto; overscroll-behavior:contain}
@@ -240,20 +248,11 @@ a.btn{text-decoration:none}
         <span class="wc-go" aria-hidden="true">&rarr;</span>
       </a>
 
-      <button class="wcard" type="button" id="btnCapture">
-        <span class="wc-txt">
-          <span class="eyebrow">Capture the love</span>
-          <span class="wc-h">Take a photo now</span>
-          <span class="wc-p">Straight into a card.</span>
-        </span>
-        <span class="wc-go" aria-hidden="true">&rarr;</span>
-      </button>
-
       <button class="wcard" type="button" id="btnStart">
         <span class="wc-txt">
           <span class="eyebrow">Print my photos</span>
-          <span class="wc-h">Print one you&rsquo;ve taken</span>
-          <span class="wc-p">From your camera roll.</span>
+          <span class="wc-h">Make a card to take home</span>
+          <span class="wc-p">Shoot one now, or use your camera roll.</span>
         </span>
         <span class="wc-go" aria-hidden="true">&rarr;</span>
       </button>
@@ -273,7 +272,6 @@ a.btn{text-decoration:none}
 
   <main class="stage">
     <div class="pager" id="pager"></div>
-    <div class="dots" id="dots"></div>
   </main>
 
   <div class="tune" id="tune" hidden>
@@ -283,7 +281,6 @@ a.btn{text-decoration:none}
   </div>
 
   <footer class="bottom">
-    <div class="cat" id="cat"></div>
     <div class="acts">
       <button class="btn primary grow" id="btnMake">Print</button>
     </div>
@@ -341,7 +338,6 @@ a.btn{text-decoration:none}
 </div>
 
 <input type="file" id="fileIn" accept="image/*" multiple hidden>
-<input type="file" id="camIn" accept="image/*" capture="environment" hidden>
 <script>
 (() => {
 "use strict";
@@ -456,6 +452,7 @@ const state = {
   fmt: FORMATS[0],
   photos: [],            // {id, src(bitmap|canvas), file, w, h, name, sample, t:{zoom,ox,oy}}
   punch: "subtle",       // print colour correction
+  sheet: 0,              // which sheet the carousel shows
   seq: 0
 };
 let results = [];
@@ -994,38 +991,43 @@ function renderPunch() {
 /* ───────────── The studio: one big preview, a catalogue underneath ───────────── */
 const SHORT = { story: "Story card", instax: "Guest card", full: "Full photo" };
 let observers = [];
+let pageEls = [];
 let activeItem = null;
 
-const redrawEverything = () => { renderPager(); renderCat(); renderTray(); };
+const redrawEverything = () => { renderCarousel(); renderTray(); };
 
-function catThumb(fmt) {
-  const items = state.photos.slice(0, fmt.slots)
-    .map((p) => ({ photo: p, img: p.src, t: p.t, sheetKey: "0" }));
-  const c = document.createElement("canvas");
-  const dpr = Math.min(2, window.devicePixelRatio || 1);
-  c.width = Math.round(96 * dpr);
-  c.height = Math.round(96 * dpr * SHEET.h / SHEET.w);
-  drawSheet(ctx2d(c), fmt, items, c.width / SHEET.w);
-  return c;
+function sheetsFor(fmt) {
+  const out = [];
+  for (let i = 0; i < state.photos.length; i += fmt.slots) {
+    out.push(state.photos.slice(i, i + fmt.slots).map((p) => ({
+      photo: p, img: p.src, t: p.t, sheetKey: String(out.length)
+    })));
+  }
+  return out;
 }
 
-function renderCat() {
-  const cat = $("#cat");
-  cat.innerHTML = "";
-  FORMATS.forEach((f) => {
-    const b = document.createElement("button");
-    b.type = "button";
-    b.dataset.id = f.id;
-    b.setAttribute("aria-pressed", String(f.id === state.fmt.id));
-    const thumb = document.createElement("span");
-    thumb.className = "thumb";
-    thumb.appendChild(catThumb(f));
-    const nm = document.createElement("span");
-    nm.className = "nm";
-    nm.textContent = SHORT[f.id];
-    b.append(thumb, nm);
-    cat.appendChild(b);
+function updateAction() {
+  const list = sheetsFor(state.fmt);
+  $("#btnMake").disabled = !list.length;
+  $("#btnMake").textContent = list.length > 1 ? `Print ${list.length}` : "Print";
+}
+
+/** the centred card is the chosen format — there is no separate selector */
+function syncFocus() {
+  const pager = $("#pager");
+  if (!pageEls.length) return;
+  const mid = pager.scrollLeft + pager.clientWidth / 2;
+  let best = 0, bd = Infinity;
+  pageEls.forEach((el, i) => {
+    const d = Math.abs(el.offsetLeft + el.offsetWidth / 2 - mid);
+    if (d < bd) { bd = d; best = i; }
   });
+  pageEls.forEach((el, i) => el.classList.toggle("on", i === best));
+  if (FORMATS[best] && FORMATS[best] !== state.fmt) {
+    state.fmt = FORMATS[best];
+    hideTune();
+    updateAction();
+  }
 }
 
 function hideTune() { activeItem = null; $("#tune").hidden = true; }
@@ -1038,43 +1040,44 @@ function selectFrame(item, hit) {
   $("#zoom").value = item.t.zoom;
 }
 
-function renderPager() {
+function renderCarousel() {
   const pager = $("#pager");
   observers.forEach((o) => o.disconnect());
   observers = [];
   sheetRedraws = [];
+  pageEls = [];
   pager.innerHTML = "";
   hideTune();
 
-  const list = sheets();
-  const fmt = state.fmt;
   const n = state.photos.length;
   $("#count").textContent = n ? `${n} photo${n > 1 ? "s" : ""}` : "";
-  $("#btnMake").disabled = !list.length;
-  $("#btnMake").textContent = list.length > 1 ? `Print ${list.length}` : "Print";
-
-  if (!list.length) {
+  if (!n) {
     pager.innerHTML = `<div class="stage-empty">Add a photo and your card appears here.</div>`;
-    $("#dots").innerHTML = "";
+    updateAction();
     return;
   }
 
-  list.forEach((items) => {
+  FORMATS.forEach((fmt) => {
+    const list = sheetsFor(fmt);
+    const si = Math.min(state.sheet, Math.max(0, list.length - 1));
+    const items = list[si] || [];
+
     const page = document.createElement("div");
-    page.className = "page";
-    page.innerHTML = `<div class="paper"><canvas></canvas></div>`;
+    page.className = "page" + (fmt.id === state.fmt.id ? " on" : "");
+    page.innerHTML = `<div class="slot">
+        <div class="paper"><canvas></canvas></div>
+        <div class="cap"><span class="nm">${SHORT[fmt.id]}</span><span class="sub"></span></div>
+      </div>`;
     const paper = page.querySelector(".paper");
     const canvas = page.querySelector("canvas");
 
     const redraw = () => {
       const w = paper.clientWidth, h = paper.clientHeight;
-      if (!w || !h) return;                       // the studio is still hidden
+      if (!w || !h) return;
       const dpr = Math.min(2.5, window.devicePixelRatio || 1);
       canvas.width = Math.round(w * dpr);
       canvas.height = Math.round(h * dpr);
       drawSheet(ctx2d(canvas), fmt, items, canvas.width / SHEET.w);
-
-      // one plain-language flag, in place of a pixel count nobody wants to read
       paper.querySelectorAll(".flag").forEach((el) => el.remove());
       items.forEach((it, fi) => {
         const [pw, ph] = sourcePx(it.photo, fmt.frames[fi], it.t);
@@ -1082,7 +1085,7 @@ function renderPager() {
         const f = fmt.frames[fi];
         const flag = document.createElement("div");
         flag.className = "flag";
-        flag.textContent = "Too zoomed in to print sharp";
+        flag.textContent = "Too zoomed in";
         flag.style.left = `${(f.x + f.w / 2) / SHEET.w * 100}%`;
         flag.style.bottom = `${(SHEET.h - (f.y + f.h) + 2.5) / SHEET.h * 100}%`;
         paper.appendChild(flag);
@@ -1110,15 +1113,36 @@ function renderPager() {
       paper.appendChild(hit);
     });
 
+    if (list.length > 1) {
+      page.querySelector(".sub").textContent = `Sheet ${si + 1} of ${list.length}`;
+      const dots = document.createElement("div");
+      dots.className = "sheetdots";
+      list.forEach((_, k) => {
+        const b = document.createElement("button");
+        b.type = "button";
+        b.setAttribute("aria-label", `Sheet ${k + 1}`);
+        b.setAttribute("aria-current", String(k === si));
+        b.innerHTML = "<i></i>";
+        b.onclick = () => { state.sheet = k; renderCarousel(); };
+        dots.appendChild(b);
+      });
+      page.querySelector(".cap").appendChild(dots);
+    }
+
     pager.appendChild(page);
+    pageEls.push(page);
     redraw();
     const ro = new ResizeObserver(redraw);
     ro.observe(paper);
     observers.push(ro);
   });
 
-  $("#dots").innerHTML = list.length > 1
-    ? list.map((_, i) => `<i class="${i === 0 ? "on" : ""}"></i>`).join("") : "";
+  updateAction();
+  const idx = Math.max(0, FORMATS.findIndex((f) => f.id === state.fmt.id));
+  requestAnimationFrame(() => {
+    const el = pageEls[idx];
+    if (el) pager.scrollLeft = el.offsetLeft - (pager.clientWidth - el.offsetWidth) / 2;
+  });
 }
 
 function renderTray() {
@@ -1176,26 +1200,7 @@ function enterStudio() {
   requestAnimationFrame(redrawAllSheets);
 }
 $("#btnStart").onclick = enterStudio;
-$("#btnCapture").onclick = () => $("#camIn").click();
-$("#camIn").onchange = async (e) => {
-  const files = e.target.files;
-  e.target.value = "";
-  if (!files || !files.length) return;
-  enterStudio();
-  await addFiles(files);
-};
-$("#cat").addEventListener("click", (e) => {
-  const b = e.target.closest("[data-id]");
-  if (!b) return;
-  state.fmt = FORMATS.find((f) => f.id === b.dataset.id);
-  renderCat();
-  renderPager();
-});
-$("#pager").addEventListener("scroll", () => {
-  const w = $("#pager").clientWidth || 1;
-  const i = Math.round($("#pager").scrollLeft / w);
-  $("#dots").querySelectorAll("i").forEach((d, k) => d.classList.toggle("on", k === i));
-}, { passive: true });
+$("#pager").addEventListener("scroll", syncFocus, { passive: true });
 
 $("#btnAdd").onclick = () => $("#fileIn").click();
 $("#fileIn").onchange = (e) => { addFiles(e.target.files); e.target.value = ""; };
@@ -1233,8 +1238,7 @@ window.addEventListener("drop", (e) => { e.preventDefault(); if (e.dataTransfer?
 function openOut(html) { $("#outBody").innerHTML = html; $("#out").hidden = false; }
 function closeOut() { $("#out").hidden = true; }
 
-renderCat();
-renderPager();
+renderCarousel();
 renderTray();
 loadSamples().then(() => { redrawEverything(); renderHero(); });
 
