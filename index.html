@@ -6,20 +6,20 @@
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400;1,500;1,600&family=Jost:wght@400;500;600&display=swap">
 <style>
 :root{
-  /* Neutral chrome so nothing competes with the photographs. The house
-     terracotta and green stay, but only as accents. */
-  --bg:#FFFFFF; --bg-2:#FFFFFF;
-  --surface:#FFFFFF; --surface-2:#F7F8F6; --surface-3:#EFF0EE;
-  --line:#E6E7E4; --line-2:#C9CCC4;
-  --ink:#191A17; --ink-2:#5A5C57; --ink-3:#95988F;
-  --brown:#5A5C57;
-  --rust:#B5532A; --rust-2:#8F3F1E;
+  /* lifted from Joy & Patrick - Guest Guide.dc.html so the app and the
+     guide read as one thing */
+  --bg:#FDF9F3; --bg-2:#FDF9F3;
+  --surface:#FFFFFF; --surface-2:#FBF7F1; --surface-3:#F3EDE4;
+  --line:rgba(196,120,90,0.18); --line-2:rgba(196,120,90,0.34);
+  --ink:#2A2420; --ink-2:#5A5048; --ink-3:#9A8E82;
+  --brown:#7B5E4A;
+  --rose:#C4785A; --rust:#B5532A; --rust-2:#8F3F1E;
   --green:#4A6B4A;
-  --warn:#B5532A; --warn-soft:#F7E6DC;
+  --warn:#B5532A; --warn-soft:#F9EBE1;
   --ok:#4A6B4A;
-  --shadow:0 1px 2px rgba(20,22,18,.05), 0 6px 18px -10px rgba(20,22,18,.18);
-  --shadow-lift:0 2px 8px rgba(20,22,18,.10), 0 24px 46px -18px rgba(20,22,18,.30);
-  --r:4px;
+  --shadow:0 1px 2px rgba(42,36,32,.05), 0 6px 18px -10px rgba(42,36,32,.16);
+  --shadow-lift:0 2px 8px rgba(42,36,32,.09), 0 24px 46px -18px rgba(42,36,32,.26);
+  --r:3px;
   color-scheme:light;
 }
 *{box-sizing:border-box}
@@ -38,7 +38,7 @@ button,a,label,input[type=range]{touch-action:manipulation}
 a{color:inherit}
 a.btn{text-decoration:none}
 :focus-visible{outline:2px solid var(--ink); outline-offset:3px; border-radius:6px}
-.eyebrow{font-size:10.5px; font-weight:600; text-transform:uppercase; letter-spacing:.24em; color:var(--green)}
+.eyebrow{font-size:10px; font-weight:600; text-transform:uppercase; letter-spacing:.22em; color:var(--green)}
 
 .btn{
   display:inline-flex; align-items:center; justify-content:center; gap:9px;
@@ -98,23 +98,40 @@ a.btn{text-decoration:none}
   text-transform:uppercase; color:rgba(255,255,255,.55);
 }
 
-.w-in{max-width:440px; margin:0 auto; width:100%; padding:30px 22px calc(40px + env(safe-area-inset-bottom,0px))}
-.cards{display:flex; flex-direction:column; gap:10px}
+.w-in{max-width:640px; margin:0 auto; width:100%; padding:52px 22px calc(46px + env(safe-area-inset-bottom,0px))}
+.sec-eyebrow{
+  display:block; font-size:10.5px; font-weight:600; letter-spacing:.22em;
+  text-transform:uppercase; color:var(--green); margin-bottom:8px;
+}
+.sec-h{
+  font-family:'Cormorant Garamond',Georgia,serif; font-weight:400;
+  font-size:2.2rem; line-height:1.04; margin:0 0 22px; color:var(--ink);
+}
+.sec-h em{font-style:italic; color:var(--rose)}
+
+/* hairline grid, exactly as the guide sets its essentials */
+.cards{
+  display:grid; gap:1px; background:var(--line);
+  border:1px solid var(--line); border-radius:var(--r); overflow:hidden;
+}
 .wcard{
   display:flex; align-items:center; gap:14px; width:100%; text-align:left;
-  background:var(--surface); border:1px solid var(--line); border-radius:var(--r);
-  padding:17px 18px; box-shadow:var(--shadow); color:inherit; text-decoration:none;
-  min-height:92px; cursor:pointer;
-  transition:border-color .16s, box-shadow .16s, transform .12s;
+  background:#fff; padding:19px 17px; border:0; color:inherit; text-decoration:none;
+  min-height:92px; cursor:pointer; transition:background .16s;
 }
-.wcard:hover{border-color:var(--line-2); box-shadow:var(--shadow-lift)}
-.wcard:active{transform:scale(.994)}
-.wcard .eyebrow{display:block}
+.wcard:hover{background:var(--surface-2)}
 .wc-txt{flex:1; min-width:0}
-.wc-h{display:block; font-family:'Cormorant Garamond',Georgia,serif; font-weight:500; font-size:23px; line-height:1.15; margin:6px 0 2px}
-.wc-p{display:block; font-size:13.5px; color:var(--ink-2); line-height:1.5}
-.wc-go{flex:none; font-size:17px; color:var(--ink-3); line-height:1}
-.w-foot{margin-top:24px; font-size:12px; color:var(--ink-3); text-align:center}
+.wcard .eyebrow{
+  display:block; font-size:9.5px; font-weight:600; letter-spacing:.18em;
+  text-transform:uppercase; color:var(--green);
+}
+.wc-h{
+  display:block; font-family:'Cormorant Garamond',Georgia,serif; font-weight:400;
+  font-size:1.42rem; line-height:1.1; margin:7px 0 4px; color:var(--ink);
+}
+.wc-p{display:block; font-size:11.8px; color:var(--ink-3); line-height:1.5}
+.wc-go{flex:none; font-size:16px; color:var(--rose); line-height:1}
+.w-foot{margin-top:26px; font-size:11.5px; color:var(--ink-3); text-align:center; letter-spacing:.04em}
 
 /* ───────── studio ───────── */
 .studio{display:flex; flex-direction:column; height:100%}
@@ -123,8 +140,8 @@ a.btn{text-decoration:none}
   padding:9px 12px 9px 18px; border-bottom:1px solid var(--line);
   background:var(--surface);
 }
-.bar .wordmark{font-family:'Cormorant Garamond',Georgia,serif; font-size:17px; flex:1; letter-spacing:-.01em}
-.bar .count{font-size:11.5px; color:var(--ink-3); margin-right:4px}
+.bar .wordmark{font-family:'Cormorant Garamond',Georgia,serif; font-size:19px; flex:1; letter-spacing:-.005em}
+.bar .count{font-size:9.5px; font-weight:600; letter-spacing:.16em; text-transform:uppercase; color:var(--ink-3); margin-right:4px}
 .icon{
   width:38px; height:38px; flex:none; border-radius:50%; border:1px solid var(--line-2);
   background:var(--surface); font-size:17px; font-weight:500; line-height:1; color:var(--ink-2);
@@ -156,10 +173,10 @@ a.btn{text-decoration:none}
 .paper canvas{display:block; width:100%; height:100%}
 .cap{text-align:center; margin-top:15px; min-height:44px}
 .cap .nm{
-  display:block; font-family:'Cormorant Garamond',Georgia,serif;
-  font-size:20px; line-height:1.1; color:var(--ink);
+  display:block; font-family:'Cormorant Garamond',Georgia,serif; font-weight:400;
+  font-size:1.42rem; line-height:1.1; color:var(--ink);
 }
-.cap .sub{display:block; font-size:11px; letter-spacing:.14em; text-transform:uppercase; color:var(--ink-3); margin-top:4px}
+.cap .sub{display:block; font-size:9.5px; font-weight:600; letter-spacing:.18em; text-transform:uppercase; color:var(--ink-3); margin-top:5px}
 .sheetdots{display:flex; gap:7px; justify-content:center; margin-top:9px}
 .sheetdots button{width:22px; height:22px; display:grid; place-items:center}
 .sheetdots i{display:block; width:6px; height:6px; border-radius:50%; background:var(--line-2)}
@@ -173,7 +190,7 @@ a.btn{text-decoration:none}
   color:#6A6259; font-size:12px; font-weight:600; text-align:center;
 }
 .hit.empty:hover{background:rgba(255,255,255,.9)}
-.hit.on{box-shadow:0 0 0 2px var(--rust)}
+.hit.on{box-shadow:0 0 0 2px var(--rose)}
 .flag{
   position:absolute; left:50%; bottom:6%; transform:translateX(-50%);
   background:var(--warn); color:#fff; font-size:10px; font-weight:600;
@@ -186,7 +203,7 @@ a.btn{text-decoration:none}
   padding:0 16px; border-top:1px solid var(--line); background:var(--surface);
 }
 .tune .lab{font-size:11px; text-transform:uppercase; letter-spacing:.12em; color:var(--ink-3); flex:none}
-.tune input[type=range]{flex:1; accent-color:var(--rust); min-width:0; height:44px}
+.tune input[type=range]{flex:1; accent-color:var(--rose); min-width:0; height:44px}
 .tune button{font-size:12px; font-weight:600; color:var(--ink-2); padding:0 10px; min-height:44px; flex:none}
 
 .bottom{
@@ -257,6 +274,8 @@ a.btn{text-decoration:none}
   </header>
 
   <div class="w-in">
+    <span class="sec-eyebrow">While you are here</span>
+    <h2 class="sec-h">Your <em>photos</em></h2>
     <div class="cards">
       <a class="wcard" id="albumLink" href="https://app.kululu.com/m4fvel" target="_blank" rel="noopener">
         <span class="wc-txt">
