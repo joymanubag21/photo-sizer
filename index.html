@@ -130,6 +130,36 @@ a.btn{text-decoration:none}
 /* the muted grey the guide uses for captions is too light to read at this
    size, so body copy steps up to the ink tone */
 .wc-p{display:block; font-size:14px; color:var(--ink-2); line-height:1.55}
+/* I spy: a photo hunt, in the guide's hand */
+.spy-head{text-align:center; padding:0 0 20px}
+.spy-kicker{font-size:10px; font-weight:600; letter-spacing:.24em; text-transform:uppercase; color:var(--green)}
+.spy-h{font-family:'Cormorant Garamond',Georgia,serif; font-weight:400; font-size:3.6rem; line-height:.95; margin:10px 0 12px}
+.spy-h em{font-style:italic; color:var(--rose)}
+.spy-lede{font-size:14.5px; color:var(--ink-2); line-height:1.55; max-width:30ch; margin:0 auto}
+.spy-count{margin-top:16px; font-size:10px; font-weight:600; letter-spacing:.2em; text-transform:uppercase; color:var(--ink-3)}
+.spy-count b{color:var(--rose); font-weight:600}
+.spy-list{list-style:none; margin:0; padding:0; background:#fff; border:1px solid var(--line-2); border-radius:12px; overflow:hidden}
+.spy-list li + li{border-top:1px solid var(--line)}
+.spy-item{
+  display:flex; align-items:center; gap:14px; width:100%; text-align:left;
+  padding:14px 18px; min-height:58px; background:none; border:0; cursor:pointer;
+  transition:background .16s;
+}
+.spy-item:hover{background:var(--surface-2)}
+.spy-heart{flex:none; width:22px; height:22px; color:var(--rose); transition:transform .22s cubic-bezier(.3,1.6,.5,1)}
+.spy-heart path{fill:none; stroke:currentColor; stroke-width:1.6; transition:fill .18s}
+.spy-item[aria-pressed="true"] .spy-heart{transform:scale(1.12)}
+.spy-item[aria-pressed="true"] .spy-heart path{fill:currentColor}
+.spy-txt{font-family:'Cormorant Garamond',Georgia,serif; font-size:1.22rem; line-height:1.25; color:var(--ink); transition:color .18s}
+.spy-txt small{display:block; font-family:'Jost',sans-serif; font-size:12px; color:var(--ink-3); margin-top:2px; font-style:normal}
+.spy-item[aria-pressed="true"] .spy-txt{color:var(--ink-3)}
+.spy-done{
+  text-align:center; margin:20px 0 4px; font-family:'Cormorant Garamond',Georgia,serif;
+  font-style:italic; font-size:1.4rem; color:var(--rose);
+}
+.spy-acts{display:flex; flex-direction:column; gap:10px; margin-top:20px}
+.spy-acts .btn{min-height:50px; border-radius:12px}
+@media (prefers-reduced-motion:reduce){ .spy-heart{transition:none} }
 .w-foot{margin-top:26px; font-size:11.5px; color:var(--ink-3); text-align:center; letter-spacing:.04em}
 
 /* ───────── studio ───────── */
@@ -297,7 +327,7 @@ a.btn{text-decoration:none}
 
   <div class="w-in">
     <span class="sec-eyebrow">Your photos tonight</span>
-    <h2 class="sec-h">Send them, or <em>keep one</em></h2>
+    <h2 class="sec-h">Three ways to <em>join in</em></h2>
     <div class="cards">
       <a class="wcard" id="albumLink" href="https://app.kululu.com/m4fvel" target="_blank" rel="noopener">
         <span class="eyebrow">For Joy &amp; Patrick</span>
@@ -309,6 +339,12 @@ a.btn{text-decoration:none}
         <span class="eyebrow">For you to keep</span>
         <span class="wc-h">Print a photo to take home</span>
         <span class="wc-p">Pick any photo and we&rsquo;ll turn it into a signed card, ready for the print station.</span>
+      </button>
+
+      <button class="wcard" type="button" id="btnSpy">
+        <span class="eyebrow">A game for tonight</span>
+        <span class="wc-h">I spy, with my little camera</span>
+        <span class="wc-p">Ten moments to catch before the night is out. How many can you find?</span>
       </button>
     </div>
 
@@ -381,6 +417,24 @@ a.btn{text-decoration:none}
           Photos → Share → Print. Only finds the printer when both are on the same <b>2.4&nbsp;GHz</b> network. <em>No AirPrint Printers Found</em> usually means the printer is on a different network, or still in direct-connection mode.
         </li>
       </ul>
+    </div>
+  </div>
+</div>
+
+<div class="modal" id="spy" hidden>
+  <div class="modal-in">
+    <div class="modal-head"><span style="flex:1"></span><button class="close" id="spyClose" aria-label="Close">✕</button></div>
+    <div class="spy-head">
+      <p class="spy-kicker">With my little camera</p>
+      <h2 class="spy-h">I <em>spy</em></h2>
+      <p class="spy-lede">Catch these before the night is out. Tap one when you&rsquo;ve got it.</p>
+      <p class="spy-count" id="spyCount"></p>
+    </div>
+    <ul class="spy-list" id="spyList"></ul>
+    <p class="spy-done" id="spyDone" hidden>All ten. You&rsquo;re officially part of the story.</p>
+    <div class="spy-acts">
+      <a class="btn primary" href="https://app.kululu.com/m4fvel" target="_blank" rel="noopener">Send your finds to our album</a>
+      <button class="btn" type="button" id="spyPrint">Print your favourite</button>
     </div>
   </div>
 </div>
@@ -1314,12 +1368,60 @@ function renderHero() {
 /* ───────────── wiring ───────────── */
 const ALBUM = "https://app.kululu.com/m4fvel";
 
+/* the shots to find — the in-jokes are from the Memory Lane cards on the tables */
+const SPY = [
+  ["A group shot of your table", ""],
+  ["Joy, mid-laugh", ""],
+  ["Patrick, trying not to cry", "He wrote four lines of vows and called it concise."],
+  ["The first dance", ""],
+  ["Someone giving a speech", ""],
+  ["A guest who flew in from another country", "Three countries, one small town."],
+  ["The lake", "There is only one. It is very large."],
+  ["Your best pickleball pose", "The one sport Joy beats Patrick at."],
+  ["Two guests from different chapters of our lives", "Kids, work, travel, family, pickleball."],
+  ["You, with the newlyweds", ""]
+];
+const SPY_KEY = "jp-ispy";
+let spyFound = new Set();
+try { spyFound = new Set(JSON.parse(localStorage.getItem(SPY_KEY) || "[]")); } catch (e) { /* private window */ }
+
+const HEART = '<svg class="spy-heart" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 20.4s-7.4-4.5-9.2-9.1C1.5 8 3.6 4.6 7 4.6c2 0 3.6 1.1 5 3 1.4-1.9 3-3 5-3 3.4 0 5.5 3.4 4.2 6.7-1.8 4.6-9.2 9.1-9.2 9.1z"/></svg>';
+
+function renderSpy() {
+  const list = $("#spyList");
+  list.innerHTML = "";
+  SPY.forEach(([shot, aside], i) => {
+    const li = document.createElement("li");
+    const b = document.createElement("button");
+    b.type = "button";
+    b.className = "spy-item";
+    b.setAttribute("aria-pressed", String(spyFound.has(i)));
+    b.innerHTML = HEART + `<span class="spy-txt">${shot}${aside ? `<small>${aside}</small>` : ""}</span>`;
+    b.onclick = () => {
+      spyFound.has(i) ? spyFound.delete(i) : spyFound.add(i);
+      try { localStorage.setItem(SPY_KEY, JSON.stringify([...spyFound])); } catch (e) {}
+      b.setAttribute("aria-pressed", String(spyFound.has(i)));
+      renderSpyCount();
+    };
+    li.appendChild(b);
+    list.appendChild(li);
+  });
+  renderSpyCount();
+}
+function renderSpyCount() {
+  $("#spyCount").innerHTML = `<b>${spyFound.size}</b> of ${SPY.length} found`;
+  $("#spyDone").hidden = spyFound.size !== SPY.length;
+}
+
 function enterStudio() {
   $("#welcome").hidden = true;
   $("#studio").hidden = false;
   requestAnimationFrame(redrawAllSheets);
 }
 $("#btnStart").onclick = enterStudio;
+$("#btnSpy").onclick = () => { renderSpy(); $("#spy").hidden = false; };
+$("#spyClose").onclick = () => { $("#spy").hidden = true; };
+$("#spyPrint").onclick = () => { $("#spy").hidden = true; enterStudio(); };
 
 
 $("#btnAdd").onclick = () => $("#fileIn").click();
@@ -1350,6 +1452,7 @@ $("#punchSeg").addEventListener("click", (e) => {
 document.addEventListener("keydown", (e) => {
   if (e.key !== "Escape") return;
   if (!$("#out").hidden) closeOut();
+  else if (!$("#spy").hidden) $("#spy").hidden = true;
   else if (!$("#help").hidden) $("#help").hidden = true;
 });
 window.addEventListener("dragover", (e) => e.preventDefault());
