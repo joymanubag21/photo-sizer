@@ -1643,7 +1643,7 @@ const RIDES = [
     rooms: [
       { bed: "The bridesmaids and Erwan", who: ["Lara Mae", "Cathlyn", "Norrie", "Erwan"] },
       { bed: "Making their own way", who: ["Marge", "Sam"] },
-      { bed: "The Arrowtown house", who: ["Marvin", "Marvin's wife", "Marvin's daughter", "Mae"] }
+      { bed: "The Arrowtown house", who: ["Marvin", "Jane", "Marvin's daughter", "Mae"] }
     ],
     note: "Marvin drives this car both ways. It can head to the reception ahead of the others if the photos run long." },
   { name: "Franklin&rsquo;s car", driver: "Franklin", hit: "Your driver both ways is <b>Franklin</b>.", car: "The family car",
@@ -1678,13 +1678,13 @@ const STAYS = [
     ] },
   { place: "The Arrowtown house", addr: "760 Malaghans Road, Arrowtown 9371",
     rooms: [
-      { bed: "Super king, in the living room", who: ["Marvin", "Marvin's wife", "Marvin's daughter"] },
+      { bed: "Super king, in the living room", who: ["Marvin", "Jane", "Marvin's daughter"] },
       { bed: "3 beds for you to choose", who: ["Angelo", "Nica", "Mae", "Sonito", "Emman", "Pia"] }
     ],
     legs: [
       { l: "Getting ready", t: "The six of you go to the lake house, 13 McKerrow Place, and the car leaves there at <b>2:10 pm</b>. Marvin's family goes straight to the ceremony." },
       { l: "Your driver, both ways", face: "samples/driver-angelo.jpg", t: "<b>Angelo</b> &mdash; Angelo, Emman, Sonito, Pia and Nica." },
-      { l: "", face: "samples/driver-marvin.jpg", t: "<b>Marvin</b> &mdash; Marvin, his wife and daughter, and Mae." }
+      { l: "", face: "samples/driver-marvin.jpg", t: "<b>Marvin</b> &mdash; Marvin, Jane, his daughter and Mae." }
     ] },
   { place: "The family Airbnb", addr: "Thompson Street, Queenstown 9300",
     rooms: [
@@ -1735,7 +1735,7 @@ const ROUTES = {
            "The Arrowtown house &mdash; you, Emman, Sonito, Pia and Nica."]
   },
   Marvin: {
-    start: "You start at the Arrowtown house with your wife and daughter.",
+    start: "You start at the Arrowtown house with Jane and your daughter.",
     ceremony: ["The lake house &mdash; Mae, Marge and Sam, who get ready there.",
                "Joy and Patrick&rsquo;s hotel &mdash; Lara Mae, Cathlyn and Norrie.",
                "4 Dublin Street &mdash; Erwan."],
@@ -1743,7 +1743,7 @@ const ROUTES = {
     home: ["The lake house &mdash; Lara Mae and Cathlyn.",
            "4 Dublin Street &mdash; Norrie and Erwan.",
            "Marge and Sam&rsquo;s place.",
-           "The Arrowtown house &mdash; you, your wife and daughter, and Mae."]
+           "The Arrowtown house &mdash; you, Jane, your daughter and Mae."]
   },
   Franklin: {
     ceremony: ["Straight from the family Airbnb, Thompson Street, with all seven of you."],
@@ -1778,7 +1778,7 @@ const CEREMONY_BY_NAME = {
   "Cathlyn": HOTEL_RUN.replace("%s", "<b>Marvin</b>"),
   "Norrie": HOTEL_RUN.replace("%s", "<b>Marvin</b>"),
   "Grace": "At <b>6 am</b> Ynting takes you to Joy and Patrick&rsquo;s hotel, and you stay in her car all day.",
-  "Marvin's wife": "Straight to the ceremony from the Arrowtown house.",
+  "Jane": "Straight to the ceremony from the Arrowtown house.",
   "Marvin's daughter": "Straight to the ceremony from the Arrowtown house."
 };
 const HOME_BY_HOUSE = {
