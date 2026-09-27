@@ -537,7 +537,7 @@ details.ride-card[open] .acc-chev{transform:rotate(-135deg)}
     <div class="spy-head">
       <p class="spy-kicker">Saturday 10 October</p>
       <h2 class="spy-h">How the <em>day</em> runs</h2>
-      <p class="spy-lede">Where to be and what to bring. The rest is a surprise.</p>
+      <p class="spy-lede">Where to be and what to bring.</p>
     </div>
 
     <ul class="plan-list">
@@ -1665,7 +1665,7 @@ const STAYS = [
       { bed: "Two singles", who: ["JP", "JP's wife", "Abby"] }
     ],
     legs: [
-      { l: "Getting ready", t: "Lara Mae and Cathlyn &mdash; Ynting collects you and takes you to Joy and Patrick&rsquo;s hotel. Everyone else is here, and the car leaves at <b>2:10 pm</b>." },
+      { l: "Getting ready", t: "Lara Mae and Cathlyn &mdash; Ynting collects you and takes you to Joy and Patrick&rsquo;s hotel, with Grace and Norrie. Everyone else is here, and the car leaves at <b>2:10 pm</b>." },
       { l: "Your driver, both ways", face: "samples/driver-angelo.jpg", t: "<b>Angelo</b> &mdash; Loren, Jan, Sai, Chit, JP, JP&rsquo;s wife and Abby. He drops here first on the way home." },
       { l: "", face: "samples/driver-marvin.jpg", t: "<b>Marvin</b> &mdash; Lara Mae and Cathlyn, there and back." }
     ] },
@@ -1687,13 +1687,14 @@ const STAYS = [
                        "Blondie", "Elisha", "Nathaniel", "Ynting", "Grace", "Francis"] }
     ],
     legs: [
-      { l: "Your drivers, both ways", t: "<b>Franklin and Ynting</b>, in two cars. No fixed time &mdash; you go once the photos after the ceremony are done, and the same cars bring you back. Grace and Francis ride home with Ynting." },
-      { l: "Earlier that day", t: "Ynting collects Lara Mae and Cathlyn and takes them to Joy and Patrick&rsquo;s hotel." }
+      { l: "Getting ready", t: "Grace &mdash; Ynting collects you and takes you to Joy and Patrick&rsquo;s hotel, with Lara Mae, Cathlyn and Norrie." },
+      { l: "Your drivers, both ways", t: "<b>Franklin and Ynting</b>, in two cars. No fixed time &mdash; you go once the photos after the ceremony are done, and the same cars bring you back. Grace and Francis ride home with Ynting." }
     ] },
   { place: "Norrie and Erwan&rsquo;s place", addr: "4 Dublin Street, Queenstown 9300",
     hit: "You&rsquo;re staying at <b>4 Dublin Street</b>.",
     rooms: [{ bed: "", who: ["Norrie", "Erwan"] }],
     legs: [
+      { l: "Getting ready", t: "Norrie &mdash; Ynting collects you and takes you to Joy and Patrick&rsquo;s hotel, with Grace, Lara Mae and Cathlyn." },
       { l: "Your driver, both ways", face: "samples/driver-marvin.jpg", t: "<b>Marvin</b>, with the bridesmaids. He drops you at Dublin Street on the way back." }
     ] },
   { place: "Making your own way", hit: "You&rsquo;ve sorted your own place.",
@@ -1763,7 +1764,7 @@ function renderRides(q) {
     </details>`;
   $("#stayLists").innerHTML = STAYS.map(placeCard).join("");
   const ready = needle && members(READY).some(isYou);
-  const bridal = needle && ["Lara Mae", "Cathlyn"].some(isYou);
+  const bridal = needle && ["Lara Mae", "Cathlyn", "Grace", "Norrie"].some(isYou);
   const atLake = stay && stay.place === "The lake house";
   const bits = [];
   if (stay) bits.push(stay.hit || `You&rsquo;re staying at <b>${stay.place}</b>.`);
