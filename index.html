@@ -198,6 +198,10 @@ a.btn{text-decoration:none}
 .ride-card ul{list-style:none; margin:11px 0 0; padding:0; display:flex; flex-wrap:wrap; gap:6px}
 .ride-card li{font-size:13px; color:var(--ink-2); background:var(--surface-2); border-radius:20px; padding:4px 11px}
 .ride-card li.you{background:var(--green); color:#fff; font-weight:600}
+.ride-card .room{display:block; font-size:10.5px; font-weight:600; letter-spacing:.12em; text-transform:uppercase; color:var(--ink-3); margin-top:13px}
+.ride-card .room + ul{margin-top:6px}
+.ride-card .note{display:block; font-size:12.5px; color:var(--ink-2); line-height:1.55; margin-top:13px; padding-top:11px; border-top:1px solid var(--line)}
+.ride-card .map{display:inline-block; font-size:10px; font-weight:600; letter-spacing:.14em; text-transform:uppercase; color:var(--green); text-decoration:none; margin-top:11px}
 .addr{list-style:none; margin:0; padding:0; display:flex; flex-direction:column; gap:10px}
 .addr a{
   display:block; background:#fff; border:1px solid var(--line-2); border-radius:12px;
@@ -540,6 +544,9 @@ a.btn{text-decoration:none}
 
     <h3 class="plan-h">Where you&rsquo;re staying</h3>
     <div id="stayLists"></div>
+
+    <h3 class="plan-h">Getting ready</h3>
+    <div id="readyList"></div>
 
     <h3 class="plan-h">Where things are</h3>
     <ul class="addr" id="addrList"></ul>
@@ -1574,35 +1581,53 @@ const RIDES = [
   { name: "Car 2", car: "Marvin's 12-seater · can leave early",
     who: ["Angelo", "Loren", "Jan", "Emman", "Sonito", "Pia", "Nica", "Sai", "Chit",
           "JP", "JP's wife", "Abby"] },
-  { name: "Family cars", car: "Two cars · Franklin and Yving driving",
+  { name: "Family cars", car: "Two cars · Franklin and Ynting driving",
     who: ["Nelly", "Vicente", "Jun2x", "Joie", "Gavin", "Franklin", "Blondie",
-          "Elisha", "Nathaniel", "Yving"] }
+          "Elisha", "Nathaniel", "Ynting"] }
 ];
-/* the Stay column of the guest sheet */
+/* Accommodation, as Joy set it out. Beds are named because both houses are
+   shared and people asked who they are sharing with. */
 const STAYS = [
-  { place: "The Arrowtown house", addr: "760 Malaghans Road, Arrowtown",
-    who: ["Nelly", "Vicente", "Francis", "Grace", "Jun2x", "Joie", "Gavin", "Franklin",
-          "Blondie", "Elisha", "Nathaniel", "Yving", "Marvin", "Marvin's wife", "Marvin's daughter"] },
-  { place: "The lake house", addr: "13 McKerrow Place, Fern Hill",
-    who: ["Lara Mae", "Cathlyn", "Loren", "Jan", "Emman"] },
-  { place: "Your own place", addr: "Making your own way",
-    who: ["Marge", "Sam", "Norrie", "JP", "JP's wife", "Abby"] }
+  { place: "The lake house", addr: "13 McKerrow Place, Fern Hill, Queenstown 5710",
+    rooms: [
+      { bed: "Queen, own bathroom", who: ["Lara Mae", "Cathlyn"] },
+      { bed: "Two kings", who: ["Loren", "Jan", "Chit", "Sai"] },
+      { bed: "Two singles", who: ["JP", "JP's wife", "Abby"] }
+    ],
+    note: "Three bedrooms." },
+  { place: "The Arrowtown house", addr: "760 Malaghans Road, Arrowtown 9371",
+    rooms: [
+      { bed: "Super king, in the living room", who: ["Marvin", "Marvin's wife", "Marvin's daughter"] },
+      { bed: "The bedroom &mdash; a queen and two king singles", who: ["Angelo", "Nica", "Mae", "Sonito", "Emman", "Pia"] }
+    ],
+    note: "Six of you, three beds &mdash; that one is yours to settle between you. The owner is sending move-in details soon." },
+  { place: "The family Airbnb", addr: "Thompson Street, Queenstown 9300",
+    rooms: [
+      { bed: "", who: ["Nelly", "Vicente", "Jun2x", "Joie", "Gavin", "Franklin",
+                       "Blondie", "Elisha", "Nathaniel", "Ynting"] }
+    ] }
 ];
+const stayNames = (st) => st.rooms.reduce((a, rm) => a.concat(rm.who), []);
+
+/* Making their own arrangements. Not shown as a card &mdash; there is nothing to
+   tell them &mdash; but the name lookup still answers. */
+const OWN = ["Marge", "Sam", "Norrie", "Erwan"];
 
 /* Route 1: where a group gets ready on the day, which is a different question
    from where they sleep. The car leaves the lake house at 2:10 pm. */
 const READY = {
-  place: "Getting ready at the lake house",
-  addr: "13 McKerrow Place · the car leaves at 2:10 pm",
-  who: ["Angelo", "Sonito", "Pia", "Mae", "Nica", "Loren", "Jan", "Emman",
-        "Sai", "Chit", "Marge", "Sam"]
+  place: "The lake house",
+  addr: "13 McKerrow Place &middot; the car leaves at 2:10 pm",
+  maps: "13 McKerrow Place, Fern Hill, Queenstown 5710",
+  rooms: [
+    { bed: "", who: ["Angelo", "Sonito", "Pia", "Mae", "Nica", "Loren", "Jan",
+                     "Emman", "Sai", "Chit", "Marge", "Sam"] }
+  ]
 };
 
 const PLACES = [
   ["The Canyons B&B", "13 Watties Track, Arthurs Point, Queenstown 9371", "Ceremony"],
-  ["Wakatipu Grill, Hilton", "Peninsula Road, Kelvin Heights, Queenstown", "Reception"],
-  ["The lake house", "13 McKerrow Place, Fern Hill, Queenstown 5710", "Getting ready"],
-  ["Arrowtown house", "760 Malaghans Road, Arrowtown 9371", "Getting ready"]
+  ["Wakatipu Grill, Hilton", "Peninsula Road, Kelvin Heights, Queenstown", "Reception"]
 ];
 
 function renderRides(q) {
@@ -1614,20 +1639,31 @@ function renderRides(q) {
       <ul>${r.who.map((w) => `<li class="${needle && w.toLowerCase().includes(needle) ? "you" : ""}">${w}</li>`).join("")}</ul>
     </div>`).join("");
   const car = needle && RIDES.find((r) => r.who.some((w) => w.toLowerCase().includes(needle)));
-  const stay = needle && STAYS.find((r) => r.who.some((w) => w.toLowerCase().includes(needle)));
-  $("#stayLists").innerHTML = STAYS.concat([READY]).map((r) => `
+  const stay = needle && STAYS.find((r) => stayNames(r).some((w) => w.toLowerCase().includes(needle)));
+  const hit = (w) => `<li class="${needle && w.toLowerCase().includes(needle) ? "you" : ""}">${w}</li>`;
+  const placeCard = (r) => `
     <div class="ride-card">
       <h4>${r.place}</h4>
       <span class="drv">${r.addr}</span>
-      <ul>${r.who.map((w) => `<li class="${needle && w.toLowerCase().includes(needle) ? "you" : ""}">${w}</li>`).join("")}</ul>
-    </div>`).join("");
-  const ready = needle && READY.who.some((w) => w.toLowerCase().includes(needle));
+      ${r.rooms.map((rm) => `${rm.bed ? `<span class="room">${rm.bed}</span>` : ""}<ul>${rm.who.map(hit).join("")}</ul>`).join("")}
+      ${r.note ? `<span class="note">${r.note}</span>` : ""}
+      <a class="map" target="_blank" rel="noopener"
+         href="https://www.google.com/maps/search/?api=1&query=${encodeURIComponent((r.maps || r.addr) + ", New Zealand")}">Open in Maps</a>
+    </div>`;
+  $("#stayLists").innerHTML = STAYS.map(placeCard).join("");
+  $("#readyList").innerHTML = placeCard(READY);
+  const ready = needle && stayNames(READY).some((w) => w.toLowerCase().includes(needle));
+  const own = needle && OWN.some((w) => w.toLowerCase().includes(needle));
   const bits = [];
   if (car) bits.push(`You&rsquo;re in <b>${car.name}</b> &mdash; ${car.car}.`);
   if (stay) bits.push(`You&rsquo;re staying at <b>${stay.place}</b>.`);
+  else if (own) bits.push("You&rsquo;ve sorted your own place &mdash; nothing to pick up from us.");
   // found in a car but with no accommodation recorded — say so rather than nothing
   else if (car) bits.push("We don&rsquo;t have your accommodation on our list &mdash; check with Joy.");
-  if (ready) bits.push("You&rsquo;re getting ready at <b>the lake house</b>. The car leaves at 2:10 pm.");
+  // don't tell someone already at the lake house to go to the lake house
+  if (ready) bits.push(stay && stay.place === READY.place
+    ? "Your car leaves at <b>2:10 pm</b>."
+    : "You&rsquo;re getting ready at <b>the lake house</b>. The car leaves at 2:10 pm.");
   $("#rideHit").innerHTML = !needle ? ""
     : bits.length ? bits.join("<br>")
                   : "No match. Ask Grace or Francis and they&rsquo;ll sort you out.";
