@@ -1608,14 +1608,18 @@ const ART = {
 const art = (k) => `<svg class="how-art" viewBox="0 0 76 76" fill="none" stroke="currentColor"
   stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">${ART[k]}</svg>`;
 
+/* `full` is the sheet opened from the studio, where Print has not been pressed
+   yet. Without it the reader is already looking at their finished sheet. */
 function howHtml(saveWhere, full) {
   const fmt = state.fmt;
   const steps = [
     ["wifi",  "Join the printer&rsquo;s Wi-Fi", `Settings &rarr; Wi-Fi &rarr; the network starting <code>DIRECT-</code>. Password <b>PICKLEBALL</b>.`],
-    ["share", "Tap Share", `The <b>Share</b> button ${saveWhere} hands your sheet straight to the printer&rsquo;s app.`],
-    ["print", "Pick the SELPHY and print", fmt.airprint
-      ? "Choose <b>Canon SELPHY</b>, or <b>Print</b>. Postcard / L size, borderless."
-      : "Choose <b>Canon SELPHY</b>, then <b>Print Entire Image</b>, so the cut line is not trimmed off."]
+    ["share", full ? "Tap Print, then Share" : "Tap Share",
+      full ? "The green <b>Print</b> button makes your sheet. On the sheet that appears, tap <b>Share</b>."
+           : "The <b>Share</b> button above opens your phone&rsquo;s share list."],
+    ["print", "Choose the SELPHY", fmt.airprint
+      ? "Pick <b>Canon SELPHY</b> from that list &mdash; or <b>Print</b>, if you would rather use AirPrint. Postcard / L size, borderless."
+      : "Pick <b>Canon SELPHY</b> from that list, then <b>Print Entire Image</b>, so the cut line is not trimmed off."]
   ];
   return (full ? `<p class="how-hd"><span>How to</span><em>print</em></p>` : "")
     + `<div class="how">`
