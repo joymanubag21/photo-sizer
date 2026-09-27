@@ -219,6 +219,8 @@ details.ride-card[open] .acc-chev{transform:rotate(-135deg)}
 .acc-b{padding:0 17px 16px}
 .acc-b > .room:first-child{margin-top:0}
 .acc-b > .legs:first-child{margin-top:0; padding-top:0; border-top:0}
+.route-n{display:inline-block; min-width:18px; margin-right:7px; font-variant-numeric:tabular-nums; color:var(--ink-3)}
+.ride-card .leg-c{font-size:10px; font-weight:600; letter-spacing:.1em; text-transform:uppercase; color:var(--rose); margin-left:7px}
 .more{margin-top:16px; border-top:1px solid var(--line)}
 .more summary{cursor:pointer; list-style:none; padding:14px 0 2px; font-size:11px; font-weight:600; letter-spacing:.14em; text-transform:uppercase; color:var(--green)}
 .more summary::-webkit-details-marker{display:none}
@@ -563,6 +565,7 @@ details.ride-card[open] .acc-chev{transform:rotate(-135deg)}
     <p class="plan-sub" style="margin-bottom:12px">Type your name for your bed, your driver and your ride home.</p>
     <input class="ride-find" id="rideFind" type="search" placeholder="Type your name" aria-label="Find your car and where you are staying">
     <p class="ride-hit" id="rideHit"></p>
+    <div id="driverRoute"></div>
 
     <h3 class="plan-h">Where you&rsquo;re staying</h3>
     <p class="plan-sub" style="margin-bottom:12px">Your house, your beds and every ride in one card. The Canyons to the Hilton is about 25 minutes.</p>
@@ -1720,6 +1723,46 @@ const READY = {
   ]
 };
 
+/* A driver needs the route, not a seat. Stops are worked out from where each
+   passenger sleeps and where they get ready; the Canyons-to-Hilton run is one
+   hop for everybody. */
+const HILTON = "Straight to the Hilton with everyone aboard.";
+const ROUTES = {
+  Angelo: {
+    ceremony: ["The lake house, 13 McKerrow Place &mdash; all twelve of you leave from there at <b>2:10 pm</b>."],
+    reception: [HILTON],
+    home: ["The lake house &mdash; Loren, Jan, Sai, Chit, JP, JP&rsquo;s wife and Abby.",
+           "The Arrowtown house &mdash; you, Emman, Sonito, Pia and Nica."]
+  },
+  Marvin: {
+    start: "You start at the Arrowtown house with your wife and daughter.",
+    ceremony: ["The lake house &mdash; Mae, Marge and Sam, who get ready there.",
+               "Joy and Patrick&rsquo;s hotel &mdash; Lara Mae, Cathlyn and Norrie.",
+               "4 Dublin Street &mdash; Erwan."],
+    reception: [HILTON],
+    home: ["The lake house &mdash; Lara Mae and Cathlyn.",
+           "4 Dublin Street &mdash; Norrie and Erwan.",
+           "Marge and Sam&rsquo;s place.",
+           "The Arrowtown house &mdash; you, your wife and daughter, and Mae."]
+  },
+  Franklin: {
+    ceremony: ["Straight from the family Airbnb, Thompson Street, with all seven of you."],
+    reception: [HILTON],
+    home: ["The family Airbnb &mdash; everyone in your car."]
+  },
+  Ynting: {
+    early: ["The family Airbnb &mdash; Grace.",
+            "The lake house &mdash; Lara Mae and Cathlyn.",
+            "4 Dublin Street &mdash; Norrie.",
+            "Then all four to Joy and Patrick&rsquo;s hotel."],
+    ceremony: ["The family Airbnb &mdash; Jun2x, Joie, Gavin and Francis.",
+               "Joy and Patrick&rsquo;s hotel &mdash; Joy, Patrick and Grace."],
+    reception: [HILTON],
+    home: ["The family Airbnb &mdash; Jun2x, Joie, Gavin, Grace and Francis.",
+           "Joy and Patrick&rsquo;s hotel."]
+  }
+};
+
 const PLACES = [
   ["The Canyons B&B", "13 Watties Track, Arthurs Point, Queenstown 9371", "Ceremony"],
   ["Wakatipu Grill, Hilton", "Peninsula Road, Kelvin Heights, Queenstown", "Reception"]
@@ -1777,6 +1820,23 @@ function renderRides(q) {
   if (ready) bits.push(atLake
     ? "Your car leaves at <b>2:10 pm</b>."
     : "You&rsquo;re getting ready at <b>the lake house</b>. The car leaves at 2:10 pm.");
+  const driver = needle && Object.keys(ROUTES).find((d) => d.toLowerCase() === needle);
+  const run = (label, stops) => `
+    <div><span class="leg-l">${label}<span class="leg-c">${stops.length} stop${stops.length > 1 ? "s" : ""}</span></span>
+      ${stops.map((t, i) => `<span class="leg-t"><span>${stops.length > 1 ? `<b class="route-n">${i + 1}</b>` : ""}${t}</span></span>`).join("")}
+    </div>`;
+  $("#driverRoute").innerHTML = !driver ? "" : `
+    <div class="ride-card" style="padding:16px 17px">
+      <h4>You&rsquo;re driving</h4>
+      <span class="drv">${car ? car.name : ""}</span>
+      <div class="legs">
+        ${ROUTES[driver].early ? run("The 6 am run", ROUTES[driver].early) : ""}
+        ${ROUTES[driver].start ? `<div><span class="leg-l">Before you set off</span><span class="leg-t"><span>${ROUTES[driver].start}</span></span></div>` : ""}
+        ${run("To the ceremony", ROUTES[driver].ceremony)}
+        ${run("To the reception", ROUTES[driver].reception)}
+        ${run("Going home", ROUTES[driver].home)}
+      </div>
+    </div>`;
   $("#rideHit").innerHTML = !needle ? ""
     : bits.length ? bits.join("<br>")
                   : "No match. Ask Grace or Francis and they&rsquo;ll sort you out.";
