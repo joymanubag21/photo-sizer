@@ -103,7 +103,15 @@ a.btn{text-decoration:none}
 .sec-eyebrow{
   display:block; font-size:10.5px; font-weight:600; letter-spacing:.22em;
   text-transform:uppercase; color:var(--green); margin-bottom:8px;
+  font-family:inherit; background:none; border:0; padding:0; text-align:left; cursor:pointer;
 }
+.sec-eyebrow .swap{color:var(--ink-3); text-decoration:underline; text-underline-offset:2px}
+.who-list{list-style:none; margin:15px 0 0; padding:0; display:flex; flex-wrap:wrap; gap:8px}
+.who-list button{
+  font-family:inherit; font-size:13.5px; color:var(--ink-2); background:var(--surface-2);
+  border:1px solid transparent; border-radius:20px; padding:8px 14px; cursor:pointer;
+}
+.who-list button.on{background:var(--green); color:#fff; font-weight:600}
 .sec-h{
   font-family:'Cormorant Garamond',Georgia,serif; font-weight:400;
   font-size:2.2rem; line-height:1.04; margin:0 0 22px; color:var(--ink);
@@ -221,6 +229,10 @@ details.ride-card[open] .acc-chev{transform:rotate(-135deg)}
 .acc-b > .legs:first-child{margin-top:0; padding-top:0; border-top:0}
 .route-n{display:inline-block; min-width:18px; margin-right:7px; font-variant-numeric:tabular-nums; color:var(--ink-3)}
 .ride-card .leg-c{font-size:10px; font-weight:600; letter-spacing:.1em; text-transform:uppercase; color:var(--rose); margin-left:7px}
+.steps{list-style:none; counter-reset:s; margin:11px 0 0; padding:0}
+.steps li{counter-increment:s; position:relative; padding-left:25px; margin-top:10px; font-size:12.5px; line-height:1.6; color:var(--ink-2)}
+.steps li::before{content:counter(s); position:absolute; left:0; top:0; font-size:10.5px; font-weight:600; color:var(--rose); line-height:1.95}
+.steps code{font-size:11.5px; background:var(--surface-2); border-radius:4px; padding:1px 5px}
 .more{margin-top:16px; border-top:1px solid var(--line)}
 .more summary{cursor:pointer; list-style:none; padding:14px 0 2px; font-size:11px; font-weight:600; letter-spacing:.14em; text-transform:uppercase; color:var(--green)}
 .more summary::-webkit-details-marker{display:none}
@@ -429,7 +441,7 @@ details.ride-card[open] .acc-chev{transform:rotate(-135deg)}
   </header>
 
   <div class="w-in">
-    <span class="sec-eyebrow">Your photos tonight</span>
+    <button class="sec-eyebrow" id="meChip" type="button"></button>
     <h2 class="sec-h">Everything you <em>need</em></h2>
     <div class="cards">
       <button class="wcard" type="button" id="btnPlan">
@@ -590,7 +602,7 @@ details.ride-card[open] .acc-chev{transform:rotate(-135deg)}
   <div class="modal-in">
     <div class="modal-head"><span style="flex:1"></span><button class="close" id="spyClose" aria-label="Close">✕</button></div>
     <div class="spy-head">
-      <p class="spy-kicker">With my little camera</p>
+      <p class="spy-kicker" id="spyKicker">With my little camera</p>
       <h2 class="spy-h">I <em>spy</em></h2>
       <p class="spy-lede">Catch these before the night is out. Tap one when you&rsquo;ve got it.</p>
       <p class="spy-count" id="spyCount"></p>
@@ -601,6 +613,16 @@ details.ride-card[open] .acc-chev{transform:rotate(-135deg)}
       <a class="btn primary" href="https://app.kululu.com/m4fvel" target="_blank" rel="noopener">Send your finds to our album</a>
       <button class="btn" type="button" id="spyPrint">Print your favourite</button>
     </div>
+    <p class="seg-note" style="margin-top:13px">Printing works the same as <b>Print a photo to take home</b> &mdash; the same card layouts, the same SELPHY at the print station.</p>
+  </div>
+</div>
+
+<div class="modal" id="who" hidden>
+  <div class="modal-in">
+    <div class="modal-head"><h2>Who are you?</h2><button class="close" id="whoClose" aria-label="Close">&#10005;</button></div>
+    <p class="seg-note">Tap your name once and the app remembers it on this phone. Nothing is sent anywhere.</p>
+    <input class="ride-find" id="whoFind" type="search" placeholder="Type your name" aria-label="Find your name" style="margin-top:14px">
+    <ul class="who-list" id="whoList"></ul>
   </div>
 </div>
 
@@ -1220,13 +1242,24 @@ function showResults() {
        : (!FRAMED ? `<a class="btn${lead(!shareOne)}" href="${results[i].url}" download="${results[i].name}">Save</a>` : "")
   ].join("");
 
+  const toPrinter = `
+    <div class="hsec" style="margin-top:24px">
+      <h3>Get it to the printer</h3>
+      <ol class="steps">
+        <li>On the SELPHY, open <code>Wi-Fi settings &rarr; Display Wi-Fi status</code> and scan the QR code. No QR? Use <code>Connection Settings &rarr; Other &rarr; Direct Connection &rarr; On</code> and note the password.</li>
+        <li>On your phone, join the SELPHY&rsquo;s own Wi-Fi network from Settings.</li>
+        <li>Open the <b>Canon SELPHY Photo Layout</b> app, pick this sheet, and print it at <b>Postcard / L size, borderless, no scaling</b>.</li>
+      </ol>
+      <button class="btn" id="outHelp" style="width:100%;margin-top:15px">All the printer settings</button>
+    </div>`;
+
   openOut(`<div class="save-tip"><span>${tip}</span></div>` + head +
     results.map((r, i) => `
       <div class="out-item">
         <div class="cap"><span>${r.name}</span><span>${OUT_W} × ${OUT_H} px · ${r.kb} KB</span></div>
         <img src="${r.url}" alt="Sheet ${i + 1} ready to print">
         <div class="acts">${acts(i)}</div>
-      </div>`).join(""));
+      </div>`).join("") + toPrinter);
 
   $("#outBody").querySelectorAll("[data-share]").forEach((b) => {
     b.onclick = () => shareFiles([results[+b.dataset.share]], b);
@@ -1236,6 +1269,7 @@ function showResults() {
   });
   const bb = $("#batchBtn");
   if (bb) bb.onclick = () => (bb.dataset.mode === "share" ? shareFiles(results, bb) : saveAll(bb));
+  $("#outHelp").onclick = () => { renderHelp(); go({ view: "studio", ov: "help" }); };
 }
 
 function flash(btn, msg, ms) {
@@ -1610,7 +1644,7 @@ function renderSpyCount() {
 /* Every screen and sheet is a history entry, so the phone's own back gesture
    walks back through them instead of leaving the site entirely. State is
    {view, ov}: the screen underneath, and the sheet on top of it if any. */
-const SHEETS = ["plan", "spy", "help", "out", "album"];
+const SHEETS = ["plan", "spy", "help", "out", "album", "who"];
 const here = () => history.state || { view: "welcome" };
 
 function applyState(st) {
@@ -1789,6 +1823,34 @@ const HOME_BY_HOUSE = {
   "Making your own way": "drops you at your own place"
 };
 
+/* One tap, once. It rides in localStorage exactly as the I spy progress does,
+   so it survives closing the browser; nothing leaves the phone. */
+const ME_KEY = "jp-me";
+let ME = null;
+try { ME = localStorage.getItem(ME_KEY); } catch (e) { /* private window */ }
+const ALL_NAMES = [...new Set(STAYS.reduce((a, st) => a.concat(members(st)), []))].sort();
+function setMe(name) {
+  ME = name;
+  try { name ? localStorage.setItem(ME_KEY, name) : localStorage.removeItem(ME_KEY); } catch (e) {}
+  renderMe();
+}
+function renderMe() {
+  $("#meChip").innerHTML = ME
+    ? `Hi ${ME} <span class="swap">not you?</span>`
+    : "Tap to tell us who you are";
+  $("#spyKicker").textContent = ME ? `${ME}, with your little camera` : "With my little camera";
+}
+function renderWho(q) {
+  const needle = (q || "").trim().toLowerCase();
+  $("#whoList").innerHTML = ALL_NAMES
+    .filter((n) => !needle || n.toLowerCase().includes(needle))
+    .map((n) => `<li><button type="button" class="${n === ME ? "on" : ""}" data-me="${n}">${n}</button></li>`)
+    .join("");
+  $("#whoList").querySelectorAll("[data-me]").forEach((b) => {
+    b.onclick = () => { setMe(b.dataset.me); back(); };
+  });
+}
+
 const PLACES = [
   ["The Canyons B&B", "13 Watties Track, Arthurs Point, Queenstown 9371", "Ceremony"],
   ["Wakatipu Grill, Hilton", "Peninsula Road, Kelvin Heights, Queenstown", "Reception"]
@@ -1870,12 +1932,22 @@ function renderPlaces() {
 }
 $("#rideFind").oninput = (e) => renderRides(e.target.value);
 
-$("#btnPlan").onclick = () => { renderRides(""); renderPlaces(); go({ view: "welcome", ov: "plan" }); };
+$("#meChip").onclick = () => { renderWho(""); go({ view: "welcome", ov: "who" }); };
+$("#whoClose").onclick = back;
+$("#whoFind").oninput = (e) => renderWho(e.target.value);
+// knowing who you are means the plan can open already answered
+$("#btnPlan").onclick = () => {
+  $("#rideFind").value = ME || "";
+  renderRides(ME || "");
+  renderPlaces();
+  go({ view: "welcome", ov: "plan" });
+};
 $("#planClose").onclick = back;
 $("#btnBack").onclick = back;
 $("#btnAlbum").onclick = () => go({ view: "welcome", ov: "album" });
 $("#albumClose").onclick = back;
 $("#btnSpy").onclick = () => { renderSpy(); go({ view: "welcome", ov: "spy" }); };
+renderMe();
 $("#spyClose").onclick = back;
 $("#spyPrint").onclick = () => go({ view: "studio" });
 
