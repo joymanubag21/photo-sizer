@@ -105,6 +105,8 @@ a.btn{text-decoration:none}
   text-transform:uppercase; color:var(--green); margin-bottom:2px;
   font-family:inherit; background:none; border:0; padding:14px 0; text-align:left; cursor:pointer;
 }
+.wcard.locked{opacity:.55}
+.wcard.locked .eyebrow{color:var(--ink-3)}
 .sec-eyebrow .swap{color:var(--ink-3); text-decoration:underline; text-underline-offset:2px}
 .who-list{list-style:none; margin:15px 0 0; padding:0; display:flex; flex-wrap:wrap; gap:8px}
 .who-list button{
@@ -587,7 +589,7 @@ details.ride-card[open] .acc-chev{transform:rotate(-135deg)}
       </button>
 
       <button class="wcard" type="button" id="btnSpy">
-        <span class="eyebrow">A game for tonight</span>
+        <span class="eyebrow" id="spyEyebrow">A game for tonight</span>
         <span class="wc-h">I spy, with my little camera</span>
         <span class="wc-p">Ten moments to catch before the night is out.</span>
       </button>
@@ -1906,6 +1908,7 @@ function applyState(st) {
   st = st || { view: "welcome" };
   $("#welcome").hidden = st.view !== "welcome";
   $("#studio").hidden = st.view !== "studio";
+  if (st.ov === "spy" && typeof spyOpen === "function" && !spyOpen()) st = { ...st, ov: undefined };
   SHEETS.forEach((id) => { $("#" + id).hidden = st.ov !== id; });
   if (st.view === "studio") requestAnimationFrame(redrawAllSheets);
 }
@@ -2119,11 +2122,21 @@ function setMe(name) {
   try { name ? localStorage.setItem(ME_KEY, name) : localStorage.removeItem(ME_KEY); } catch (e) {}
   renderMe();
 }
+/* I spy opens at midnight on 9 October in Queenstown. Date.now() is absolute,
+   so a guest still in transit unlocks at the same moment as one already there. */
+const SPY_OPENS = Date.parse("2026-10-08T11:00:00Z");
+const spyOpen = () => Date.now() >= SPY_OPENS || ME === "Elisha";
+function renderSpyLock() {
+  const open = spyOpen();
+  $("#btnSpy").classList.toggle("locked", !open);
+  $("#spyEyebrow").textContent = open ? "A game for tonight" : "Opens 9 October";
+}
 function renderMe() {
   $("#meChip").innerHTML = ME
     ? `Hi ${ME} <span class="swap">not you?</span>`
     : "Tap to tell us who you are";
   $("#spyKicker").textContent = ME ? `${ME}, with your little camera` : "With my little camera";
+  renderSpyLock();
 }
 function renderWho(q) {
   const needle = (q || "").trim().toLowerCase();
@@ -2261,7 +2274,7 @@ $("#planClose").onclick = back;
 $("#btnBack").onclick = back;
 $("#btnAlbum").onclick = () => go({ view: "welcome", ov: "album" });
 $("#albumClose").onclick = back;
-$("#btnSpy").onclick = () => { renderSpy(); go({ view: "welcome", ov: "spy" }); };
+$("#btnSpy").onclick = () => { if (!spyOpen()) return; renderSpy(); go({ view: "welcome", ov: "spy" }); };
 renderMe();
 // a guest arriving for the first time is asked straight away; after that, never
 if (!ME) { renderWho(""); go({ view: "welcome", ov: "who" }); }
