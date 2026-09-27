@@ -313,7 +313,14 @@ details.ride-card[open] .acc-chev{transform:rotate(-135deg)}
 .more summary::after{content:" +"}
 .more[open] summary::after{content:" \2212"}
 .ride-card .note{display:block; font-size:12.5px; color:var(--ink-2); line-height:1.55; margin-top:13px; padding-top:11px; border-top:1px solid var(--line)}
-.ride-card .map{display:inline-block; font-size:10px; font-weight:600; letter-spacing:.14em; text-transform:uppercase; color:var(--green); text-decoration:none; margin-top:5px; padding:15px 0}
+.ride-card .map{
+  display:inline-flex; align-items:center; gap:7px; margin-top:11px; height:44px; padding:0 15px;
+  border:1px solid var(--line-2); border-radius:22px; background:var(--surface); box-sizing:border-box;
+  font-size:10px; font-weight:600; letter-spacing:.12em; text-transform:uppercase;
+  color:var(--green); text-decoration:none;
+}
+.ride-card .map:hover{border-color:var(--rose)}
+.ride-card .map svg{flex:none}
 .addr{list-style:none; margin:0; padding:0; display:flex; flex-direction:column; gap:10px}
 .addr a{
   display:block; background:#fff; border:1px solid var(--line-2); border-radius:12px;
@@ -352,12 +359,15 @@ details.ride-card[open] .acc-chev{transform:rotate(-135deg)}
 .pager{flex:1; min-height:0; display:flex; align-items:center; justify-content:center; padding:10px 14px}
 @keyframes cardIn{from{opacity:0; transform:translateY(7px) scale(.985)} to{opacity:1; transform:none}}
 .page{
-  width:100%; display:flex; flex-direction:column; justify-content:center;
+  width:100%; max-height:100%; min-height:0; display:flex; flex-direction:column; justify-content:center;
   animation:cardIn .26s cubic-bezier(.2,.7,.3,1) both;
 }
 @media (prefers-reduced-motion:reduce){ .page{animation:none} }
 .paper{
-  position:relative; width:100%; aspect-ratio:119/89; max-height:100%; background:#fff;
+  position:relative; width:100%; height:auto; aspect-ratio:119/89; align-self:center;
+  /* --fit is the height the stage can actually give it, measured, not guessed */
+  max-width:min(100%, calc(var(--fit, 100000px) * 1.3371));
+  min-height:0; margin-inline:auto; background:#fff;
   border:1px solid var(--line); box-shadow:var(--shadow-lift);
 }
 .paper canvas{display:block; width:100%; height:100%}
@@ -510,7 +520,21 @@ details.ride-card[open] .acc-chev{transform:rotate(-135deg)}
   .bar .count{display:none}
   .linkbtn{font-size:10px; padding:0 9px}
 }
-@media (min-width:700px){
+.cap{flex:none}
+/* a phone on its side: give the card the height, take it back from the chrome */
+@media (max-height:520px){
+  .bar{padding:5px 11px 5px 14px}
+  .pager{padding:6px 12px}
+  .cap{margin-top:6px}
+  .cat{padding:8px 14px 0; gap:7px}
+  .cat button{width:74px}
+  .cat .nm{font-size:8.5px}
+  .acts{padding:8px 14px 10px}
+  .tune{padding-block:6px}
+}
+
+/* the phone shell is for a desktop window; a landscape phone is wide but short */
+@media (min-width:700px) and (min-height:700px){
   body{background:#E9E5DE}
   .welcome,.studio,.modal{
     position:fixed; inset:auto;
@@ -1433,7 +1457,23 @@ const SHORT = { story: "Story card", four: "Four up", six: "Six up", instax: "Gu
 let observers = [];
 let activeItem = null;
 
-const redrawEverything = () => { renderStage(); renderCat(); renderTray(); };
+function fitPaper() {
+  const pager = $("#pager");
+  if (!pager) return;
+  const cs = getComputedStyle(pager);
+  const cap = pager.querySelector(".cap");
+  // offsetHeight leaves the caption's top margin out, which is the 6px that was
+  // squeezing the card out of ratio
+  const capH = cap ? cap.getBoundingClientRect().height + parseFloat(getComputedStyle(cap).marginTop) : 0;
+  const avail = pager.clientHeight - parseFloat(cs.paddingTop) - parseFloat(cs.paddingBottom) - capH - 1;
+  if (avail > 0) pager.style.setProperty("--fit", avail + "px");
+}
+addEventListener("resize", fitPaper);
+addEventListener("orientationchange", () => setTimeout(fitPaper, 120));
+// the stage has no height until the studio is shown, so watch it rather than
+// measuring once and hoping
+new ResizeObserver(fitPaper).observe($("#pager"));
+const redrawEverything = () => { renderStage(); renderCat(); renderTray(); fitPaper(); };
 
 function sheetsFor(fmt) {
   const out = [];
@@ -1667,6 +1707,8 @@ const ART = {
   print:`<rect x="10" y="34" width="56" height="28" rx="5"/><circle cx="20" cy="48" r="2.4"/><path d="M30 55h26"/>
          <rect x="24" y="8" width="28" height="22" rx="2"/><path d="M29 24l6-7 5 5 4-4 5 6"/>`
 };
+const PIN = `<svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+  stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 0 1 16 0Z"/><circle cx="12" cy="10" r="3"/></svg>`;
 const art = (k) => `<svg class="how-art" viewBox="0 0 76 76" fill="none" stroke="currentColor"
   stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">${ART[k]}</svg>`;
 
@@ -1923,7 +1965,7 @@ const STAYS = [
     legs: [
       { l: "Getting ready", t: "Lara Mae and Cathlyn &mdash; at <b>6 am</b> Ynting collects you and takes you to Joy and Patrick&rsquo;s hotel, with Grace and Norrie. Everyone else is here, and the car leaves at <b>2:10 pm</b>." },
       { l: "Your driver, both ways", face: "samples/driver-angelo.jpg", t: "<b>Angelo</b> &mdash; Loren, Jan, Sai, Chit, JP, Daisy and Abby. He drops here first on the way home." },
-      { l: "", face: "samples/driver-marvin.jpg", t: "<b>Marvin</b> &mdash; Lara Mae and Cathlyn, to the reception and home again." }
+      { l: "", face: "samples/driver-marvin.jpg", t: "<b>Marvin</b> &mdash; Lara Mae and Cathlyn, from the ceremony onwards." }
     ] },
   { place: "The Arrowtown house", addr: "760 Malaghans Road, Arrowtown 9371",
     rooms: [
@@ -2008,10 +2050,10 @@ const ROUTES = {
   Marvin: {
     start: "You start at the Arrowtown house with Jane and your daughter.",
     ceremony: { stops: ["The lake house &mdash; Mae, Marge and Sam, who get ready there.",
-                        "Joy and Patrick&rsquo;s hotel &mdash; Lara Mae, Cathlyn and Norrie.",
                         "4 Dublin Street &mdash; Erwan."],
-                map: ["arrowtown", "lake", "hotel", "dublin", "canyons"] },
-    reception: { stops: [HILTON], map: ["canyons", "hilton"] },
+                map: ["arrowtown", "lake", "dublin", "canyons"] },
+    reception: { stops: ["Straight to the Hilton. Lara Mae, Cathlyn and Norrie join you at the ceremony &mdash; Ynting brings them from the hotel."],
+                 map: ["canyons", "hilton"] },
     home: { stops: ["The lake house &mdash; Lara Mae and Cathlyn.",
                     "4 Dublin Street &mdash; Norrie and Erwan.",
                     "Marge and Sam&rsquo;s place.",
@@ -2031,7 +2073,7 @@ const ROUTES = {
                      "Then all four to Joy and Patrick&rsquo;s hotel."],
              map: ["airbnb", "lake", "dublin", "hotel"] },
     ceremony: { stops: ["The family Airbnb &mdash; Jun2x, Joie, Gavin and Francis.",
-                        "Joy and Patrick&rsquo;s hotel &mdash; Joy, Patrick and Grace."],
+                        "Joy and Patrick&rsquo;s hotel &mdash; Joy, Patrick, Grace and the three bridesmaids."],
                 map: ["airbnb", "hotel", "canyons"] },
     reception: { stops: [HILTON], map: ["canyons", "hilton"] },
     home: { stops: ["The family Airbnb &mdash; Jun2x, Joie, Gavin, Grace and Francis.",
@@ -2049,7 +2091,7 @@ const CEREMONY_BY_HOUSE = {
   "Norrie and Erwan&rsquo;s place": "You&rsquo;re collected at 4 Dublin Street.",
   "Making your own way": "You get ready at the lake house, 13 McKerrow Place, and the car leaves from there at <b>2:10 pm</b>."
 };
-const HOTEL_RUN = "At <b>6 am</b> Ynting takes you to Joy and Patrick&rsquo;s hotel, and <b>Marvin</b> collects you there.";
+const HOTEL_RUN = "At <b>6 am</b> Ynting takes you to Joy and Patrick&rsquo;s hotel, and on to the ceremony from there.";
 const CEREMONY_BY_NAME = {
   "Lara Mae": HOTEL_RUN,
   "Cathlyn": HOTEL_RUN,
@@ -2136,7 +2178,7 @@ function renderRides(q) {
             <span class="leg-t">${g.face ? `<img class="leg-face" src="${g.face}" alt="" loading="lazy">` : ""}<span>${g.t}</span></span>
           </div>`).join("")}</div>` : ""}
         ${r.addr ? `<a class="map" target="_blank" rel="noopener"
-           href="https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(r.addr + ", New Zealand")}">Open in Maps</a>` : ""}
+           href="https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(r.addr + ", New Zealand")}">${PIN} Open in Maps</a>` : ""}
       </div>
     </details>`;
   /* Once we know who you are, your house is the answer and the other four are
@@ -2164,7 +2206,7 @@ function renderRides(q) {
     return `<div>
       <span class="leg-l">${label}${stops.length > 1 ? `<span class="leg-c">${stops.length} stops</span>` : ""}</span>
       ${stops.map((t, i) => `<span class="leg-t"><span>${stops.length > 1 ? `<b class="route-n">${i + 1}</b>` : ""}${t}</span></span>`).join("")}
-      ${map ? `<a class="map" target="_blank" rel="noopener" href="${dirLink(map)}">Open this run in Maps</a>` : ""}
+      ${map ? `<a class="map" target="_blank" rel="noopener" href="${dirLink(map)}">${PIN} Open this run in Maps</a>` : ""}
     </div>`;
   };
   let legs = "";
