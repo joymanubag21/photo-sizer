@@ -626,8 +626,9 @@ details.ride-card[open] .acc-chev{transform:rotate(-135deg)}
     <ul class="addr" id="addrList"></ul>
 
     <div class="plan-notes">
-      <p><b>Bring a warm jacket.</b> The ceremony is outdoors, by the water.</p>
+      <p><b>Bring a warm jacket.</b> 10&ndash;16&deg;C, and the ceremony is outdoors on the lawn.</p>
       <p><b>Shoes for grass.</b> There is a jetty and a lawn.</p>
+      <p><b>Sunset is 8:04 pm.</b> The best light is the hour before it.</p>
       <p><b>If the weather turns</b>, we decide at 9:30 am and tell you.</p>
     </div>
   </div>
@@ -1916,8 +1917,8 @@ const ADDR = {
   airbnb:    "Thompson Street, Queenstown 9300",
   dublin:    "4 Dublin Street, Queenstown 9300",
   hotel:     "594 Frankton Road, Queenstown 9348",
-  canyons:   "The Canyons B&B, 13 Watties Track, Arthurs Point, Queenstown 9371",
-  hilton:    "Wakatipu Grill, Hilton, Peninsula Road, Kelvin Heights, Queenstown"
+  canyons:   "The Canyons B&B, 13 Watties Track, Arthur's Point, Queenstown 9371",
+  hilton:    "Wakatipu Grill, 79 Peninsula Rd, Kelvin Heights, Queenstown 9300"
 };
 function dirLink(keys) {
   const pt = (k) => encodeURIComponent(ADDR[k] + ", New Zealand");
@@ -2026,8 +2027,8 @@ function renderWho(q) {
 }
 
 const PLACES = [
-  ["The Canyons B&B", "13 Watties Track, Arthurs Point, Queenstown 9371", "Ceremony"],
-  ["Wakatipu Grill, Hilton", "Peninsula Road, Kelvin Heights, Queenstown", "Reception"]
+  ["The Canyons B&B", "13 Watties Track, Arthur's Point, Queenstown 9371", "Ceremony"],
+  ["Wakatipu Grill, Hilton", "79 Peninsula Rd, Kelvin Heights, Queenstown 9300", "Reception"]
 ];
 
 function renderRides(q) {
