@@ -412,11 +412,11 @@ a.btn{text-decoration:none}
         <span class="wc-p">Where to be, which car you&rsquo;re in, and what to bring.</span>
       </button>
 
-      <a class="wcard" id="albumLink" href="https://app.kululu.com/m4fvel" target="_blank" rel="noopener">
+      <button class="wcard" type="button" id="btnAlbum">
         <span class="eyebrow">For Joy &amp; Patrick</span>
         <span class="wc-h">Send us your photos</span>
         <span class="wc-p">Add what you take tonight to our shared album. We&rsquo;ll print our favourites at the reception.</span>
-      </a>
+      </button>
 
       <button class="wcard" type="button" id="btnStart">
         <span class="eyebrow">For you to keep</span>
@@ -573,6 +573,35 @@ a.btn{text-decoration:none}
     <div class="spy-acts">
       <a class="btn primary" href="https://app.kululu.com/m4fvel" target="_blank" rel="noopener">Send your finds to our album</a>
       <button class="btn" type="button" id="spyPrint">Print your favourite</button>
+    </div>
+  </div>
+</div>
+
+<div class="modal" id="album" hidden>
+  <div class="modal-in">
+    <div class="modal-head"><h2>Send us your photos</h2><button class="close" id="albumClose" aria-label="Close">&#10005;</button></div>
+    <div class="hsec">
+      <p class="seg-note">Everything everyone takes tonight lands in one album, ours included. It is the only part of this site that uploads anything &mdash; printing never leaves your phone.</p>
+    </div>
+    <div class="hsec">
+      <h3>How it works</h3>
+      <ul class="routes">
+        <li>
+          <div class="rt">Open the album <span>nothing to install</span></div>
+          The button below opens it in your browser. Keep the tab, or add it to your home screen, and come back through the night.
+        </li>
+        <li>
+          <div class="rt">Add as you go <span>any time</span></div>
+          Blurry ones welcome. The ones nobody posed for are the ones we actually want.
+        </li>
+        <li>
+          <div class="rt">We print our favourites <span>at the reception</span></div>
+          Look for them by the print station. Anything you love, you can print yourself from here too.
+        </li>
+      </ul>
+    </div>
+    <div class="hsec">
+      <a class="btn primary" style="width:100%;box-sizing:border-box;text-align:center" href="https://app.kululu.com/m4fvel" target="_blank" rel="noopener">Open the album</a>
     </div>
   </div>
 </div>
@@ -1554,7 +1583,7 @@ function renderSpyCount() {
 /* Every screen and sheet is a history entry, so the phone's own back gesture
    walks back through them instead of leaving the site entirely. State is
    {view, ov}: the screen underneath, and the sheet on top of it if any. */
-const SHEETS = ["plan", "spy", "help", "out"];
+const SHEETS = ["plan", "spy", "help", "out", "album"];
 const here = () => history.state || { view: "welcome" };
 
 function applyState(st) {
@@ -1575,16 +1604,19 @@ $("#btnStart").onclick = enterStudio;
 /* Transcribed from the transport plan — the Drive reader will not return that
    tab, so these lists are a hand copy and must be re-checked if it changes. */
 const RIDES = [
-  { name: "Car 1", car: "Angelo's 12-seater",
-    who: ["Marvin", "Lara Mae", "Cathlyn", "Marge", "Sam", "Norrie", "Erwan", "Mae",
-          "Marvin's wife", "Marvin's daughter", "Grace", "Francis"] },
-  { name: "Car 2", car: "Marvin's 12-seater · can leave early",
+  { name: "Car 1", car: "Driven by Angelo &middot; 12-seater",
     who: ["Angelo", "Loren", "Jan", "Emman", "Sonito", "Pia", "Nica", "Sai", "Chit",
           "JP", "JP's wife", "Abby"] },
-  { name: "Family cars", car: "Two cars · Franklin and Ynting driving",
+  { name: "Car 2", car: "Driven by Marvin &middot; 12-seater",
+    note: "Everyone with a role rides together &mdash; the bridesmaids, Grace and Francis. This car can head to the reception ahead of the others if the photos run long.",
+    who: ["Marvin", "Lara Mae", "Cathlyn", "Marge", "Sam", "Norrie", "Erwan", "Mae",
+          "Marvin's wife", "Marvin's daughter", "Grace", "Francis"] },
+  { name: "Family cars", car: "Two cars &middot; Franklin and Ynting driving",
+    note: "No fixed time &mdash; you leave once the photos after the ceremony are done.",
     who: ["Nelly", "Vicente", "Jun2x", "Joie", "Gavin", "Franklin", "Blondie",
           "Elisha", "Nathaniel", "Ynting"] }
 ];
+
 /* Accommodation, as Joy set it out. Beds are named because both houses are
    shared and people asked who they are sharing with. */
 const STAYS = [
@@ -1604,7 +1636,7 @@ const STAYS = [
   { place: "The family Airbnb", addr: "Thompson Street, Queenstown 9300",
     rooms: [
       { bed: "", who: ["Nelly", "Vicente", "Jun2x", "Joie", "Gavin", "Franklin",
-                       "Blondie", "Elisha", "Nathaniel", "Ynting"] }
+                       "Blondie", "Elisha", "Nathaniel", "Ynting", "Grace", "Francis"] }
     ] }
 ];
 const stayNames = (st) => st.rooms.reduce((a, rm) => a.concat(rm.who), []);
@@ -1637,6 +1669,7 @@ function renderRides(q) {
       <h4>${r.name}</h4>
       <span class="drv">${r.car}</span>
       <ul>${r.who.map((w) => `<li class="${needle && w.toLowerCase().includes(needle) ? "you" : ""}">${w}</li>`).join("")}</ul>
+      ${r.note ? `<span class="note">${r.note}</span>` : ""}
     </div>`).join("");
   const car = needle && RIDES.find((r) => r.who.some((w) => w.toLowerCase().includes(needle)));
   const stay = needle && STAYS.find((r) => stayNames(r).some((w) => w.toLowerCase().includes(needle)));
@@ -1655,7 +1688,7 @@ function renderRides(q) {
   const ready = needle && stayNames(READY).some((w) => w.toLowerCase().includes(needle));
   const own = needle && OWN.some((w) => w.toLowerCase().includes(needle));
   const bits = [];
-  if (car) bits.push(`You&rsquo;re in <b>${car.name}</b> &mdash; ${car.car}.`);
+  if (car) bits.push(`You&rsquo;re in <b>${car.name}</b> &mdash; ${car.car.charAt(0).toLowerCase() + car.car.slice(1)}.`);
   if (stay) bits.push(`You&rsquo;re staying at <b>${stay.place}</b>.`);
   else if (own) bits.push("You&rsquo;ve sorted your own place &mdash; nothing to pick up from us.");
   // found in a car but with no accommodation recorded — say so rather than nothing
@@ -1680,6 +1713,8 @@ $("#rideFind").oninput = (e) => renderRides(e.target.value);
 $("#btnPlan").onclick = () => { renderRides(""); renderPlaces(); go({ view: "welcome", ov: "plan" }); };
 $("#planClose").onclick = back;
 $("#btnBack").onclick = back;
+$("#btnAlbum").onclick = () => go({ view: "welcome", ov: "album" });
+$("#albumClose").onclick = back;
 $("#btnSpy").onclick = () => { renderSpy(); go({ view: "welcome", ov: "spy" }); };
 $("#spyClose").onclick = back;
 $("#spyPrint").onclick = () => go({ view: "studio" });
