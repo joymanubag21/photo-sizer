@@ -511,11 +511,15 @@ a.btn{text-decoration:none}
       </li>
     </ul>
 
-    <h3 class="plan-h">Which car am I in?</h3>
-    <p class="plan-sub">From the ceremony at the Canyons to the reception &mdash; about 25 minutes.</p>
-    <input class="ride-find" id="rideFind" type="search" placeholder="Type your name" aria-label="Find your car">
+    <h3 class="plan-h">Find yourself</h3>
+    <p class="plan-sub">Your car to the reception, and where you&rsquo;re staying.</p>
+    <p class="plan-sub" style="margin-bottom:12px">The Canyons to the Hilton is about 25 minutes.</p>
+    <input class="ride-find" id="rideFind" type="search" placeholder="Type your name" aria-label="Find your car and where you are staying">
     <p class="ride-hit" id="rideHit"></p>
     <div id="rideLists"></div>
+
+    <h3 class="plan-h">Where you&rsquo;re staying</h3>
+    <div id="stayLists"></div>
 
     <h3 class="plan-h">Where things are</h3>
     <ul class="addr" id="addrList"></ul>
@@ -1550,10 +1554,21 @@ const RIDES = [
   { name: "Car 2", car: "Marvin's 12-seater · can leave early",
     who: ["Angelo", "Loren", "Jan", "Emman", "Sonito", "Pia", "Nica", "Sai", "Chit",
           "JP", "JP's wife", "Abby"] },
-  { name: "Family cars", car: "Driven by Franklin and Ynting",
+  { name: "Family cars", car: "Two cars · Franklin and Yving driving",
     who: ["Nelly", "Vicente", "Jun2x", "Joie", "Gavin", "Franklin", "Blondie",
           "Elisha", "Nathaniel", "Yving"] }
 ];
+/* the Stay column of the guest sheet */
+const STAYS = [
+  { place: "The Arrowtown house", addr: "760 Malaghans Road, Arrowtown",
+    who: ["Nelly", "Vicente", "Francis", "Grace", "Jun2x", "Joie", "Gavin", "Franklin",
+          "Blondie", "Elisha", "Nathaniel", "Yving", "Marvin", "Marvin's wife", "Marvin's daughter"] },
+  { place: "The lake house", addr: "13 McKerrow Place, Fern Hill",
+    who: ["Lara Mae", "Cathlyn", "Loren", "Jan", "Emman"] },
+  { place: "Your own place", addr: "Making your own way",
+    who: ["Marge", "Sam", "Norrie", "JP", "JP's wife", "Abby"] }
+];
+
 const PLACES = [
   ["The Canyons B&B", "13 Watties Track, Arthurs Point, Queenstown 9371", "Ceremony"],
   ["Wakatipu Grill, Hilton", "Peninsula Road, Kelvin Heights, Queenstown", "Reception"],
@@ -1569,10 +1584,20 @@ function renderRides(q) {
       <span class="drv">${r.car}</span>
       <ul>${r.who.map((w) => `<li class="${needle && w.toLowerCase().includes(needle) ? "you" : ""}">${w}</li>`).join("")}</ul>
     </div>`).join("");
-  const hit = needle && RIDES.find((r) => r.who.some((w) => w.toLowerCase().includes(needle)));
+  const car = needle && RIDES.find((r) => r.who.some((w) => w.toLowerCase().includes(needle)));
+  const stay = needle && STAYS.find((r) => r.who.some((w) => w.toLowerCase().includes(needle)));
+  $("#stayLists").innerHTML = STAYS.map((r) => `
+    <div class="ride-card">
+      <h4>${r.place}</h4>
+      <span class="drv">${r.addr}</span>
+      <ul>${r.who.map((w) => `<li class="${needle && w.toLowerCase().includes(needle) ? "you" : ""}">${w}</li>`).join("")}</ul>
+    </div>`).join("");
+  const bits = [];
+  if (car) bits.push(`You&rsquo;re in <b>${car.name}</b> &mdash; ${car.car}.`);
+  if (stay) bits.push(`You&rsquo;re staying at <b>${stay.place}</b>.`);
   $("#rideHit").innerHTML = !needle ? ""
-    : hit ? `You&rsquo;re in <b>${hit.name}</b> &mdash; ${hit.car}.`
-          : "No match. Ask Grace or Francis and they&rsquo;ll sort you out.";
+    : bits.length ? bits.join("<br>")
+                  : "No match. Ask Grace or Francis and they&rsquo;ll sort you out.";
 }
 function renderPlaces() {
   $("#addrList").innerHTML = PLACES.map(([nm, ad, tag]) => {
