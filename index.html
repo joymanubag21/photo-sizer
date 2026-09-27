@@ -276,6 +276,15 @@ details.ride-card[open] .acc-chev{transform:rotate(-135deg)}
 .how p{margin:0; font-size:12.5px; line-height:1.6; color:var(--ink-2)}
 .how code{font-size:12px; background:var(--surface-2); border-radius:4px; padding:1px 5px}
 .how-end{margin:16px 4px 0; text-align:right; font-family:'Cormorant Garamond',Georgia,serif; font-style:italic; font-size:1.45rem; color:var(--rose)}
+.sheet-art{
+  position:relative; border-radius:16px; overflow:hidden; aspect-ratio:16/11;
+  margin:2px 0 4px; border:1px solid var(--line);
+}
+.sheet-art img{width:100%; height:100%; object-fit:cover; object-position:50% 14%; display:block}
+.sheet-art::after{
+  content:""; position:absolute; inset:auto 0 0 0; height:55%;
+  background:linear-gradient(to top, rgba(42,36,32,.34), transparent);
+}
 .calm{list-style:none; margin:24px 0 28px; padding:0}
 .calm li{position:relative; padding-left:19px; margin-top:15px; font-size:14px; line-height:1.65; color:var(--ink-2)}
 .calm li::before{content:""; position:absolute; left:1px; top:10px; width:5px; height:5px; border-radius:50%; background:var(--rose)}
@@ -658,11 +667,12 @@ details.ride-card[open] .acc-chev{transform:rotate(-135deg)}
 <div class="modal" id="album" hidden>
   <div class="modal-in">
     <div class="modal-head"><span style="flex:1"></span><button class="close" id="albumClose" aria-label="Close">&#10005;</button></div>
+    <div class="sheet-art"><img src="samples/hero.jpg" alt="Joy and Patrick above Lake Wakatipu"></div>
     <p class="how-hd"><span>Send us your</span><em>photos</em></p>
     <ul class="calm">
-      <li>Nothing to install. The album opens in your browser.</li>
-      <li>Blurry ones welcome. Posed ones less so.</li>
-      <li>We print our favourites by the print station.</li>
+      <li>Nothing to install &mdash; it opens in your browser.</li>
+      <li>Send the ones nobody posed for. Blurry is fine.</li>
+      <li>We print our favourites at the reception.</li>
     </ul>
     <a class="btn primary" style="width:100%;box-sizing:border-box;text-align:center" href="https://app.kululu.com/m4fvel" target="_blank" rel="noopener">Open the album</a>
     <p class="how-fine">The only part of this site that uploads anything. Printing never leaves your phone.</p>
