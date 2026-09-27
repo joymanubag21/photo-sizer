@@ -365,7 +365,18 @@ details.ride-card[open] .acc-chev{transform:rotate(-135deg)}
 .sheetdots i{display:block; width:6px; height:6px; border-radius:50%; background:var(--line-2)}
 .sheetdots button[aria-current="true"] i{background:var(--green)}
 
-.hit{position:absolute; touch-action:none; cursor:grab; border:0; background:transparent; padding:0}
+.hit{position:absolute; touch-action:none; cursor:grab; border:0; background:transparent; padding:0; z-index:1}
+/* a 44px target holding a 30px mark, so the corner stays light but the tap is not */
+.frx{
+  position:absolute; z-index:3; width:44px; height:44px; padding:0; border:0;
+  background:none; cursor:pointer; display:flex; align-items:center; justify-content:center;
+}
+.frx i{
+  width:30px; height:30px; border-radius:50%; font-style:normal; font-size:12px;
+  background:rgba(28,22,18,.62); color:#fff; display:flex; align-items:center; justify-content:center;
+  box-shadow:0 1px 4px rgba(0,0,0,.25);
+}
+.frx:hover i{background:var(--rust)}
 .hit:active{cursor:grabbing}
 .hit.empty{
   background:rgba(255,255,255,.55); border:1.5px dashed rgba(122,94,74,.45);
@@ -831,7 +842,7 @@ const FORMATS = [{
     ["Supply", "700 × 940 px minimum · 950 × 1280 px for 400 dpi."],
     ["Sheet",  "Two cards per L sheet, cut on the hairlines."]
   ],
-  airprint: false,
+  airprint: true,
   print: [
     ["Paper",   "L Borderless", ""],
     ["Layout",  "Print Entire Image", "Not Fill Entire Paper — that would crop the cut marks off."],
@@ -1253,13 +1264,13 @@ function showResults() {
   const saveAllable = batch && canSave;
   const batchAction = shareAll || saveAllable;
 
-  /* A browser cannot read which Wi-Fi you are on, so this reads the one clue it
-     does get: joining the printer's own network takes the phone off the internet. */
+  /* A browser cannot read which Wi-Fi you are on. It can read the side effect:
+     the printer's own network has no internet behind it. */
   const tip = !shareOne && !canSave
     ? `<b>To keep a sheet:</b> press and hold the picture and pick Save to Photos.`
     : navigator.onLine
-      ? `You&rsquo;re still on the internet, so not on the printer yet. Join <b>CP1500-D8CB03</b>, password <b>PICKLEBALL</b>, then come back and tap ${shareOne ? "<b>Share</b>" : "<b>Save</b>"}.`
-      : `No internet, which usually means you&rsquo;re on the printer&rsquo;s Wi-Fi. Tap ${shareOne ? "<b>Share</b>" : "<b>Save</b>"} and pick <b>Canon SELPHY</b>.`;
+      ? `<b>Join the printer to print.</b> Settings &rarr; Wi-Fi &rarr; <b>CP1500-D8CB03</b>, password <b>PICKLEBALL</b>. Then come back and tap ${shareOne ? "Share" : "Save"}.`
+      : `<b>You&rsquo;re on the printer.</b> Tap ${shareOne ? "Share, then Print, then SELPHY CP1500" : "Save"}.`;
 
   const head = shareAll
     ? `<button class="btn primary" id="batchBtn" data-mode="share" style="width:100%;margin-bottom:20px">Share all ${results.length} sheets</button>`
@@ -1551,6 +1562,24 @@ function renderStage() {
       hit.addEventListener("pointerdown", () => selectFrame(it, hit));
     }
     paper.appendChild(hit);
+
+    // your own photo gets a way out; a sample does not, tapping one swaps it
+    if (it && !it.photo.sample) {
+      const x = document.createElement("button");
+      x.type = "button";
+      x.className = "frx";
+      x.setAttribute("aria-label", `Remove photo ${fi + 1}`);
+      x.innerHTML = "<i>\u2715</i>";
+      x.style.cssText = `right:${(SHEET.w - (f.x + f.w)) / SHEET.w * 100}%;top:${f.y / SHEET.h * 100}%`;
+      x.onclick = (e) => {
+        e.stopPropagation();
+        const at = state.photos.indexOf(it.photo);
+        if (at > -1) state.photos.splice(at, 1);
+        hideTune();
+        redrawEverything();
+      };
+      paper.appendChild(x);
+    }
   });
 
   if (list.length > 1) {
@@ -1620,13 +1649,14 @@ const art = (k) => `<svg class="how-art" viewBox="0 0 76 76" fill="none" stroke=
 function howHtml(saveWhere, full) {
   const fmt = state.fmt;
   const steps = [
-    ["wifi",  "Join the printer&rsquo;s Wi-Fi", `Settings &rarr; Wi-Fi &rarr; <code>CP1500-D8CB03</code>. Password <b>PICKLEBALL</b>.<br><span class="tip">Quicker: point your camera at the QR code on the printer&rsquo;s screen.</span>`],
+    ["wifi", navigator.onLine ? "Join the printer&rsquo;s Wi-Fi" : "You&rsquo;re on the printer&rsquo;s Wi-Fi",
+      navigator.onLine
+        ? `Open <b>Settings &rarr; Wi-Fi</b> and join <code>CP1500-D8CB03</code>. Password <b>PICKLEBALL</b>.<br><span class="tip">Quicker: point your camera at the QR code on the printer&rsquo;s screen.</span>`
+        : `No internet, which means you are on it. Carry on.`],
     ["share", full ? "Tap Print, then Share" : "Tap Share",
       full ? "<b>Print</b> makes your card. <b>Share</b> sends it on."
            : "<b>Share</b>, just above, sends it on."],
-    ["print", "Choose the SELPHY", fmt.airprint
-      ? "<b>Canon SELPHY</b> in the list that opens. Postcard / L size, borderless."
-      : "<b>Canon SELPHY</b> in the list that opens, then <b>Print Entire Image</b> so the cut line survives."]
+    ["print", "Choose Print, then the SELPHY", "In the list that opens, tap <b>Print</b>, then pick <b>SELPHY CP1500</b>. No app to install."]
   ];
   return (full ? `<p class="how-hd"><span>How to</span><em>print</em></p>` : "")
     + `<div class="how">`
@@ -1635,7 +1665,7 @@ function howHtml(saveWhere, full) {
           <div class="how-txt"><span class="how-n">${i + 1}</span><h4>${title}</h4><p>${body}</p></div>
         </div>`).join("")
     + `</div>`
-    + `<p class="how-fine">No Canon SELPHY in the list? Tap <b>Save</b>, then open the Canon app and pick it from your photos.</p>`
+    + `<p class="how-fine">On Android, or if <b>Print</b> is missing, install <b>Canon SELPHY Photo Layout</b> and pick the sheet from your photos.</p>`
     + (full ? `<p class="how-end">and it&rsquo;s yours</p>` : "");
 }
 function renderHelp() {
