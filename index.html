@@ -152,8 +152,15 @@ a.btn{text-decoration:none}
 .spy-sep{padding:9px 16px; font-size:10px; font-weight:600; letter-spacing:.18em; text-transform:uppercase; color:var(--ink-3); background:var(--surface-2)}
 .spy-list{list-style:none; margin:0; padding:0; background:#fff; border:1px solid var(--line-2); border-radius:12px; overflow:hidden}
 .spy-list li + li{border-top:1px solid var(--line)}
+.spy-list li{display:flex; align-items:center}
+.spy-shot{flex:none; width:34px; height:34px; border-radius:8px; object-fit:cover; border:1px solid var(--line-2)}
+.spy-x{
+  flex:none; margin-right:14px; width:26px; height:26px; border-radius:50%; cursor:pointer;
+  border:1px solid var(--line-2); background:#fff; color:var(--ink-3); font-family:inherit; font-size:11px;
+}
+.spy-x:hover{border-color:var(--rust); color:var(--rust)}
 .spy-item{
-  display:flex; align-items:center; gap:14px; width:100%; text-align:left;
+  display:flex; align-items:center; gap:14px; flex:1; min-width:0; text-align:left;
   padding:14px 18px; min-height:58px; background:none; border:0; cursor:pointer;
   transition:background .16s;
 }
@@ -607,7 +614,7 @@ details.ride-card[open] .acc-chev{transform:rotate(-135deg)}
     <div class="spy-head">
       <p class="spy-kicker" id="spyKicker">With my little camera</p>
       <h2 class="spy-h">I <em>spy</em></h2>
-      <p class="spy-lede">Catch these before the night is out. Tap one when you&rsquo;ve got it.</p>
+      <p class="spy-lede">Tap one to add the photo you took. They stay on your phone.</p>
       <p class="spy-count" id="spyCount"></p>
       <div class="spy-bar"><i id="spyBar"></i></div>
     </div>
@@ -667,6 +674,7 @@ details.ride-card[open] .acc-chev{transform:rotate(-135deg)}
 </div>
 
 <input type="file" id="fileIn" accept="image/*" multiple hidden>
+<input type="file" id="spyIn" accept="image/*" hidden>
 <script>
 (() => {
 "use strict";
@@ -1614,10 +1622,48 @@ const SPY = [
   ["You, with the newlyweds", ""]
 ];
 const SPY_KEY = "jp-ispy";
+const SHOT_KEY = "jp-ispy-shots";
 let spyFound = new Set();
 try { spyFound = new Set(JSON.parse(localStorage.getItem(SPY_KEY) || "[]")); } catch (e) { /* private window */ }
 
 const HEART = '<svg class="spy-heart" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 20.4s-7.4-4.5-9.2-9.1C1.5 8 3.6 4.6 7 4.6c2 0 3.6 1.1 5 3 1.4-1.9 3-3 5-3 3.4 0 5.5 3.4 4.2 6.7-1.8 4.6-9.2 9.1-9.2 9.1z"/></svg>';
+
+/* The photo you took is the point, so each prompt keeps a thumbnail. Small
+   enough that ten of them sit comfortably in localStorage beside the ticks. */
+let spyShots = {};
+try { spyShots = JSON.parse(localStorage.getItem(SHOT_KEY) || "{}"); } catch (e) {}
+function saveShots() {
+  try { localStorage.setItem(SHOT_KEY, JSON.stringify(spyShots)); return true; }
+  catch (e) { return false; }   // quota, or a private window
+}
+function makeThumb(file, cb) {
+  const url = URL.createObjectURL(file);
+  const img = new Image();
+  img.onload = () => {
+    const sc = Math.min(1, 240 / Math.max(img.width, img.height));
+    const c = document.createElement("canvas");
+    c.width = Math.max(1, Math.round(img.width * sc));
+    c.height = Math.max(1, Math.round(img.height * sc));
+    c.getContext("2d").drawImage(img, 0, 0, c.width, c.height);
+    URL.revokeObjectURL(url);
+    cb(c.toDataURL("image/jpeg", 0.72));
+  };
+  img.onerror = () => { URL.revokeObjectURL(url); cb(null); };
+  img.src = url;
+}
+let spyPending = null;
+$("#spyIn").onchange = (e) => {
+  const file = e.target.files && e.target.files[0];
+  const i = spyPending;
+  e.target.value = "";
+  if (!file || i === null) return;
+  makeThumb(file, (data) => {
+    if (data) { spyShots[i] = data; if (!saveShots()) delete spyShots[i]; }
+    spyFound.add(i);
+    try { localStorage.setItem(SPY_KEY, JSON.stringify([...spyFound])); } catch (err) {}
+    renderSpy();
+  });
+};
 
 function renderSpy() {
   const list = $("#spyList");
@@ -1638,14 +1684,25 @@ function renderSpy() {
     b.type = "button";
     b.className = "spy-item";
     b.setAttribute("aria-pressed", String(spyFound.has(i)));
-    b.innerHTML = HEART + `<span class="spy-txt">${shot}${aside ? `<small>${aside}</small>` : ""}</span>`;
-    b.onclick = () => {
-      spyFound.has(i) ? spyFound.delete(i) : spyFound.add(i);
-      try { localStorage.setItem(SPY_KEY, JSON.stringify([...spyFound])); } catch (e) {}
-      b.setAttribute("aria-pressed", String(spyFound.has(i)));
-      renderSpyCount();
-    };
+    b.innerHTML = (spyShots[i] ? `<img class="spy-shot" src="${spyShots[i]}" alt="">` : HEART)
+      + `<span class="spy-txt">${shot}${aside ? `<small>${aside}</small>` : ""}</span>`;
+    b.onclick = () => { spyPending = i; $("#spyIn").click(); };
     li.appendChild(b);
+    if (spyFound.has(i)) {
+      const x = document.createElement("button");
+      x.type = "button";
+      x.className = "spy-x";
+      x.setAttribute("aria-label", `Undo ${shot}`);
+      x.textContent = "\u2715";
+      x.onclick = () => {
+        spyFound.delete(i);
+        delete spyShots[i];
+        saveShots();
+        try { localStorage.setItem(SPY_KEY, JSON.stringify([...spyFound])); } catch (e) {}
+        renderSpy();
+      };
+      li.appendChild(x);
+    }
     list.appendChild(li);
   });
   renderSpyCount();
