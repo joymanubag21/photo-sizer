@@ -157,6 +157,24 @@ a.btn{text-decoration:none}
   text-align:center; margin:20px 0 4px; font-family:'Cormorant Garamond',Georgia,serif;
   font-style:italic; font-size:1.4rem; color:var(--rose);
 }
+.plan-list{list-style:none; margin:0; padding:0; background:#fff; border:1px solid var(--line-2); border-radius:12px; overflow:hidden}
+.plan-list li{display:flex; gap:16px; padding:16px 18px; align-items:baseline}
+.plan-list li + li{border-top:1px solid var(--line)}
+.plan-when{
+  flex:none; width:66px; font-size:10.5px; font-weight:600; letter-spacing:.08em;
+  text-transform:uppercase; color:var(--green);
+}
+.plan-what{
+  flex:1; min-width:0; font-family:'Cormorant Garamond',Georgia,serif;
+  font-size:1.22rem; line-height:1.25; color:var(--ink);
+}
+.plan-what small{
+  display:block; font-family:'Jost',sans-serif; font-size:13px; line-height:1.55;
+  color:var(--ink-2); margin-top:5px;
+}
+.plan-notes{margin-top:18px; display:flex; flex-direction:column; gap:12px}
+.plan-notes p{font-size:13.5px; line-height:1.6; color:var(--ink-2)}
+.plan-notes b{color:var(--ink); font-weight:600}
 .spy-acts{display:flex; flex-direction:column; gap:10px; margin-top:20px}
 .spy-acts .btn{min-height:50px; border-radius:12px}
 @media (prefers-reduced-motion:reduce){ .spy-heart{transition:none} }
@@ -176,6 +194,7 @@ a.btn{text-decoration:none}
   background:var(--surface); font-size:17px; font-weight:500; line-height:1; color:var(--ink-2);
 }
 .icon:hover{background:var(--surface-2)}
+.icon.back{display:grid; place-items:center; margin-left:-4px}
 
 /* no panel behind the card — it floats, the way SCRL floats its canvas */
 .stage{flex:1; min-height:0; display:flex; flex-direction:column; background:var(--bg)}
@@ -327,8 +346,14 @@ a.btn{text-decoration:none}
 
   <div class="w-in">
     <span class="sec-eyebrow">Your photos tonight</span>
-    <h2 class="sec-h">Three ways to <em>join in</em></h2>
+    <h2 class="sec-h">Everything you <em>need</em></h2>
     <div class="cards">
+      <button class="wcard" type="button" id="btnPlan">
+        <span class="eyebrow">Before anything else</span>
+        <span class="wc-h">How the day runs</span>
+        <span class="wc-p">Where to be, and what to bring.</span>
+      </button>
+
       <a class="wcard" id="albumLink" href="https://app.kululu.com/m4fvel" target="_blank" rel="noopener">
         <span class="eyebrow">For Joy &amp; Patrick</span>
         <span class="wc-h">Send us your photos</span>
@@ -354,6 +379,9 @@ a.btn{text-decoration:none}
 
 <div class="studio" id="studio" hidden>
   <header class="bar">
+    <button class="icon back" id="btnBack" type="button" aria-label="Back">
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M15 18l-6-6 6-6"/></svg>
+    </button>
     <span class="wordmark">Joy &amp; Patrick</span>
     <span class="count" id="count"></span>
     <button class="icon" id="btnAdd" aria-label="Add photos">+</button>
@@ -417,6 +445,42 @@ a.btn{text-decoration:none}
           Photos → Share → Print. Only finds the printer when both are on the same <b>2.4&nbsp;GHz</b> network. <em>No AirPrint Printers Found</em> usually means the printer is on a different network, or still in direct-connection mode.
         </li>
       </ul>
+    </div>
+  </div>
+</div>
+
+<div class="modal" id="plan" hidden>
+  <div class="modal-in">
+    <div class="modal-head"><span style="flex:1"></span><button class="close" id="planClose" aria-label="Close">✕</button></div>
+    <div class="spy-head">
+      <p class="spy-kicker">Saturday 10 October</p>
+      <h2 class="spy-h">How the <em>day</em> runs</h2>
+      <p class="spy-lede">Where to be and what to bring. The rest is a surprise.</p>
+    </div>
+
+    <ul class="plan-list">
+      <li>
+        <span class="plan-when">2:55 pm</span>
+        <span class="plan-what">Arrive at Canyon Lodge<small>Queenstown. The ceremony starts at 3:15 — please be seated before then.</small></span>
+      </li>
+      <li>
+        <span class="plan-when">4:45 pm</span>
+        <span class="plan-what">We move to the Hilton<small>About 30 minutes&rsquo; drive. Transfers are on your own, so travel with whoever you came with.</small></span>
+      </li>
+      <li>
+        <span class="plan-when">5:15 pm</span>
+        <span class="plan-what">Reception at Wakatipu Grill<small>Hilton Queenstown. Dinner, and the rest of the evening.</small></span>
+      </li>
+      <li>
+        <span class="plan-when">10:00 pm</span>
+        <span class="plan-what">Carriages<small>The venue closes. Getting home is on your own.</small></span>
+      </li>
+    </ul>
+
+    <div class="plan-notes">
+      <p><b>Bring a warm jacket.</b> Queenstown is cold even in spring, and the ceremony is outdoors by the water.</p>
+      <p><b>Wear shoes you can walk on grass in.</b> There is a jetty and a lawn.</p>
+      <p><b>If the weather turns</b>, the call between outdoors and the covered deck is made at 9:30 am on the day. We&rsquo;ll let you know.</p>
     </div>
   </div>
 </div>
@@ -1413,15 +1477,33 @@ function renderSpyCount() {
   $("#spyDone").hidden = spyFound.size !== SPY.length;
 }
 
-function enterStudio() {
-  $("#welcome").hidden = true;
-  $("#studio").hidden = false;
-  requestAnimationFrame(redrawAllSheets);
+/* Every screen and sheet is a history entry, so the phone's own back gesture
+   walks back through them instead of leaving the site entirely. State is
+   {view, ov}: the screen underneath, and the sheet on top of it if any. */
+const SHEETS = ["plan", "spy", "help", "out"];
+const here = () => history.state || { view: "welcome" };
+
+function applyState(st) {
+  st = st || { view: "welcome" };
+  $("#welcome").hidden = st.view !== "welcome";
+  $("#studio").hidden = st.view !== "studio";
+  SHEETS.forEach((id) => { $("#" + id).hidden = st.ov !== id; });
+  if (st.view === "studio") requestAnimationFrame(redrawAllSheets);
 }
+function go(st) { history.pushState(st, ""); applyState(st); }
+function back() {
+  if (history.state) history.back(); else applyState({ view: "welcome" });
+}
+window.addEventListener("popstate", (e) => applyState(e.state));
+
+function enterStudio() { go({ view: "studio" }); }
 $("#btnStart").onclick = enterStudio;
-$("#btnSpy").onclick = () => { renderSpy(); $("#spy").hidden = false; };
-$("#spyClose").onclick = () => { $("#spy").hidden = true; };
-$("#spyPrint").onclick = () => { $("#spy").hidden = true; enterStudio(); };
+$("#btnPlan").onclick = () => go({ view: "welcome", ov: "plan" });
+$("#planClose").onclick = back;
+$("#btnBack").onclick = back;
+$("#btnSpy").onclick = () => { renderSpy(); go({ view: "welcome", ov: "spy" }); };
+$("#spyClose").onclick = back;
+$("#spyPrint").onclick = () => go({ view: "studio" });
 
 
 $("#btnAdd").onclick = () => $("#fileIn").click();
@@ -1439,8 +1521,8 @@ $("#btnReset").onclick = () => {
   $("#zoom").value = 1;
   redrawAllSheets();
 };
-$("#btnHelp").onclick = () => { renderHelp(); $("#help").hidden = false; };
-$("#helpClose").onclick = () => { $("#help").hidden = true; };
+$("#btnHelp").onclick = () => { renderHelp(); go({ view: "studio", ov: "help" }); };
+$("#helpClose").onclick = back;
 $("#outClose").onclick = closeOut;
 $("#punchSeg").addEventListener("click", (e) => {
   const b = e.target.closest("[data-punch]");
@@ -1450,19 +1532,21 @@ $("#punchSeg").addEventListener("click", (e) => {
   redrawAllSheets();
 });
 document.addEventListener("keydown", (e) => {
-  if (e.key !== "Escape") return;
-  if (!$("#out").hidden) closeOut();
-  else if (!$("#spy").hidden) $("#spy").hidden = true;
-  else if (!$("#help").hidden) $("#help").hidden = true;
+  if (e.key === "Escape" && (here().ov || here().view !== "welcome")) back();
 });
 window.addEventListener("dragover", (e) => e.preventDefault());
 window.addEventListener("drop", (e) => { e.preventDefault(); if (e.dataTransfer?.files?.length) addFiles(e.dataTransfer.files); });
 
-function openOut(html) { $("#outBody").innerHTML = html; $("#out").hidden = false; }
-function closeOut() { $("#out").hidden = true; }
+// makePrints opens this twice (rendering, then results): push only once
+function openOut(html) {
+  $("#outBody").innerHTML = html;
+  if (here().ov !== "out") go({ view: "studio", ov: "out" });
+}
+function closeOut() { if (here().ov === "out") back(); else $("#out").hidden = true; }
 
 redrawEverything();
 renderTray();
+history.replaceState({ view: "welcome" }, "");
 loadSamples().then(() => { redrawEverything(); renderHero(); });
 
 if (window.claude && typeof window.claude.use === "function") {
