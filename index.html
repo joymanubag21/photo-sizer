@@ -202,6 +202,15 @@ a.btn{text-decoration:none}
 .ride-card li.you{background:var(--green); color:#fff; font-weight:600}
 .ride-card .room{display:block; font-size:10.5px; font-weight:600; letter-spacing:.12em; text-transform:uppercase; color:var(--ink-3); margin-top:13px}
 .ride-card .room + ul{margin-top:6px}
+.ride-card .legs{margin-top:14px; padding-top:13px; border-top:1px solid var(--line); display:flex; flex-direction:column; gap:13px}
+.ride-card .leg-l{display:block; font-size:10px; font-weight:600; letter-spacing:.12em; text-transform:uppercase; color:var(--ink-3); margin-bottom:5px}
+.ride-card .leg-t{display:flex; gap:9px; align-items:center; font-size:12.5px; color:var(--ink-2); line-height:1.55}
+.ride-card .leg-face{width:30px; height:30px; border-radius:50%; object-fit:cover; flex:none; border:1px solid var(--line-2)}
+.more{margin-top:16px; border-top:1px solid var(--line)}
+.more summary{cursor:pointer; list-style:none; padding:14px 0 2px; font-size:11px; font-weight:600; letter-spacing:.14em; text-transform:uppercase; color:var(--green)}
+.more summary::-webkit-details-marker{display:none}
+.more summary::after{content:" +"}
+.more[open] summary::after{content:" \2212"}
 .ride-card .note{display:block; font-size:12.5px; color:var(--ink-2); line-height:1.55; margin-top:13px; padding-top:11px; border-top:1px solid var(--line)}
 .ride-card .map{display:inline-block; font-size:10px; font-weight:600; letter-spacing:.14em; text-transform:uppercase; color:var(--green); text-decoration:none; margin-top:11px}
 .addr{list-style:none; margin:0; padding:0; display:flex; flex-direction:column; gap:10px}
@@ -538,17 +547,17 @@ a.btn{text-decoration:none}
     </ul>
 
     <h3 class="plan-h">Find yourself</h3>
-    <p class="plan-sub">Your car to the reception and home again, and where you&rsquo;re staying.</p>
-    <p class="plan-sub" style="margin-bottom:12px">The Canyons to the Hilton is about 25 minutes.</p>
+    <p class="plan-sub" style="margin-bottom:12px">Type your name for your bed, your car and your ride home.</p>
     <input class="ride-find" id="rideFind" type="search" placeholder="Type your name" aria-label="Find your car and where you are staying">
     <p class="ride-hit" id="rideHit"></p>
-    <div id="rideLists"></div>
 
     <h3 class="plan-h">Where you&rsquo;re staying</h3>
+    <p class="plan-sub" style="margin-bottom:12px">Your house, your beds and every ride in one card. The Canyons to the Hilton is about 25 minutes.</p>
     <div id="stayLists"></div>
-
-    <h3 class="plan-h">Getting ready</h3>
-    <div id="readyList"></div>
+    <details class="more">
+      <summary>The full car lists</summary>
+      <div id="rideLists"></div>
+    </details>
 
     <h3 class="plan-h">Where things are</h3>
     <ul class="addr" id="addrList"></ul>
@@ -1630,8 +1639,9 @@ const RIDES = [
 
 
 
-/* Accommodation, as Joy set it out. Beds are named because both houses are
-   shared and people asked who they are sharing with. */
+/* Accommodation is the spine: a guest thinks in terms of the house they are in,
+   so the beds and every leg of the day hang off it. The car lists still exist
+   below, folded away, for anyone who wants the whole roster. */
 const STAYS = [
   { place: "The lake house", addr: "13 McKerrow Place, Fern Hill, Queenstown 5710",
     rooms: [
@@ -1639,31 +1649,45 @@ const STAYS = [
       { bed: "Two kings", who: ["Loren", "Jan", "Chit", "Sai"] },
       { bed: "Two singles", who: ["JP", "JP's wife", "Abby"] }
     ],
-    note: "Three bedrooms. Angelo drives you home at the end of the night and drops here first." },
+    legs: [
+      { l: "Getting ready", t: "Right here. The car leaves at <b>2:10 pm</b>." },
+      { l: "To the reception", face: "samples/driver-angelo.jpg", t: "Car 1, driven by Angelo. Lara Mae and Cathlyn ride with Marvin instead." },
+      { l: "Home", face: "samples/driver-angelo.jpg", t: "Angelo again, and he drops here first &mdash; Lara Mae and Cathlyn come back with him too." }
+    ] },
   { place: "The Arrowtown house", addr: "760 Malaghans Road, Arrowtown 9371",
     rooms: [
       { bed: "Super king, in the living room", who: ["Marvin", "Marvin's wife", "Marvin's daughter"] },
       { bed: "The bedroom &mdash; a queen and two king singles", who: ["Angelo", "Nica", "Mae", "Sonito", "Emman", "Pia"] }
     ],
-    note: "Six of you, three beds &mdash; that one is yours to settle between you. The owner is sending move-in details soon." },
+    note: "Six of you, three beds &mdash; that one is yours to settle between you. The owner is sending move-in details soon.",
+    legs: [
+      { l: "Getting ready", t: "The six of you go to the lake house, 13 McKerrow Place, and the car leaves there at <b>2:10 pm</b>. Marvin's family goes straight to the ceremony." },
+      { l: "To the reception", face: "samples/driver-angelo.jpg", t: "<b>Car 1</b> &mdash; Angelo, Emman, Sonito, Pia, Nica." },
+      { l: "", face: "samples/driver-marvin.jpg", t: "<b>Car 2</b> &mdash; Marvin, his wife and daughter, and Mae." },
+      { l: "Home", t: "Both cars come back here, after Angelo has dropped the lake house." }
+    ] },
   { place: "The family Airbnb", addr: "Thompson Street, Queenstown 9300",
     rooms: [
       { bed: "", who: ["Nelly", "Vicente", "Jun2x", "Joie", "Gavin", "Franklin",
                        "Blondie", "Elisha", "Nathaniel", "Ynting", "Grace", "Francis"] }
+    ],
+    legs: [
+      { l: "To the reception", t: "The two family cars, driven by Franklin and Ynting. No fixed time &mdash; you go once the photos after the ceremony are done." },
+      { l: "Home", t: "The same two cars. Grace and Francis ride with Ynting." }
+    ] },
+  { place: "Making your own way", hit: "You&rsquo;ve sorted your own place.",
+    rooms: [{ bed: "", who: ["Marge", "Sam", "Norrie", "Erwan"] }],
+    legs: [
+      { l: "Getting ready", t: "Marge and Sam are at the lake house, 13 McKerrow Place. The car leaves at <b>2:10 pm</b>." },
+      { l: "To the reception", face: "samples/driver-marvin.jpg", t: "Car 2, driven by Marvin." },
+      { l: "Home", face: "samples/driver-marvin.jpg", t: "Marvin drops you at your own place on the way back." }
     ] }
 ];
 const members = (x) => x.rooms.reduce((a, rm) => a.concat(rm.who), []);
 
-/* Making their own arrangements. Not shown as a card &mdash; there is nothing to
-   tell them &mdash; but the name lookup still answers. */
-const OWN = ["Marge", "Sam", "Norrie", "Erwan"];
-
-/* Route 1: where a group gets ready on the day, which is a different question
-   from where they sleep. The car leaves the lake house at 2:10 pm. */
+/* Route 1: who gets ready together, which is a different question from where
+   they sleep. Read by the name lookup; each house card says it in its own words. */
 const READY = {
-  place: "The lake house",
-  addr: "13 McKerrow Place &middot; the car leaves at 2:10 pm",
-  maps: "13 McKerrow Place, Fern Hill, Queenstown 5710",
   rooms: [
     { bed: "", who: ["Angelo", "Sonito", "Pia", "Mae", "Nica", "Loren", "Jan",
                      "Emman", "Sai", "Chit", "Marge", "Sam"] }
@@ -1677,7 +1701,7 @@ const PLACES = [
 
 function renderRides(q) {
   const needle = (q || "").trim().toLowerCase();
-  const everyone = RIDES.concat(STAYS, [READY]).reduce((a, x) => a.concat(members(x)), []).concat(OWN);
+  const everyone = RIDES.concat(STAYS, [READY]).reduce((a, x) => a.concat(members(x)), []);
   const exact = !!needle && everyone.some((w) => w.toLowerCase() === needle);
   const isYou = (w) => { const lw = w.toLowerCase(); return exact ? lw === needle : lw.includes(needle); };
   const hit = (w) => `<li class="${needle && isYou(w) ? "you" : ""}">${w}</li>`;
@@ -1695,24 +1719,26 @@ function renderRides(q) {
   const placeCard = (r) => `
     <div class="ride-card">
       <h4>${r.place}</h4>
-      <span class="drv">${r.addr}</span>
+      ${r.addr ? `<span class="drv">${r.addr}</span>` : ""}
       ${r.rooms.map((rm) => `${rm.bed ? `<span class="room">${rm.bed}</span>` : ""}<ul>${rm.who.map(hit).join("")}</ul>`).join("")}
       ${r.note ? `<span class="note">${r.note}</span>` : ""}
-      <a class="map" target="_blank" rel="noopener"
-         href="https://www.google.com/maps/search/?api=1&query=${encodeURIComponent((r.maps || r.addr) + ", New Zealand")}">Open in Maps</a>
+      ${r.legs ? `<div class="legs">${r.legs.map((g) => `
+        <div>${g.l ? `<span class="leg-l">${g.l}</span>` : ""}
+          <span class="leg-t">${g.face ? `<img class="leg-face" src="${g.face}" alt="" loading="lazy">` : ""}<span>${g.t}</span></span>
+        </div>`).join("")}</div>` : ""}
+      ${r.addr ? `<a class="map" target="_blank" rel="noopener"
+         href="https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(r.addr + ", New Zealand")}">Open in Maps</a>` : ""}
     </div>`;
   $("#stayLists").innerHTML = STAYS.map(placeCard).join("");
-  $("#readyList").innerHTML = placeCard(READY);
   const ready = needle && members(READY).some(isYou);
-  const own = needle && OWN.some(isYou);
+  const atLake = stay && stay.place === "The lake house";
   const bits = [];
-  if (car) bits.push(`You&rsquo;re in <b>${car.name}</b> &mdash; ${car.car.charAt(0).toLowerCase() + car.car.slice(1)}.`);
-  if (stay) bits.push(`You&rsquo;re staying at <b>${stay.place}</b>.`);
-  else if (own) bits.push("You&rsquo;ve sorted your own place. Marvin drops you there at the end of the night.");
+  if (stay) bits.push(stay.hit || `You&rsquo;re staying at <b>${stay.place}</b>.`);
   // found in a car but with no accommodation recorded — say so rather than nothing
   else if (car) bits.push("We don&rsquo;t have your accommodation on our list &mdash; check with Joy.");
+  if (car) bits.push(`You&rsquo;re in <b>${car.name}</b> &mdash; ${car.car.charAt(0).toLowerCase() + car.car.slice(1)}.`);
   // don't tell someone already at the lake house to go to the lake house
-  if (ready) bits.push(stay && stay.place === READY.place
+  if (ready) bits.push(atLake
     ? "Your car leaves at <b>2:10 pm</b>."
     : "You&rsquo;re getting ready at <b>the lake house</b>. The car leaves at 2:10 pm.");
   $("#rideHit").innerHTML = !needle ? ""
