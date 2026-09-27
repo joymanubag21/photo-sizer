@@ -258,6 +258,17 @@ details.ride-card[open] .acc-chev{transform:rotate(-135deg)}
   padding:7px 11px; cursor:pointer; white-space:nowrap;
 }
 .linkbtn:hover{border-color:var(--rose)}
+.how{list-style:none; counter-reset:h; margin:2px 0 0; padding:0}
+.how li{counter-increment:h; position:relative; padding-left:54px; margin-top:26px}
+.how li::before{
+  content:counter(h); position:absolute; left:0; top:-3px; width:38px; height:38px;
+  border-radius:50%; background:var(--ink); color:#fff;
+  font-family:'Cormorant Garamond',Georgia,serif; font-size:20px;
+  display:flex; align-items:center; justify-content:center;
+}
+.how h4{margin:0 0 6px; font-size:11.5px; font-weight:600; letter-spacing:.12em; text-transform:uppercase; color:var(--ink)}
+.how p{margin:0; font-size:13px; line-height:1.62; color:var(--ink-2)}
+.how code{font-size:12px; background:var(--surface-2); border-radius:4px; padding:1px 5px}
 .steps.big li{font-size:13.5px; padding-left:27px; margin-top:13px}
 .steps.big li::before{font-size:12px; color:var(--rose); line-height:1.6}
 .more{margin-top:16px; border-top:1px solid var(--line)}
@@ -531,36 +542,8 @@ details.ride-card[open] .acc-chev{transform:rotate(-135deg)}
 
 <div class="modal" id="help" hidden>
   <div class="modal-in">
-    <div class="modal-head"><h2>How to print</h2><button class="close" id="helpClose" aria-label="Close">✕</button></div>
-    <div class="hsec">
-      <h3>Getting it to the printer</h3>
-      <ol class="steps big">
-        <li><b>Join the printer&rsquo;s Wi-Fi.</b> Settings &rarr; Wi-Fi &rarr; pick the network starting <code>DIRECT-</code>. Password <b>PICKLEBALL</b>.</li>
-        <li><b>Save your sheet</b> with the button on the previous screen. It lands in your photos.</li>
-        <li><b>Open the Canon SELPHY Photo Layout app</b> and choose that sheet. Not the Photos app &mdash; the Canon one.</li>
-        <li><b>Print.</b> Postcard / L size, borderless, no scaling.</li>
-      </ol>
-    </div>
-    <div class="hsec">
-      <h3>Colour</h3>
-      <div class="seg" id="punchSeg" role="group" aria-label="Print colour">
-        <button data-punch="off" type="button">True</button>
-        <button data-punch="subtle" type="button">Warm</button>
-        <button data-punch="strong" type="button">Rich</button>
-      </div>
-      <p class="seg-note" id="punchNote"></p>
-    </div>
-    <div class="hsec">
-      <h3>Your photos</h3>
-      <div class="thumbs" id="tray"></div>
-      <p class="seg-note" id="trayNote"></p>
-    </div>
-    <div class="hsec">
-      <h3>Printer settings</h3>
-      <div id="airprintNote"></div>
-      <ul class="settings" id="printSettings"></ul>
-    </div>
-
+    <div class="modal-head"><h2>How to print</h2><button class="close" id="helpClose" aria-label="Close">&#10005;</button></div>
+    <div id="howList"></div>
   </div>
 </div>
 
@@ -1269,15 +1252,9 @@ function showResults() {
   ].join("");
 
   const toPrinter = `
-    <div class="hsec" style="margin-top:24px">
+    <div class="hsec" style="margin-top:26px">
       <h3>Get it to the printer</h3>
-      <ol class="steps big">
-        <li><b>Join the printer&rsquo;s Wi-Fi.</b> Settings &rarr; Wi-Fi &rarr; pick the network starting <code>DIRECT-</code>. Password <b>PICKLEBALL</b>.</li>
-        <li><b>Save your sheet</b> with the button above. It lands in your photos.</li>
-        <li><b>Open the Canon SELPHY Photo Layout app</b> and choose that sheet. Not the Photos app &mdash; the Canon one.</li>
-        <li><b>Print.</b> Postcard / L size, borderless, no scaling.</li>
-      </ol>
-      <button class="btn" id="outHelp" style="width:100%;margin-top:15px">All the printer settings</button>
+      ${howHtml("above")}
     </div>`;
 
   openOut(`<div class="save-tip"><span>${tip}</span></div>` + head +
@@ -1296,7 +1273,6 @@ function showResults() {
   });
   const bb = $("#batchBtn");
   if (bb) bb.onclick = () => (bb.dataset.mode === "share" ? shareFiles(results, bb) : saveAll(bb));
-  $("#outHelp").onclick = () => { renderHelp(); go({ view: "studio", ov: "help" }); };
 }
 
 function flash(btn, msg, ms) {
@@ -1397,6 +1373,7 @@ async function makePrints() {
 }
 
 function renderPunch() {
+  if (!$("#punchSeg")) return;
   $("#punchSeg").querySelectorAll("[data-punch]").forEach((b) => {
     b.setAttribute("aria-pressed", String(b.dataset.punch === state.punch));
   });
@@ -1575,6 +1552,7 @@ function renderStage() {
 }
 
 function renderTray() {
+  if (!$("#tray")) return;
   const tray = $("#tray");
   if (!tray) return;
   tray.innerHTML = "";
@@ -1598,15 +1576,21 @@ function renderTray() {
       : "The order here decides which photos share a card.";
 }
 
-function renderHelp() {
+/* Four steps, in the order they happen. Everything else the guest does not need. */
+function howHtml(saveWhere) {
   const fmt = state.fmt;
-  $("#printSettings").innerHTML = fmt.print
-    .map(([k, v, s]) => `<li><span class="k">${k}</span><span class="v">${v}${s ? `<small>${s}</small>` : ""}</span></li>`).join("");
-  $("#airprintNote").innerHTML = fmt.airprint
-    ? `<div class="callout fine"><span><b>AirPrint works for this card.</b> It fills the sheet, which is what an edge-to-edge design wants.</span></div>`
-    : `<div class="callout bad"><span><b>Don't use AirPrint for this card.</b> It fills the sheet with no way to say otherwise, so it crops the cut lines off the edge. Use the Canon app or an SD card, and set <em>Print Entire Image</em>.</span></div>`;
-  renderPunch();
-  renderTray();
+  const last = fmt.airprint
+    ? "Postcard / L size, borderless, no scaling."
+    : "Postcard / L size, borderless. Choose <b>Print Entire Image</b> so the cut line is not trimmed off.";
+  return `<ol class="how">
+    <li><h4>Join the printer&rsquo;s Wi-Fi</h4><p>Settings &rarr; Wi-Fi &rarr; the network starting <code>DIRECT-</code>. Password <b>PICKLEBALL</b>.</p></li>
+    <li><h4>Save your sheet</h4><p>Use <b>Save</b> ${saveWhere}. It lands in your photos.</p></li>
+    <li><h4>Open the Canon SELPHY app</h4><p>Photo Layout. Pick your sheet from inside it, not from the Photos app.</p></li>
+    <li><h4>Print</h4><p>${last}</p></li>
+  </ol>`;
+}
+function renderHelp() {
+  $("#howList").innerHTML = howHtml("on the previous screen");
 }
 
 function renderHero() {
@@ -2091,7 +2075,7 @@ $("#btnReset").onclick = () => {
 $("#btnHelp").onclick = () => { renderHelp(); go({ view: "studio", ov: "help" }); };
 $("#helpClose").onclick = back;
 $("#outClose").onclick = closeOut;
-$("#punchSeg").addEventListener("click", (e) => {
+if ($("#punchSeg")) $("#punchSeg").addEventListener("click", (e) => {
   const b = e.target.closest("[data-punch]");
   if (!b) return;
   state.punch = b.dataset.punch;
