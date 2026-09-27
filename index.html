@@ -601,7 +601,7 @@ details.ride-card[open] .acc-chev{transform:rotate(-135deg)}
     <div id="driverRoute"></div>
 
     <h3 class="plan-h">Where you&rsquo;re staying</h3>
-    <p class="plan-sub" style="margin-bottom:12px">Your house, your beds and every ride in one card. The Canyons to the Hilton is about 25 minutes.</p>
+    <p class="plan-sub" style="margin-bottom:12px" id="staySub"></p>
     <div id="stayLists"></div>
     <details class="more">
       <summary>The full car lists</summary>
@@ -1908,39 +1908,67 @@ const READY = {
    passenger sleeps and where they get ready; the Canyons-to-Hilton run is one
    hop for everybody. */
 const HILTON = "Straight to the Hilton with everyone aboard.";
+
+/* Every address a driver has to reach, so a run can be handed to Maps whole
+   rather than typed in one stop at a time. */
+const ADDR = {
+  lake:      "13 McKerrow Place, Fern Hill, Queenstown 5710",
+  arrowtown: "760 Malaghans Road, Arrowtown 9371",
+  airbnb:    "Thompson Street, Queenstown 9300",
+  dublin:    "4 Dublin Street, Queenstown 9300",
+  hotel:     "594 Frankton Road, Queenstown 9348",
+  canyons:   "The Canyons B&B, 13 Watties Track, Arthurs Point, Queenstown 9371",
+  hilton:    "Wakatipu Grill, Hilton, Peninsula Road, Kelvin Heights, Queenstown"
+};
+function dirLink(keys) {
+  const pt = (k) => encodeURIComponent(ADDR[k] + ", New Zealand");
+  const mid = keys.slice(1, -1).map(pt).join("%7C");
+  return "https://www.google.com/maps/dir/?api=1&travelmode=driving"
+    + `&origin=${pt(keys[0])}&destination=${pt(keys[keys.length - 1])}`
+    + (mid ? `&waypoints=${mid}` : "");
+}
+
 const ROUTES = {
   Angelo: {
-    ceremony: ["The lake house, 13 McKerrow Place &mdash; all twelve of you leave from there at <b>2:10 pm</b>."],
-    reception: [HILTON],
-    home: ["The lake house &mdash; Loren, Jan, Sai, Chit, JP, Daisy and Abby.",
-           "The Arrowtown house &mdash; you, Emman, Sonito, Pia and Nica."]
+    ceremony: { stops: ["The lake house, 13 McKerrow Place &mdash; all twelve of you leave from there at <b>2:10 pm</b>."],
+                map: ["lake", "canyons"] },
+    reception: { stops: [HILTON], map: ["canyons", "hilton"] },
+    home: { stops: ["The lake house &mdash; Loren, Jan, Sai, Chit, JP, Daisy and Abby.",
+                    "The Arrowtown house &mdash; you, Emman, Sonito, Pia and Nica."],
+            map: ["hilton", "lake", "arrowtown"] }
   },
   Marvin: {
     start: "You start at the Arrowtown house with Jane and your daughter.",
-    ceremony: ["The lake house &mdash; Mae, Marge and Sam, who get ready there.",
-               "Joy and Patrick&rsquo;s hotel &mdash; Lara Mae, Cathlyn and Norrie.",
-               "4 Dublin Street &mdash; Erwan."],
-    reception: [HILTON],
-    home: ["The lake house &mdash; Lara Mae and Cathlyn.",
-           "4 Dublin Street &mdash; Norrie and Erwan.",
-           "Marge and Sam&rsquo;s place.",
-           "The Arrowtown house &mdash; you, Jane, your daughter and Mae."]
+    ceremony: { stops: ["The lake house &mdash; Mae, Marge and Sam, who get ready there.",
+                        "Joy and Patrick&rsquo;s hotel &mdash; Lara Mae, Cathlyn and Norrie.",
+                        "4 Dublin Street &mdash; Erwan."],
+                map: ["arrowtown", "lake", "hotel", "dublin", "canyons"] },
+    reception: { stops: [HILTON], map: ["canyons", "hilton"] },
+    home: { stops: ["The lake house &mdash; Lara Mae and Cathlyn.",
+                    "4 Dublin Street &mdash; Norrie and Erwan.",
+                    "Marge and Sam&rsquo;s place.",
+                    "The Arrowtown house &mdash; you, Jane, your daughter and Mae."],
+            map: ["hilton", "lake", "dublin", "arrowtown"] }
   },
   Franklin: {
-    ceremony: ["Straight from the family Airbnb, Thompson Street, with all seven of you."],
-    reception: [HILTON],
-    home: ["The family Airbnb &mdash; everyone in your car."]
+    ceremony: { stops: ["Straight from the family Airbnb, Thompson Street, with all seven of you."],
+                map: ["airbnb", "canyons"] },
+    reception: { stops: [HILTON], map: ["canyons", "hilton"] },
+    home: { stops: ["The family Airbnb &mdash; everyone in your car."], map: ["hilton", "airbnb"] }
   },
   Ynting: {
-    early: ["The family Airbnb &mdash; Grace.",
-            "The lake house &mdash; Lara Mae and Cathlyn.",
-            "4 Dublin Street &mdash; Norrie.",
-            "Then all four to Joy and Patrick&rsquo;s hotel."],
-    ceremony: ["The family Airbnb &mdash; Jun2x, Joie, Gavin and Francis.",
-               "Joy and Patrick&rsquo;s hotel &mdash; Joy, Patrick and Grace."],
-    reception: [HILTON],
-    home: ["The family Airbnb &mdash; Jun2x, Joie, Gavin, Grace and Francis.",
-           "Joy and Patrick&rsquo;s hotel."]
+    early: { stops: ["The family Airbnb &mdash; Grace.",
+                     "The lake house &mdash; Lara Mae and Cathlyn.",
+                     "4 Dublin Street &mdash; Norrie.",
+                     "Then all four to Joy and Patrick&rsquo;s hotel."],
+             map: ["airbnb", "lake", "dublin", "hotel"] },
+    ceremony: { stops: ["The family Airbnb &mdash; Jun2x, Joie, Gavin and Francis.",
+                        "Joy and Patrick&rsquo;s hotel &mdash; Joy, Patrick and Grace."],
+                map: ["airbnb", "hotel", "canyons"] },
+    reception: { stops: [HILTON], map: ["canyons", "hilton"] },
+    home: { stops: ["The family Airbnb &mdash; Jun2x, Joie, Gavin, Grace and Francis.",
+                    "Joy and Patrick&rsquo;s hotel."],
+            map: ["hilton", "airbnb", "hotel"] }
   }
 };
 
@@ -1953,11 +1981,11 @@ const CEREMONY_BY_HOUSE = {
   "Norrie and Erwan&rsquo;s place": "You&rsquo;re collected at 4 Dublin Street.",
   "Making your own way": "You get ready at the lake house, 13 McKerrow Place, and the car leaves from there at <b>2:10 pm</b>."
 };
-const HOTEL_RUN = "At <b>6 am</b> Ynting takes you to Joy and Patrick&rsquo;s hotel, and %s collects you there.";
+const HOTEL_RUN = "At <b>6 am</b> Ynting takes you to Joy and Patrick&rsquo;s hotel, and <b>Marvin</b> collects you there.";
 const CEREMONY_BY_NAME = {
-  "Lara Mae": HOTEL_RUN.replace("%s", "<b>Marvin</b>"),
-  "Cathlyn": HOTEL_RUN.replace("%s", "<b>Marvin</b>"),
-  "Norrie": HOTEL_RUN.replace("%s", "<b>Marvin</b>"),
+  "Lara Mae": HOTEL_RUN,
+  "Cathlyn": HOTEL_RUN,
+  "Norrie": HOTEL_RUN,
   "Grace": "At <b>6 am</b> Ynting takes you to Joy and Patrick&rsquo;s hotel, and you stay in her car all day.",
   "Jane": "Straight to the ceremony from the Arrowtown house.",
   "Marvin's daughter": "Straight to the ceremony from the Arrowtown house."
@@ -2022,8 +2050,8 @@ function renderRides(q) {
     </div>`).join("");
   const car = needle && RIDES.find((r) => members(r).some(isYou));
   const stay = needle && STAYS.find((r) => members(r).some(isYou));
-  const placeCard = (r) => `
-    <details class="ride-card" ${needle && members(r).some(isYou) ? "open" : ""}>
+  const placeCard = (r, mine) => `
+    <details class="ride-card" ${mine || (needle && members(r).some(isYou)) ? "open" : ""}>
       <summary>
         <span class="acc-h">
           <h4>${r.place}</h4>
@@ -2043,13 +2071,34 @@ function renderRides(q) {
            href="https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(r.addr + ", New Zealand")}">Open in Maps</a>` : ""}
       </div>
     </details>`;
-  $("#stayLists").innerHTML = STAYS.map(placeCard).join("");
+  /* Once we know who you are, your house is the answer and the other four are
+     somebody else's business. They stay one tap away, and open themselves if a
+     search lands in one of them. */
+  $("#staySub").textContent = ME
+    ? "Your beds and every ride, in one card. The Canyons to the Hilton is about 25 minutes."
+    : "Your house, your beds and every ride in one card. The Canyons to the Hilton is about 25 minutes.";
+  const myHouse = ME && STAYS.find((r) => members(r).some((w) => norm(w) === norm(ME)));
+  const others = STAYS.filter((r) => r !== myHouse);
+  const elsewhere = needle && others.some((r) => members(r).some(isYou));
+  $("#stayLists").innerHTML = myHouse
+    ? placeCard(myHouse, true)
+      + `<details class="more"${elsewhere ? " open" : ""}>
+           <summary>Where everyone else is staying</summary>
+           ${others.map((r) => placeCard(r, false)).join("")}
+         </details>`
+    : STAYS.map((r) => placeCard(r, false)).join("");
   const me = needle && everyone.find(isYou);
   const driver = needle && Object.keys(ROUTES).find((d) => d.toLowerCase() === needle);
-  const leg = (label, stops) => `
-    <div><span class="leg-l">${label}${stops.length > 1 ? `<span class="leg-c">${stops.length} stops</span>` : ""}</span>
+  // a guest's leg is one line; a driver's carries its stops and the whole route
+  const leg = (label, x) => {
+    const stops = Array.isArray(x) ? x : x.stops;
+    const map = Array.isArray(x) ? null : x.map;
+    return `<div>
+      <span class="leg-l">${label}${stops.length > 1 ? `<span class="leg-c">${stops.length} stops</span>` : ""}</span>
       ${stops.map((t, i) => `<span class="leg-t"><span>${stops.length > 1 ? `<b class="route-n">${i + 1}</b>` : ""}${t}</span></span>`).join("")}
+      ${map ? `<a class="map" target="_blank" rel="noopener" href="${dirLink(map)}">Open this run in Maps</a>` : ""}
     </div>`;
+  };
   let legs = "";
   if (driver) {
     const r = ROUTES[driver];
