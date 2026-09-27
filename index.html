@@ -276,6 +276,9 @@ details.ride-card[open] .acc-chev{transform:rotate(-135deg)}
 .how p{margin:0; font-size:12.5px; line-height:1.6; color:var(--ink-2)}
 .how code{font-size:12px; background:var(--surface-2); border-radius:4px; padding:1px 5px}
 .how-end{margin:16px 4px 0; text-align:right; font-family:'Cormorant Garamond',Georgia,serif; font-style:italic; font-size:1.45rem; color:var(--rose)}
+.calm{list-style:none; margin:24px 0 28px; padding:0}
+.calm li{position:relative; padding-left:19px; margin-top:15px; font-size:14px; line-height:1.65; color:var(--ink-2)}
+.calm li::before{content:""; position:absolute; left:1px; top:10px; width:5px; height:5px; border-radius:50%; background:var(--rose)}
 .how-fine{margin:14px 0 0; padding-top:12px; border-top:1px solid var(--line); font-size:11.5px; line-height:1.6; color:var(--ink-3)}
 .how{list-style:none; counter-reset:h; margin:2px 0 0; padding:0}
 .how li{counter-increment:h; position:relative; padding-left:54px; margin-top:26px}
@@ -655,30 +658,15 @@ details.ride-card[open] .acc-chev{transform:rotate(-135deg)}
 
 <div class="modal" id="album" hidden>
   <div class="modal-in">
-    <div class="modal-head"><h2>Send us your photos</h2><button class="close" id="albumClose" aria-label="Close">&#10005;</button></div>
-    <div class="hsec">
-      <p class="seg-note">Everything everyone takes tonight lands in one album, ours included. It is the only part of this site that uploads anything &mdash; printing never leaves your phone.</p>
-    </div>
-    <div class="hsec">
-      <h3>How it works</h3>
-      <ul class="routes">
-        <li>
-          <div class="rt">Open the album <span>nothing to install</span></div>
-          The button below opens it in your browser. Keep the tab, or add it to your home screen, and come back through the night.
-        </li>
-        <li>
-          <div class="rt">Add as you go <span>any time</span></div>
-          Blurry ones welcome. The ones nobody posed for are the ones we actually want.
-        </li>
-        <li>
-          <div class="rt">We print our favourites <span>at the reception</span></div>
-          Look for them by the print station. Anything you love, you can print yourself from here too.
-        </li>
-      </ul>
-    </div>
-    <div class="hsec">
-      <a class="btn primary" style="width:100%;box-sizing:border-box;text-align:center" href="https://app.kululu.com/m4fvel" target="_blank" rel="noopener">Open the album</a>
-    </div>
+    <div class="modal-head"><span style="flex:1"></span><button class="close" id="albumClose" aria-label="Close">&#10005;</button></div>
+    <p class="how-hd"><span>Send us your</span><em>photos</em></p>
+    <ul class="calm">
+      <li>Nothing to install. The album opens in your browser.</li>
+      <li>Blurry ones welcome. Posed ones less so.</li>
+      <li>We print our favourites by the print station.</li>
+    </ul>
+    <a class="btn primary" style="width:100%;box-sizing:border-box;text-align:center" href="https://app.kululu.com/m4fvel" target="_blank" rel="noopener">Open the album</a>
+    <p class="how-fine">The only part of this site that uploads anything. Printing never leaves your phone.</p>
   </div>
 </div>
 
