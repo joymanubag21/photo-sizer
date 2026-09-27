@@ -2068,9 +2068,10 @@ const ROUTES = {
   },
   Ynting: {
     early: { stops: ["<b>6:30 am</b> &mdash; leave the Airbnb with Grace.",
-                     "<b>6:44 am</b> &mdash; the lake house, for Lara Mae, Cathlyn and Norrie. 14 minutes.",
-                     "<b>7:02 am</b> &mdash; Joy and Patrick&rsquo;s hotel. 18 minutes. Makeup starts at 7:45."],
-             map: ["airbnb", "lake", "hotel"] },
+                     "<b>6:44 am</b> &mdash; the lake house, for Lara Mae and Cathlyn. 14 minutes.",
+                     "<b>4 Dublin Street</b> &mdash; Norrie, on the way through.",
+                     "<b>Joy and Patrick&rsquo;s hotel.</b> The lake house to the hotel is 18 minutes direct, so allow a little more for Dublin Street. Makeup starts at <b>7:45</b>."],
+             map: ["airbnb", "lake", "dublin", "hotel"] },
     ceremony: { stops: ["The family Airbnb &mdash; Jun2x, Joie, Gavin and Francis.",
                         "<b>2:40 pm</b> &mdash; Joy and Patrick&rsquo;s hotel, for Joy, Patrick, Grace and the bridesmaids. The Canyons is 15 minutes from there."],
                 map: ["airbnb", "hotel", "canyons"] },
@@ -2094,7 +2095,7 @@ const HOTEL_RUN = "At <b>6:30 am</b> Ynting takes you to Joy and Patrick&rsquo;s
 const CEREMONY_BY_NAME = {
   "Lara Mae": HOTEL_RUN,
   "Cathlyn": HOTEL_RUN,
-  "Norrie": HOTEL_RUN,
+  "Norrie": "At <b>6:30 am</b> Ynting collects you at <b>4 Dublin Street</b> and takes you to Joy and Patrick&rsquo;s hotel, and on to the ceremony from there.",
   "Grace": "At <b>6:30 am</b> Ynting takes you to Joy and Patrick&rsquo;s hotel, and you stay in her car all day.",
   "Jane": "Straight to the ceremony from the Arrowtown house.",
   "Marvin's daughter": "Straight to the ceremony from the Arrowtown house."
