@@ -147,6 +147,9 @@ a.btn{text-decoration:none}
 .spy-lede{font-size:14.5px; color:var(--ink-2); line-height:1.55; max-width:30ch; margin:0 auto}
 .spy-count{margin-top:16px; font-size:10px; font-weight:600; letter-spacing:.2em; text-transform:uppercase; color:var(--ink-3)}
 .spy-count b{color:var(--rose); font-weight:600}
+.spy-bar{height:3px; border-radius:2px; background:var(--surface-3); margin:13px auto 0; max-width:210px; overflow:hidden}
+.spy-bar i{display:block; height:100%; width:0; background:var(--rose); transition:width .32s ease}
+.spy-sep{padding:9px 16px; font-size:10px; font-weight:600; letter-spacing:.18em; text-transform:uppercase; color:var(--ink-3); background:var(--surface-2)}
 .spy-list{list-style:none; margin:0; padding:0; background:#fff; border:1px solid var(--line-2); border-radius:12px; overflow:hidden}
 .spy-list li + li{border-top:1px solid var(--line)}
 .spy-item{
@@ -606,6 +609,7 @@ details.ride-card[open] .acc-chev{transform:rotate(-135deg)}
       <h2 class="spy-h">I <em>spy</em></h2>
       <p class="spy-lede">Catch these before the night is out. Tap one when you&rsquo;ve got it.</p>
       <p class="spy-count" id="spyCount"></p>
+      <div class="spy-bar"><i id="spyBar"></i></div>
     </div>
     <ul class="spy-list" id="spyList"></ul>
     <p class="spy-done" id="spyDone" hidden>All ten. You&rsquo;re officially part of the story.</p>
@@ -1618,7 +1622,17 @@ const HEART = '<svg class="spy-heart" viewBox="0 0 24 24" aria-hidden="true"><pa
 function renderSpy() {
   const list = $("#spyList");
   list.innerHTML = "";
-  SPY.forEach(([shot, aside], i) => {
+  // the ones still to find lead. Order settles on open, never under your finger.
+  const order = SPY.map((_, i) => i).filter((i) => !spyFound.has(i))
+    .concat(SPY.map((_, i) => i).filter((i) => spyFound.has(i)));
+  order.forEach((i, pos) => {
+    const [shot, aside] = SPY[i];
+    if (spyFound.has(i) && pos && !spyFound.has(order[pos - 1])) {
+      const sep = document.createElement("li");
+      sep.className = "spy-sep";
+      sep.textContent = "Found";
+      list.appendChild(sep);
+    }
     const li = document.createElement("li");
     const b = document.createElement("button");
     b.type = "button";
@@ -1637,8 +1651,10 @@ function renderSpy() {
   renderSpyCount();
 }
 function renderSpyCount() {
-  $("#spyCount").innerHTML = `<b>${spyFound.size}</b> of ${SPY.length} found`;
-  $("#spyDone").hidden = spyFound.size !== SPY.length;
+  const left = SPY.length - spyFound.size;
+  $("#spyCount").innerHTML = left ? `<b>${left}</b> still to find` : "All ten found";
+  $("#spyBar").style.width = `${(spyFound.size / SPY.length) * 100}%`;
+  $("#spyDone").hidden = left !== 0;
 }
 
 /* Every screen and sheet is a history entry, so the phone's own back gesture
