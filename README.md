@@ -1,19 +1,19 @@
 # Joy & Patrick Prints
 
 Wedding photo cards for **Joy & Patrick, Queenstown NZ, 10.10.26**. Crops photos
-to the exact printed frame for a **Canon SELPHY CP1500** on L-size paper
-(119 × 89 mm) and renders a print-resolution JPEG at 400 dpi (1874 × 1402 px per
+to the exact printed frame for a **Canon SELPHY CP1500** on postcard paper
+(148 × 100 mm, Canon RP-108) and renders a print-resolution JPEG at 400 dpi (2331 × 1575 px per
 sheet). Every card is signed and dated automatically.
 
 **Live: https://joymanubag21.github.io/photo-sizer/**
 
-Three formats, built to real paper geometry in millimetres:
+Five formats, built to real paper geometry in millimetres:
 
 | Format | Layout | Printer setting |
 | --- | --- | --- |
-| Memory Lane story card | two 54 × 56 mm frames, 0.1 in gap, caption band below | L Borderless · Landscape · **Fill Entire Paper** · 100% |
-| Instax mini guest card | two 54 × 86 mm cards per sheet, 46 × 62 mm window, cut hairlines | L Borderless · **Print Entire Image** · 100%, then cut |
-| Full L-size photo | edge to edge, no card, no text | L Borderless · Landscape · **Fill Entire Paper** · 100% |
+| Memory Lane story card | two 65.5 × 81 mm frames, 3 mm gap, signature band above | Postcard Borderless · Landscape · **Fill Entire Paper** · 100% |
+| Instax mini guest card | two 54 × 86 mm cards per sheet, 46 × 62 mm window, cut hairlines | Postcard Borderless · **Print Entire Image** · 100%, then cut |
+| Full postcard photo | edge to edge, no card, no text | Postcard Borderless · Landscape · **Fill Entire Paper** · 100% |
 
 Everything runs in the browser. No upload, no backend, no build step — the whole
 app is one self-contained `index.html`. Photos never leave the device.
