@@ -556,7 +556,6 @@ details.ride-card[open] .acc-chev{transform:rotate(-135deg)}
     </button>
     <span class="wordmark">Joy &amp; Patrick</span>
     <span class="count" id="count"></span>
-    <button class="icon" id="btnAdd" aria-label="Add photos">+</button>
     <button class="linkbtn" id="btnHelp" type="button">How to print</button>
   </header>
 
@@ -567,6 +566,7 @@ details.ride-card[open] .acc-chev{transform:rotate(-135deg)}
   <div class="tune" id="tune" hidden>
     <span class="lab">Zoom</span>
     <input type="range" id="zoom" min="1" max="5" step="0.01" value="1" aria-label="Zoom the selected photo">
+    <button id="btnSwap">Replace</button>
     <button id="btnReset">Reset</button>
   </div>
 
@@ -1253,14 +1253,13 @@ function showResults() {
   const saveAllable = batch && canSave;
   const batchAction = shareAll || saveAllable;
 
-  // the costly step is the trip into the Canon app, so lead with whatever makes it once
-  const tip = batchAction
-    ? `Send <b>all ${results.length} sheets at once</b> and you only make the trip to the Canon SELPHY app once.`
-    : shareOne
-      ? `<b>Share</b> sends the sheet straight to Photos — then print it from the Canon SELPHY app.`
-      : canSave
-        ? `<b>Save</b> puts the sheet in your downloads at full print resolution.`
-        : `<b>To keep a sheet:</b> press and hold the picture and pick Save to Photos.`;
+  /* A browser cannot read which Wi-Fi you are on, so this reads the one clue it
+     does get: joining the printer's own network takes the phone off the internet. */
+  const tip = !shareOne && !canSave
+    ? `<b>To keep a sheet:</b> press and hold the picture and pick Save to Photos.`
+    : navigator.onLine
+      ? `You&rsquo;re still on the internet, so not on the printer yet. Join <b>CP1500-D8CB03</b>, password <b>PICKLEBALL</b>, then come back and tap ${shareOne ? "<b>Share</b>" : "<b>Save</b>"}.`
+      : `No internet, which usually means you&rsquo;re on the printer&rsquo;s Wi-Fi. Tap ${shareOne ? "<b>Share</b>" : "<b>Save</b>"} and pick <b>Canon SELPHY</b>.`;
 
   const head = shareAll
     ? `<button class="btn primary" id="batchBtn" data-mode="share" style="width:100%;margin-bottom:20px">Share all ${results.length} sheets</button>`
@@ -1268,13 +1267,12 @@ function showResults() {
       ? `<button class="btn primary" id="batchBtn" data-mode="save" style="width:100%;margin-bottom:20px">Save all ${results.length} sheets</button>`
       : "";
 
-  // per-sheet buttons drop to secondary once a batch action is carrying the page
-  const lead = (cond) => (cond && !batchAction ? " primary" : "");
-  const acts = (i) => [
-    shareOne ? `<button class="btn${lead(true)}" data-share="${i}">Share</button>` : "",
-    dl ? `<button class="btn${lead(!shareOne)}" data-save="${i}">Save</button>`
-       : (!FRAMED ? `<a class="btn${lead(!shareOne)}" href="${results[i].url}" download="${results[i].name}">Save</a>` : "")
-  ].join("");
+  // one action, not two. Save is the fallback where the phone cannot share a file
+  const lead = batchAction ? "" : " primary";
+  const acts = (i) => shareOne
+    ? `<button class="btn${lead}" data-share="${i}">Share</button>`
+    : dl ? `<button class="btn${lead}" data-save="${i}">Save</button>`
+         : (!FRAMED ? `<a class="btn${lead}" href="${results[i].url}" download="${results[i].name}">Save</a>` : "");
 
   const toPrinter = `
     <div class="hsec" style="margin-top:26px">
@@ -1540,6 +1538,9 @@ function renderStage() {
     hit.setAttribute("aria-label", it ? `Adjust photo ${fi + 1}` : "Add a photo here");
     if (!it) {
       hit.innerHTML = "<span>+ photo</span>";
+      hit.onclick = () => $("#fileIn").click();
+    } else if (it.photo.sample) {
+      // a placeholder is not worth dragging; tapping it swaps in your own photos
       hit.onclick = () => $("#fileIn").click();
     } else {
       attachGestures(hit, it, () => {
@@ -2171,8 +2172,30 @@ $("#shotClose").onclick = back;
 loadShots().then(() => { if (!$("#spy").hidden) renderSpy(); });
 
 
-$("#btnAdd").onclick = () => $("#fileIn").click();
-$("#fileIn").onchange = (e) => { addFiles(e.target.files); e.target.value = ""; };
+let swapTarget = null;
+$("#btnSwap").onclick = () => { swapTarget = activeItem; $("#fileIn").click(); };
+$("#fileIn").onchange = async (e) => {
+  const files = [...e.target.files];
+  const target = swapTarget;
+  swapTarget = null;
+  e.target.value = "";
+  if (target && files.length) await swapPhoto(target, files[0]);
+  else await addFiles(files);
+};
+/* Replacing one frame keeps the others where they are, which is the whole
+   point of asking for this frame rather than adding to the end. */
+async function swapPhoto(item, file) {
+  if (!file.type.startsWith("image/")) return;
+  try {
+    const d = await decode(file, 1500);
+    Object.assign(item, {
+      file, src: d.src, w: d.w, h: d.h,
+      name: file.name.replace(/\.[^.]+$/, ""), sample: false,
+      t: { zoom: 1, ox: 0, oy: 0 }
+    });
+    redrawEverything();
+  } catch (err) { console.warn("Could not read", file.name, err); }
+}
 $("#btnMake").onclick = makePrints;
 $("#zoom").oninput = () => {
   if (!activeItem) return;
