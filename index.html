@@ -1763,16 +1763,44 @@ const ROUTES = {
   }
 };
 
+/* Every guest gets the same three legs as a driver. Where they are collected
+   is the house default unless the day treats them differently. */
+const CEREMONY_BY_HOUSE = {
+  "The lake house": "You&rsquo;re already there, and the car leaves at <b>2:10 pm</b>.",
+  "The Arrowtown house": "You get ready at the lake house, 13 McKerrow Place, and the car leaves from there at <b>2:10 pm</b>.",
+  "The family Airbnb": "You leave from the Airbnb on Thompson Street.",
+  "Norrie and Erwan&rsquo;s place": "You&rsquo;re collected at 4 Dublin Street.",
+  "Making your own way": "You get ready at the lake house, 13 McKerrow Place, and the car leaves from there at <b>2:10 pm</b>."
+};
+const HOTEL_RUN = "At <b>6 am</b> Ynting takes you to Joy and Patrick&rsquo;s hotel, and %s collects you there.";
+const CEREMONY_BY_NAME = {
+  "Lara Mae": HOTEL_RUN.replace("%s", "<b>Marvin</b>"),
+  "Cathlyn": HOTEL_RUN.replace("%s", "<b>Marvin</b>"),
+  "Norrie": HOTEL_RUN.replace("%s", "<b>Marvin</b>"),
+  "Grace": "At <b>6 am</b> Ynting takes you to Joy and Patrick&rsquo;s hotel, and you stay in her car all day.",
+  "Marvin's wife": "Straight to the ceremony from the Arrowtown house.",
+  "Marvin's daughter": "Straight to the ceremony from the Arrowtown house."
+};
+const HOME_BY_HOUSE = {
+  "The lake house": "drops you at the lake house",
+  "The Arrowtown house": "drops you at the Arrowtown house",
+  "The family Airbnb": "drops you at the Airbnb",
+  "Norrie and Erwan&rsquo;s place": "drops you at 4 Dublin Street",
+  "Making your own way": "drops you at your own place"
+};
+
 const PLACES = [
   ["The Canyons B&B", "13 Watties Track, Arthurs Point, Queenstown 9371", "Ceremony"],
   ["Wakatipu Grill, Hilton", "Peninsula Road, Kelvin Heights, Queenstown", "Reception"]
 ];
 
 function renderRides(q) {
-  const needle = (q || "").trim().toLowerCase();
+  // phone keyboards turn ' into ’, so both spellings have to land on the same name
+  const norm = (t) => (t || "").trim().toLowerCase().replace(/[\u2018\u2019\u02BC\u00B4`]/g, "'");
+  const needle = norm(q);
   const everyone = RIDES.concat(STAYS, [READY]).reduce((a, x) => a.concat(members(x)), []);
-  const exact = !!needle && everyone.some((w) => w.toLowerCase() === needle);
-  const isYou = (w) => { const lw = w.toLowerCase(); return exact ? lw === needle : lw.includes(needle); };
+  const exact = !!needle && everyone.some((w) => norm(w) === needle);
+  const isYou = (w) => { const lw = norm(w); return exact ? lw === needle : lw.includes(needle); };
   const hit = (w) => `<li class="${needle && isYou(w) ? "you" : ""}">${w}</li>`;
   $("#rideLists").innerHTML = RIDES.map((r) => `
     <div class="ride-card">
@@ -1807,39 +1835,31 @@ function renderRides(q) {
       </div>
     </details>`;
   $("#stayLists").innerHTML = STAYS.map(placeCard).join("");
-  const ready = needle && members(READY).some(isYou);
-  const bridal = needle && ["Lara Mae", "Cathlyn", "Grace", "Norrie"].some(isYou);
-  const atLake = stay && stay.place === "The lake house";
-  const bits = [];
-  if (stay) bits.push(stay.hit || `You&rsquo;re staying at <b>${stay.place}</b>.`);
-  // found in a car but with no accommodation recorded — say so rather than nothing
-  else if (car) bits.push("We don&rsquo;t have your accommodation on our list &mdash; check with Joy.");
-  if (car) bits.push(car.hit);
-  // don't tell someone already at the lake house to go to the lake house
-  if (bridal) bits.push("At <b>6 am</b> Ynting collects you and takes you to Joy and Patrick&rsquo;s hotel.");
-  if (ready) bits.push(atLake
-    ? "Your car leaves at <b>2:10 pm</b>."
-    : "You&rsquo;re getting ready at <b>the lake house</b>. The car leaves at 2:10 pm.");
+  const me = needle && everyone.find(isYou);
   const driver = needle && Object.keys(ROUTES).find((d) => d.toLowerCase() === needle);
-  const run = (label, stops) => `
-    <div><span class="leg-l">${label}<span class="leg-c">${stops.length} stop${stops.length > 1 ? "s" : ""}</span></span>
+  const leg = (label, stops) => `
+    <div><span class="leg-l">${label}${stops.length > 1 ? `<span class="leg-c">${stops.length} stops</span>` : ""}</span>
       ${stops.map((t, i) => `<span class="leg-t"><span>${stops.length > 1 ? `<b class="route-n">${i + 1}</b>` : ""}${t}</span></span>`).join("")}
     </div>`;
-  $("#driverRoute").innerHTML = !driver ? "" : `
+  let legs = "";
+  if (driver) {
+    const r = ROUTES[driver];
+    legs = (r.early ? leg("The 6 am run", r.early) : "")
+      + (r.start ? `<div><span class="leg-l">Before you set off</span><span class="leg-t"><span>${r.start}</span></span></div>` : "")
+      + leg("To the ceremony", r.ceremony) + leg("To the reception", r.reception) + leg("Going home", r.home);
+  } else if (me && car && stay) {
+    legs = leg("To the ceremony", [CEREMONY_BY_NAME[me] || CEREMONY_BY_HOUSE[stay.place] || "Check with Joy."])
+      + leg("To the reception", [`With <b>${car.driver}</b>, straight to the Hilton. About 25 minutes.`])
+      + leg("Going home", [`<b>${car.driver}</b> ${HOME_BY_HOUSE[stay.place] || "takes you home"}.`]);
+  }
+  $("#driverRoute").innerHTML = !legs ? "" : `
     <div class="ride-card" style="padding:16px 17px">
-      <h4>You&rsquo;re driving</h4>
-      <span class="drv">${car ? car.name : ""}</span>
-      <div class="legs">
-        ${ROUTES[driver].early ? run("The 6 am run", ROUTES[driver].early) : ""}
-        ${ROUTES[driver].start ? `<div><span class="leg-l">Before you set off</span><span class="leg-t"><span>${ROUTES[driver].start}</span></span></div>` : ""}
-        ${run("To the ceremony", ROUTES[driver].ceremony)}
-        ${run("To the reception", ROUTES[driver].reception)}
-        ${run("Going home", ROUTES[driver].home)}
-      </div>
+      <h4>${driver ? "You&rsquo;re driving" : "Your day"}</h4>
+      <span class="drv">${[stay && stay.place, car && car.name].filter(Boolean).join(" &middot; ")}</span>
+      <div class="legs">${legs}</div>
     </div>`;
-  $("#rideHit").innerHTML = !needle ? ""
-    : bits.length ? bits.join("<br>")
-                  : "No match. Ask Grace or Francis and they&rsquo;ll sort you out.";
+  $("#rideHit").innerHTML = !needle || legs ? ""
+    : "No match. Ask Grace or Francis and they&rsquo;ll sort you out.";
 }
 function renderPlaces() {
   $("#addrList").innerHTML = PLACES.map(([nm, ad, tag]) => {
