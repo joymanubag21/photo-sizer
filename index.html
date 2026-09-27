@@ -258,6 +258,28 @@ details.ride-card[open] .acc-chev{transform:rotate(-135deg)}
   padding:7px 11px; cursor:pointer; white-space:nowrap;
 }
 .linkbtn:hover{border-color:var(--rose)}
+.how-hd{text-align:center; margin:0 0 4px}
+.how-hd span{display:block; font-family:'Cormorant Garamond',Georgia,serif; font-size:1.75rem; letter-spacing:.16em; text-transform:uppercase; color:var(--ink); line-height:1.05}
+.how-hd em{display:block; font-family:'Cormorant Garamond',Georgia,serif; font-style:italic; font-size:3rem; color:var(--rose); line-height:.92; margin-top:-2px}
+.how{margin:0; padding:0}
+.how-step{display:flex; align-items:center; gap:15px}
+.how-step.flip{flex-direction:row-reverse}
+.how-step.flip .how-txt{text-align:right}
+.how-art{flex:none; width:76px; height:76px; color:var(--ink-2)}
+.how-txt{flex:1; min-width:0}
+.how-n{
+  display:inline-flex; align-items:center; justify-content:center; width:25px; height:25px;
+  border-radius:50%; background:var(--ink); color:#fff; margin-bottom:7px;
+  font-family:'Cormorant Garamond',Georgia,serif; font-size:15px; line-height:1;
+  font-variant-numeric:lining-nums; font-feature-settings:'lnum' 1;
+}
+.how h4{margin:0 0 5px; font-size:11px; font-weight:600; letter-spacing:.12em; text-transform:uppercase; color:var(--ink); line-height:1.35}
+.how p{margin:0; font-size:12.5px; line-height:1.6; color:var(--ink-2)}
+.how code{font-size:12px; background:var(--surface-2); border-radius:4px; padding:1px 5px}
+.how-link{display:block; width:120px; height:30px; color:var(--line-2); margin:4px 0 4px 30px}
+.how-link.flip{margin:4px 30px 4px auto; transform:scaleX(-1)}
+.how-end{margin:16px 4px 0; text-align:right; font-family:'Cormorant Garamond',Georgia,serif; font-style:italic; font-size:1.45rem; color:var(--rose)}
+.how-fine{margin:14px 0 0; padding-top:12px; border-top:1px solid var(--line); font-size:11.5px; line-height:1.6; color:var(--ink-3)}
 .how{list-style:none; counter-reset:h; margin:2px 0 0; padding:0}
 .how li{counter-increment:h; position:relative; padding-left:54px; margin-top:26px}
 .how li::before{
@@ -542,7 +564,7 @@ details.ride-card[open] .acc-chev{transform:rotate(-135deg)}
 
 <div class="modal" id="help" hidden>
   <div class="modal-in">
-    <div class="modal-head"><h2>How to print</h2><button class="close" id="helpClose" aria-label="Close">&#10005;</button></div>
+    <div class="modal-head"><span style="flex:1"></span><button class="close" id="helpClose" aria-label="Close">&#10005;</button></div>
     <div id="howList"></div>
   </div>
 </div>
@@ -1254,7 +1276,7 @@ function showResults() {
   const toPrinter = `
     <div class="hsec" style="margin-top:26px">
       <h3>Get it to the printer</h3>
-      ${howHtml("above")}
+      ${howHtml("above", false)}
     </div>`;
 
   openOut(`<div class="save-tip"><span>${tip}</span></div>` + head +
@@ -1576,21 +1598,44 @@ function renderTray() {
       : "The order here decides which photos share a card.";
 }
 
-/* Four steps, in the order they happen. Everything else the guest does not need. */
-function howHtml(saveWhere) {
+/* Built like the Instax card taped to the print station: four steps, a drawing
+   each, and a dashed thread running between them. */
+const ART = {
+  wifi: `<path d="M17 20a29 29 0 0 1 42 0"/><path d="M25 29a18 18 0 0 1 26 0"/><circle cx="38" cy="37" r="2.4" fill="currentColor" stroke="none"/>
+         <rect x="25" y="42" width="26" height="30" rx="4"/><path d="M34 67h8"/>`,
+  share:`<rect x="20" y="10" width="36" height="58" rx="6"/><path d="M32 62h12"/>
+         <path d="M38 46V24"/><path d="M31 31l7-7 7 7"/><path d="M27 40v12h22V40"/>`,
+  print:`<rect x="10" y="34" width="56" height="28" rx="5"/><circle cx="20" cy="48" r="2.4"/><path d="M30 55h26"/>
+         <rect x="24" y="8" width="28" height="22" rx="2"/><path d="M29 24l6-7 5 5 4-4 5 6"/>`
+};
+const LINK = `<svg class="how-link%s" viewBox="0 0 120 30" fill="none" stroke="currentColor" stroke-width="1.4"
+  stroke-linecap="round" stroke-dasharray="3 6" aria-hidden="true"><path d="M6 3c0 16 32 24 108 24"/></svg>`;
+const art = (k) => `<svg class="how-art" viewBox="0 0 76 76" fill="none" stroke="currentColor"
+  stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">${ART[k]}</svg>`;
+
+function howHtml(saveWhere, full) {
   const fmt = state.fmt;
-  const last = fmt.airprint
-    ? "Postcard / L size, borderless, no scaling."
-    : "Postcard / L size, borderless. Choose <b>Print Entire Image</b> so the cut line is not trimmed off.";
-  return `<ol class="how">
-    <li><h4>Join the printer&rsquo;s Wi-Fi</h4><p>Settings &rarr; Wi-Fi &rarr; the network starting <code>DIRECT-</code>. Password <b>PICKLEBALL</b>.</p></li>
-    <li><h4>Save your sheet</h4><p>Use <b>Save</b> ${saveWhere}. It lands in your photos.</p></li>
-    <li><h4>Open the Canon SELPHY app</h4><p>Photo Layout. Pick your sheet from inside it, not from the Photos app.</p></li>
-    <li><h4>Print</h4><p>${last}</p></li>
-  </ol>`;
+  const steps = [
+    ["wifi",  "Join the printer&rsquo;s Wi-Fi", `Settings &rarr; Wi-Fi &rarr; the network starting <code>DIRECT-</code>. Password <b>PICKLEBALL</b>.`],
+    ["share", "Tap Share", `The <b>Share</b> button ${saveWhere} hands your sheet straight to the printer&rsquo;s app.`],
+    ["print", "Pick the SELPHY and print", fmt.airprint
+      ? "Choose <b>Canon SELPHY</b>, or <b>Print</b>. Postcard / L size, borderless."
+      : "Choose <b>Canon SELPHY</b>, then <b>Print Entire Image</b>, so the cut line is not trimmed off."]
+  ];
+  return (full ? `<p class="how-hd"><span>How to</span><em>print</em></p>` : "")
+    + `<div class="how">`
+    + steps.map(([k, title, body], i) => {
+        const flip = i % 2 === 1 ? " flip" : "";
+        return `<div class="how-step${flip}">${art(k)}
+          <div class="how-txt"><span class="how-n">${i + 1}</span><h4>${title}</h4><p>${body}</p></div>
+        </div>` + (i < steps.length - 1 ? LINK.replace("%s", flip) : "");
+      }).join("")
+    + `</div>`
+    + `<p class="how-fine">No <b>Canon SELPHY</b> in the share list? Tap <b>Save</b> instead, then open the Canon app and pick the sheet from your photos.</p>`
+    + (full ? `<p class="how-end">and that&rsquo;s it</p>` : "");
 }
 function renderHelp() {
-  $("#howList").innerHTML = howHtml("on the previous screen");
+  $("#howList").innerHTML = howHtml("on the previous screen", true);
 }
 
 function renderHero() {
