@@ -1640,16 +1640,19 @@ const RIDES = [
     rooms: [
       { bed: "The bridesmaids and Erwan", who: ["Lara Mae", "Cathlyn", "Norrie", "Erwan"] },
       { bed: "Making their own way", who: ["Marge", "Sam"] },
-      { bed: "The Arrowtown house", who: ["Marvin", "Marvin's wife", "Marvin's daughter", "Mae"] },
-      { bed: "The family Airbnb", who: ["Grace", "Francis"] }
+      { bed: "The Arrowtown house", who: ["Marvin", "Marvin's wife", "Marvin's daughter", "Mae"] }
     ],
     note: "Marvin drives this car both ways. It can head to the reception ahead of the others if the photos run long." },
-  { name: "The family cars", driver: "Franklin and Ynting", hit: "Your drivers both ways are <b>Franklin and Ynting</b>, in the two family cars.", car: "Two cars &middot; Franklin and Ynting",
+  { name: "Franklin&rsquo;s car", driver: "Franklin", hit: "Your driver both ways is <b>Franklin</b>.", car: "The family car",
     rooms: [
-      { bed: "", who: ["Nelly", "Vicente", "Jun2x", "Joie", "Gavin", "Franklin", "Blondie",
-                       "Elisha", "Nathaniel", "Ynting"] }
+      { bed: "", who: ["Franklin", "Nelly", "Vicente", "Blondie", "Elisha", "Nathaniel", "Nieves"] }
     ],
-    note: "No fixed time &mdash; you go once the photos after the ceremony are done, and the same cars bring you back. Ynting&rsquo;s car carries Joy and Patrick." }
+    note: "No fixed time &mdash; you go once the photos after the ceremony are done, and Franklin brings you back." },
+  { name: "Ynting&rsquo;s car", driver: "Ynting", hit: "Your driver all day is <b>Ynting</b>.", car: "8-seater",
+    rooms: [
+      { bed: "", who: ["Ynting", "Jun2x", "Joie", "Gavin", "Grace", "Francis"] }
+    ],
+    note: "Joy and Patrick are in this car all day too, which takes the last two seats. Ynting also does the 6 am run to their hotel with Grace, Lara Mae, Cathlyn and Norrie." }
 ];
 
 
@@ -1682,13 +1685,14 @@ const STAYS = [
     ] },
   { place: "The family Airbnb", addr: "Thompson Street, Queenstown 9300",
     rooms: [
-      { bed: "", who: ["Nelly", "Vicente", "Jun2x", "Joie", "Gavin", "Franklin",
+      { bed: "", who: ["Nelly", "Vicente", "Nieves", "Jun2x", "Joie", "Gavin", "Franklin",
                        "Blondie", "Elisha", "Nathaniel", "Ynting", "Grace", "Francis"] }
     ],
     legs: [
       { l: "Getting ready", t: "Grace &mdash; at <b>6 am</b> Ynting collects you and takes you to Joy and Patrick&rsquo;s hotel, with Lara Mae, Cathlyn and Norrie." },
-      { l: "Your drivers, both ways", t: "<b>Franklin and Ynting</b>, in two cars. No fixed time &mdash; you go once the photos after the ceremony are done, and the same cars bring you back." },
-      { l: "", face: "samples/driver-marvin.jpg", t: "<b>Grace and Francis</b> &mdash; Marvin takes you to the reception and home again, because Ynting&rsquo;s car carries Joy and Patrick." }
+      { l: "Your driver, both ways", t: "<b>Franklin</b> &mdash; Nelly, Vicente, Blondie, Elisha, Nathaniel and Nieves." },
+      { l: "", t: "<b>Ynting</b> &mdash; Jun2x, Joie, Gavin, Grace and Francis, all day, with Joy and Patrick in the last two seats." },
+      { l: "", t: "No fixed time for either car &mdash; you go once the photos after the ceremony are done, and the same car brings you back." }
     ] },
   { place: "Norrie and Erwan&rsquo;s place", addr: "4 Dublin Street, Queenstown 9300",
     hit: "You&rsquo;re staying at <b>4 Dublin Street</b>.",
