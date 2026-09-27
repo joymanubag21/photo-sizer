@@ -555,12 +555,12 @@ details.ride-card[open] .acc-chev{transform:rotate(-135deg)}
       </li>
       <li>
         <span class="plan-when">10:00 pm</span>
-        <span class="plan-what">Carriages<small>The venue closes. The same two cars take you home &mdash; Angelo drops the lake house first.</small></span>
+        <span class="plan-what">Carriages<small>The venue closes. Whoever drove you here drives you home.</small></span>
       </li>
     </ul>
 
     <h3 class="plan-h">Find yourself</h3>
-    <p class="plan-sub" style="margin-bottom:12px">Type your name for your bed, your car and your ride home.</p>
+    <p class="plan-sub" style="margin-bottom:12px">Type your name for your bed, your driver and your ride home.</p>
     <input class="ride-find" id="rideFind" type="search" placeholder="Type your name" aria-label="Find your car and where you are staying">
     <p class="ride-hit" id="rideHit"></p>
 
@@ -1628,27 +1628,29 @@ $("#btnStart").onclick = enterStudio;
 /* Transcribed from the transport plan — the Drive reader will not return that
    tab, so these lists are a hand copy and must be re-checked if it changes. */
 const RIDES = [
-  { name: "Car 1", car: "Driven by Angelo &middot; 12-seater", face: "samples/driver-angelo.jpg",
+  { name: "Angelo&rsquo;s car", driver: "Angelo", hit: "Your driver both ways is <b>Angelo</b> &mdash; Car 1.", car: "Car 1 &middot; 12-seater", face: "samples/driver-angelo.jpg",
     rooms: [
       { bed: "Dropped first &mdash; the lake house",
         who: ["Loren", "Jan", "Sai", "Chit", "JP", "JP's wife", "Abby"] },
       { bed: "Then the Arrowtown house",
         who: ["Angelo", "Emman", "Sonito", "Pia", "Nica"] }
     ],
-    note: "Going home, Angelo takes everyone staying at the lake house and drops them first &mdash; including Lara Mae and Cathlyn, who ride out in Car 2." },
-  { name: "Car 2", car: "Driven by Marvin &middot; 12-seater", face: "samples/driver-marvin.jpg",
+    note: "Angelo drives this car both ways." },
+  { name: "Marvin&rsquo;s car", driver: "Marvin", hit: "Your driver both ways is <b>Marvin</b> &mdash; Car 2.", car: "Car 2 &middot; 12-seater", face: "samples/driver-marvin.jpg",
     rooms: [
-      { bed: "", who: ["Marvin", "Lara Mae", "Cathlyn", "Marge", "Sam", "Norrie", "Erwan",
-                       "Marvin's wife", "Marvin's daughter", "Mae"] }
+      { bed: "The bridesmaids and Erwan", who: ["Lara Mae", "Cathlyn", "Norrie", "Erwan"] },
+      { bed: "Making their own way", who: ["Marge", "Sam"] },
+      { bed: "The Arrowtown house", who: ["Marvin", "Marvin's wife", "Marvin's daughter", "Mae"] }
     ],
-    note: "The bridesmaids ride together. This car can head to the reception ahead of the others if the photos run long.<br><br>Going home, Marvin takes the Arrowtown house and drops Marge, Sam, Norrie and Erwan at their own places. Lara Mae and Cathlyn go with Angelo instead." },
-  { name: "Family cars", car: "Two cars &middot; Franklin and Ynting driving",
+    note: "Marvin drives this car both ways. It can head to the reception ahead of the others if the photos run long." },
+  { name: "The family cars", driver: "Franklin and Ynting", hit: "Your drivers both ways are <b>Franklin and Ynting</b>, in the two family cars.", car: "Two cars &middot; Franklin and Ynting",
     rooms: [
       { bed: "", who: ["Nelly", "Vicente", "Jun2x", "Joie", "Gavin", "Franklin", "Blondie",
                        "Elisha", "Nathaniel", "Ynting", "Grace", "Francis"] }
     ],
-    note: "No fixed time &mdash; you leave once the photos after the ceremony are done. Going home, Grace and Francis ride with Ynting." }
+    note: "No fixed time &mdash; you go once the photos after the ceremony are done, and the same cars bring you back. Grace and Francis ride home with Ynting." }
 ];
+
 
 
 
@@ -1663,9 +1665,9 @@ const STAYS = [
       { bed: "Two singles", who: ["JP", "JP's wife", "Abby"] }
     ],
     legs: [
-      { l: "Getting ready", t: "Right here. The car leaves at <b>2:10 pm</b>." },
-      { l: "To the reception", face: "samples/driver-angelo.jpg", t: "Car 1, driven by Angelo. Lara Mae and Cathlyn ride with Marvin instead." },
-      { l: "Home", face: "samples/driver-angelo.jpg", t: "Angelo again, and he drops here first &mdash; Lara Mae and Cathlyn come back with him too." }
+      { l: "Getting ready", t: "Lara Mae and Cathlyn &mdash; Ynting collects you and takes you to Joy and Patrick&rsquo;s hotel. Everyone else is here, and the car leaves at <b>2:10 pm</b>." },
+      { l: "Your driver, both ways", face: "samples/driver-angelo.jpg", t: "<b>Angelo</b> &mdash; Loren, Jan, Sai, Chit, JP, JP&rsquo;s wife and Abby. He drops here first on the way home." },
+      { l: "", face: "samples/driver-marvin.jpg", t: "<b>Marvin</b> &mdash; Lara Mae and Cathlyn, there and back." }
     ] },
   { place: "The Arrowtown house", addr: "760 Malaghans Road, Arrowtown 9371",
     rooms: [
@@ -1675,9 +1677,8 @@ const STAYS = [
     note: "Six of you, three beds &mdash; that one is yours to settle between you. The owner is sending move-in details soon.",
     legs: [
       { l: "Getting ready", t: "The six of you go to the lake house, 13 McKerrow Place, and the car leaves there at <b>2:10 pm</b>. Marvin's family goes straight to the ceremony." },
-      { l: "To the reception", face: "samples/driver-angelo.jpg", t: "<b>Car 1</b> &mdash; Angelo, Emman, Sonito, Pia, Nica." },
-      { l: "", face: "samples/driver-marvin.jpg", t: "<b>Car 2</b> &mdash; Marvin, his wife and daughter, and Mae." },
-      { l: "Home", t: "Both cars come back here, after Angelo has dropped the lake house." }
+      { l: "Your driver, both ways", face: "samples/driver-angelo.jpg", t: "<b>Angelo</b> &mdash; Angelo, Emman, Sonito, Pia and Nica." },
+      { l: "", face: "samples/driver-marvin.jpg", t: "<b>Marvin</b> &mdash; Marvin, his wife and daughter, and Mae." }
     ] },
   { place: "The family Airbnb", addr: "Thompson Street, Queenstown 9300",
     rooms: [
@@ -1685,15 +1686,14 @@ const STAYS = [
                        "Blondie", "Elisha", "Nathaniel", "Ynting", "Grace", "Francis"] }
     ],
     legs: [
-      { l: "To the reception", t: "The two family cars, driven by Franklin and Ynting. No fixed time &mdash; you go once the photos after the ceremony are done." },
-      { l: "Home", t: "The same two cars. Grace and Francis ride with Ynting." }
+      { l: "Your drivers, both ways", t: "<b>Franklin and Ynting</b>, in two cars. No fixed time &mdash; you go once the photos after the ceremony are done, and the same cars bring you back. Grace and Francis ride home with Ynting." },
+      { l: "Earlier that day", t: "Ynting collects Lara Mae and Cathlyn and takes them to Joy and Patrick&rsquo;s hotel." }
     ] },
   { place: "Making your own way", hit: "You&rsquo;ve sorted your own place.",
     rooms: [{ bed: "", who: ["Marge", "Sam", "Norrie", "Erwan"] }],
     legs: [
       { l: "Getting ready", t: "Marge and Sam are at the lake house, 13 McKerrow Place. The car leaves at <b>2:10 pm</b>." },
-      { l: "To the reception", face: "samples/driver-marvin.jpg", t: "Car 2, driven by Marvin." },
-      { l: "Home", face: "samples/driver-marvin.jpg", t: "Marvin drops you at your own place on the way back." }
+      { l: "Your driver, both ways", face: "samples/driver-marvin.jpg", t: "<b>Marvin</b>. He drops you at your own place on the way back." }
     ] }
 ];
 const members = (x) => x.rooms.reduce((a, rm) => a.concat(rm.who), []);
@@ -1752,13 +1752,15 @@ function renderRides(q) {
     </details>`;
   $("#stayLists").innerHTML = STAYS.map(placeCard).join("");
   const ready = needle && members(READY).some(isYou);
+  const bridal = needle && ["Lara Mae", "Cathlyn"].some(isYou);
   const atLake = stay && stay.place === "The lake house";
   const bits = [];
   if (stay) bits.push(stay.hit || `You&rsquo;re staying at <b>${stay.place}</b>.`);
   // found in a car but with no accommodation recorded — say so rather than nothing
   else if (car) bits.push("We don&rsquo;t have your accommodation on our list &mdash; check with Joy.");
-  if (car) bits.push(`You&rsquo;re in <b>${car.name}</b> &mdash; ${car.car.charAt(0).toLowerCase() + car.car.slice(1)}.`);
+  if (car) bits.push(car.hit);
   // don't tell someone already at the lake house to go to the lake house
+  if (bridal) bits.push("Earlier that day <b>Ynting</b> collects you and takes you to Joy and Patrick&rsquo;s hotel.");
   if (ready) bits.push(atLake
     ? "Your car leaves at <b>2:10 pm</b>."
     : "You&rsquo;re getting ready at <b>the lake house</b>. The car leaves at 2:10 pm.");
