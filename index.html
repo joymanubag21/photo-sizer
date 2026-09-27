@@ -159,6 +159,15 @@ a.btn{text-decoration:none}
   border:1px solid var(--line-2); background:#fff; color:var(--ink-3); font-family:inherit; font-size:11px;
 }
 .spy-x:hover{border-color:var(--rust); color:var(--rust)}
+.spy-thumb{flex:none; background:none; border:0; padding:14px 0 14px 18px; cursor:pointer; line-height:0}
+.spy-thumb + .spy-item{padding-left:14px}
+.lb{position:fixed; inset:0; z-index:60; background:rgba(22,18,16,.95); display:flex; align-items:center; justify-content:center; padding:18px}
+.lb img{max-width:100%; max-height:100%; border-radius:6px}
+.lb-x{
+  position:absolute; top:calc(env(safe-area-inset-top,0px) + 14px); right:14px;
+  width:40px; height:40px; border-radius:50%; cursor:pointer; font-size:15px;
+  border:1px solid rgba(255,255,255,.32); background:rgba(0,0,0,.35); color:#fff; font-family:inherit;
+}
 .spy-item{
   display:flex; align-items:center; gap:14px; flex:1; min-width:0; text-align:left;
   padding:14px 18px; min-height:58px; background:none; border:0; cursor:pointer;
@@ -243,6 +252,14 @@ details.ride-card[open] .acc-chev{transform:rotate(-135deg)}
 .steps li{counter-increment:s; position:relative; padding-left:25px; margin-top:10px; font-size:12.5px; line-height:1.6; color:var(--ink-2)}
 .steps li::before{content:counter(s); position:absolute; left:0; top:0; font-size:10.5px; font-weight:600; color:var(--rose); line-height:1.95}
 .steps code{font-size:11.5px; background:var(--surface-2); border-radius:4px; padding:1px 5px}
+.linkbtn{
+  font-family:inherit; font-size:10.5px; font-weight:600; letter-spacing:.1em; text-transform:uppercase;
+  color:var(--green); background:none; border:1px solid var(--line-2); border-radius:20px;
+  padding:7px 11px; cursor:pointer; white-space:nowrap;
+}
+.linkbtn:hover{border-color:var(--rose)}
+.steps.big li{font-size:13.5px; padding-left:27px; margin-top:13px}
+.steps.big li::before{font-size:12px; color:var(--rose); line-height:1.6}
 .more{margin-top:16px; border-top:1px solid var(--line)}
 .more summary{cursor:pointer; list-style:none; padding:14px 0 2px; font-size:11px; font-weight:600; letter-spacing:.14em; text-transform:uppercase; color:var(--green)}
 .more summary::-webkit-details-marker{display:none}
@@ -270,12 +287,12 @@ details.ride-card[open] .acc-chev{transform:rotate(-135deg)}
 /* ───────── studio ───────── */
 .studio{display:flex; flex-direction:column; height:100%}
 .bar{
-  flex:none; display:flex; align-items:center; gap:8px;
-  padding:9px 12px 9px 18px; border-bottom:1px solid var(--line);
+  flex:none; display:flex; align-items:center; gap:7px;
+  padding:9px 11px 9px 15px; border-bottom:1px solid var(--line);
   background:var(--surface);
 }
-.bar .wordmark{font-family:'Cormorant Garamond',Georgia,serif; font-size:19px; flex:1; letter-spacing:-.005em}
-.bar .count{font-size:9.5px; font-weight:600; letter-spacing:.16em; text-transform:uppercase; color:var(--ink-3); margin-right:4px}
+.bar .wordmark{font-family:'Cormorant Garamond',Georgia,serif; font-size:18px; flex:1; letter-spacing:-.01em; white-space:nowrap}
+.bar .count{font-size:9.5px; white-space:nowrap; font-weight:600; letter-spacing:.16em; text-transform:uppercase; color:var(--ink-3); margin-right:4px}
 .icon{
   width:38px; height:38px; flex:none; border-radius:50%; border:1px solid var(--line-2);
   background:var(--surface); font-size:17px; font-weight:500; line-height:1; color:var(--ink-2);
@@ -491,7 +508,7 @@ details.ride-card[open] .acc-chev{transform:rotate(-135deg)}
     <span class="wordmark">Joy &amp; Patrick</span>
     <span class="count" id="count"></span>
     <button class="icon" id="btnAdd" aria-label="Add photos">+</button>
-    <button class="icon" id="btnHelp" aria-label="How to print">?</button>
+    <button class="linkbtn" id="btnHelp" type="button">How to print</button>
   </header>
 
   <main class="stage">
@@ -516,6 +533,15 @@ details.ride-card[open] .acc-chev{transform:rotate(-135deg)}
   <div class="modal-in">
     <div class="modal-head"><h2>How to print</h2><button class="close" id="helpClose" aria-label="Close">✕</button></div>
     <div class="hsec">
+      <h3>Getting it to the printer</h3>
+      <ol class="steps big">
+        <li><b>Join the printer&rsquo;s Wi-Fi.</b> Settings &rarr; Wi-Fi &rarr; pick the network starting <code>DIRECT-</code>. Password <b>PICKLEBALL</b>.</li>
+        <li><b>Save your sheet</b> with the button on the previous screen. It lands in your photos.</li>
+        <li><b>Open the Canon SELPHY Photo Layout app</b> and choose that sheet. Not the Photos app &mdash; the Canon one.</li>
+        <li><b>Print.</b> Postcard / L size, borderless, no scaling.</li>
+      </ol>
+    </div>
+    <div class="hsec">
       <h3>Colour</h3>
       <div class="seg" id="punchSeg" role="group" aria-label="Print colour">
         <button data-punch="off" type="button">True</button>
@@ -534,24 +560,7 @@ details.ride-card[open] .acc-chev{transform:rotate(-135deg)}
       <div id="airprintNote"></div>
       <ul class="settings" id="printSettings"></ul>
     </div>
-    <div class="hsec">
-      <h3>Getting it to the printer</h3>
-      <ul class="routes">
-        <li>
-          <div class="rt">Canon SELPHY Photo Layout app <span>every setting</span></div>
-          On the printer: <code>Wi-Fi settings → Connection Settings → Other → Direct Connection → On</code>, then note the password. On your phone: Settings → Wi-Fi → join the SELPHY's network. Then pick the sheet from inside the Canon app, not from Photos.
-          <br><br>Faster: <code>Wi-Fi settings → Display Wi-Fi status</code> shows a QR code.
-        </li>
-        <li>
-          <div class="rt">SD card <span>no network</span></div>
-          Copy the sheets onto a card and choose them on the printer's own screen. Nothing depends on Wi-Fi.
-        </li>
-        <li>
-          <div class="rt">AirPrint <span>no scaling control</span></div>
-          Photos → Share → Print. Only finds the printer when both are on the same <b>2.4&nbsp;GHz</b> network. <em>No AirPrint Printers Found</em> usually means the printer is on a different network, or still in direct-connection mode.
-        </li>
-      </ul>
-    </div>
+
   </div>
 </div>
 
@@ -626,6 +635,11 @@ details.ride-card[open] .acc-chev{transform:rotate(-135deg)}
     </div>
     <p class="seg-note" style="margin-top:13px">Printing works the same as <b>Print a photo to take home</b> &mdash; the same card layouts, the same SELPHY at the print station.</p>
   </div>
+</div>
+
+<div class="lb" id="shot" hidden>
+  <button class="lb-x" id="shotClose" aria-label="Close">&#10005;</button>
+  <img id="shotImg" alt="The photo you took">
 </div>
 
 <div class="modal" id="who" hidden>
@@ -1257,10 +1271,11 @@ function showResults() {
   const toPrinter = `
     <div class="hsec" style="margin-top:24px">
       <h3>Get it to the printer</h3>
-      <ol class="steps">
-        <li>On the SELPHY, open <code>Wi-Fi settings &rarr; Display Wi-Fi status</code> and scan the QR code. No QR? Use <code>Connection Settings &rarr; Other &rarr; Direct Connection &rarr; On</code> and note the password.</li>
-        <li>On your phone, join the SELPHY&rsquo;s own Wi-Fi network from Settings.</li>
-        <li>Open the <b>Canon SELPHY Photo Layout</b> app, pick this sheet, and print it at <b>Postcard / L size, borderless, no scaling</b>.</li>
+      <ol class="steps big">
+        <li><b>Join the printer&rsquo;s Wi-Fi.</b> Settings &rarr; Wi-Fi &rarr; pick the network starting <code>DIRECT-</code>. Password <b>PICKLEBALL</b>.</li>
+        <li><b>Save your sheet</b> with the button above. It lands in your photos.</li>
+        <li><b>Open the Canon SELPHY Photo Layout app</b> and choose that sheet. Not the Photos app &mdash; the Canon one.</li>
+        <li><b>Print.</b> Postcard / L size, borderless, no scaling.</li>
       </ol>
       <button class="btn" id="outHelp" style="width:100%;margin-top:15px">All the printer settings</button>
     </div>`;
@@ -1471,9 +1486,9 @@ function renderStage() {
   hideTune();
 
   const n = state.photos.length;
+  // the samples are the app's own; calling them out only made the + look like it added more
   $("#count").textContent = state.photos.some((p) => p.sample)
-    ? "Sample photos"
-    : (n ? `${n} photo${n > 1 ? "s" : ""}` : "");
+    ? "" : (n ? `${n} photo${n > 1 ? "s" : ""}` : "");
   if (!n) {
     pager.innerHTML = `<div class="stage-empty">Add a photo and your card appears here.</div>`;
     updateAction();
@@ -1628,42 +1643,64 @@ try { spyFound = new Set(JSON.parse(localStorage.getItem(SPY_KEY) || "[]")); } c
 
 const HEART = '<svg class="spy-heart" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 20.4s-7.4-4.5-9.2-9.1C1.5 8 3.6 4.6 7 4.6c2 0 3.6 1.1 5 3 1.4-1.9 3-3 5-3 3.4 0 5.5 3.4 4.2 6.7-1.8 4.6-9.2 9.1-9.2 9.1z"/></svg>';
 
-/* The photo you took is the point, so each prompt keeps a thumbnail. Small
-   enough that ten of them sit comfortably in localStorage beside the ticks. */
-let spyShots = {};
-try { spyShots = JSON.parse(localStorage.getItem(SHOT_KEY) || "{}"); } catch (e) {}
-function saveShots() {
-  try { localStorage.setItem(SHOT_KEY, JSON.stringify(spyShots)); return true; }
-  catch (e) { return false; }   // quota, or a private window
+/* The photo you took is also the photo you print, so the original file is kept
+   whole in IndexedDB. localStorage tops out long before ten print-size shots. */
+const SHOT_DB = "jp-spy", SHOT_STORE = "shots";
+let shotDbP = null;
+function shotDb() {
+  if (!shotDbP) shotDbP = new Promise((res, rej) => {
+    const r = indexedDB.open(SHOT_DB, 1);
+    r.onupgradeneeded = () => r.result.createObjectStore(SHOT_STORE);
+    r.onsuccess = () => res(r.result);
+    r.onerror = () => rej(r.error);
+  });
+  return shotDbP;
 }
-function makeThumb(file, cb) {
-  const url = URL.createObjectURL(file);
-  const img = new Image();
-  img.onload = () => {
-    const sc = Math.min(1, 240 / Math.max(img.width, img.height));
-    const c = document.createElement("canvas");
-    c.width = Math.max(1, Math.round(img.width * sc));
-    c.height = Math.max(1, Math.round(img.height * sc));
-    c.getContext("2d").drawImage(img, 0, 0, c.width, c.height);
-    URL.revokeObjectURL(url);
-    cb(c.toDataURL("image/jpeg", 0.72));
-  };
-  img.onerror = () => { URL.revokeObjectURL(url); cb(null); };
-  img.src = url;
+function shotTx(mode, fn) {
+  return shotDb().then((d) => new Promise((res, rej) => {
+    const t = d.transaction(SHOT_STORE, mode);
+    const req = fn(t.objectStore(SHOT_STORE));
+    t.oncomplete = () => res(req && req.result);
+    t.onerror = () => rej(t.error);
+  }));
+}
+let spyBlobs = {};   // prompt index -> the file exactly as the camera made it
+let spyUrls = {};    // prompt index -> object URL for showing it
+async function loadShots() {
+  try {
+    const keys = await shotTx("readonly", (st) => st.getAllKeys());
+    const vals = await shotTx("readonly", (st) => st.getAll());
+    (keys || []).forEach((k, n) => {
+      const b = vals[n];
+      spyBlobs[k] = new File([b], `i-spy-${Number(k) + 1}.jpg`, { type: b.type || "image/jpeg" });
+      spyUrls[k] = URL.createObjectURL(b);
+    });
+  } catch (e) { /* private window, or no IndexedDB */ }
 }
 let spyPending = null;
-$("#spyIn").onchange = (e) => {
+$("#spyIn").onchange = async (e) => {
   const file = e.target.files && e.target.files[0];
   const i = spyPending;
   e.target.value = "";
   if (!file || i === null) return;
-  makeThumb(file, (data) => {
-    if (data) { spyShots[i] = data; if (!saveShots()) delete spyShots[i]; }
-    spyFound.add(i);
-    try { localStorage.setItem(SPY_KEY, JSON.stringify([...spyFound])); } catch (err) {}
-    renderSpy();
-  });
+  try {
+    await shotTx("readwrite", (st) => st.put(file, i));
+    spyBlobs[i] = file;
+    if (spyUrls[i]) URL.revokeObjectURL(spyUrls[i]);
+    spyUrls[i] = URL.createObjectURL(file);
+  } catch (err) { /* the find still counts, just without the picture */ }
+  spyFound.add(i);
+  try { localStorage.setItem(SPY_KEY, JSON.stringify([...spyFound])); } catch (err) {}
+  renderSpy();
 };
+async function dropShot(i) {
+  try { await shotTx("readwrite", (st) => st.delete(i)); } catch (e) {}
+  if (spyUrls[i]) URL.revokeObjectURL(spyUrls[i]);
+  delete spyUrls[i]; delete spyBlobs[i];
+  spyFound.delete(i);
+  try { localStorage.setItem(SPY_KEY, JSON.stringify([...spyFound])); } catch (e) {}
+  renderSpy();
+}
 
 function renderSpy() {
   const list = $("#spyList");
@@ -1684,9 +1721,18 @@ function renderSpy() {
     b.type = "button";
     b.className = "spy-item";
     b.setAttribute("aria-pressed", String(spyFound.has(i)));
-    b.innerHTML = (spyShots[i] ? `<img class="spy-shot" src="${spyShots[i]}" alt="">` : HEART)
+    b.innerHTML = (spyUrls[i] ? "" : HEART)
       + `<span class="spy-txt">${shot}${aside ? `<small>${aside}</small>` : ""}</span>`;
     b.onclick = () => { spyPending = i; $("#spyIn").click(); };
+    if (spyUrls[i]) {
+      const t = document.createElement("button");
+      t.type = "button";
+      t.className = "spy-thumb";
+      t.setAttribute("aria-label", `See your photo for ${shot}`);
+      t.innerHTML = `<img class="spy-shot" src="${spyUrls[i]}" alt="">`;
+      t.onclick = () => { $("#shotImg").src = spyUrls[i]; go({ view: "welcome", ov: "shot" }); };
+      li.appendChild(t);
+    }
     li.appendChild(b);
     if (spyFound.has(i)) {
       const x = document.createElement("button");
@@ -1694,17 +1740,13 @@ function renderSpy() {
       x.className = "spy-x";
       x.setAttribute("aria-label", `Undo ${shot}`);
       x.textContent = "\u2715";
-      x.onclick = () => {
-        spyFound.delete(i);
-        delete spyShots[i];
-        saveShots();
-        try { localStorage.setItem(SPY_KEY, JSON.stringify([...spyFound])); } catch (e) {}
-        renderSpy();
-      };
+      x.onclick = () => dropShot(i);
       li.appendChild(x);
     }
     list.appendChild(li);
   });
+  const n = Object.keys(spyBlobs).length;
+  $("#spyPrint").textContent = n ? `Print your finds (${n})` : "Print a photo";
   renderSpyCount();
 }
 function renderSpyCount() {
@@ -1717,7 +1759,7 @@ function renderSpyCount() {
 /* Every screen and sheet is a history entry, so the phone's own back gesture
    walks back through them instead of leaving the site entirely. State is
    {view, ov}: the screen underneath, and the sheet on top of it if any. */
-const SHEETS = ["plan", "spy", "help", "out", "album", "who"];
+const SHEETS = ["plan", "spy", "help", "out", "album", "who", "shot"];
 const here = () => history.state || { view: "welcome" };
 
 function applyState(st) {
@@ -2022,7 +2064,13 @@ $("#albumClose").onclick = back;
 $("#btnSpy").onclick = () => { renderSpy(); go({ view: "welcome", ov: "spy" }); };
 renderMe();
 $("#spyClose").onclick = back;
-$("#spyPrint").onclick = () => go({ view: "studio" });
+$("#spyPrint").onclick = async () => {
+  const keys = Object.keys(spyBlobs).map(Number).sort((a, b) => a - b);
+  go({ view: "studio" });
+  if (keys.length) await addFiles(keys.map((i) => spyBlobs[i]));
+};
+$("#shotClose").onclick = back;
+loadShots().then(() => { if (!$("#spy").hidden) renderSpy(); });
 
 
 $("#btnAdd").onclick = () => $("#fileIn").click();
