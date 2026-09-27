@@ -1619,7 +1619,7 @@ const RIDES = [
       { bed: "", who: ["Marvin", "Lara Mae", "Cathlyn", "Marge", "Sam", "Norrie", "Erwan",
                        "Marvin's wife", "Marvin's daughter", "Mae"] }
     ],
-    note: "The bridesmaids ride together. This car can head to the reception ahead of the others if the photos run long, and takes the Arrowtown house home." },
+    note: "The bridesmaids ride together. This car can head to the reception ahead of the others if the photos run long.<br><br>Going home, Marvin takes the Arrowtown house and drops Marge, Sam, Norrie and Erwan at their own places. Lara Mae and Cathlyn go with Angelo instead." },
   { name: "Family cars", car: "Two cars &middot; Franklin and Ynting driving",
     rooms: [
       { bed: "", who: ["Nelly", "Vicente", "Jun2x", "Joie", "Gavin", "Franklin", "Blondie",
@@ -1708,7 +1708,7 @@ function renderRides(q) {
   const bits = [];
   if (car) bits.push(`You&rsquo;re in <b>${car.name}</b> &mdash; ${car.car.charAt(0).toLowerCase() + car.car.slice(1)}.`);
   if (stay) bits.push(`You&rsquo;re staying at <b>${stay.place}</b>.`);
-  else if (own) bits.push("You&rsquo;ve sorted your own place &mdash; nothing to pick up from us.");
+  else if (own) bits.push("You&rsquo;ve sorted your own place. Marvin drops you there at the end of the night.");
   // found in a car but with no accommodation recorded — say so rather than nothing
   else if (car) bits.push("We don&rsquo;t have your accommodation on our list &mdash; check with Joy.");
   // don't tell someone already at the lake house to go to the lake house
