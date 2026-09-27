@@ -289,6 +289,9 @@ details.ride-card[open] .acc-chev{transform:rotate(-135deg)}
 .calm{list-style:none; margin:24px 0 28px; padding:0}
 .calm li{position:relative; padding-left:19px; margin-top:15px; font-size:14px; line-height:1.65; color:var(--ink-2)}
 .calm li::before{content:""; position:absolute; left:1px; top:10px; width:5px; height:5px; border-radius:50%; background:var(--rose)}
+.calm-wrap{padding-bottom:4px}
+.snag{margin:0 0 14px; font-size:12.5px; line-height:1.6; color:var(--ink-3)}
+.snag b{display:block; color:var(--ink); font-weight:600; margin-bottom:3px}
 .how-fine{margin:14px 0 0; padding-top:12px; border-top:1px solid var(--line); font-size:11.5px; line-height:1.6; color:var(--ink-3)}
 .how{list-style:none; counter-reset:h; margin:2px 0 0; padding:0}
 .how li{counter-increment:h; position:relative; padding-left:54px; margin-top:26px}
@@ -1687,7 +1690,14 @@ function howHtml(saveWhere, full) {
           <div class="how-txt"><span class="how-n">${i + 1}</span><h4>${title}</h4><p>${body}</p></div>
         </div>`).join("")
     + `</div>`
-    + `<p class="how-fine">On Android, or if <b>Print</b> is missing, install <b>Canon SELPHY Photo Layout</b> and pick the sheet from your photos.</p>`
+    + `<details class="more"><summary>If the printer complains</summary>
+        <div class="calm-wrap">
+          <p class="snag"><b>&ldquo;Paper and ink cassette sizes are incorrect&rdquo;</b><span>The tray and the ink cartridge are different sizes. They have to be the pair that came in the same box. Swap one to match the other and the job reprints.</span></p>
+          <p class="snag"><b>No printer in the list</b><span>The phone is on its usual Wi-Fi. Join <b>CP1500-D8CB03</b> and open the share sheet again.</span></p>
+          <p class="snag"><b>Nothing happens after Print</b><span>Check the printer is awake and has paper in the tray. The job waits; it does not vanish.</span></p>
+          <p class="snag"><b>On Android</b><span>If there is no <b>Print</b> in the share sheet, install <b>Canon SELPHY Photo Layout</b> and pick the sheet from your photos.</span></p>
+        </div>
+      </details>`
     + (full ? `<p class="how-end">and it&rsquo;s yours</p>` : "");
 }
 function renderHelp() {
