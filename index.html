@@ -360,7 +360,17 @@ details.ride-card[open] .acc-chev{transform:rotate(-135deg)}
 .paper canvas{display:block; width:100%; height:100%}
 .cap{text-align:center; margin-top:13px}
 .cap .sub{display:block; font-size:9.5px; font-weight:600; letter-spacing:.18em; text-transform:uppercase; color:var(--ink-3)}
-.sheetdots{display:flex; gap:7px; justify-content:center; margin-top:8px}
+.sheetnav{display:flex; align-items:center; justify-content:center; gap:4px; margin-top:4px}
+.sheetnav .arw{
+  width:44px; height:44px; flex:none; border:0; background:none; cursor:pointer;
+  color:var(--ink-2); font-size:19px; line-height:1; font-family:inherit;
+}
+.sheetnav .arw[disabled]{color:var(--line-2); cursor:default}
+.sheetnav .of{
+  font-size:10.5px; font-weight:600; letter-spacing:.14em; text-transform:uppercase;
+  color:var(--ink-2); min-width:104px; text-align:center;
+}
+.sheetdots{display:flex; gap:7px; justify-content:center; margin-top:2px}
 .sheetdots button{width:24px; height:24px; display:grid; place-items:center}
 .sheetdots i{display:block; width:6px; height:6px; border-radius:50%; background:var(--line-2)}
 .sheetdots button[aria-current="true"] i{background:var(--green)}
@@ -1264,13 +1274,11 @@ function showResults() {
   const saveAllable = batch && canSave;
   const batchAction = shareAll || saveAllable;
 
-  /* A browser cannot read which Wi-Fi you are on. It can read the side effect:
-     the printer's own network has no internet behind it. */
+  /* iOS reports onLine for any network, internet or not, so it cannot tell us
+     whether the phone is on the printer. A plain reminder beats a wrong guess. */
   const tip = !shareOne && !canSave
     ? `<b>To keep a sheet:</b> press and hold the picture and pick Save to Photos.`
-    : navigator.onLine
-      ? `<b>Join the printer to print.</b> Settings &rarr; Wi-Fi &rarr; <b>CP1500-D8CB03</b>, password <b>PICKLEBALL</b>. Then come back and tap ${shareOne ? "Share" : "Save"}.`
-      : `<b>You&rsquo;re on the printer.</b> Tap ${shareOne ? "Share, then Print, then SELPHY CP1500" : "Save"}.`;
+    : `<b>Printer Wi-Fi:</b> CP1500-D8CB03, password PICKLEBALL. Join it, then tap ${shareOne ? "<b>Share</b> and scroll to <b>Print</b>" : "<b>Save</b>"}.`;
 
   const head = shareAll
     ? `<button class="btn primary" id="batchBtn" data-mode="share" style="width:100%;margin-bottom:20px">Share all ${results.length} sheets</button>`
@@ -1437,7 +1445,7 @@ function sheetsFor(fmt) {
 function updateAction() {
   const list = sheetsFor(state.fmt);
   $("#btnMake").disabled = !list.length;
-  $("#btnMake").textContent = list.length > 1 ? `Print ${list.length}` : "Print";
+  $("#btnMake").textContent = list.length > 1 ? `Print ${list.length} sheets` : "Print";
 }
 
 /** a live render of one format, for the catalogue strip */
@@ -1583,7 +1591,22 @@ function renderStage() {
   });
 
   if (list.length > 1) {
-    page.querySelector(".sub").textContent = `Sheet ${si + 1} of ${list.length}`;
+    page.querySelector(".sub").textContent = "";
+    const nav = document.createElement("div");
+    nav.className = "sheetnav";
+    const step = (d, label, sym) => {
+      const b = document.createElement("button");
+      b.type = "button"; b.className = "arw"; b.textContent = sym;
+      b.setAttribute("aria-label", label);
+      b.disabled = si + d < 0 || si + d >= list.length;
+      b.onclick = () => { state.sheet = si + d; redrawEverything(); };
+      return b;
+    };
+    const of = document.createElement("span");
+    of.className = "of";
+    of.textContent = `Sheet ${si + 1} of ${list.length}`;
+    nav.append(step(-1, "Previous sheet", "\u2039"), of, step(1, "Next sheet", "\u203A"));
+    page.querySelector(".cap").appendChild(nav);
     const dots = document.createElement("div");
     dots.className = "sheetdots";
     list.forEach((_, k) => {
@@ -1649,14 +1672,13 @@ const art = (k) => `<svg class="how-art" viewBox="0 0 76 76" fill="none" stroke=
 function howHtml(saveWhere, full) {
   const fmt = state.fmt;
   const steps = [
-    ["wifi", navigator.onLine ? "Join the printer&rsquo;s Wi-Fi" : "You&rsquo;re on the printer&rsquo;s Wi-Fi",
-      navigator.onLine
-        ? `Open <b>Settings &rarr; Wi-Fi</b> and join <code>CP1500-D8CB03</code>. Password <b>PICKLEBALL</b>.<br><span class="tip">Quicker: point your camera at the QR code on the printer&rsquo;s screen.</span>`
-        : `No internet, which means you are on it. Carry on.`],
+    ["wifi", "Join the printer&rsquo;s Wi-Fi",
+      `Open <b>Settings &rarr; Wi-Fi</b> and join <code>CP1500-D8CB03</code>. Password <b>PICKLEBALL</b>.<br><span class="tip">Quicker: point your camera at the QR code on the printer&rsquo;s screen.</span>`],
     ["share", full ? "Tap Print, then Share" : "Tap Share",
       full ? "<b>Print</b> makes your card. <b>Share</b> sends it on."
            : "<b>Share</b>, just above, sends it on."],
-    ["print", "Choose Print, then the SELPHY", "Tap <b>Print</b>, then pick <b>SELPHY CP1500</b>. Nothing to set &mdash; the sheet is already made to the paper. No app to install."]
+    ["print", "Find Print, pick the SELPHY",
+      "Scroll the share sheet to the printer icon marked <b>Print</b>. Tap it, choose <b>SELPHY CP1500</b> beside <i>Printer</i>, then tap <b>Print</b> at the top right.<br><span class=\"tip\">Nothing else to change. No app to install.</span>"]
   ];
   return (full ? `<p class="how-hd"><span>How to</span><em>print</em></p>` : "")
     + `<div class="how">`
