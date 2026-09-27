@@ -172,7 +172,41 @@ a.btn{text-decoration:none}
   display:block; font-family:'Jost',sans-serif; font-size:13px; line-height:1.55;
   color:var(--ink-2); margin-top:5px;
 }
-.plan-notes{margin-top:18px; display:flex; flex-direction:column; gap:12px}
+.plan-h{
+  font-family:'Cormorant Garamond',Georgia,serif; font-weight:500; font-size:1.5rem;
+  margin:30px 0 4px; color:var(--ink);
+}
+.plan-sub{font-size:13px; color:var(--ink-3); line-height:1.5; margin-bottom:12px}
+.ride-find{
+  width:100%; min-height:48px; padding:12px 14px; font-size:16px;
+  border:1px solid var(--line-2); border-radius:10px; background:#fff;
+  font-family:'Jost',sans-serif; color:var(--ink);
+}
+.ride-find:focus{outline:2px solid var(--rose); outline-offset:1px}
+.ride-hit{margin-top:10px; font-size:14px; line-height:1.55; color:var(--ink-2); min-height:1.2em}
+.ride-hit b{color:var(--green); font-weight:600}
+.ride-card{
+  background:#fff; border:1px solid var(--line-2); border-radius:12px;
+  padding:16px 17px; margin-top:12px;
+}
+.ride-card h4{
+  margin:0 0 3px; font-family:'Cormorant Garamond',Georgia,serif;
+  font-weight:500; font-size:1.25rem; color:var(--ink);
+}
+.ride-card .drv{font-size:11px; font-weight:600; letter-spacing:.14em; text-transform:uppercase; color:var(--green)}
+.ride-card ul{list-style:none; margin:11px 0 0; padding:0; display:flex; flex-wrap:wrap; gap:6px}
+.ride-card li{font-size:13px; color:var(--ink-2); background:var(--surface-2); border-radius:20px; padding:4px 11px}
+.ride-card li.you{background:var(--green); color:#fff; font-weight:600}
+.addr{list-style:none; margin:0; padding:0; display:flex; flex-direction:column; gap:10px}
+.addr a{
+  display:block; background:#fff; border:1px solid var(--line-2); border-radius:12px;
+  padding:14px 16px; text-decoration:none; color:inherit;
+}
+.addr a:hover{border-color:var(--rose)}
+.addr .nm{display:block; font-family:'Cormorant Garamond',Georgia,serif; font-size:1.2rem; color:var(--ink)}
+.addr .ad{display:block; font-size:12.5px; color:var(--ink-2); line-height:1.5; margin-top:3px}
+.addr .go{display:block; font-size:10px; font-weight:600; letter-spacing:.14em; text-transform:uppercase; color:var(--green); margin-top:7px}
+.plan-notes{margin-top:26px; display:flex; flex-direction:column; gap:12px}
 .plan-notes p{font-size:13.5px; line-height:1.6; color:var(--ink-2)}
 .plan-notes b{color:var(--ink); font-weight:600}
 .spy-acts{display:flex; flex-direction:column; gap:10px; margin-top:20px}
@@ -351,7 +385,7 @@ a.btn{text-decoration:none}
       <button class="wcard" type="button" id="btnPlan">
         <span class="eyebrow">Before anything else</span>
         <span class="wc-h">How the day runs</span>
-        <span class="wc-p">Where to be, and what to bring.</span>
+        <span class="wc-p">Where to be, which car you&rsquo;re in, and what to bring.</span>
       </button>
 
       <a class="wcard" id="albumLink" href="https://app.kululu.com/m4fvel" target="_blank" rel="noopener">
@@ -476,6 +510,15 @@ a.btn{text-decoration:none}
         <span class="plan-what">Carriages<small>The venue closes. Getting home is on your own.</small></span>
       </li>
     </ul>
+
+    <h3 class="plan-h">Which car am I in?</h3>
+    <p class="plan-sub">From the ceremony at the Canyons to the reception &mdash; about 25 minutes.</p>
+    <input class="ride-find" id="rideFind" type="search" placeholder="Type your name" aria-label="Find your car">
+    <p class="ride-hit" id="rideHit"></p>
+    <div id="rideLists"></div>
+
+    <h3 class="plan-h">Where things are</h3>
+    <ul class="addr" id="addrList"></ul>
 
     <div class="plan-notes">
       <p><b>Bring a warm jacket.</b> Queenstown is cold even in spring, and the ceremony is outdoors by the water.</p>
@@ -1498,7 +1541,49 @@ window.addEventListener("popstate", (e) => applyState(e.state));
 
 function enterStudio() { go({ view: "studio" }); }
 $("#btnStart").onclick = enterStudio;
-$("#btnPlan").onclick = () => go({ view: "welcome", ov: "plan" });
+/* Transcribed from the transport plan — the Drive reader will not return that
+   tab, so these lists are a hand copy and must be re-checked if it changes. */
+const RIDES = [
+  { name: "Car 1", car: "Angelo's 12-seater",
+    who: ["Marvin", "Lara Mae", "Cathlyn", "Marge", "Sam", "Norrie", "Erwan", "Mae",
+          "Marvin's wife", "Marvin's daughter", "Grace", "Francis"] },
+  { name: "Car 2", car: "Marvin's 12-seater · can leave early",
+    who: ["Angelo", "Loren", "Jan", "Emman", "Sonito", "Pia", "Nica", "Sai", "Chit",
+          "JP", "JP's wife", "Abby"] },
+  { name: "Family cars", car: "Driven by Franklin and Ynting",
+    who: ["Nelly", "Vicente", "Jun2x", "Joie", "Gavin", "Franklin", "Blondie",
+          "Elisha", "Nathaniel", "Yving"] }
+];
+const PLACES = [
+  ["The Canyons B&B", "13 Watties Track, Arthurs Point, Queenstown 9371", "Ceremony"],
+  ["Wakatipu Grill, Hilton", "Peninsula Road, Kelvin Heights, Queenstown", "Reception"],
+  ["The lake house", "13 McKerrow Place, Fern Hill, Queenstown 5710", "Getting ready"],
+  ["Arrowtown house", "760 Malaghans Road, Arrowtown 9371", "Getting ready"]
+];
+
+function renderRides(q) {
+  const needle = (q || "").trim().toLowerCase();
+  $("#rideLists").innerHTML = RIDES.map((r) => `
+    <div class="ride-card">
+      <h4>${r.name}</h4>
+      <span class="drv">${r.car}</span>
+      <ul>${r.who.map((w) => `<li class="${needle && w.toLowerCase().includes(needle) ? "you" : ""}">${w}</li>`).join("")}</ul>
+    </div>`).join("");
+  const hit = needle && RIDES.find((r) => r.who.some((w) => w.toLowerCase().includes(needle)));
+  $("#rideHit").innerHTML = !needle ? ""
+    : hit ? `You&rsquo;re in <b>${hit.name}</b> &mdash; ${hit.car}.`
+          : "No match. Ask Grace or Francis and they&rsquo;ll sort you out.";
+}
+function renderPlaces() {
+  $("#addrList").innerHTML = PLACES.map(([nm, ad, tag]) => {
+    const q = encodeURIComponent(nm + ", " + ad + ", New Zealand");
+    return `<li><a href="https://www.google.com/maps/search/?api=1&query=${q}" target="_blank" rel="noopener">
+      <span class="nm">${nm}</span><span class="ad">${ad}</span><span class="go">${tag} &middot; Open in Maps</span></a></li>`;
+  }).join("");
+}
+$("#rideFind").oninput = (e) => renderRides(e.target.value);
+
+$("#btnPlan").onclick = () => { renderRides(""); renderPlaces(); go({ view: "welcome", ov: "plan" }); };
 $("#planClose").onclick = back;
 $("#btnBack").onclick = back;
 $("#btnSpy").onclick = () => { renderSpy(); go({ view: "welcome", ov: "spy" }); };
