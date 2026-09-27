@@ -1607,18 +1607,27 @@ $("#btnStart").onclick = enterStudio;
    tab, so these lists are a hand copy and must be re-checked if it changes. */
 const RIDES = [
   { name: "Car 1", car: "Driven by Angelo &middot; 12-seater", face: "samples/driver-angelo.jpg",
-    note: "Going home, Angelo takes everyone staying at the lake house and drops them first &mdash; including Lara Mae and Cathlyn, who ride out in Car 2.",
-    who: ["Angelo", "Loren", "Jan", "Emman", "Sonito", "Pia", "Nica", "Sai", "Chit",
-          "JP", "JP's wife", "Abby"] },
+    rooms: [
+      { bed: "Dropped first &mdash; the lake house",
+        who: ["Loren", "Jan", "Sai", "Chit", "JP", "JP's wife", "Abby"] },
+      { bed: "Then the Arrowtown house",
+        who: ["Angelo", "Emman", "Sonito", "Pia", "Nica"] }
+    ],
+    note: "Going home, Angelo takes everyone staying at the lake house and drops them first &mdash; including Lara Mae and Cathlyn, who ride out in Car 2." },
   { name: "Car 2", car: "Driven by Marvin &middot; 12-seater", face: "samples/driver-marvin.jpg",
-    note: "Everyone with a role rides together &mdash; the bridesmaids, Grace and Francis. This car can head to the reception ahead of the others if the photos run long, and takes the Arrowtown house home.",
-    who: ["Marvin", "Lara Mae", "Cathlyn", "Marge", "Sam", "Norrie", "Erwan", "Mae",
-          "Marvin's wife", "Marvin's daughter", "Grace", "Francis"] },
+    rooms: [
+      { bed: "", who: ["Marvin", "Lara Mae", "Cathlyn", "Marge", "Sam", "Norrie", "Erwan",
+                       "Marvin's wife", "Marvin's daughter", "Mae"] }
+    ],
+    note: "The bridesmaids ride together. This car can head to the reception ahead of the others if the photos run long, and takes the Arrowtown house home." },
   { name: "Family cars", car: "Two cars &middot; Franklin and Ynting driving",
-    note: "No fixed time &mdash; you leave once the photos after the ceremony are done.",
-    who: ["Nelly", "Vicente", "Jun2x", "Joie", "Gavin", "Franklin", "Blondie",
-          "Elisha", "Nathaniel", "Ynting"] }
+    rooms: [
+      { bed: "", who: ["Nelly", "Vicente", "Jun2x", "Joie", "Gavin", "Franklin", "Blondie",
+                       "Elisha", "Nathaniel", "Ynting", "Grace", "Francis"] }
+    ],
+    note: "No fixed time &mdash; you leave once the photos after the ceremony are done. Going home, Grace and Francis ride with Ynting." }
 ];
+
 
 
 /* Accommodation, as Joy set it out. Beds are named because both houses are
@@ -1643,7 +1652,7 @@ const STAYS = [
                        "Blondie", "Elisha", "Nathaniel", "Ynting", "Grace", "Francis"] }
     ] }
 ];
-const stayNames = (st) => st.rooms.reduce((a, rm) => a.concat(rm.who), []);
+const members = (x) => x.rooms.reduce((a, rm) => a.concat(rm.who), []);
 
 /* Making their own arrangements. Not shown as a card &mdash; there is nothing to
    tell them &mdash; but the name lookup still answers. */
@@ -1668,18 +1677,21 @@ const PLACES = [
 
 function renderRides(q) {
   const needle = (q || "").trim().toLowerCase();
+  const everyone = RIDES.concat(STAYS, [READY]).reduce((a, x) => a.concat(members(x)), []).concat(OWN);
+  const exact = !!needle && everyone.some((w) => w.toLowerCase() === needle);
+  const isYou = (w) => { const lw = w.toLowerCase(); return exact ? lw === needle : lw.includes(needle); };
+  const hit = (w) => `<li class="${needle && isYou(w) ? "you" : ""}">${w}</li>`;
   $("#rideLists").innerHTML = RIDES.map((r) => `
     <div class="ride-card">
       <div class="drv-row">
         ${r.face ? `<img class="drv-face" src="${r.face}" alt="" loading="lazy">` : ""}
         <div><h4>${r.name}</h4><span class="drv">${r.car}</span></div>
       </div>
-      <ul>${r.who.map((w) => `<li class="${needle && w.toLowerCase().includes(needle) ? "you" : ""}">${w}</li>`).join("")}</ul>
+      ${r.rooms.map((rm) => `${rm.bed ? `<span class="room">${rm.bed}</span>` : ""}<ul>${rm.who.map(hit).join("")}</ul>`).join("")}
       ${r.note ? `<span class="note">${r.note}</span>` : ""}
     </div>`).join("");
-  const car = needle && RIDES.find((r) => r.who.some((w) => w.toLowerCase().includes(needle)));
-  const stay = needle && STAYS.find((r) => stayNames(r).some((w) => w.toLowerCase().includes(needle)));
-  const hit = (w) => `<li class="${needle && w.toLowerCase().includes(needle) ? "you" : ""}">${w}</li>`;
+  const car = needle && RIDES.find((r) => members(r).some(isYou));
+  const stay = needle && STAYS.find((r) => members(r).some(isYou));
   const placeCard = (r) => `
     <div class="ride-card">
       <h4>${r.place}</h4>
@@ -1691,8 +1703,8 @@ function renderRides(q) {
     </div>`;
   $("#stayLists").innerHTML = STAYS.map(placeCard).join("");
   $("#readyList").innerHTML = placeCard(READY);
-  const ready = needle && stayNames(READY).some((w) => w.toLowerCase().includes(needle));
-  const own = needle && OWN.some((w) => w.toLowerCase().includes(needle));
+  const ready = needle && members(READY).some(isYou);
+  const own = needle && OWN.some(isYou);
   const bits = [];
   if (car) bits.push(`You&rsquo;re in <b>${car.name}</b> &mdash; ${car.car.charAt(0).toLowerCase() + car.car.slice(1)}.`);
   if (stay) bits.push(`You&rsquo;re staying at <b>${stay.place}</b>.`);
