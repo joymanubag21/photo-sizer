@@ -1965,7 +1965,7 @@ const STAYS = [
     legs: [
       { l: "Getting ready", t: "Lara Mae and Cathlyn &mdash; at <b>6:30 am</b> Ynting collects you and takes you to Joy and Patrick&rsquo;s hotel, with Grace and Norrie. Everyone else is here, and the car leaves at <b>2:10 pm</b>." },
       { l: "Your driver, both ways", face: "samples/driver-angelo.jpg", t: "<b>Angelo</b> &mdash; Loren, Jan, Sai, Chit, JP, Daisy and Abby. He drops here first on the way home." },
-      { l: "", face: "samples/driver-marvin.jpg", t: "<b>Marvin</b> &mdash; Lara Mae and Cathlyn, from the ceremony onwards." }
+      { l: "", face: "samples/driver-marvin.jpg", t: "<b>Marvin</b> &mdash; Lara Mae and Cathlyn, collected from the hotel after makeup." }
     ] },
   { place: "The Arrowtown house", addr: "760 Malaghans Road, Arrowtown 9371",
     rooms: [
@@ -1985,7 +1985,7 @@ const STAYS = [
     legs: [
       { l: "Getting ready", t: "Grace &mdash; at <b>6:30 am</b> Ynting collects you and takes you to Joy and Patrick&rsquo;s hotel, with Lara Mae, Cathlyn and Norrie." },
       { l: "Your driver, both ways", t: "<b>Franklin</b> &mdash; Nelly, Vicente, Blondie, Elisha, Nathaniel and Nieves." },
-      { l: "", t: "<b>Ynting</b> &mdash; Jun2x, Joie, Gavin, Grace and Francis, all day, with Joy and Patrick in the last two seats." },
+      { l: "", t: "<b>Ynting</b> &mdash; Jun2x, Joie, Gavin, Grace and Francis, all day, with Joy and Patrick in the last two seats. That is the car full." },
       { l: "", t: "No fixed time for either car &mdash; you go once the photos after the ceremony are done, and the same car brings you back." }
     ] },
   { place: "Norrie and Erwan&rsquo;s place", addr: "4 Dublin Street, Queenstown 9300",
@@ -2049,11 +2049,11 @@ const ROUTES = {
   },
   Marvin: {
     start: "You start at the Arrowtown house with Jane and your daughter.",
-    ceremony: { stops: ["The lake house &mdash; Mae, Marge and Sam, who get ready there.",
-                        "4 Dublin Street &mdash; Erwan."],
-                map: ["arrowtown", "lake", "dublin", "canyons"] },
-    reception: { stops: ["Straight to the Hilton. Lara Mae, Cathlyn and Norrie join you at the ceremony &mdash; Ynting brings them from the hotel."],
-                 map: ["canyons", "hilton"] },
+    ceremony: { stops: ["Joy and Patrick&rsquo;s hotel &mdash; Lara Mae, Cathlyn and Norrie, after their makeup.",
+                        "4 Dublin Street &mdash; Erwan.",
+                        "The lake house &mdash; Mae, Marge and Sam, who get ready there."],
+                map: ["arrowtown", "hotel", "dublin", "lake", "canyons"] },
+    reception: { stops: [HILTON], map: ["canyons", "hilton"] },
     home: { stops: ["The lake house &mdash; Lara Mae and Cathlyn.",
                     "4 Dublin Street &mdash; Norrie and Erwan.",
                     "Marge and Sam&rsquo;s place.",
@@ -2073,7 +2073,7 @@ const ROUTES = {
                      "<b>Joy and Patrick&rsquo;s hotel.</b> The lake house to the hotel is 18 minutes direct, so allow a little more for Dublin Street. Makeup starts at <b>7:45</b>."],
              map: ["airbnb", "lake", "dublin", "hotel"] },
     ceremony: { stops: ["The family Airbnb &mdash; Jun2x, Joie, Gavin and Francis.",
-                        "<b>2:40 pm</b> &mdash; Joy and Patrick&rsquo;s hotel, for Joy, Patrick, Grace and the bridesmaids. The Canyons is 15 minutes from there."],
+                        "<b>2:40 pm</b> &mdash; Joy and Patrick&rsquo;s hotel, for Joy, Patrick and Grace. The Canyons is 15 minutes from there."],
                 map: ["airbnb", "hotel", "canyons"] },
     reception: { stops: [HILTON], map: ["canyons", "hilton"] },
     home: { stops: ["The family Airbnb &mdash; Jun2x, Joie, Gavin, Grace and Francis.",
@@ -2091,12 +2091,12 @@ const CEREMONY_BY_HOUSE = {
   "Norrie and Erwan&rsquo;s place": "You&rsquo;re collected at 4 Dublin Street.",
   "Making your own way": "You get ready at the lake house, 13 McKerrow Place, and the car leaves from there at <b>2:10 pm</b>."
 };
-const HOTEL_RUN = "At <b>6:30 am</b> Ynting takes you to Joy and Patrick&rsquo;s hotel, and on to the ceremony from there.";
+const HOTEL_RUN = "At <b>6:30 am</b> Ynting takes you to Joy and Patrick&rsquo;s hotel for makeup. <b>Marvin</b> collects you there for the ceremony.";
 const CEREMONY_BY_NAME = {
   "Lara Mae": HOTEL_RUN,
   "Cathlyn": HOTEL_RUN,
-  "Norrie": "At <b>6:30 am</b> Ynting collects you at <b>4 Dublin Street</b> and takes you to Joy and Patrick&rsquo;s hotel, and on to the ceremony from there.",
-  "Grace": "At <b>6:30 am</b> Ynting takes you to Joy and Patrick&rsquo;s hotel, and you stay in her car all day.",
+  "Norrie": "At <b>6:30 am</b> Ynting collects you at <b>4 Dublin Street</b> for makeup at Joy and Patrick&rsquo;s hotel. <b>Marvin</b> collects you there for the ceremony.",
+  "Grace": "At <b>6:30 am</b> Ynting takes you to Joy and Patrick&rsquo;s hotel for makeup, and you stay in her car all day.",
   "Jane": "Straight to the ceremony from the Arrowtown house.",
   "Marvin's daughter": "Straight to the ceremony from the Arrowtown house."
 };
