@@ -1650,18 +1650,22 @@ function renderHero() {
 const ALBUM = "https://app.kululu.com/m4fvel";
 
 /* the shots to find — the in-jokes are from the Memory Lane cards on the tables */
+/* Ten, weighted the way the popular lists are: reactions, guest connections and
+   dance-floor candour beat scenery and set pieces. One is the trip before the
+   wedding, which most guests already have on their phone. */
 const SPY = [
-  ["A group shot of your table", ""],
-  ["Joy, mid-laugh", ""],
-  ["Patrick, trying not to cry", "He wrote four lines of vows and called it concise."],
-  ["The first dance", ""],
-  ["Someone giving a speech", ""],
-  ["A guest who flew in from another country", "Three countries, one small town."],
-  ["The lake", "There is only one. It is very large."],
-  ["Your best pickleball pose", "The one sport Joy beats Patrick at."],
-  ["Two guests from different chapters of our lives", "Kids, work, travel, family, pickleball."],
-  ["You, with the newlyweds", ""]
+  "Your table, all of you in it",
+  "Joy, mid-laugh",
+  "Patrick, trying not to cry",
+  "Someone&rsquo;s face during the vows",
+  "The first dance",
+  "Shoes off on the dance floor",
+  "A selfie with someone you have just met",
+  "Your best pickleball pose",
+  "The best view you have seen in New Zealand",
+  "You, with the newlyweds"
 ];
+
 const SPY_KEY = "jp-ispy";
 const SHOT_KEY = "jp-ispy-shots";
 let spyFound = new Set();
@@ -1735,7 +1739,7 @@ function renderSpy() {
   const order = SPY.map((_, i) => i).filter((i) => !spyFound.has(i))
     .concat(SPY.map((_, i) => i).filter((i) => spyFound.has(i)));
   order.forEach((i, pos) => {
-    const [shot, aside] = SPY[i];
+    const shot = SPY[i];
     if (spyFound.has(i) && pos && !spyFound.has(order[pos - 1])) {
       const sep = document.createElement("li");
       sep.className = "spy-sep";
@@ -1748,7 +1752,7 @@ function renderSpy() {
     b.className = "spy-item";
     b.setAttribute("aria-pressed", String(spyFound.has(i)));
     b.innerHTML = (spyUrls[i] ? "" : HEART)
-      + `<span class="spy-txt">${shot}${aside ? `<small>${aside}</small>` : ""}</span>`;
+      + `<span class="spy-txt">${shot}</span>`;
     b.onclick = () => { spyPending = i; $("#spyIn").click(); };
     if (spyUrls[i]) {
       const t = document.createElement("button");
