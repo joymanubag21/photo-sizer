@@ -513,19 +513,19 @@ details.ride-card[open] .acc-chev{transform:rotate(-135deg)}
       <button class="wcard" type="button" id="btnAlbum">
         <span class="eyebrow">For Joy &amp; Patrick</span>
         <span class="wc-h">Send us your photos</span>
-        <span class="wc-p">Add what you take tonight to our shared album. We&rsquo;ll print our favourites at the reception.</span>
+        <span class="wc-p">One album for everything everyone takes.</span>
       </button>
 
       <button class="wcard" type="button" id="btnStart">
         <span class="eyebrow">For you to keep</span>
         <span class="wc-h">Print a photo to take home</span>
-        <span class="wc-p">Pick any photo and we&rsquo;ll turn it into a signed card, ready for the print station.</span>
+        <span class="wc-p">Any photo, turned into a signed card.</span>
       </button>
 
       <button class="wcard" type="button" id="btnSpy">
         <span class="eyebrow">A game for tonight</span>
         <span class="wc-h">I spy, with my little camera</span>
-        <span class="wc-p">Ten moments to catch before the night is out. How many can you find?</span>
+        <span class="wc-p">Ten moments to catch before the night is out.</span>
       </button>
     </div>
 
@@ -581,15 +581,15 @@ details.ride-card[open] .acc-chev{transform:rotate(-135deg)}
     <ul class="plan-list">
       <li>
         <span class="plan-when">2:40 pm</span>
-        <span class="plan-what">Be at Canyon&rsquo;s Lodge<small>The groom and guests arrive at 2:55, so come fifteen minutes early and nobody is rushing. The ceremony starts at 3:15.</small></span>
+        <span class="plan-what">Be at Canyon&rsquo;s Lodge<small>Everyone else arrives 2:55, ceremony 3:15. Come early and nobody rushes.</small></span>
       </li>
       <li>
         <span class="plan-when">4:45 pm</span>
-        <span class="plan-what">We move to the Hilton<small>About 25 minutes&rsquo; drive. Two cars take everyone across &mdash; your seat is under <b>Find yourself</b> below.</small></span>
+        <span class="plan-what">We move to the Hilton<small>About 25 minutes. Your seat is under <b>Find yourself</b> below.</small></span>
       </li>
       <li>
         <span class="plan-when">5:15 pm</span>
-        <span class="plan-what">Reception at Wakatipu Grill<small>Hilton Queenstown. Dinner, and the rest of the evening.</small></span>
+        <span class="plan-what">Reception at Wakatipu Grill<small>Hilton Queenstown. Dinner, then the rest of the evening.</small></span>
       </li>
       <li>
         <span class="plan-when">10:00 pm</span>
@@ -615,9 +615,9 @@ details.ride-card[open] .acc-chev{transform:rotate(-135deg)}
     <ul class="addr" id="addrList"></ul>
 
     <div class="plan-notes">
-      <p><b>Bring a warm jacket.</b> Queenstown is cold even in spring, and the ceremony is outdoors by the water.</p>
-      <p><b>Wear shoes you can walk on grass in.</b> There is a jetty and a lawn.</p>
-      <p><b>If the weather turns</b>, the call between outdoors and the covered deck is made at 9:30 am on the day. We&rsquo;ll let you know.</p>
+      <p><b>Bring a warm jacket.</b> The ceremony is outdoors, by the water.</p>
+      <p><b>Shoes for grass.</b> There is a jetty and a lawn.</p>
+      <p><b>If the weather turns</b>, we decide at 9:30 am and tell you.</p>
     </div>
   </div>
 </div>
@@ -628,7 +628,7 @@ details.ride-card[open] .acc-chev{transform:rotate(-135deg)}
     <div class="spy-head">
       <p class="spy-kicker" id="spyKicker">With my little camera</p>
       <h2 class="spy-h">I <em>spy</em></h2>
-      <p class="spy-lede">Tap one to add the photo you took. They stay on your phone.</p>
+      <p class="spy-lede">Tap one to add your photo.</p>
       <p class="spy-count" id="spyCount"></p>
       <div class="spy-bar"><i id="spyBar"></i></div>
     </div>
@@ -638,7 +638,6 @@ details.ride-card[open] .acc-chev{transform:rotate(-135deg)}
       <a class="btn primary" href="https://app.kululu.com/m4fvel" target="_blank" rel="noopener">Send your finds to our album</a>
       <button class="btn" type="button" id="spyPrint">Print your favourite</button>
     </div>
-    <p class="seg-note" style="margin-top:13px">Printing works the same as <b>Print a photo to take home</b> &mdash; the same card layouts, the same SELPHY at the print station.</p>
   </div>
 </div>
 
@@ -2063,8 +2062,8 @@ function renderRides(q) {
      somebody else's business. They stay one tap away, and open themselves if a
      search lands in one of them. */
   $("#staySub").textContent = ME
-    ? "Your beds and every ride, in one card. The Canyons to the Hilton is about 25 minutes."
-    : "Your house, your beds and every ride in one card. The Canyons to the Hilton is about 25 minutes.";
+    ? "Your beds and every ride, in one card."
+    : "Your house, your beds and every ride in one card.";
   const myHouse = ME && STAYS.find((r) => members(r).some((w) => norm(w) === norm(ME)));
   const others = STAYS.filter((r) => r !== myHouse);
   const elsewhere = needle && others.some((r) => members(r).some(isYou));
