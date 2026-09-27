@@ -194,6 +194,8 @@ a.btn{text-decoration:none}
   margin:0 0 3px; font-family:'Cormorant Garamond',Georgia,serif;
   font-weight:500; font-size:1.25rem; color:var(--ink);
 }
+.ride-card .drv-row{display:flex; align-items:center; gap:13px}
+.ride-card .drv-face{width:54px; height:54px; border-radius:50%; object-fit:cover; flex:none; border:1px solid var(--line-2)}
 .ride-card .drv{font-size:11px; font-weight:600; letter-spacing:.14em; text-transform:uppercase; color:var(--green)}
 .ride-card ul{list-style:none; margin:11px 0 0; padding:0; display:flex; flex-wrap:wrap; gap:6px}
 .ride-card li{font-size:13px; color:var(--ink-2); background:var(--surface-2); border-radius:20px; padding:4px 11px}
@@ -523,7 +525,7 @@ a.btn{text-decoration:none}
       </li>
       <li>
         <span class="plan-when">4:45 pm</span>
-        <span class="plan-what">We move to the Hilton<small>About 30 minutes&rsquo; drive. Transfers are on your own, so travel with whoever you came with.</small></span>
+        <span class="plan-what">We move to the Hilton<small>About 25 minutes&rsquo; drive. Two cars take everyone across &mdash; your seat is under <b>Find yourself</b> below.</small></span>
       </li>
       <li>
         <span class="plan-when">5:15 pm</span>
@@ -531,12 +533,12 @@ a.btn{text-decoration:none}
       </li>
       <li>
         <span class="plan-when">10:00 pm</span>
-        <span class="plan-what">Carriages<small>The venue closes. Getting home is on your own.</small></span>
+        <span class="plan-what">Carriages<small>The venue closes. The same two cars take you home &mdash; Angelo drops the lake house first.</small></span>
       </li>
     </ul>
 
     <h3 class="plan-h">Find yourself</h3>
-    <p class="plan-sub">Your car to the reception, and where you&rsquo;re staying.</p>
+    <p class="plan-sub">Your car to the reception and home again, and where you&rsquo;re staying.</p>
     <p class="plan-sub" style="margin-bottom:12px">The Canyons to the Hilton is about 25 minutes.</p>
     <input class="ride-find" id="rideFind" type="search" placeholder="Type your name" aria-label="Find your car and where you are staying">
     <p class="ride-hit" id="rideHit"></p>
@@ -1604,11 +1606,12 @@ $("#btnStart").onclick = enterStudio;
 /* Transcribed from the transport plan — the Drive reader will not return that
    tab, so these lists are a hand copy and must be re-checked if it changes. */
 const RIDES = [
-  { name: "Car 1", car: "Driven by Angelo &middot; 12-seater",
+  { name: "Car 1", car: "Driven by Angelo &middot; 12-seater", face: "samples/driver-angelo.jpg",
+    note: "Going home, Angelo takes everyone staying at the lake house and drops them first &mdash; including Lara Mae and Cathlyn, who ride out in Car 2.",
     who: ["Angelo", "Loren", "Jan", "Emman", "Sonito", "Pia", "Nica", "Sai", "Chit",
           "JP", "JP's wife", "Abby"] },
-  { name: "Car 2", car: "Driven by Marvin &middot; 12-seater",
-    note: "Everyone with a role rides together &mdash; the bridesmaids, Grace and Francis. This car can head to the reception ahead of the others if the photos run long.",
+  { name: "Car 2", car: "Driven by Marvin &middot; 12-seater", face: "samples/driver-marvin.jpg",
+    note: "Everyone with a role rides together &mdash; the bridesmaids, Grace and Francis. This car can head to the reception ahead of the others if the photos run long, and takes the Arrowtown house home.",
     who: ["Marvin", "Lara Mae", "Cathlyn", "Marge", "Sam", "Norrie", "Erwan", "Mae",
           "Marvin's wife", "Marvin's daughter", "Grace", "Francis"] },
   { name: "Family cars", car: "Two cars &middot; Franklin and Ynting driving",
@@ -1616,6 +1619,7 @@ const RIDES = [
     who: ["Nelly", "Vicente", "Jun2x", "Joie", "Gavin", "Franklin", "Blondie",
           "Elisha", "Nathaniel", "Ynting"] }
 ];
+
 
 /* Accommodation, as Joy set it out. Beds are named because both houses are
    shared and people asked who they are sharing with. */
@@ -1626,7 +1630,7 @@ const STAYS = [
       { bed: "Two kings", who: ["Loren", "Jan", "Chit", "Sai"] },
       { bed: "Two singles", who: ["JP", "JP's wife", "Abby"] }
     ],
-    note: "Three bedrooms." },
+    note: "Three bedrooms. Angelo drives you home at the end of the night and drops here first." },
   { place: "The Arrowtown house", addr: "760 Malaghans Road, Arrowtown 9371",
     rooms: [
       { bed: "Super king, in the living room", who: ["Marvin", "Marvin's wife", "Marvin's daughter"] },
@@ -1666,8 +1670,10 @@ function renderRides(q) {
   const needle = (q || "").trim().toLowerCase();
   $("#rideLists").innerHTML = RIDES.map((r) => `
     <div class="ride-card">
-      <h4>${r.name}</h4>
-      <span class="drv">${r.car}</span>
+      <div class="drv-row">
+        ${r.face ? `<img class="drv-face" src="${r.face}" alt="" loading="lazy">` : ""}
+        <div><h4>${r.name}</h4><span class="drv">${r.car}</span></div>
+      </div>
       <ul>${r.who.map((w) => `<li class="${needle && w.toLowerCase().includes(needle) ? "you" : ""}">${w}</li>`).join("")}</ul>
       ${r.note ? `<span class="note">${r.note}</span>` : ""}
     </div>`).join("");
