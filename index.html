@@ -1589,6 +1589,15 @@ const STAYS = [
     who: ["Marge", "Sam", "Norrie", "JP", "JP's wife", "Abby"] }
 ];
 
+/* Route 1: where a group gets ready on the day, which is a different question
+   from where they sleep. The car leaves the lake house at 2:10 pm. */
+const READY = {
+  place: "Getting ready at the lake house",
+  addr: "13 McKerrow Place · the car leaves at 2:10 pm",
+  who: ["Angelo", "Sonito", "Pia", "Mae", "Nica", "Loren", "Jan", "Emman",
+        "Sai", "Chit", "Marge", "Sam"]
+};
+
 const PLACES = [
   ["The Canyons B&B", "13 Watties Track, Arthurs Point, Queenstown 9371", "Ceremony"],
   ["Wakatipu Grill, Hilton", "Peninsula Road, Kelvin Heights, Queenstown", "Reception"],
@@ -1606,15 +1615,19 @@ function renderRides(q) {
     </div>`).join("");
   const car = needle && RIDES.find((r) => r.who.some((w) => w.toLowerCase().includes(needle)));
   const stay = needle && STAYS.find((r) => r.who.some((w) => w.toLowerCase().includes(needle)));
-  $("#stayLists").innerHTML = STAYS.map((r) => `
+  $("#stayLists").innerHTML = STAYS.concat([READY]).map((r) => `
     <div class="ride-card">
       <h4>${r.place}</h4>
       <span class="drv">${r.addr}</span>
       <ul>${r.who.map((w) => `<li class="${needle && w.toLowerCase().includes(needle) ? "you" : ""}">${w}</li>`).join("")}</ul>
     </div>`).join("");
+  const ready = needle && READY.who.some((w) => w.toLowerCase().includes(needle));
   const bits = [];
   if (car) bits.push(`You&rsquo;re in <b>${car.name}</b> &mdash; ${car.car}.`);
   if (stay) bits.push(`You&rsquo;re staying at <b>${stay.place}</b>.`);
+  // found in a car but with no accommodation recorded — say so rather than nothing
+  else if (car) bits.push("We don&rsquo;t have your accommodation on our list &mdash; check with Joy.");
+  if (ready) bits.push("You&rsquo;re getting ready at <b>the lake house</b>. The car leaves at 2:10 pm.");
   $("#rideHit").innerHTML = !needle ? ""
     : bits.length ? bits.join("<br>")
                   : "No match. Ask Grace or Francis and they&rsquo;ll sort you out.";
