@@ -812,6 +812,31 @@ const FORMATS = [{
     ["Scaling", "Fill Entire Paper, 100%", "Do not let the app add its own margin."]
   ]
 }, {
+  id: "instax",
+  name: "Instax mini guest card",
+  desc: "Portrait card with the classic wide white band under the picture.",
+  meta: "2 cards / sheet · card 54 × 86 mm",
+  slots: 2,
+  // each card centred in its half of the sheet: one cut at 59.5 mm splits it
+  cardW: 54, cardH: 86, cardY: 7, cardX: [13.33, 80.67],
+  // window 46 × 62 mm, 4 mm border top and sides
+  frames: [{ x: 17.33, y: 11, w: 46, h: 62 }, { x: 84.67, y: 11, w: 46, h: 62 }],
+  minPx: [720, 975],
+  idealPx: [940, 1270],
+  specs: [
+    ["Card",   "54 × 86 mm portrait, image window 46 × 62 mm (1.81 × 2.44 in)."],
+    ["Borders","4 mm top and sides, ~20 mm white band below."],
+    ["Supply", "720 × 975 px minimum · 940 × 1270 px for 400 dpi."],
+    ["Sheet",  "Two cards per postcard sheet, cut on the hairlines."]
+  ],
+  airprint: true,
+  print: [
+    ["Paper",   "Postcard Borderless", ""],
+    ["Layout",  "Print Entire Image", "Not Fill Entire Paper — that would crop the cut marks off."],
+    ["Scaling", "100%", ""],
+    ["After",   "Cut on the hairlines", "Two guest cards per sheet."]
+  ]
+}, {
   id: "four",
   name: "Four up",
   desc: "Two by two, signed across the top.",
@@ -860,31 +885,6 @@ const FORMATS = [{
     ["Paper",   "Postcard Borderless", "The card is the whole sheet — nothing to trim."],
     ["Layout",  "Landscape", ""],
     ["Scaling", "Fill Entire Paper, 100%", ""]
-  ]
-}, {
-  id: "instax",
-  name: "Instax mini guest card",
-  desc: "Portrait card with the classic wide white band under the picture.",
-  meta: "2 cards / sheet · card 54 × 86 mm",
-  slots: 2,
-  // each card centred in its half of the sheet: one cut at 59.5 mm splits it
-  cardW: 54, cardH: 86, cardY: 7, cardX: [13.33, 80.67],
-  // window 46 × 62 mm, 4 mm border top and sides
-  frames: [{ x: 17.33, y: 11, w: 46, h: 62 }, { x: 84.67, y: 11, w: 46, h: 62 }],
-  minPx: [720, 975],
-  idealPx: [940, 1270],
-  specs: [
-    ["Card",   "54 × 86 mm portrait, image window 46 × 62 mm (1.81 × 2.44 in)."],
-    ["Borders","4 mm top and sides, ~20 mm white band below."],
-    ["Supply", "720 × 975 px minimum · 940 × 1270 px for 400 dpi."],
-    ["Sheet",  "Two cards per postcard sheet, cut on the hairlines."]
-  ],
-  airprint: true,
-  print: [
-    ["Paper",   "Postcard Borderless", ""],
-    ["Layout",  "Print Entire Image", "Not Fill Entire Paper — that would crop the cut marks off."],
-    ["Scaling", "100%", ""],
-    ["After",   "Cut on the hairlines", "Two guest cards per sheet."]
   ]
 }, {
   id: "full",
@@ -1946,7 +1946,7 @@ const RIDES = [
     rooms: [
       { bed: "", who: ["Ynting", "Jun2x", "Joie", "Gavin", "Grace", "Francis"] }
     ],
-    note: "Joy and Patrick are in this car all day too, which takes the last two seats. Ynting also does the 6 am run to their hotel with Grace, Lara Mae, Cathlyn and Norrie." }
+    note: "Joy and Patrick are in this car all day too, which takes the last two seats. Ynting also does the 6:30 am run to their hotel with Grace, Lara Mae, Cathlyn and Norrie." }
 ];
 
 
@@ -1963,7 +1963,7 @@ const STAYS = [
       { bed: "Two singles", who: ["JP", "Daisy", "Abby"] }
     ],
     legs: [
-      { l: "Getting ready", t: "Lara Mae and Cathlyn &mdash; at <b>6 am</b> Ynting collects you and takes you to Joy and Patrick&rsquo;s hotel, with Grace and Norrie. Everyone else is here, and the car leaves at <b>2:10 pm</b>." },
+      { l: "Getting ready", t: "Lara Mae and Cathlyn &mdash; at <b>6:30 am</b> Ynting collects you and takes you to Joy and Patrick&rsquo;s hotel, with Grace and Norrie. Everyone else is here, and the car leaves at <b>2:10 pm</b>." },
       { l: "Your driver, both ways", face: "samples/driver-angelo.jpg", t: "<b>Angelo</b> &mdash; Loren, Jan, Sai, Chit, JP, Daisy and Abby. He drops here first on the way home." },
       { l: "", face: "samples/driver-marvin.jpg", t: "<b>Marvin</b> &mdash; Lara Mae and Cathlyn, from the ceremony onwards." }
     ] },
@@ -1983,7 +1983,7 @@ const STAYS = [
                        "Blondie", "Elisha", "Nathaniel", "Ynting", "Grace", "Francis"] }
     ],
     legs: [
-      { l: "Getting ready", t: "Grace &mdash; at <b>6 am</b> Ynting collects you and takes you to Joy and Patrick&rsquo;s hotel, with Lara Mae, Cathlyn and Norrie." },
+      { l: "Getting ready", t: "Grace &mdash; at <b>6:30 am</b> Ynting collects you and takes you to Joy and Patrick&rsquo;s hotel, with Lara Mae, Cathlyn and Norrie." },
       { l: "Your driver, both ways", t: "<b>Franklin</b> &mdash; Nelly, Vicente, Blondie, Elisha, Nathaniel and Nieves." },
       { l: "", t: "<b>Ynting</b> &mdash; Jun2x, Joie, Gavin, Grace and Francis, all day, with Joy and Patrick in the last two seats." },
       { l: "", t: "No fixed time for either car &mdash; you go once the photos after the ceremony are done, and the same car brings you back." }
@@ -1992,7 +1992,7 @@ const STAYS = [
     hit: "You&rsquo;re staying at <b>4 Dublin Street</b>.",
     rooms: [{ bed: "", who: ["Norrie", "Erwan"] }],
     legs: [
-      { l: "Getting ready", t: "Norrie &mdash; at <b>6 am</b> Ynting collects you and takes you to Joy and Patrick&rsquo;s hotel, with Grace, Lara Mae and Cathlyn." },
+      { l: "Getting ready", t: "Norrie &mdash; at <b>6:30 am</b> Ynting collects you and takes you to Joy and Patrick&rsquo;s hotel, with Grace, Lara Mae and Cathlyn." },
       { l: "Your driver, both ways", face: "samples/driver-marvin.jpg", t: "<b>Marvin</b>, with the bridesmaids. He drops you at Dublin Street on the way back." }
     ] },
   { place: "Making your own way", hit: "You&rsquo;ve sorted your own place.",
@@ -2067,13 +2067,12 @@ const ROUTES = {
     home: { stops: ["The family Airbnb &mdash; everyone in your car."], map: ["hilton", "airbnb"] }
   },
   Ynting: {
-    early: { stops: ["The family Airbnb &mdash; Grace.",
-                     "The lake house &mdash; Lara Mae and Cathlyn.",
-                     "4 Dublin Street &mdash; Norrie.",
-                     "Then all four to Joy and Patrick&rsquo;s hotel."],
-             map: ["airbnb", "lake", "dublin", "hotel"] },
+    early: { stops: ["<b>6:30 am</b> &mdash; leave the Airbnb with Grace.",
+                     "<b>6:44 am</b> &mdash; the lake house, for Lara Mae, Cathlyn and Norrie. 14 minutes.",
+                     "<b>7:02 am</b> &mdash; Joy and Patrick&rsquo;s hotel. 18 minutes. Makeup starts at 7:45."],
+             map: ["airbnb", "lake", "hotel"] },
     ceremony: { stops: ["The family Airbnb &mdash; Jun2x, Joie, Gavin and Francis.",
-                        "Joy and Patrick&rsquo;s hotel &mdash; Joy, Patrick, Grace and the three bridesmaids."],
+                        "<b>2:40 pm</b> &mdash; Joy and Patrick&rsquo;s hotel, for Joy, Patrick, Grace and the bridesmaids. The Canyons is 15 minutes from there."],
                 map: ["airbnb", "hotel", "canyons"] },
     reception: { stops: [HILTON], map: ["canyons", "hilton"] },
     home: { stops: ["The family Airbnb &mdash; Jun2x, Joie, Gavin, Grace and Francis.",
@@ -2087,16 +2086,16 @@ const ROUTES = {
 const CEREMONY_BY_HOUSE = {
   "The lake house": "You&rsquo;re already there, and the car leaves at <b>2:10 pm</b>.",
   "The Arrowtown house": "You get ready at the lake house, 13 McKerrow Place, and the car leaves from there at <b>2:10 pm</b>.",
-  "The family Airbnb": "You leave from the Airbnb on Thompson Street.",
+  "The family Airbnb": "You&rsquo;re collected at the Airbnb, Thompson Street.",
   "Norrie and Erwan&rsquo;s place": "You&rsquo;re collected at 4 Dublin Street.",
   "Making your own way": "You get ready at the lake house, 13 McKerrow Place, and the car leaves from there at <b>2:10 pm</b>."
 };
-const HOTEL_RUN = "At <b>6 am</b> Ynting takes you to Joy and Patrick&rsquo;s hotel, and on to the ceremony from there.";
+const HOTEL_RUN = "At <b>6:30 am</b> Ynting takes you to Joy and Patrick&rsquo;s hotel, and on to the ceremony from there.";
 const CEREMONY_BY_NAME = {
   "Lara Mae": HOTEL_RUN,
   "Cathlyn": HOTEL_RUN,
   "Norrie": HOTEL_RUN,
-  "Grace": "At <b>6 am</b> Ynting takes you to Joy and Patrick&rsquo;s hotel, and you stay in her car all day.",
+  "Grace": "At <b>6:30 am</b> Ynting takes you to Joy and Patrick&rsquo;s hotel, and you stay in her car all day.",
   "Jane": "Straight to the ceremony from the Arrowtown house.",
   "Marvin's daughter": "Straight to the ceremony from the Arrowtown house."
 };
@@ -2212,7 +2211,7 @@ function renderRides(q) {
   let legs = "";
   if (driver) {
     const r = ROUTES[driver];
-    legs = (r.early ? leg("The 6 am run", r.early) : "")
+    legs = (r.early ? leg("The 6:30 am run", r.early) : "")
       + (r.start ? `<div><span class="leg-l">Before you set off</span><span class="leg-t"><span>${r.start}</span></span></div>` : "")
       + leg("To the ceremony", r.ceremony) + leg("To the reception", r.reception) + leg("Going home", r.home);
   } else if (me && car && stay) {
