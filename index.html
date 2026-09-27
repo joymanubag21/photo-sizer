@@ -555,7 +555,7 @@ details.ride-card[open] .acc-chev{transform:rotate(-135deg)}
       </li>
       <li>
         <span class="plan-when">10:00 pm</span>
-        <span class="plan-what">Carriages<small>The venue closes. Whoever drove you here drives you home.</small></span>
+        <span class="plan-what">Carriages<small>The venue closes. The same cars take everyone home &mdash; your driver is under <b>Find yourself</b>.</small></span>
       </li>
     </ul>
 
@@ -1635,14 +1635,14 @@ const RIDES = [
       { bed: "Then the Arrowtown house",
         who: ["Angelo", "Emman", "Sonito", "Pia", "Nica"] }
     ],
-    note: "Angelo drives this car both ways." },
+    note: "Angelo drives this car both ways, and brings Mae home in it too." },
   { name: "Marvin&rsquo;s car", driver: "Marvin", hit: "Your driver both ways is <b>Marvin</b> &mdash; Car 2.", car: "Car 2 &middot; 12-seater", face: "samples/driver-marvin.jpg",
     rooms: [
       { bed: "The bridesmaids and Erwan", who: ["Lara Mae", "Cathlyn", "Norrie", "Erwan"] },
       { bed: "Making their own way", who: ["Marge", "Sam"] },
       { bed: "The Arrowtown house", who: ["Marvin", "Marvin's wife", "Marvin's daughter", "Mae"] }
     ],
-    note: "Marvin drives this car both ways. It can head to the reception ahead of the others if the photos run long." },
+    note: "Marvin drives this car both ways. It can head to the reception ahead of the others if the photos run long. Mae rides out in it and goes home with Angelo and the Arrowtown friends." },
   { name: "The family cars", driver: "Franklin and Ynting", hit: "Your drivers both ways are <b>Franklin and Ynting</b>, in the two family cars.", car: "Two cars &middot; Franklin and Ynting",
     rooms: [
       { bed: "", who: ["Nelly", "Vicente", "Jun2x", "Joie", "Gavin", "Franklin", "Blondie",
@@ -1678,7 +1678,8 @@ const STAYS = [
     legs: [
       { l: "Getting ready", t: "The six of you go to the lake house, 13 McKerrow Place, and the car leaves there at <b>2:10 pm</b>. Marvin's family goes straight to the ceremony." },
       { l: "Your driver, both ways", face: "samples/driver-angelo.jpg", t: "<b>Angelo</b> &mdash; Angelo, Emman, Sonito, Pia and Nica." },
-      { l: "", face: "samples/driver-marvin.jpg", t: "<b>Marvin</b> &mdash; Marvin, his wife and daughter, and Mae." }
+      { l: "", face: "samples/driver-marvin.jpg", t: "<b>Marvin</b> &mdash; Marvin, his wife and daughter." },
+      { l: "Mae", t: "Out with <b>Marvin</b>, home with <b>Angelo</b> and the rest of the friends. Both cars end up here either way." }
     ] },
   { place: "The family Airbnb", addr: "Thompson Street, Queenstown 9300",
     rooms: [
@@ -1703,6 +1704,10 @@ const STAYS = [
     ] }
 ];
 const members = (x) => x.rooms.reduce((a, rm) => a.concat(rm.who), []);
+
+/* Almost everyone has one driver all night. Mae is the exception: she rides out
+   in Marvin's car but goes home with the Arrowtown friends in Angelo's. */
+const HOME_SWAP = { "Mae": { driver: "Angelo", why: "so you&rsquo;re with the Arrowtown friends" } };
 
 /* Route 1: who gets ready together, which is a different question from where
    they sleep. Read by the name lookup; each house card says it in its own words. */
@@ -1764,7 +1769,10 @@ function renderRides(q) {
   if (stay) bits.push(stay.hit || `You&rsquo;re staying at <b>${stay.place}</b>.`);
   // found in a car but with no accommodation recorded — say so rather than nothing
   else if (car) bits.push("We don&rsquo;t have your accommodation on our list &mdash; check with Joy.");
-  if (car) bits.push(car.hit);
+  const swap = needle && Object.keys(HOME_SWAP).find(isYou);
+  if (car) bits.push(swap
+    ? `<b>${car.driver}</b> drives you to the reception, and <b>${HOME_SWAP[swap].driver}</b> brings you home ${HOME_SWAP[swap].why}.`
+    : car.hit);
   // don't tell someone already at the lake house to go to the lake house
   if (bridal) bits.push("Earlier that day <b>Ynting</b> collects you and takes you to Joy and Patrick&rsquo;s hotel.");
   if (ready) bits.push(atLake
