@@ -759,7 +759,7 @@ const FORMATS = [{
   // the rest. Their header holds a title and three lines of story; mine holds one
   // signature, so the photos grow into the 18 mm that frees up.
   grid: true,
-  frames: [{ x: 4.06, y: 10.83, w: 54.17, h: 74.11 }, { x: 60.77, y: 10.83, w: 54.17, h: 74.11 }],
+  frames: [{ x: 7, y: 10.83, w: 51, h: 71.17 }, { x: 61, y: 10.83, w: 51, h: 71.17 }],
   minPx: [830, 1139],
   idealPx: [1100, 1510],
   specs: [
@@ -782,15 +782,15 @@ const FORMATS = [{
   slots: 4,
   grid: true,
   frames: [
-    { x: 4.06, y: 10.83, w: 54.17, h: 35.78 }, { x: 60.77, y: 10.83, w: 54.17, h: 35.78 },
-    { x: 4.06, y: 49.16, w: 54.17, h: 35.78 }, { x: 60.77, y: 49.16, w: 54.17, h: 35.78 }
+    { x: 7, y: 10.83, w: 51, h: 34.09 }, { x: 61, y: 10.83, w: 51, h: 34.09 },
+    { x: 7, y: 47.91, w: 51, h: 34.09 }, { x: 61, y: 47.91, w: 51, h: 34.09 }
   ],
   minPx: [830, 550],
   idealPx: [1100, 730],
   airprint: true,
   specs: [
     ["Card",   "119 × 89 mm, landscape, one per L sheet."],
-    ["Frames", "Four at 54.17 × 35.78 mm, 2.54 mm gaps."],
+    ["Frames", "Four at 51 × 34.09 mm, 3 mm gaps, 7 mm margin."],
     ["Supply", "830 × 550 px minimum · 1100 × 730 px for headroom."],
     ["Print",  "L Borderless · Landscape · Fill Entire Paper · 100%."]
   ],
@@ -807,15 +807,15 @@ const FORMATS = [{
   slots: 6,
   grid: true,
   frames: [
-    { x: 4.06, y: 10.83, w: 35.26, h: 35.78 }, { x: 41.86, y: 10.83, w: 35.26, h: 35.78 }, { x: 79.66, y: 10.83, w: 35.26, h: 35.78 },
-    { x: 4.06, y: 49.16, w: 35.26, h: 35.78 }, { x: 41.86, y: 49.16, w: 35.26, h: 35.78 }, { x: 79.66, y: 49.16, w: 35.26, h: 35.78 }
+    { x: 7, y: 10.83, w: 33, h: 34.09 }, { x: 43, y: 10.83, w: 33, h: 34.09 }, { x: 79, y: 10.83, w: 33, h: 34.09 },
+    { x: 7, y: 47.91, w: 33, h: 34.09 }, { x: 43, y: 47.91, w: 33, h: 34.09 }, { x: 79, y: 47.91, w: 33, h: 34.09 }
   ],
   minPx: [540, 550],
   idealPx: [720, 730],
   airprint: true,
   specs: [
     ["Card",   "119 × 89 mm, landscape, one per L sheet."],
-    ["Frames", "Six at 35.26 × 35.78 mm, 2.54 mm gaps."],
+    ["Frames", "Six at 33 × 34.09 mm, 3 mm gaps, 7 mm margin."],
     ["Supply", "540 × 550 px minimum · 720 × 730 px for headroom."],
     ["Print",  "L Borderless · Landscape · Fill Entire Paper · 100%."]
   ],
@@ -831,9 +831,9 @@ const FORMATS = [{
   meta: "2 cards / sheet · card 54 × 86 mm",
   slots: 2,
   // each card centred in its half of the sheet: one cut at 59.5 mm splits it
-  cardW: 54, cardH: 86, cardY: 1.5, cardX: [2.75, 62.25],
+  cardW: 54, cardH: 86, cardY: 1.5, cardX: [3.67, 61.33],
   // window 46 × 62 mm, 4 mm border top and sides
-  frames: [{ x: 6.75, y: 5.5, w: 46, h: 62 }, { x: 66.25, y: 5.5, w: 46, h: 62 }],
+  frames: [{ x: 7.67, y: 5.5, w: 46, h: 62 }, { x: 65.33, y: 5.5, w: 46, h: 62 }],
   minPx: [700, 940],
   idealPx: [950, 1280],
   specs: [
