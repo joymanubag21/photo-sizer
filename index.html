@@ -25,7 +25,8 @@
 *{box-sizing:border-box}
 /* a class setting display outranks the UA [hidden] rule, so state it outright */
 [hidden]{display:none !important}
-html,body{height:100%}
+html,body{height:100%; overflow:hidden}
+body{margin:0}
 body{
   background:var(--bg); color:var(--ink); overflow:hidden;
   font-family:'Jost','Helvetica Neue',Arial,sans-serif; font-size:15px; line-height:1.5;
@@ -363,6 +364,25 @@ a.btn{text-decoration:none}
 .chip .x::after,.chip .mv::after{content:""; position:absolute; inset:-8px}
 .chip .mv{position:absolute; bottom:0; width:30px; height:30px; background:rgba(8,6,10,.58); color:#fff; font-size:14px; line-height:30px; text-align:center}
 .chip .mv.l{left:0; border-radius:0 8px 0 0} .chip .mv.r{right:0; border-radius:8px 0 0 0}
+/* ───────── wide screens: the app is a phone, so keep it one ─────────
+   Everything at the top level is position:fixed, so each is re-anchored to a
+   centred column rather than the viewport. Below this width nothing changes
+   and the app runs edge to edge. */
+@media (min-width:700px){
+  body{background:#E9E5DE}
+  .welcome,.studio,.modal{
+    position:fixed; inset:auto;
+    left:50%; top:50%; transform:translate(-50%,-50%);
+    width:412px; height:min(880px, calc(100dvh - 48px));
+    border-radius:30px; overflow:hidden;
+    border:1px solid rgba(42,36,32,.14);
+    box-shadow:0 30px 70px -24px rgba(42,36,32,.42);
+  }
+  .welcome,.modal{overflow-y:auto}
+  /* the hero fills the frame, not the browser window */
+  .hero{min-height:100%}
+}
+
 </style>
 
 <section class="welcome" id="welcome">
