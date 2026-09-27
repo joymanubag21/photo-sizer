@@ -2104,6 +2104,8 @@ $("#btnAlbum").onclick = () => go({ view: "welcome", ov: "album" });
 $("#albumClose").onclick = back;
 $("#btnSpy").onclick = () => { renderSpy(); go({ view: "welcome", ov: "spy" }); };
 renderMe();
+// a guest arriving for the first time is asked straight away; after that, never
+if (!ME) { renderWho(""); go({ view: "welcome", ov: "who" }); }
 $("#spyClose").onclick = back;
 $("#spyPrint").onclick = async () => {
   const keys = Object.keys(spyBlobs).map(Number).sort((a, b) => a - b);
