@@ -281,6 +281,7 @@ details.ride-card[open] .acc-chev{transform:rotate(-135deg)}
   margin:2px 0 4px; border:1px solid var(--line);
 }
 .sheet-art img{width:100%; height:100%; object-fit:cover; object-position:50% 14%; display:block}
+.sheet-art.low img{object-position:50% 72%}
 .sheet-art::after{
   content:""; position:absolute; inset:auto 0 0 0; height:55%;
   background:linear-gradient(to top, rgba(42,36,32,.34), transparent);
@@ -574,6 +575,7 @@ details.ride-card[open] .acc-chev{transform:rotate(-135deg)}
 <div class="modal" id="help" hidden>
   <div class="modal-in">
     <div class="modal-head"><span style="flex:1"></span><button class="close" id="helpClose" aria-label="Close">&#10005;</button></div>
+    <div class="sheet-art low"><img src="samples/01.jpg" alt="A photo of Joy and Patrick, the kind that ends up on a card"></div>
     <div id="howList"></div>
   </div>
 </div>
@@ -1610,13 +1612,13 @@ const art = (k) => `<svg class="how-art" viewBox="0 0 76 76" fill="none" stroke=
 function howHtml(saveWhere, full) {
   const fmt = state.fmt;
   const steps = [
-    ["wifi",  "Join the printer&rsquo;s Wi-Fi", `Settings &rarr; Wi-Fi &rarr; the network starting <code>DIRECT-</code>. Password <b>PICKLEBALL</b>.`],
+    ["wifi",  "Join the printer&rsquo;s Wi-Fi", `Settings &rarr; Wi-Fi &rarr; the one starting <code>DIRECT-</code>. Password <b>PICKLEBALL</b>.`],
     ["share", full ? "Tap Print, then Share" : "Tap Share",
-      full ? "The green <b>Print</b> button makes your sheet. On the sheet that appears, tap <b>Share</b>."
-           : "The <b>Share</b> button above opens your phone&rsquo;s share list."],
+      full ? "<b>Print</b> makes your card. <b>Share</b> sends it on."
+           : "<b>Share</b>, just above, sends it on."],
     ["print", "Choose the SELPHY", fmt.airprint
-      ? "Pick <b>Canon SELPHY</b> from that list &mdash; or <b>Print</b>, if you would rather use AirPrint. Postcard / L size, borderless."
-      : "Pick <b>Canon SELPHY</b> from that list, then <b>Print Entire Image</b>, so the cut line is not trimmed off."]
+      ? "<b>Canon SELPHY</b> in the list that opens. Postcard / L size, borderless."
+      : "<b>Canon SELPHY</b> in the list that opens, then <b>Print Entire Image</b> so the cut line survives."]
   ];
   return (full ? `<p class="how-hd"><span>How to</span><em>print</em></p>` : "")
     + `<div class="how">`
@@ -1625,8 +1627,8 @@ function howHtml(saveWhere, full) {
           <div class="how-txt"><span class="how-n">${i + 1}</span><h4>${title}</h4><p>${body}</p></div>
         </div>`).join("")
     + `</div>`
-    + `<p class="how-fine">No <b>Canon SELPHY</b> in the share list? Tap <b>Save</b> instead, then open the Canon app and pick the sheet from your photos.</p>`
-    + (full ? `<p class="how-end">and that&rsquo;s it</p>` : "");
+    + `<p class="how-fine">No Canon SELPHY in the list? Tap <b>Save</b>, then open the Canon app and pick it from your photos.</p>`
+    + (full ? `<p class="how-end">and it&rsquo;s yours</p>` : "");
 }
 function renderHelp() {
   $("#howList").innerHTML = howHtml("on the previous screen", true);
