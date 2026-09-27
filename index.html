@@ -647,7 +647,7 @@ details.ride-card[open] .acc-chev{transform:rotate(-135deg)}
 <div class="modal" id="who" hidden>
   <div class="modal-in">
     <div class="modal-head"><h2>Who are you?</h2><button class="close" id="whoClose" aria-label="Close">&#10005;</button></div>
-    <p class="seg-note">Tap your name once and the app remembers it on this phone. Nothing is sent anywhere.</p>
+    <p class="seg-note">Tap your name and we&rsquo;ll show you your bed, your driver and your ride home. Asked once, remembered on this phone, sent nowhere.</p>
     <input class="ride-find" id="whoFind" type="search" placeholder="Type your name" aria-label="Find your name" style="margin-top:14px">
     <ul class="who-list" id="whoList"></ul>
   </div>
@@ -1800,6 +1800,8 @@ function applyState(st) {
   if (st.view === "studio") requestAnimationFrame(redrawAllSheets);
 }
 function go(st) { history.pushState(st, ""); applyState(st); }
+// replaces the current entry, so Back does not land on a sheet already answered
+function swap(st) { history.replaceState(st, ""); applyState(st); }
 function back() {
   if (history.state) history.back(); else applyState({ view: "welcome" });
 }
@@ -1992,7 +1994,7 @@ function renderWho(q) {
     .map((n) => `<li><button type="button" class="${n === ME ? "on" : ""}" data-me="${n}">${n}</button></li>`)
     .join("");
   $("#whoList").querySelectorAll("[data-me]").forEach((b) => {
-    b.onclick = () => { setMe(b.dataset.me); back(); };
+    b.onclick = () => { setMe(b.dataset.me); afterWho(); };
   });
 }
 
@@ -2077,15 +2079,24 @@ function renderPlaces() {
 }
 $("#rideFind").oninput = (e) => renderRides(e.target.value);
 
-$("#meChip").onclick = () => { renderWho(""); go({ view: "welcome", ov: "who" }); };
-$("#whoClose").onclick = back;
-$("#whoFind").oninput = (e) => renderWho(e.target.value);
-// knowing who you are means the plan can open already answered
-$("#btnPlan").onclick = () => {
+/* The plan is the one place the name does real work, so that is where we ask
+   for it &mdash; once. Skipping still opens the plan, just not pre-filled. */
+let wantPlan = false;
+function openPlan(replace) {
   $("#rideFind").value = ME || "";
   renderRides(ME || "");
   renderPlaces();
-  go({ view: "welcome", ov: "plan" });
+  (replace ? swap : go)({ view: "welcome", ov: "plan" });
+}
+function afterWho() {
+  if (wantPlan) { wantPlan = false; openPlan(true); } else back();
+}
+$("#meChip").onclick = () => { wantPlan = false; renderWho(""); go({ view: "welcome", ov: "who" }); };
+$("#whoClose").onclick = afterWho;
+$("#whoFind").oninput = (e) => renderWho(e.target.value);
+$("#btnPlan").onclick = () => {
+  if (!ME) { wantPlan = true; renderWho(""); go({ view: "welcome", ov: "who" }); return; }
+  openPlan(false);
 };
 $("#planClose").onclick = back;
 $("#btnBack").onclick = back;
