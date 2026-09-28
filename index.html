@@ -1725,7 +1725,7 @@ function howHtml(saveWhere, full) {
     ["wifi", "Now join the printer&rsquo;s Wi-Fi",
       `<b>Settings &rarr; Wi-Fi</b> &rarr; <code>CP1500-D8CB03</code>, password <b>PICKLEBALL</b>. Do not reload this page.<br><span class="tip">Quicker: point your camera at the QR code on the printer&rsquo;s screen.</span>`],
     ["print", "Share, find Print, pick the SELPHY",
-      "Tap <b>Share</b>, then scroll the sheet to the printer icon marked <b>Print</b>. Tap it, choose <b>SELPHY CP1500</b>, then tap <b>Print</b> at the top right.<br><span class=\"tip\">Paper is <b>Postcard 4&times;6</b>, already set. Nothing else to change.</span>"]
+      "Tap <b>Share</b>, then scroll the sheet to the printer icon marked <b>Print</b>. Tap it, choose <b>SELPHY CP1500</b>, then tap <b>Print</b> at the top right.<br><span class=\"tip\">Check <b>Paper size</b> says <b>Hagaki</b> or <b>100&times;148</b> &mdash; that is our paper. Not 54&times;86 or 89&times;119.</span>"]
   ];
   return (full ? `<p class="how-hd"><span>How to</span><em>print</em></p>` : "")
     + `<div class="how">`
@@ -1738,6 +1738,8 @@ function howHtml(saveWhere, full) {
         <div class="calm-wrap">
           <p class="snag"><b>Paper and ink cassette sizes do not match</b><span>Two parts, two slots. The <b>paper</b> goes in the tray at the front; the <b>ink cassette</b> is the flat cartridge behind the <b>ink cassette compartment cover</b>. Changing the paper means changing the ink too &mdash; both come in the same <b>RP-108</b> box.</span></p>
           <p class="snag"><b>No printer in the list</b><span>You are on the wrong Wi-Fi, or the printer&rsquo;s is off. Changing paper or ink restarts it. On the printer: <b>Wi-Fi settings &rarr; Display Wi-Fi status</b> should show <b>CP1500-D8CB03</b>; if not, <b>Connection Settings &rarr; Direct Connection &rarr; On</b>. Then re-join on your phone and share again.</span></p>
+          <p class="snag"><b>The card comes out small, or cropped</b><span>Wrong <b>Paper size</b> in the print dialogue. Ours is <b>Hagaki</b>, also written <b>100&times;148 mm</b> or Postcard. The other two, 54&times;86 and 89&times;119, are different cassettes.</span></p>
+          <p class="snag"><b>&ldquo;This printer isn&rsquo;t available right now&rdquo;</b><span>The phone can see it but cannot reach it. Clear any message on the printer&rsquo;s own screen, check it has not gone to sleep, then try again.</span></p>
           <p class="snag"><b>A white frame, or several cards on one sheet</b><span>The printer&rsquo;s own settings. <b>Setup &rarr; Print settings</b>: <b>Borders</b> should be <i>Borderless</i>, <b>Page Layout</b> a single photo. Turning the printer off restores both.</span></p>
           <p class="snag"><b>Stuck on &ldquo;Waiting&rdquo;</b><span>Your phone has hopped back to its usual Wi-Fi &mdash; it leaves a network that has no internet. Re-join <b>CP1500-D8CB03</b>, clear any message on the printer, then tap the <b>&times;</b> on the waiting job and print again.</span></p>
         </div>
