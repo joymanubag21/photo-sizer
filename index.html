@@ -1307,7 +1307,7 @@ function showResults() {
      whether the phone is on the printer. A plain reminder beats a wrong guess. */
   const tip = !shareOne && !canSave
     ? `<b>To keep a sheet:</b> press and hold the picture and pick Save to Photos.`
-    : `<b>Printer Wi-Fi:</b> CP1500-D8CB03, password PICKLEBALL. Join it, then tap ${shareOne ? "<b>Share</b> and scroll to <b>Print</b>" : "<b>Save</b>"}.`;
+    : `<b>Your card is made.</b> Now join <b>CP1500-D8CB03</b>, password <b>PICKLEBALL</b> &mdash; keep this page open, it will not reload once you are on it &mdash; then tap ${shareOne ? "<b>Share</b> and scroll to <b>Print</b>" : "<b>Save</b>"}.`;
 
   const head = shareAll
     ? `<button class="btn primary" id="batchBtn" data-mode="share" style="width:100%;margin-bottom:20px">Share all ${results.length} sheets</button>`
@@ -1719,13 +1719,13 @@ const art = (k) => `<svg class="how-art" viewBox="0 0 76 76" fill="none" stroke=
 function howHtml(saveWhere, full) {
   const fmt = state.fmt;
   const steps = [
-    ["wifi", "Join the printer&rsquo;s Wi-Fi",
-      `Open <b>Settings &rarr; Wi-Fi</b> and join <code>CP1500-D8CB03</code>. Password <b>PICKLEBALL</b>.<br><span class="tip">Quicker: point your camera at the QR code on the printer&rsquo;s screen.</span>`],
-    ["share", full ? "Tap Print, then Share" : "Tap Share",
-      full ? "<b>Print</b> makes your card. <b>Share</b> sends it on."
-           : "<b>Share</b>, just above, sends it on."],
-    ["print", "Find Print, pick the SELPHY",
-      "Scroll the share sheet to the printer icon marked <b>Print</b>. Tap it, choose <b>SELPHY CP1500</b>, then tap <b>Print</b> at the top right.<br><span class=\"tip\">Paper is <b>Postcard 4&times;6</b>, already set. Nothing else to change.</span>"]
+    ["share", full ? "Make your card first" : "Your card is made",
+      full ? "Tap the green <b>Print</b> button. Do this <b>before</b> you join the printer &mdash; its Wi-Fi has no internet, and this page will not reload once you are on it."
+           : "It is ready above. Keep this page open from here on."],
+    ["wifi", "Now join the printer&rsquo;s Wi-Fi",
+      `<b>Settings &rarr; Wi-Fi</b> &rarr; <code>CP1500-D8CB03</code>, password <b>PICKLEBALL</b>. Do not reload this page.<br><span class="tip">Quicker: point your camera at the QR code on the printer&rsquo;s screen.</span>`],
+    ["print", "Share, find Print, pick the SELPHY",
+      "Tap <b>Share</b>, then scroll the sheet to the printer icon marked <b>Print</b>. Tap it, choose <b>SELPHY CP1500</b>, then tap <b>Print</b> at the top right.<br><span class=\"tip\">Paper is <b>Postcard 4&times;6</b>, already set. Nothing else to change.</span>"]
   ];
   return (full ? `<p class="how-hd"><span>How to</span><em>print</em></p>` : "")
     + `<div class="how">`
