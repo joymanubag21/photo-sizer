@@ -575,6 +575,15 @@ details.ride-card[open] .acc-chev{transform:rotate(-135deg)}
   margin:0; font-size:10px; font-weight:600; letter-spacing:.18em;
   text-transform:uppercase; color:var(--ink);
 }
+/* What the runsheet actually asks of you, and nobody else's jobs. Times run
+   down the left so the whole thing reads as a morning-to-night column. */
+.jobs{list-style:none; margin:12px 0 0; padding:0}
+.jobs li{display:flex; gap:13px; padding:10px 0; border-top:1px solid var(--line)}
+.jobs .jt{
+  flex:none; width:66px; font-size:11px; line-height:1.5; color:var(--ink-3);
+  font-variant-numeric:lining-nums; font-feature-settings:'lnum' 1; padding-top:1px;
+}
+.jobs .jd{flex:1; min-width:0; font-size:14px; line-height:1.5; color:var(--ink)}
 /* Guests are not handed a whole sheet for this &mdash; one line under the fold,
    the two playlists that are still open, and nothing else to read. */
 .dj{
@@ -2219,6 +2228,27 @@ const PARTY = {
    is already decided, so it reads as a list of facts rather than a set of
    links &mdash; the one thing still open is the dinner playlist, which is the only
    row anyone can tap into Spotify. Source: Final Runsheet 261010, 36pax. */
+/* Everything the Final Runsheet asks of a named member of the wedding party.
+   Nothing inferred: if the runsheet does not say it, it is not here. The 3.15
+   procession line is the same for all of them, so it is added at render. */
+const JOBS = {
+  "Lara Mae": [["7.45 am", "Your makeup, first of the bridesmaids. MUA Christie, at Joy and Patrick&rsquo;s hotel."]],
+  "Cathlyn":  [["8.45 am", "Your makeup with Christie, at Joy and Patrick&rsquo;s hotel."]],
+  "Norrie":   [["9.45 am", "Your makeup with Christie, at Joy and Patrick&rsquo;s hotel."]],
+  "Grace":    [["10.45 am", "Your makeup with Christie, at Joy and Patrick&rsquo;s hotel."],
+               ["5.15 pm", "<b>You MC.</b> Seat everyone and give the housekeeping notes."],
+               ["6.10 pm", "Your speech, after Nelly and Vicente."],
+               ["All night", "The venue tells you and the planner when the bar tab hits $600 of $800."]],
+  "Francis":  [["6.10 pm", "Your speech, last &mdash; after Nelly, Vicente and Grace."]]
+};
+const STAND = {
+  "Lara Mae": "Walk in one at a time, then stand beside Joy.",
+  "Cathlyn":  "Walk in one at a time, then stand beside Joy.",
+  "Norrie":   "Walk in one at a time, then stand beside Joy.",
+  "Grace":    "Stand beside Joy.",
+  "Francis":  "Walk in one at a time, then stand beside Patrick."
+};
+
 const RUNSHEET = "https://drive.google.com/file/d/14jAIC_Q8awp0IYMvLfP3Aoyh9N8Mca2A/view";
 const SET = [
   { grp: "The ceremony &middot; 3.15 pm", pl: "3JJOqeWlrFSgloe7cuRNoK",
@@ -2249,6 +2279,15 @@ const SPOT = '<svg class="mus-ic" viewBox="0 0 24 24" fill="currentColor" aria-h
 const DOC = '<svg class="rs-ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><path d="M14 2v6h6M8 13h8M8 17h5"/></svg>';
 const CHEV = '<svg class="mus-go" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 18l6-6-6-6"/></svg>';
 
+/* "7.45 am" and "5.15 pm" into minutes, so the list orders itself. "All night"
+   has no time and sorts last. */
+function TMIN(t) {
+  const m = /^(\d{1,2})\.(\d{2})\s*(am|pm)$/.exec(t.trim());
+  if (!m) return 1e4;
+  let h = +m[1] % 12;
+  if (m[3] === "pm") h += 12;
+  return h * 60 + +m[2];
+}
 function renderMusic() {
   const role = ME && PARTY[ME];
   $("#btnMusic").hidden = !role;
@@ -2258,7 +2297,16 @@ function renderMusic() {
   $("#musBody").innerHTML = `
     <a class="rs-a" href="${RUNSHEET}" target="_blank" rel="noopener">
       ${DOC}<span class="rs-t"><b>The full runsheet</b><span>Every time, from 7.30 am.</span></span>${CHEV}
-    </a>`
+    </a>
+    <div class="mgrp">
+      <div class="mhd"><h3>What the runsheet asks of you</h3></div>
+      <ul class="jobs">${
+        (JOBS[ME] || []).concat([["3.15 pm", STAND[ME] || ""]])
+          .sort((a, b) => TMIN(a[0]) - TMIN(b[0]))
+          .filter((j) => j[1])
+          .map(([t, d]) => `<li><span class="jt">${t}</span><span class="jd">${d}</span></li>`).join("")
+      }<li><span class="jt">Thu 8 Oct</span><span class="jd">Rehearsal, 10 am at the aMoment studio, 40 Headley Drive. The bridal party is welcome.</span></li></ul>
+    </div>`
     + SET.map((g) => `
       <div class="mgrp">
         <div class="mhd"><h3>${g.grp}</h3>
