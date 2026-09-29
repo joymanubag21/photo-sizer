@@ -622,11 +622,12 @@ details.ride-card[open] .acc-chev{transform:rotate(-135deg)}
 .mrows .who.ask{color:var(--rust)}
 .mrows .sg{display:block; font-size:14px; line-height:1.45; color:var(--ink); margin-top:2px}
 .mrows .sg em{font-style:normal; color:var(--ink-3)}
-.mrows .sg a{
-  color:inherit; text-decoration:underline; text-underline-offset:3px;
-  text-decoration-color:var(--line-2);
-}
+/* A row that is its own playlist gets the mark, exactly as the group headings
+   do. In this sheet the Spotify glyph means one thing only: this opens a
+   playlist. An underline would have said something vaguer. */
+.mrows .sg a{display:inline-flex; align-items:center; gap:9px; color:inherit; text-decoration:none}
 .mrows .sg a:active{opacity:.6}
+.sg-ic{flex:none; width:17px; height:17px; color:#121212}
 .mrows .sg:has(> em:only-child){color:var(--ink-3)}
 /* Spotify allows their mark in green, black or white and nothing else; on
    cream it is black. It appears once, on the only playlist anyone may add to. */
@@ -2271,7 +2272,7 @@ const STAND = {
 const RUNSHEET = "https://drive.google.com/file/d/14jAIC_Q8awp0IYMvLfP3Aoyh9N8Mca2A/view";
 const SET = [
   { grp: "The ceremony &middot; 3.15 pm", pl: "3JJOqeWlrFSgloe7cuRNoK",
-    note: "Summer of aMoment runs the ceremony sound. The underlined ones open in Spotify.",
+    note: "Summer of aMoment runs the ceremony sound.",
     rows: [
       ["Guests arriving, 2.55 &ndash; 3.15", "Strings and piano, to match the walk-in", "", "2AmTW6sTWINXksoIsD2Vrj"],
       ["The procession &mdash; parents, groomsmen, bridesmaids, Grace, the kids",
@@ -2337,7 +2338,7 @@ function renderMusic() {
           `<li><span class="mhead"><span class="mo">${mo}</span>
              <span class="who${who ? "" : " ask"}">${who || "Ask Summer"}</span></span>
            <span class="sg">${pl
-             ? `<a href="https://open.spotify.com/playlist/${pl}" target="_blank" rel="noopener">${sg}</a>`
+             ? `<a href="https://open.spotify.com/playlist/${pl}" target="_blank" rel="noopener">${SPOT.replace("mus-ic", "sg-ic")}${sg}</a>`
              : sg}</span></li>`).join("")}</ul>
       </div>`).join("")
     + `<div class="mgrp">
