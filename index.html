@@ -2407,10 +2407,8 @@ const SUMMER = [
 
 /* A guest who taps it is not locked out - they are warned. Summer never sees
    the warning, and a guest who reads on only has to be told once. */
-let spoilOk = false;
 function renderSummer() {
-  const mine = ME === "Summer";
-  if (!mine && !spoilOk) {
+  if (!spoilOk) {
     $("#summerBody").innerHTML = `
       <p class="how-hd"><span>This one is</span><em>Summer&rsquo;s</em></p>
       <div class="spoil">
@@ -2418,8 +2416,8 @@ function renderSummer() {
         bits that are meant to be a surprise on the day. Read on and you will
         know exactly what is coming.</p>
         <div class="row">
-          <button type="button" id="spoilBack">Take me back</button>
-          <button type="button" class="go" id="spoilGo">I&rsquo;ll risk it</button>
+          <button type="button" id="spoilGo">I&rsquo;m Summer &mdash; open it</button>
+          <button type="button" class="go" id="spoilBack">Not me, take me back</button>
         </div>
       </div>`;
     $("#spoilBack").onclick = back;
@@ -2428,7 +2426,7 @@ function renderSummer() {
   }
   $("#summerBody").innerHTML = `
     <p class="how-hd"><span>Everything for</span><em>the day</em></p>
-    <p class="mus-sub">${mine ? "Wedding coordinator" : "Summer&rsquo;s brief"}</p>`
+    <p class="mus-sub">Wedding coordinator</p>`
     + SUMMER.map((g) => `
       <div class="mgrp">
         <div class="mhd"><h3>${g.grp}</h3></div>
@@ -2446,6 +2444,7 @@ function renderSummer() {
 
 /* One tap, once. It rides in localStorage exactly as the I spy progress does,
    so it survives closing the browser; nothing leaves the phone. */
+let spoilOk = false;   // has this name been warned about Summer's brief
 const ME_KEY = "jp-me";
 let ME = null;
 try { ME = localStorage.getItem(ME_KEY); } catch (e) { /* private window */ }
@@ -2453,6 +2452,7 @@ const ALL_NAMES = [...new Set(STAYS.reduce((a, st) => a.concat(members(st)), [])
 function setMe(name) {
   ME = name;
   try { name ? localStorage.setItem(ME_KEY, name) : localStorage.removeItem(ME_KEY); } catch (e) {}
+  spoilOk = false;   // a new name has not been warned yet
   renderMe();
 }
 /* I spy opens at midnight on 9 October in Queenstown. Date.now() is absolute,
@@ -2469,6 +2469,7 @@ function renderMe() {
     ? `Hi ${ME} <span class="swap">not you?</span>`
     : "Tap to tell us who you are";
   $("#spyKicker").textContent = ME ? `${ME}, with your little camera` : "With my little camera";
+  $("#btnSummer").hidden = ME !== "Summer";
   renderSpyLock();
   renderMusic();
 }
