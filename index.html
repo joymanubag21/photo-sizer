@@ -611,7 +611,15 @@ details.ride-card[open] .acc-chev{transform:rotate(-135deg)}
 .mgrp .set{display:block; font-size:11.5px; line-height:1.5; color:var(--ink-3)}
 .mrows{list-style:none; margin:12px 0 0; padding:0}
 .mrows li{padding:9px 0; border-top:1px solid var(--line)}
-.mrows .mo{display:block; font-size:11px; color:var(--ink-3); letter-spacing:.04em}
+.mrows .mhead{display:flex; align-items:baseline; justify-content:space-between; gap:10px}
+.mrows .mo{font-size:11px; color:var(--ink-3); letter-spacing:.04em}
+/* Who actually presses play. Rust means nobody has said yet, so it reads as a
+   question to put to Summer rather than a fact about the day. */
+.mrows .who{
+  flex:none; font-size:9.5px; font-weight:600; letter-spacing:.12em;
+  text-transform:uppercase; color:var(--ink-3); white-space:nowrap;
+}
+.mrows .who.ask{color:var(--rust)}
 .mrows .sg{display:block; font-size:14px; line-height:1.45; color:var(--ink); margin-top:2px}
 .mrows .sg em{font-style:normal; color:var(--ink-3)}
 /* Spotify allows their mark in green, black or white and nothing else; on
@@ -2046,11 +2054,11 @@ const RIDES = [
       { bed: "", who: ["Franklin", "Nelly", "Vicente", "Blondie", "Elisha", "Nathaniel", "Nieves"] }
     ],
     note: "No fixed time &mdash; you go once the photos after the ceremony are done, and Franklin brings you back." },
-  { name: "Ynting&rsquo;s car", driver: "Ynting", hit: "Your driver all day is <b>Ynting</b>.", car: "8-seater",
+  { name: "Jun2x&rsquo;s car", driver: "Jun2x", hit: "Your driver all day is <b>Jun2x</b>.", car: "8-seater",
     rooms: [
-      { bed: "", who: ["Ynting", "Jun2x", "Joie", "Gavin", "Grace", "Francis"] }
+      { bed: "", who: ["Jun2x", "Joie", "Gavin", "Grace", "Francis"] }
     ],
-    note: "Joy and Patrick are in this car all day too, which takes the last two seats. Ynting also does the 6:30 am run to their hotel with Grace, Lara Mae, Cathlyn and Norrie." }
+    note: "Joy and Patrick are in this car all day too, so it carries seven of eight. Jun2x also does the 6:30 am run to their hotel with Grace, Lara Mae, Cathlyn and Norrie." }
 ];
 
 
@@ -2067,7 +2075,7 @@ const STAYS = [
       { bed: "Two singles", who: ["JP", "Daisy", "Abby"] }
     ],
     legs: [
-      { l: "Getting ready", t: "Lara Mae and Cathlyn &mdash; at <b>6:30 am</b> Ynting collects you and takes you to Joy and Patrick&rsquo;s hotel, with Grace and Norrie. Everyone else is here, and the car leaves at <b>2:10 pm</b>." },
+      { l: "Getting ready", t: "Lara Mae and Cathlyn &mdash; at <b>6:30 am</b> Jun2x collects you and takes you to Joy and Patrick&rsquo;s hotel, with Grace and Norrie. Everyone else is here, and the car leaves at <b>2:10 pm</b>." },
       { l: "Your driver, both ways", face: "samples/driver-angelo.jpg", t: "<b>Angelo</b> &mdash; Loren, Jan, Sai, Chit, JP, Daisy and Abby. He drops here first on the way home." },
       { l: "", face: "samples/driver-marvin.jpg", t: "<b>Marvin</b> &mdash; Lara Mae and Cathlyn, collected from the hotel after makeup." }
     ] },
@@ -2084,19 +2092,19 @@ const STAYS = [
   { place: "The family Airbnb", addr: "Thompson Street, Queenstown 9300",
     rooms: [
       { bed: "", who: ["Nelly", "Vicente", "Nieves", "Jun2x", "Joie", "Gavin", "Franklin",
-                       "Blondie", "Elisha", "Nathaniel", "Ynting", "Grace", "Francis"] }
+                       "Blondie", "Elisha", "Nathaniel", "Grace", "Francis"] }
     ],
     legs: [
-      { l: "Getting ready", t: "Grace &mdash; at <b>6:30 am</b> Ynting collects you and takes you to Joy and Patrick&rsquo;s hotel, with Lara Mae, Cathlyn and Norrie." },
+      { l: "Getting ready", t: "Grace &mdash; at <b>6:30 am</b> Jun2x collects you and takes you to Joy and Patrick&rsquo;s hotel, with Lara Mae, Cathlyn and Norrie." },
       { l: "Your driver, both ways", t: "<b>Franklin</b> &mdash; Nelly, Vicente, Blondie, Elisha, Nathaniel and Nieves." },
-      { l: "", t: "<b>Ynting</b> &mdash; Jun2x, Joie, Gavin, Grace and Francis, all day, with Joy and Patrick in the last two seats. That is the car full." },
+      { l: "", t: "<b>Jun2x</b> &mdash; Joie, Gavin, Grace and Francis, all day, with Joy and Patrick. Seven of eight seats." },
       { l: "", t: "No fixed time for either car &mdash; you go once the photos after the ceremony are done, and the same car brings you back." }
     ] },
   { place: "Norrie and Erwan&rsquo;s place", addr: "4 Dublin Street, Queenstown 9300",
     hit: "You&rsquo;re staying at <b>4 Dublin Street</b>.",
     rooms: [{ bed: "", who: ["Norrie", "Erwan"] }],
     legs: [
-      { l: "Getting ready", t: "Norrie &mdash; at <b>6:30 am</b> Ynting collects you and takes you to Joy and Patrick&rsquo;s hotel, with Grace, Lara Mae and Cathlyn." },
+      { l: "Getting ready", t: "Norrie &mdash; at <b>6:30 am</b> Jun2x collects you and takes you to Joy and Patrick&rsquo;s hotel, with Grace, Lara Mae and Cathlyn." },
       { l: "Your driver, both ways", face: "samples/driver-marvin.jpg", t: "<b>Marvin</b>, with the bridesmaids. He drops you at Dublin Street on the way back." }
     ] },
   { place: "Making your own way", hit: "You&rsquo;ve sorted your own place.",
@@ -2170,17 +2178,17 @@ const ROUTES = {
     reception: { stops: [HILTON], map: ["canyons", "hilton"] },
     home: { stops: ["The family Airbnb &mdash; everyone in your car."], map: ["hilton", "airbnb"] }
   },
-  Ynting: {
+  Jun2x: {
     early: { stops: ["<b>6:30 am</b> &mdash; leave the Airbnb with Grace.",
                      "<b>6:44 am</b> &mdash; the lake house, for Lara Mae and Cathlyn. 14 minutes.",
                      "<b>4 Dublin Street</b> &mdash; Norrie, on the way through.",
                      "<b>Joy and Patrick&rsquo;s hotel.</b> The lake house to the hotel is 18 minutes direct, so allow a little more for Dublin Street. Makeup starts at <b>7:45</b>."],
              map: ["airbnb", "lake", "dublin", "hotel"] },
-    ceremony: { stops: ["The family Airbnb &mdash; Jun2x, Joie, Gavin and Francis.",
+    ceremony: { stops: ["The family Airbnb &mdash; you start here, with Joie, Gavin and Francis.",
                         "<b>2:40 pm</b> &mdash; Joy and Patrick&rsquo;s hotel, for Joy, Patrick and Grace. The Canyons is 15 minutes from there."],
                 map: ["airbnb", "hotel", "canyons"] },
     reception: { stops: [HILTON], map: ["canyons", "hilton"] },
-    home: { stops: ["The family Airbnb &mdash; Jun2x, Joie, Gavin, Grace and Francis.",
+    home: { stops: ["The family Airbnb &mdash; you, Joie, Gavin, Grace and Francis.",
                     "Joy and Patrick&rsquo;s hotel."],
             map: ["hilton", "airbnb", "hotel"] }
   }
@@ -2195,12 +2203,12 @@ const CEREMONY_BY_HOUSE = {
   "Norrie and Erwan&rsquo;s place": "You&rsquo;re collected at 4 Dublin Street.",
   "Making your own way": "You get ready at the lake house, 13 McKerrow Place, and the car leaves from there at <b>2:10 pm</b>."
 };
-const HOTEL_RUN = "At <b>6:30 am</b> Ynting takes you to Joy and Patrick&rsquo;s hotel for makeup. <b>Marvin</b> collects you there for the ceremony.";
+const HOTEL_RUN = "At <b>6:30 am</b> Jun2x takes you to Joy and Patrick&rsquo;s hotel for makeup. <b>Marvin</b> collects you there for the ceremony.";
 const CEREMONY_BY_NAME = {
   "Lara Mae": HOTEL_RUN,
   "Cathlyn": HOTEL_RUN,
-  "Norrie": "At <b>6:30 am</b> Ynting collects you at <b>4 Dublin Street</b> for makeup at Joy and Patrick&rsquo;s hotel. <b>Marvin</b> collects you there for the ceremony.",
-  "Grace": "At <b>6:30 am</b> Ynting takes you to Joy and Patrick&rsquo;s hotel for makeup, and you stay in her car all day.",
+  "Norrie": "At <b>6:30 am</b> Jun2x collects you at <b>4 Dublin Street</b> for makeup at Joy and Patrick&rsquo;s hotel. <b>Marvin</b> collects you there for the ceremony.",
+  "Grace": "At <b>6:30 am</b> Jun2x takes you to Joy and Patrick&rsquo;s hotel for makeup, and you stay in her car all day.",
   "Jane": "Straight to the ceremony from the Arrowtown house.",
   "Marvin's daughter": "Straight to the ceremony from the Arrowtown house."
 };
@@ -2223,7 +2231,7 @@ const PARTY = {
   "Grace":    "Maid of honour",
   "Francis":  "Best man",
   "Franklin": "Groomsman",
-  "Ynting":   "Groomsman"
+  "Jun2x":   "Groomsman"
 };
 
 /* The runsheet aMoment works from, and the six songs it names. Everything here
@@ -2250,27 +2258,27 @@ const STAND = {
   "Grace":    "Stand beside Joy.",
   "Francis":  "Walk in one at a time, then stand beside Patrick.",
   "Franklin": "Walk in one at a time, then stand beside Patrick.",
-  "Ynting":   "Walk in one at a time, then stand beside Patrick."
+  "Jun2x":   "Walk in one at a time, then stand beside Patrick."
 };
 
 const RUNSHEET = "https://drive.google.com/file/d/14jAIC_Q8awp0IYMvLfP3Aoyh9N8Mca2A/view";
 const SET = [
   { grp: "The ceremony &middot; 3.15 pm", pl: "3JJOqeWlrFSgloe7cuRNoK",
-    note: "aMoment plays these. Nothing for you to do.",
+    note: "Summer of aMoment runs the ceremony sound.",
     rows: [
       ["The procession &mdash; parents, groomsmen, bridesmaids, Grace, the kids",
-       "A Thousand Years <em>(violin &amp; piano)</em> &mdash; Joel Grainger"],
-      ["Joy walks in with her parents", "Pasilyo &mdash; John Rod Dondoyano"],
-      ["The first kiss", "Kiss Me"],
-      ["Walking back down the aisle", "Marry You"]
+       "A Thousand Years <em>(violin &amp; piano)</em> &mdash; Joel Grainger", "Summer"],
+      ["Joy walks in with her parents", "Pasilyo &mdash; John Rod Dondoyano", "Summer"],
+      ["The first kiss", "Kiss Me &mdash; Sixpence None the Richer", ""],
+      ["Walking back down the aisle", "Marry You", ""]
     ] },
   { grp: "The reception &middot; 5.30 pm", pl: "6zFrfijmEX2q6yF5vZGBUK",
     note: "",
     rows: [
-      ["Bridal party entrance", "I Gotta Feeling &mdash; Black Eyed Peas"],
-      ["The newlyweds walk in", "Shut Up and Dance <em>&mdash; sung live</em>"],
-      ["First dance", "Thinking Out Loud &mdash; Ed Sheeran"],
-      ["Cake cutting", "Build Me Up Buttercup &mdash; Kina Grannis"]
+      ["Bridal party entrance", "I Gotta Feeling &mdash; Black Eyed Peas", ""],
+      ["The newlyweds walk in", "Shut Up and Dance <em>&mdash; sung live by a guest</em>", ""],
+      ["First dance", "Thinking Out Loud &mdash; Ed Sheeran", ""],
+      ["Cake cutting", "Build Me Up Buttercup &mdash; Kina Grannis", ""]
     ] }
 ];
 const OPEN = [
@@ -2316,12 +2324,14 @@ function renderMusic() {
         <div class="mhd"><h3>${g.grp}</h3>
           <a class="mplay" href="https://open.spotify.com/playlist/${g.pl}" target="_blank" rel="noopener">${SPOT}Play</a>
         </div>${g.note ? `<span class="set">${g.note}</span>` : ""}
-        <ul class="mrows">${g.rows.map(([mo, sg]) =>
-          `<li><span class="mo">${mo}</span><span class="sg">${sg}</span></li>`).join("")}</ul>
+        <ul class="mrows">${g.rows.map(([mo, sg, who]) =>
+          `<li><span class="mhead"><span class="mo">${mo}</span>
+             <span class="who${who ? "" : " ask"}">${who || "Ask Summer"}</span></span>
+           <span class="sg">${sg}</span></li>`).join("")}</ul>
       </div>`).join("")
     + `<div class="mgrp">
          <div class="mhd"><h3>Yours to fill</h3></div>
-         <span class="set">Nothing decided for these two. Whatever you add, we hear.</span>
+         <span class="set">Nothing decided for these two &mdash; not even who plays them. Whatever you add, we hear.</span>
          ${OPEN.map((o) => `
            <a class="mus-a" href="https://open.spotify.com/playlist/${o.id}" target="_blank" rel="noopener">
              ${SPOT}<span class="mus-t"><b>${o.t}</b><span>${o.w}</span></span>${CHEV}
