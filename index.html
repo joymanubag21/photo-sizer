@@ -681,6 +681,12 @@ details.ride-card[open] .acc-chev{transform:rotate(-135deg)}
     <button class="sec-eyebrow" id="meChip" type="button"></button>
     <h2 class="sec-h">Everything you <em>need</em></h2>
     <div class="cards">
+      <button class="wcard" type="button" id="btnSummer" hidden>
+        <span class="eyebrow">For the wedding coordinator</span>
+        <span class="wc-h">Summer&rsquo;s brief</span>
+        <span class="wc-p">The timings, the tables, the things we have planned.</span>
+      </button>
+
       <button class="wcard" type="button" id="btnPlan">
         <span class="eyebrow">Before anything else</span>
         <span class="wc-h">How the day runs</span>
@@ -703,12 +709,6 @@ details.ride-card[open] .acc-chev{transform:rotate(-135deg)}
         <span class="eyebrow">For you to keep</span>
         <span class="wc-h">Print a photo to take home</span>
         <span class="wc-p">Any photo, turned into a signed card.</span>
-      </button>
-
-      <button class="wcard" type="button" id="btnSummer">
-        <span class="eyebrow">For the wedding coordinator</span>
-        <span class="wc-h">Summer&rsquo;s brief</span>
-        <span class="wc-p">The timings, the tables, the things we have planned.</span>
       </button>
 
       <button class="wcard" type="button" id="btnSpy">
@@ -2348,7 +2348,7 @@ function TMIN(t) {
 function renderMusic() { renderMusicFor(ME); }
 function renderMusicFor(who) {
   const role = (who === "Summer" && "Wedding coordinator") || (who && PARTY[who]);
-  $("#btnMusic").hidden = !role;
+  $("#btnMusic").hidden = !(who && PARTY[who]);   // the party card is the party's
   $("#dj").hidden = false;    // everyone can add to the two open playlists, party included
   if (!role) return;
   $("#musRole").textContent = role;
@@ -2486,7 +2486,17 @@ function renderMe() {
     ? `Hi ${ME} <span class="swap">not you?</span>`
     : "Tap to tell us who you are";
   $("#spyKicker").textContent = ME ? `${ME}, with your little camera` : "With my little camera";
-  $("#btnSummer").hidden = ME !== "Summer";
+  /* Summer runs the day; she is not printing keepsakes or playing I spy, and
+     the wedding-party card is not addressed to her. Her brief already carries
+     the runsheet and the music cues. */
+  const isSummer = ME === "Summer";
+  $("#btnSummer").hidden = !isSummer;
+  $("#btnStart").hidden = isSummer;
+  $("#btnSpy").hidden = isSummer;
+  // the footnote promises something about printing, which she no longer has
+  $(".w-foot").textContent = isSummer
+    ? "Only the album uploads anything. Nothing else leaves your phone."
+    : "Only the album uploads your photos. Printing stays on your phone.";
   renderSpyLock();
   renderMusic();
 }
