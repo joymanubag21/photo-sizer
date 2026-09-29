@@ -584,6 +584,12 @@ details.ride-card[open] .acc-chev{transform:rotate(-135deg)}
   font-variant-numeric:lining-nums; font-feature-settings:'lnum' 1; padding-top:1px;
 }
 .jobs .jd{flex:1; min-width:0; font-size:14px; line-height:1.5; color:var(--ink)}
+/* A quiet note about access, since a Drive link that refuses her is the
+   likeliest way this brief fails. */
+.ask-done{
+  margin:22px 0 0; padding:13px 16px; border:1px dashed var(--line); border-radius:10px;
+  font-size:12.5px; line-height:1.6; color:var(--ink-3);
+}
 /* The coordinator's brief. A guest can open it, because hiding it entirely
    would be stranger than a wink - but they get warned first. */
 .rs-a.soon{
@@ -2431,7 +2437,8 @@ function renderSummer() {
   }
   $("#summerBody").innerHTML = `
     <p class="how-hd"><span>Everything for</span><em>the day</em></p>
-    <p class="mus-sub">Wedding coordinator</p>`
+    <p class="mus-sub">Wedding coordinator</p>
+    <p class="ask-done">Everything below is shared with summer@amoment.co.nz. If a link asks you to request access, tell Joy and she will fix it.</p>`
     + SUMMER.map((g) => `
       <div class="mgrp">
         <div class="mhd"><h3>${g.grp}</h3></div>
