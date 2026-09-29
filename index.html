@@ -2052,7 +2052,7 @@ const RIDES = [
   { name: "Marvin&rsquo;s car", driver: "Marvin", hit: "Your driver both ways is <b>Marvin</b> &mdash; Car 2.", car: "Car 2 &middot; 12-seater", face: "samples/driver-marvin.jpg",
     rooms: [
       { bed: "The bridesmaids and Erwan", who: ["Lara Mae", "Cathlyn", "Norrie", "Erwan"] },
-      { bed: "Making their own way", who: ["Marge", "Sam"] },
+      { bed: "Haka House", who: ["Marge", "Sam"] },
       { bed: "The Arrowtown house", who: ["Marvin", "Jane", "Marvin's daughter", "Mae"] }
     ],
     note: "Marvin drives this car both ways. It can head to the reception ahead of the others if the photos run long." },
@@ -2114,11 +2114,12 @@ const STAYS = [
       { l: "Getting ready", t: "Norrie &mdash; at <b>6:30 am</b> Jun2x collects you and takes you to Joy and Patrick&rsquo;s hotel, with Grace, Lara Mae and Cathlyn." },
       { l: "Your driver, both ways", face: "samples/driver-marvin.jpg", t: "<b>Marvin</b>, with the bridesmaids. He drops you at Dublin Street on the way back." }
     ] },
-  { place: "Making your own way", hit: "You&rsquo;ve sorted your own place.",
+  { place: "Haka House", addr: "6 Henry Street, Queenstown 9300",
+    hit: "You&rsquo;re staying at <b>Haka House</b>.",
     rooms: [{ bed: "", who: ["Marge", "Sam"] }],
     legs: [
       { l: "Getting ready", t: "You&rsquo;re both at the lake house, 13 McKerrow Place. The car leaves at <b>2:10 pm</b>." },
-      { l: "Your driver, both ways", face: "samples/driver-marvin.jpg", t: "<b>Marvin</b>. He drops you at your own place on the way back." }
+      { l: "Your driver, both ways", face: "samples/driver-marvin.jpg", t: "<b>Marvin</b>. He drops you at Haka House on the way back." }
     ] }
 ];
 const members = (x) => x.rooms.reduce((a, rm) => a.concat(rm.who), []);
@@ -2147,7 +2148,8 @@ const ADDR = {
   dublin:    "4 Dublin Street, Queenstown 9300",
   hotel:     "594 Frankton Road, Queenstown 9348",
   canyons:   "The Canyons B&B, 13 Watties Track, Arthur's Point, Queenstown 9371",
-  hilton:    "Wakatipu Grill, 79 Peninsula Rd, Kelvin Heights, Queenstown 9300"
+  hilton:    "Wakatipu Grill, 79 Peninsula Rd, Kelvin Heights, Queenstown 9300",
+  haka:      "Haka House Queenstown, 6 Henry Street, Queenstown 9300"
 };
 function dirLink(keys) {
   const pt = (k) => encodeURIComponent(ADDR[k] + ", New Zealand");
@@ -2175,9 +2177,9 @@ const ROUTES = {
     reception: { stops: [HILTON], map: ["canyons", "hilton"] },
     home: { stops: ["The lake house &mdash; Lara Mae and Cathlyn.",
                     "4 Dublin Street &mdash; Norrie and Erwan.",
-                    "Marge and Sam&rsquo;s place.",
+                    "<b>Haka House</b>, 6 Henry Street &mdash; Marge and Sam.",
                     "The Arrowtown house &mdash; you, Jane, your daughter and Mae."],
-            map: ["hilton", "lake", "dublin", "arrowtown"] }
+            map: ["hilton", "lake", "dublin", "haka", "arrowtown"] }
   },
   Franklin: {
     ceremony: { stops: ["Straight from the family Airbnb, Thompson Street, with all seven of you."],
@@ -2208,7 +2210,7 @@ const CEREMONY_BY_HOUSE = {
   "The Arrowtown house": "You get ready at the lake house, 13 McKerrow Place, and the car leaves from there at <b>2:10 pm</b>.",
   "The family Airbnb": "You&rsquo;re collected at the Airbnb, Thompson Street.",
   "Norrie and Erwan&rsquo;s place": "You&rsquo;re collected at 4 Dublin Street.",
-  "Making your own way": "You get ready at the lake house, 13 McKerrow Place, and the car leaves from there at <b>2:10 pm</b>."
+  "Haka House": "You get ready at the lake house, 13 McKerrow Place, and the car leaves from there at <b>2:10 pm</b>."
 };
 const HOTEL_RUN = "At <b>6:30 am</b> Jun2x takes you to Joy and Patrick&rsquo;s hotel for makeup. <b>Marvin</b> collects you there for the ceremony.";
 const CEREMONY_BY_NAME = {
@@ -2224,7 +2226,7 @@ const HOME_BY_HOUSE = {
   "The Arrowtown house": "drops you at the Arrowtown house",
   "The family Airbnb": "drops you at the Airbnb",
   "Norrie and Erwan&rsquo;s place": "drops you at 4 Dublin Street",
-  "Making your own way": "drops you at your own place"
+  "Haka House": "drops you at Haka House"
 };
 
 /* The wedding party carries the music. A guest shown these would only wonder
