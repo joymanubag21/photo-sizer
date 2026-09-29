@@ -584,6 +584,20 @@ details.ride-card[open] .acc-chev{transform:rotate(-135deg)}
   font-variant-numeric:lining-nums; font-feature-settings:'lnum' 1; padding-top:1px;
 }
 .jobs .jd{flex:1; min-width:0; font-size:14px; line-height:1.5; color:var(--ink)}
+/* The coordinator's brief. A guest can open it, because hiding it entirely
+   would be stranger than a wink - but they get warned first. */
+.rs-a.soon{
+  cursor:default; background:transparent; border-style:dashed; opacity:.62;
+}
+.rs-a.soon .rs-ic{color:var(--ink-3)}
+.spoil{text-align:center; padding:8px 0 0}
+.spoil p{margin:0 0 22px; font-size:14px; line-height:1.7; color:var(--ink-2)}
+.spoil .row{display:flex; flex-direction:column; gap:10px}
+.spoil button{
+  font-family:inherit; font-size:14px; min-height:48px; border-radius:8px; cursor:pointer;
+  border:1px solid var(--line-2); background:#fff; color:var(--ink);
+}
+.spoil button.go{background:transparent; border-color:transparent; color:var(--ink-3); font-size:13px}
 /* Guests are not handed a whole sheet for this &mdash; one line under the fold,
    the two playlists that are still open, and nothing else to read. */
 .dj{
@@ -683,6 +697,12 @@ details.ride-card[open] .acc-chev{transform:rotate(-135deg)}
         <span class="eyebrow">For you to keep</span>
         <span class="wc-h">Print a photo to take home</span>
         <span class="wc-p">Any photo, turned into a signed card.</span>
+      </button>
+
+      <button class="wcard" type="button" id="btnSummer">
+        <span class="eyebrow">For the wedding coordinator</span>
+        <span class="wc-h">Summer&rsquo;s brief</span>
+        <span class="wc-p">The timings, the tables, the things we have planned.</span>
       </button>
 
       <button class="wcard" type="button" id="btnSpy">
@@ -837,6 +857,13 @@ details.ride-card[open] .acc-chev{transform:rotate(-135deg)}
     </ul>
     <a class="btn primary" style="width:100%;box-sizing:border-box;text-align:center" href="https://app.kululu.com/m4fvel" target="_blank" rel="noopener">Open the album</a>
     <p class="how-fine">The only part of this site that uploads anything. Printing never leaves your phone.</p>
+  </div>
+</div>
+
+<div class="modal" id="summer" hidden>
+  <div class="modal-in">
+    <div class="modal-head"><span style="flex:1"></span><button class="close" id="summerClose" aria-label="Close">&#10005;</button></div>
+    <div id="summerBody"></div>
   </div>
 </div>
 
@@ -2015,7 +2042,7 @@ function renderSpyCount() {
 /* Every screen and sheet is a history entry, so the phone's own back gesture
    walks back through them instead of leaving the site entirely. State is
    {view, ov}: the screen underneath, and the sheet on top of it if any. */
-const SHEETS = ["plan", "spy", "help", "out", "album", "who", "shot", "music"];
+const SHEETS = ["plan", "spy", "help", "out", "album", "who", "shot", "music", "summer"];
 const here = () => history.state || { view: "welcome" };
 
 function applyState(st) {
@@ -2024,7 +2051,7 @@ function applyState(st) {
   $("#studio").hidden = st.view !== "studio";
   if (st.ov === "spy" && typeof spyOpen === "function" && !spyOpen()) st = { ...st, ov: undefined };
   // swapping to a name outside the party while the sheet is up must close it
-  if (st.ov === "music" && !(ME && PARTY[ME])) st = { ...st, ov: undefined };
+  if (st.ov === "music" && !(ME && (PARTY[ME] || ME === "Summer"))) st = { ...st, ov: undefined };
   SHEETS.forEach((id) => { $("#" + id).hidden = st.ov !== id; });
   if (st.view === "studio") requestAnimationFrame(redrawAllSheets);
 }
@@ -2312,8 +2339,9 @@ function TMIN(t) {
   if (m[3] === "pm") h += 12;
   return h * 60 + +m[2];
 }
-function renderMusic() {
-  const role = ME && PARTY[ME];
+function renderMusic() { renderMusicFor(ME); }
+function renderMusicFor(who) {
+  const role = (who === "Summer" && "Wedding coordinator") || (who && PARTY[who]);
   $("#btnMusic").hidden = !role;
   $("#dj").hidden = false;    // everyone can add to the two open playlists, party included
   if (!role) return;
@@ -2325,7 +2353,7 @@ function renderMusic() {
     <div class="mgrp">
       <div class="mhd"><h3>What the runsheet asks of you</h3></div>
       <ul class="jobs">${
-        (JOBS[ME] || []).concat([["3.15 pm", STAND[ME] || ""]])
+        (JOBS[who] || []).concat([["3.15 pm", STAND[who] || ""]])
           .sort((a, b) => TMIN(a[0]) - TMIN(b[0]))
           .filter((j) => j[1])
           .map(([t, d]) => `<li><span class="jt">${t}</span><span class="jd">${d}</span></li>`).join("")
@@ -2353,12 +2381,75 @@ function renderMusic() {
        </div>`;
 }
 
+/* Summer runs the day, so she gets her own shelf: everything Joy has written
+   for her, in the order the day happens. Links only - the documents live where
+   they live, and copying them here would just create a second stale copy.
+   Entries with no href are the ones Joy is still writing. */
+const SUMMER = [
+  { grp: "The whole day",
+    rows: [
+      ["The full runsheet", "Every time, from 7.30 am. aMoment's own.", RUNSHEET],
+      ["The ceremony", "Order, cues and who stands where.", ""],
+      ["The reception", "Entrances, speeches, cake, send-off.", ""]
+    ] },
+  { grp: "The room",
+    rows: [
+      ["Table setup instructions", "30 pages &mdash; seating, styling, the lot.",
+       "https://claude.ai/design/p/c8671cea-0999-468f-82ba-9caa2a94012a?file=Table+Setup+Instructions.dc.html"],
+      ["Guest names and seating", "Who sits where.", ""],
+      ["Guest photos", "Faces to go with the names.", ""]
+    ] },
+  { grp: "The music",
+    rows: [
+      ["Every cue, in order", "What plays when, and what we still need to agree.", "#music"]
+    ] }
+];
+
+/* A guest who taps it is not locked out - they are warned. Summer never sees
+   the warning, and a guest who reads on only has to be told once. */
+let spoilOk = false;
+function renderSummer() {
+  const mine = ME === "Summer";
+  if (!mine && !spoilOk) {
+    $("#summerBody").innerHTML = `
+      <p class="how-hd"><span>This one is</span><em>Summer&rsquo;s</em></p>
+      <div class="spoil">
+        <p>It is the coordinator&rsquo;s brief &mdash; the timings, the table plans, the
+        bits that are meant to be a surprise on the day. Read on and you will
+        know exactly what is coming.</p>
+        <div class="row">
+          <button type="button" id="spoilBack">Take me back</button>
+          <button type="button" class="go" id="spoilGo">I&rsquo;ll risk it</button>
+        </div>
+      </div>`;
+    $("#spoilBack").onclick = back;
+    $("#spoilGo").onclick = () => { spoilOk = true; renderSummer(); };
+    return;
+  }
+  $("#summerBody").innerHTML = `
+    <p class="how-hd"><span>Everything for</span><em>the day</em></p>
+    <p class="mus-sub">${mine ? "Wedding coordinator" : "Summer&rsquo;s brief"}</p>`
+    + SUMMER.map((g) => `
+      <div class="mgrp">
+        <div class="mhd"><h3>${g.grp}</h3></div>
+        ${g.rows.map(([t, w, href]) => href
+          ? `<a class="rs-a" href="${href}"${href.startsWith("#") ? "" : ' target="_blank" rel="noopener"'}>
+               ${DOC}<span class="rs-t"><b>${t}</b><span>${w}</span></span>${CHEV}
+             </a>`
+          : `<span class="rs-a soon">
+               ${DOC}<span class="rs-t"><b>${t}</b><span>Joy is still writing this.</span></span>
+             </span>`).join("")}
+      </div>`).join("");
+  const jump = $("#summerBody").querySelector('a[href="#music"]');
+  if (jump) jump.onclick = (e) => { e.preventDefault(); renderMusicFor("Summer"); swap({ view: "welcome", ov: "music" }); };
+}
+
 /* One tap, once. It rides in localStorage exactly as the I spy progress does,
    so it survives closing the browser; nothing leaves the phone. */
 const ME_KEY = "jp-me";
 let ME = null;
 try { ME = localStorage.getItem(ME_KEY); } catch (e) { /* private window */ }
-const ALL_NAMES = [...new Set(STAYS.reduce((a, st) => a.concat(members(st)), []))].sort();
+const ALL_NAMES = [...new Set(STAYS.reduce((a, st) => a.concat(members(st)), []).concat(["Summer"]))].sort();
 function setMe(name) {
   ME = name;
   try { name ? localStorage.setItem(ME_KEY, name) : localStorage.removeItem(ME_KEY); } catch (e) {}
@@ -2517,6 +2608,8 @@ $("#planClose").onclick = back;
 $("#btnBack").onclick = back;
 $("#btnAlbum").onclick = () => go({ view: "welcome", ov: "album" });
 $("#btnMusic").onclick = () => go({ view: "welcome", ov: "music" });
+$("#btnSummer").onclick = () => { renderSummer(); go({ view: "welcome", ov: "summer" }); };
+$("#summerClose").onclick = back;
 $("#musicClose").onclick = back;
 $("#albumClose").onclick = back;
 $("#btnSpy").onclick = () => { if (!spyOpen()) return; renderSpy(); go({ view: "welcome", ov: "spy" }); };
