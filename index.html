@@ -622,6 +622,7 @@ details.ride-card[open] .acc-chev{transform:rotate(-135deg)}
 .mrows .who.ask{color:var(--rust)}
 .mrows .sg{display:block; font-size:14px; line-height:1.45; color:var(--ink); margin-top:2px}
 .mrows .sg em{font-style:normal; color:var(--ink-3)}
+.mrows .sg:has(> em:only-child){color:var(--ink-3)}
 /* Spotify allows their mark in green, black or white and nothing else; on
    cream it is black. It appears once, on the only playlist anyone may add to. */
 .mus-a{
@@ -2249,7 +2250,8 @@ const JOBS = {
                ["5.15 pm", "<b>You MC.</b> Seat everyone and give the housekeeping notes."],
                ["6.10 pm", "Your speech, after Nelly and Vicente."],
                ["All night", "The venue tells you and the planner when the bar tab hits $600 of $800."]],
-  "Francis":  [["6.10 pm", "Your speech, last &mdash; after Nelly, Vicente and Grace."]]
+  "Francis":  [["3.15 pm", "<b>You hold the rings</b> from the rehearsal until the day. Hand them to Nathan on the morning and walk him up the aisle with them."],
+               ["6.10 pm", "Your speech, last &mdash; after Nelly, Vicente and Grace."]]
 };
 const STAND = {
   "Lara Mae": "Walk in one at a time, then stand beside Joy.",
@@ -2266,11 +2268,13 @@ const SET = [
   { grp: "The ceremony &middot; 3.15 pm", pl: "3JJOqeWlrFSgloe7cuRNoK",
     note: "Summer of aMoment runs the ceremony sound.",
     rows: [
+      ["Guests arriving, 2.55 &ndash; 3.15", "<em>Nothing chosen</em>", ""],
       ["The procession &mdash; parents, groomsmen, bridesmaids, Grace, the kids",
        "A Thousand Years <em>(violin &amp; piano)</em> &mdash; Joel Grainger", "Summer"],
       ["Joy walks in with her parents", "Pasilyo &mdash; John Rod Dondoyano", "Summer"],
       ["The first kiss", "Kiss Me &mdash; Sixpence None the Richer", ""],
-      ["Walking back down the aisle", "Marry You", ""]
+      ["Walking back down the aisle", "Marry You", ""],
+      ["Photos and bubbles, 3.45 &ndash; 4.45", "<em>Nothing chosen</em>", ""]
     ] },
   { grp: "The reception &middot; 5.30 pm", pl: "6zFrfijmEX2q6yF5vZGBUK",
     note: "",
