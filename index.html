@@ -2623,7 +2623,12 @@ function openPlan(replace) {
   (replace ? swap : go)({ view: "welcome", ov: "plan" });
 }
 function afterWho() {
-  if (wantPlan) { wantPlan = false; openPlan(true); } else back();
+  if (wantPlan) { wantPlan = false; openPlan(true); return; }
+  /* Summer picked her name to do a job, so hand her the brief rather than a
+     card to find. The warning is the first thing she reads, which doubles as
+     the check that she is who she said. */
+  if (ME === "Summer") { renderSummer(); swap({ view: "welcome", ov: "summer" }); return; }
+  back();
 }
 $("#meChip").onclick = () => { wantPlan = false; renderWho(""); go({ view: "welcome", ov: "who" }); };
 $("#whoClose").onclick = afterWho;
