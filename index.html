@@ -2313,7 +2313,7 @@ function TMIN(t) {
 function renderMusic() {
   const role = ME && PARTY[ME];
   $("#btnMusic").hidden = !role;
-  $("#dj").hidden = !!role;   // the party has the whole sheet instead
+  $("#dj").hidden = false;    // everyone can add to the two open playlists, party included
   if (!role) return;
   $("#musRole").textContent = role;
   $("#musBody").innerHTML = `
