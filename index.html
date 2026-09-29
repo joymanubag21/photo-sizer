@@ -551,26 +551,47 @@ details.ride-card[open] .acc-chev{transform:rotate(-135deg)}
   .hero{min-height:100%}
 }
 
-/* The music is for the wedding party, so it is quiet by design: a row, a mark,
-   a title. The Spotify glyph is black, which is the only monochrome their
-   brand allows, and it sits far better on cream than the green does. */
-.mus{list-style:none; margin:26px 0 0; padding:0}
-.mus-a{
-  display:flex; align-items:center; gap:15px; min-height:62px;
-  padding:13px 2px; text-decoration:none; color:inherit; cursor:pointer;
+/* The wedding party's sheet. Two kinds of thing live here and they must never
+   be mistaken for each other: what is already decided, which is a plain list,
+   and the one playlist still open, which is the only tappable music row. */
+.rs-a{
+  display:flex; align-items:center; gap:15px; min-height:62px; margin-top:22px;
+  padding:15px 16px; text-decoration:none; color:inherit; cursor:pointer;
+  background:var(--surface-2); border:1px solid var(--line); border-radius:10px;
 }
-.mus li + li .mus-a{border-top:1px solid var(--line)}
-.mus-a:active{opacity:.6}
-.mus-a.off{cursor:default; opacity:.45}
-.mus-ic{flex:none; width:24px; height:24px; color:#121212}
-.mus-t{flex:1; min-width:0}
-.mus-t b{display:block; font-size:15px; font-weight:500; color:var(--ink); line-height:1.3}
-.mus-t span{display:block; font-size:12.5px; line-height:1.5; color:var(--ink-3); margin-top:3px}
+.rs-a:active{opacity:.6}
+.rs-ic{flex:none; width:22px; height:22px; color:var(--rose)}
+.rs-t{flex:1; min-width:0}
+.rs-t b{display:block; font-size:15px; font-weight:500; color:var(--ink); line-height:1.3}
+.rs-t span{display:block; font-size:12.5px; line-height:1.5; color:var(--ink-3); margin-top:3px}
 .mus-go{flex:none; color:var(--ink-3)}
 .mus-sub{
   text-align:center; margin:15px 0 0; font-size:10px; font-weight:600;
   letter-spacing:.18em; text-transform:uppercase; color:var(--green);
 }
+.mgrp{margin-top:28px}
+.mgrp h3{
+  margin:0 0 2px; font-size:10px; font-weight:600; letter-spacing:.18em;
+  text-transform:uppercase; color:var(--ink);
+}
+.mgrp .set{display:block; font-size:11.5px; line-height:1.5; color:var(--ink-3)}
+.mrows{list-style:none; margin:12px 0 0; padding:0}
+.mrows li{padding:9px 0; border-top:1px solid var(--line)}
+.mrows .mo{display:block; font-size:11px; color:var(--ink-3); letter-spacing:.04em}
+.mrows .sg{display:block; font-size:14px; line-height:1.45; color:var(--ink); margin-top:2px}
+.mrows .sg em{font-style:normal; color:var(--ink-3)}
+/* Spotify allows their mark in green, black or white and nothing else; on
+   cream it is black. It appears once, on the only playlist anyone may add to. */
+.mus-a{
+  display:flex; align-items:center; gap:15px; min-height:62px; margin-top:12px;
+  padding:13px 14px; text-decoration:none; color:inherit; cursor:pointer;
+  background:var(--surface-2); border:1px solid var(--line); border-radius:10px;
+}
+.mus-a:active{opacity:.6}
+.mus-ic{flex:none; width:22px; height:22px; color:#121212}
+.mus-t{flex:1; min-width:0}
+.mus-t b{display:block; font-size:14.5px; font-weight:500; color:var(--ink); line-height:1.3}
+.mus-t span{display:block; font-size:12.5px; line-height:1.5; color:var(--ink-3); margin-top:3px}
 
 </style>
 
@@ -599,8 +620,8 @@ details.ride-card[open] .acc-chev{transform:rotate(-135deg)}
 
       <button class="wcard" type="button" id="btnMusic" hidden>
         <span class="eyebrow">For the wedding party</span>
-        <span class="wc-h">The music</span>
-        <span class="wc-p">Three playlists. Add what you want to hear.</span>
+        <span class="wc-h">The runsheet</span>
+        <span class="wc-p">Every time for the day, and what plays when.</span>
       </button>
 
       <button class="wcard" type="button" id="btnAlbum">
@@ -768,10 +789,9 @@ details.ride-card[open] .acc-chev{transform:rotate(-135deg)}
 <div class="modal" id="music" hidden>
   <div class="modal-in">
     <div class="modal-head"><span style="flex:1"></span><button class="close" id="musicClose" aria-label="Close">&#10005;</button></div>
-    <p class="how-hd"><span>The music for</span><em>the day</em></p>
+    <p class="how-hd"><span>Your part of</span><em>the day</em></p>
     <p class="mus-sub" id="musRole"></p>
-    <ul class="mus" id="musList"></ul>
-    <p class="how-fine">Each one opens in Spotify, where you can add songs yourself &mdash; they are shared, so what you add is what we hear. A few each is plenty.</p>
+    <div id="musBody"></div>
   </div>
 </div>
 
@@ -2160,30 +2180,61 @@ const HOME_BY_HOUSE = {
 const PARTY = {
   "Lara Mae": "Bridesmaid",
   "Cathlyn":  "Bridesmaid",
-  "Norrie":   "Bridesmaid"
+  "Norrie":   "Bridesmaid",
+  "Grace":    "Maid of honour",
+  "Francis":  "Best man"
 };
 
-/* Three moments, three playlists, straight off Joy's account. Make each one
-   collaborative in Spotify and the party can add songs where everybody sees
-   them &mdash; this page keeps nothing of its own, it only opens the door. */
-const MUSIC = [
-  { t: "The ceremony",       w: "Walking in, the vows, walking out.", id: "3JJOqeWlrFSgloe7cuRNoK" },
-  { t: "Reception entrance", w: "The doors open and we walk in.",     id: "6zFrfijmEX2q6yF5vZGBUK" },
-  { t: "Dinner",             w: "Under the talking, all evening.",    id: "7J0m9sPFRFz4qmVsXBDgbA" }
+/* The runsheet aMoment works from, and the six songs it names. Everything here
+   is already decided, so it reads as a list of facts rather than a set of
+   links &mdash; the one thing still open is the dinner playlist, which is the only
+   row anyone can tap into Spotify. Source: Final Runsheet 261010, 36pax. */
+const RUNSHEET = "https://drive.google.com/file/d/14jAIC_Q8awp0IYMvLfP3Aoyh9N8Mca2A/view";
+const SET = [
+  { grp: "The ceremony &middot; 3.15 pm",
+    note: "aMoment plays these. Nothing for you to do.",
+    rows: [
+      ["The procession &mdash; parents, groomsmen, bridesmaids, Grace, the kids",
+       "A Thousand Years <em>(violin &amp; piano)</em> &mdash; Joel Grainger"],
+      ["Joy walks in with her parents", "Pasilyo &mdash; John Rod Dondoyano"]
+    ] },
+  { grp: "The reception &middot; 5.30 pm",
+    note: "",
+    rows: [
+      ["Bridal party entrance", "I Gotta Feeling &mdash; Black Eyed Peas"],
+      ["The newlyweds walk in", "Shut Up and Dance <em>&mdash; sung live</em>"],
+      ["First dance", "Thinking Out Loud &mdash; Ed Sheeran"],
+      ["Cake cutting", "Build Me Up Buttercup &mdash; Kina Grannis"]
+    ] }
 ];
-/* Spotify allows their mark in green, black or white and nothing else, so on
-   cream it is black. */
+const DINNER = "7J0m9sPFRFz4qmVsXBDgbA";
+
+/* Spotify allows their mark in green, black or white and nothing else. */
 const SPOT = '<svg class="mus-ic" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 0C5.4 0 0 5.4 0 12s5.4 12 12 12 12-5.4 12-12S18.66 0 12 0zm5.521 17.34c-.24.359-.66.48-1.021.24-2.82-1.74-6.36-2.101-10.561-1.141-.418.122-.779-.179-.899-.539-.12-.421.18-.78.54-.9 4.56-1.021 8.52-.6 11.64 1.32.42.18.479.659.301 1.02zm1.44-3.3c-.301.42-.841.6-1.262.3-3.239-1.98-8.159-2.58-11.939-1.38-.479.12-1.02-.12-1.14-.6-.12-.48.12-1.021.6-1.141C9.6 9.9 15 10.561 18.72 12.84c.361.181.54.78.241 1.2zm.12-3.36C15.24 8.4 8.82 8.16 5.16 9.301c-.6.179-1.2-.181-1.38-.721-.18-.601.18-1.2.72-1.381 4.26-1.26 11.28-1.02 15.721 1.621.539.3.719 1.02.419 1.56-.299.421-1.02.599-1.559.3z"/></svg>';
+const DOC = '<svg class="rs-ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><path d="M14 2v6h6M8 13h8M8 17h5"/></svg>';
 const CHEV = '<svg class="mus-go" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 18l6-6-6-6"/></svg>';
+
 function renderMusic() {
   const role = ME && PARTY[ME];
   $("#btnMusic").hidden = !role;
   if (!role) return;
   $("#musRole").textContent = role;
-  $("#musList").innerHTML = MUSIC.map((m) => `
-    <li><a class="mus-a" href="https://open.spotify.com/playlist/${m.id}" target="_blank" rel="noopener">
-      ${SPOT}<span class="mus-t"><b>${m.t}</b><span>${m.w}</span></span>${CHEV}
-    </a></li>`).join("");
+  $("#musBody").innerHTML = `
+    <a class="rs-a" href="${RUNSHEET}" target="_blank" rel="noopener">
+      ${DOC}<span class="rs-t"><b>The full runsheet</b><span>Every time, from 7.30 am.</span></span>${CHEV}
+    </a>`
+    + SET.map((g) => `
+      <div class="mgrp">
+        <h3>${g.grp}</h3>${g.note ? `<span class="set">${g.note}</span>` : ""}
+        <ul class="mrows">${g.rows.map(([mo, sg]) =>
+          `<li><span class="mo">${mo}</span><span class="sg">${sg}</span></li>`).join("")}</ul>
+      </div>`).join("")
+    + `<div class="mgrp">
+         <h3>Dinner</h3><span class="set">Not decided. This one is yours to fill.</span>
+         <a class="mus-a" href="https://open.spotify.com/playlist/${DINNER}" target="_blank" rel="noopener">
+           ${SPOT}<span class="mus-t"><b>Add a song</b><span>Opens the shared dinner playlist.</span></span>${CHEV}
+         </a>
+       </div>`;
 }
 
 /* One tap, once. It rides in localStorage exactly as the I spy progress does,
