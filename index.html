@@ -950,7 +950,7 @@ details[open] > .hire-steps{display:flex; flex-direction:column; gap:11px; paddi
    were already fixed. The page asks the server for its own current build once
    and reloads if it is behind. Guarded per build id, so a stale edge or a
    failed fetch can never put it in a loop. */
-const BUILD = "202610011718";
+const BUILD = "202610011723";
 document.documentElement.dataset.build = BUILD;
 (async () => {
   try {
@@ -2198,7 +2198,7 @@ const STAYS = [
       { bed: "3 beds for you to choose", who: ["Angelo", "Nica", "Mae", "Sonito", "Emman", "Pia"] }
     ],
     legs: [
-      { l: "Getting ready", t: "Angelo leaves here at <b>1:40 pm</b> and Marvin at <b>1:48</b>, and both call at the lake house on the way, so nobody has to make their own way there." },
+      { l: "Getting ready", t: "Angelo leaves here at <b>1:35 pm</b> and Marvin at <b>1:42</b>, and both call at the lake house on the way, so nobody has to make their own way there." },
     ] },
   { place: "The family Airbnb", addr: "Thompson Street, Queenstown 9300",
     rooms: [
@@ -2307,7 +2307,7 @@ const RENTALS = {
       "Door D is outside Air New Zealand check-in. {SHEET} shows the spot.",
       "At the desk, have these ready:{DOCS}"
     ],
-    note: "<b>It is the wedding morning.</b> Your first pickup run leaves at <b>1:48 pm</b>, so there is "
+    note: "<b>It is the wedding morning.</b> Your first pickup run leaves at <b>1:42 pm</b>, so there is "
       + "room &mdash; but this is the one errand on the day with somebody else&rsquo;s opening hours attached to it.",
   },
   Patrick: {
@@ -2322,9 +2322,9 @@ const RENTALS = {
       ["Arrival", "Call for the shuttle", "{TEL}, then wait by door D. A 6:00 pm pickup is already "
         + "the after-hours line, so if anything slips, ring rather than wait at the kerb &mdash; they will still come."],
       ["The desk", "Yes Rentals, Frankton", "{BRANCH}."],
-      ["Sat 8:00 am", "Hand it back, and ride with Marvin", "Queenstown Airport, the morning of the wedding "
-        + "&mdash; the same time <b>Marvin</b> collects Van 2. He takes you on to the family Airbnb, Thompson Street, "
-        + "<b>14 minutes</b> from the branch."]
+      ["Sat 8:00 am", "Hand it back, and ride with Marvin", "Queenstown Airport, the morning of the wedding. The booking says 10:00, "
+        + "and you are giving it back early on purpose &mdash; eight is when <b>Marvin</b> is there for Van 2, and he takes you on to "
+        + "the family Airbnb, Thompson Street, <b>14 minutes</b> from the branch."]
     ],
     stops: [
       "Door D is outside Air New Zealand check-in. {SHEET} shows the spot.",
@@ -2363,10 +2363,10 @@ const ROUTES = {
     /* Hotel before the lake house: Arrowtown, hotel, lake house, Canyons is
        40 minutes, and taking the lake house first is 45. */
     ceremony: { rows: [
-      ["1:40 pm", "Leave the Arrowtown house", "Angelo, Emman, Sonito, Pia, Nica and Mae."],
-      ["1:51 pm", "Pick up Lara Mae and Cathlyn at the hotel", "<b>11 minutes</b> from Arrowtown, after their makeup."],
-      ["2:15 pm", "Pick up four at the lake house", "Loren, Jan, Sai and Chit, at 13 McKerrow Place. <b>18 minutes</b> from the hotel. Twelve aboard, which is every seat."],
-      ["2:33 pm", "At the Canyons", "<b>11 minutes</b> from the lake house. 40 minutes of driving in all, and seven minutes before the 2:40 call."]
+      ["1:35 pm", "Leave the Arrowtown house", "Angelo, Emman, Sonito, Pia, Nica and Mae."],
+      ["1:46 pm", "The hotel, for Lara Mae and Cathlyn", "<b>11 minutes</b> from Arrowtown. Allow <b>8</b> to load two in dresses."],
+      ["2:12 pm", "The lake house, for four", "Loren, Jan, Sai and Chit, at 13 McKerrow Place. <b>18 minutes</b> from the hotel, and <b>8</b> to load. Twelve aboard, which is every seat."],
+      ["2:33 pm", "At the Canyons", "<b>11 minutes</b> from the lake house. 40 minutes driving, 16 standing still, and seven minutes before the 2:40 call."]
     ], map: ["arrowtown", "hotel", "lake", "canyons"] },
     reception: { rows: [
       ["4:45 pm", "The Canyons to the Hilton", "All ten of you, about 25 minutes."]
@@ -2378,11 +2378,11 @@ const ROUTES = {
   },
   Marvin: {
     ceremony: { rows: [
-      ["1:48 pm", "Leave the Arrowtown house", "Marvin, Jane and Marvin&rsquo;s daughter."],
-      ["2:04 pm", "Pick up Erwan at 4 Dublin Street", "<b>16 minutes</b> from Arrowtown."],
-      ["2:10 pm", "Pick up Marge and Sam at Haka House", "6 Henry Street. <b>2 minutes</b> from Dublin Street, 400 m."],
-      ["2:18 pm", "Pick up three at the lake house", "JP, Daisy and Abby, at 13 McKerrow Place. <b>7 minutes</b> from Haka House. <b>Nine aboard</b>."],
-      ["2:33 pm", "At the Canyons", "<b>11 minutes</b> from the lake house. 36 minutes of driving in all, and seven minutes before the 2:40 call."]
+      ["1:42 pm", "Leave the Arrowtown house", "Marvin, Jane and Marvin&rsquo;s daughter."],
+      ["1:58 pm", "4 Dublin Street, for Erwan", "<b>16 minutes</b> from Arrowtown. Allow <b>4</b> to load."],
+      ["2:04 pm", "Haka House, for Marge and Sam", "6 Henry Street, <b>2 minutes</b> on. Allow <b>5</b>."],
+      ["2:16 pm", "The lake house, for three", "JP, Daisy and Abby, at 13 McKerrow Place. <b>7 minutes</b> from Haka House, and <b>6</b> to load. <b>Nine aboard</b>."],
+      ["2:33 pm", "At the Canyons", "<b>11 minutes</b> from the lake house. 36 minutes driving, 15 standing still."]
     ], map: ["arrowtown", "dublin", "haka", "lake", "canyons"] },
     reception: { rows: [
       ["4:45 pm", "The Canyons to the Hilton", "<b>Twelve now</b> &mdash; Lara Mae and Cathlyn came out with Angelo, Norrie with Jun2x, and all three get in here. About 25 minutes."]
@@ -2396,7 +2396,8 @@ const ROUTES = {
   },
   Franklin: {
     ceremony: { rows: [
-      ["By 2:33 pm", "The family Airbnb to the Canyons", "Franklin, Nelly, Vicente, Blondie, Elisha, Nathaniel and Patrick, from Thompson Street."]
+      ["2:23 pm", "Leave the family Airbnb", "Franklin, Nelly, Vicente, Blondie, Elisha, Nathaniel and Patrick, from Thompson Street."],
+      ["2:33 pm", "At the Canyons", "<b>8 minutes</b> from Thompson Street."]
     ], map: ["airbnb", "canyons"] },
     reception: { rows: [
       ["4:45 pm", "The Canyons to the Hilton", "Once the photos are done. Everyone in your car, about 25 minutes."]
@@ -2416,8 +2417,8 @@ const ROUTES = {
        with the others and the hotel comes off the first run entirely - which
        takes it from 18 minutes to 8, and hands the turn-round ten of them. */
     ceremony: { rows: [
-      ["2:10 pm", "Leave the Airbnb", "Francis, Gavin, Joie and Nieves."],
-      ["2:15 pm", "The hotel", "Joy, Grace and Norrie. <b>3 minutes</b> from the Airbnb. Eight aboard, which is every seat."],
+      ["2:05 pm", "Leave the Airbnb", "Francis, Gavin, Joie and Nieves."],
+      ["2:08 pm", "The hotel", "Joy, Grace and Norrie. <b>3 minutes</b> from the Airbnb, and <b>10</b> to load a bride. Eight aboard, which is every seat."],
       ["2:33 pm", "At the Canyons", "<b>15 minutes</b> from the hotel &mdash; seven minutes before the 2:40 call."]
     ], map: ["airbnb", "hotel", "canyons"] },
     reception: { rows: [
