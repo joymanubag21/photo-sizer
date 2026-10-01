@@ -248,20 +248,17 @@ details.ride-card[open] .acc-chev{transform:rotate(-135deg)}
 .acc-b{padding:0 17px 16px}
 .acc-b > .room:first-child{margin-top:0}
 .acc-b > .legs:first-child{margin-top:0; padding-top:0; border-top:0}
-/* At-a-glance rows: the answer to "what am I doing and when" without reading
-   a procedure. 14px, because this is the densest screen in the app and it was
-   set smaller than everywhere else in it. */
-.ride-card .hire-at{display:block; list-style:none; margin:11px 0 0; padding:0}
-.ride-card .hire-at li{
-  display:flex; gap:13px; align-items:baseline; padding:10px 0; margin:0;
-  background:none; border-radius:0; border-bottom:1px solid var(--line);
+/* The pickup rows ARE the "How the day runs" rows - a time, a thing happening,
+   a line of detail - so they take that component rather than a second
+   vocabulary for the same shape: 66px green label, serif line, 13px under it,
+   hairline between, one hairline-bordered 12px container.
+   The ride card styles bare ul/li as name chips, so those have to be undone. */
+.ride-card .hire-list{display:block; margin:11px 0 0; padding:0; overflow:hidden}
+.ride-card .hire-list li{
+  display:flex; gap:16px; padding:14px 16px; align-items:baseline; margin:0;
+  background:none; border-radius:0; font-size:inherit; color:inherit;
 }
-.ride-card .hire-at li:last-child{border-bottom:0}
-.ride-card .hire-at b{
-  flex:none; min-width:86px; font-size:14px; font-weight:600; color:var(--ink);
-  font-variant-numeric:tabular-nums;
-}
-.ride-card .hire-at span{font-size:14px; line-height:1.5; color:var(--ink-2)}
+.ride-card .hire-list li + li{border-top:1px solid var(--line)}
 /* Inside the expander the steps are being walked, not scanned, so they get the
    readable size too rather than the 12.5px the card bottomed out at. */
 /* A closed <details> hides its children with display:none; giving the panel
@@ -2252,9 +2249,9 @@ const RENTALS = {
     /* What he needs standing at the carousel. The six steps are still there,
        one tap down, for when he is actually walking them. */
     at: [
-      ["4:15 pm", "You land. Bags take until about 4:45."],
-      ["By 5:30 pm", "Call {TEL} for the shuttle, or there is a late fee."],
-      ["5:00&ndash;5:15", "Collecting the van at {BRANCH}."]
+      ["4:15 pm", "You land", "Bags take until about 4:45."],
+      ["By 5:30 pm", "Call for the shuttle", "{TEL} &mdash; later than that and there is a late fee."],
+      ["5:00&ndash;5:15", "Collecting the van", "At {BRANCH}."]
     ],
     stops: [
       "You land at <b>4:15 pm</b> &mdash; collect the luggage, which takes until about <b>4:45</b>.",
@@ -2273,6 +2270,11 @@ const RENTALS = {
     ref: "#141681 &middot; Van 2, Hiace 12-seater",
     label: "Picking up Van 2 &middot; Saturday 10 October",
     until: Date.parse("2026-10-10T11:00:00Z"),
+    at: [
+      ["8:00 am", "Collect Van 2", "Queenstown Airport &mdash; the morning of the wedding."],
+      ["Arrival", "Call for the shuttle", "{TEL}, then wait by door D."],
+      ["The desk", "Yes Rentals, Frankton", "{BRANCH}."]
+    ],
     stops: [
       "<b>8:00 am at Queenstown Airport</b> &mdash; the morning of the wedding. You and Casie are both on this booking.",
       "Call {TEL} when you are there, to say you are ready for the Yes Rentals shuttle, then wait by <b>door D</b>, outside Air New Zealand check-in. {SHEET} shows the spot.",
@@ -2289,6 +2291,11 @@ const RENTALS = {
     ref: "#142125 &middot; Toyota Aqua",
     label: "Picking up the Aqua &middot; Wednesday 7 October",
     until: Date.parse("2026-10-07T11:00:00Z"),
+    at: [
+      ["6:00 pm", "Collect the Aqua", "Queenstown Airport, Wednesday 7 October."],
+      ["Arrival", "Call for the shuttle", "{TEL}, then wait by door D."],
+      ["The desk", "Yes Rentals, Frankton", "{BRANCH}."]
+    ],
     stops: [
       "<b>6:00 pm at Queenstown Airport.</b> Call {TEL} when you are ready, and wait by <b>door D</b>, outside Air New Zealand check-in. {SHEET} shows the spot.",
       "At the branch, {BRANCH}, have these ready:{DOCS}",
@@ -2321,7 +2328,7 @@ for (const r of Object.values(RENTALS)) {
   const fill = (t) => t.replace("{TEL}", YES_TEL).replace("{SHEET}", YES_SHEET)
     .replace("{BRANCH}", YES_BRANCH).replace("{DOCS}", YES_DOCS);
   r.stops = r.stops.map(fill);
-  if (r.at) r.at = r.at.map(([k, v]) => [k, fill(v)]);
+  if (r.at) r.at = r.at.map(([k, v, d]) => [k, fill(v), fill(d)]);
 }
 
 const ROUTES = {
@@ -2727,8 +2734,8 @@ function renderRides(q) {
   const hire = !rental ? ""
     : (now < rental.until ? (rental.at ? `<div>
           <span class="leg-l">${rental.label}</span>
-          <ul class="hire-at">${rental.at.map(([k, v]) =>
-            `<li><b>${k}</b><span>${v}</span></li>`).join("")}</ul>
+          <ul class="plan-list hire-list">${rental.at.map(([k, v, d]) =>
+            `<li><span class="plan-when">${k}</span><span class="plan-what">${v}<small>${d}</small></span></li>`).join("")}</ul>
           <details class="more"><summary>The step by step</summary>
             <div class="hire-steps">${rental.stops.map((t, i) =>
               `<span class="leg-t"><span><b class="route-n">${i + 1}</b>${t}</span></span>`).join("")}</div>
