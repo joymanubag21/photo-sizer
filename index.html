@@ -2209,7 +2209,71 @@ function dirLink(keys) {
    phone reading it is still set to. Dated a day past the pickup: a step they no
    longer need costs a scroll, one that vanishes while they are still at the
    rental desk costs them the van. */
-const VAN_UNTIL = Date.parse("2026-10-06T11:00:00Z");
+const AFTER_HOURS = "<b>If the flight runs late.</b> A pickup after <b>6:00 pm</b> is after hours, and "
+  + "those normally have to be arranged 24 hours ahead. Queenstown is the exception: the team there "
+  + "runs its own after-hours service. Collect your bags and call the same number anyway, and they "
+  + "will arrange it from their end.";
+
+/* The three Yes Rentals bookings. Keyed by name rather than hung off ROUTES,
+   because Patrick has one and does not drive the party anywhere.
+
+   Each carries its own two dates. The pickup steps retire the day after the
+   pickup - a step you no longer need costs a scroll, one that vanishes while
+   you are still at the rental desk costs you the van - and the return line
+   outlives them, because it is the half that is easy to forget. Both are
+   absolute instants, midnight in Queenstown, so a phone still set to Manila
+   time retires them at the same moment. */
+const RENTALS = {
+  Angelo: {
+    ref: "#141663 &middot; Van 1, Hiace 12-seater",
+    label: "Picking up Van 1 &middot; Monday 5 October",
+    until: Date.parse("2026-10-06T11:00:00Z"),
+    stops: [
+      "You land at <b>4:15 pm</b> &mdash; collect the luggage, which takes until about <b>4:45</b>.",
+      "Call " + "{TEL}" + " as soon as you have your bags, to say you are ready for the Yes Rentals shuttle. It has to be <b>before 5:30 pm</b>, or it costs NZD 45.",
+      "Leave by <b>door D</b> and follow the transfer signs to the shuttle area, just outside Air New Zealand check-in. {SHEET} shows the spot.",
+      "Wait for the white Yes Rentals van &mdash; usually 10&ndash;15 minutes &mdash; and wave the driver down.",
+      "At the branch, {BRANCH}, expect to be collecting the van around <b>5:00&ndash;5:15 pm</b>. Have these ready:{DOCS}",
+      "Sign the rental agreement and collect the van. The balance on this booking is <b>NZD 2,769.00</b>, unless it is already paid by bank transfer."
+    ],
+    note: AFTER_HOURS,
+    backUntil: Date.parse("2026-10-16T11:00:00Z"),
+    back: "Van 1 goes back <b>Friday 16 October, 6:00 am</b> &mdash; at <b>Christchurch Airport</b>, not Queenstown. "
+      + "That is most of a day's drive, so it is the day before that has to be planned, not the morning itself."
+  },
+  Marvin: {
+    ref: "#141681 &middot; Van 2, Hiace 12-seater",
+    label: "Picking up Van 2 &middot; Saturday 10 October",
+    until: Date.parse("2026-10-10T11:00:00Z"),
+    stops: [
+      "<b>8:00 am at Queenstown Airport</b> &mdash; the morning of the wedding. You and Casie are both on this booking.",
+      "Call {TEL} when you are there, to say you are ready for the Yes Rentals shuttle, then wait by <b>door D</b>, outside Air New Zealand check-in. {SHEET} shows the spot.",
+      "At the branch, {BRANCH}, have these ready:{DOCS}",
+      "Sign the agreement and collect the van. The balance on this booking is <b>NZD 1,294.00</b>, unless it is already paid by bank transfer."
+    ],
+    note: "<b>It is the wedding morning.</b> Your first pickup run leaves at <b>1:40 pm</b>, so there is "
+      + "room &mdash; but this is the one errand on the day with somebody else&rsquo;s opening hours attached to it.",
+    backUntil: Date.parse("2026-10-15T11:00:00Z"),
+    back: "Van 2 goes back <b>Thursday 15 October, 8:00 am</b> &mdash; at <b>Christchurch Airport</b>, not Queenstown. "
+      + "Most of a day&rsquo;s drive, so plan the day before."
+  },
+  Patrick: {
+    ref: "#142125 &middot; Toyota Aqua",
+    label: "Picking up the Aqua &middot; Wednesday 7 October",
+    until: Date.parse("2026-10-07T11:00:00Z"),
+    stops: [
+      "<b>6:00 pm at Queenstown Airport.</b> Call {TEL} when you are ready, and wait by <b>door D</b>, outside Air New Zealand check-in. {SHEET} shows the spot.",
+      "At the branch, {BRANCH}, have these ready:{DOCS}",
+      "Sign the agreement and collect the car. The balance on this booking is <b>NZD 118.80</b>, unless it is already paid by bank transfer."
+    ],
+    note: "<b>6:00 pm is the after-hours line itself.</b> If anything slips you are into the after-hours "
+      + "service rather than the normal shuttle &mdash; same number, the Queenstown team arranges it, but ring "
+      + "them rather than waiting at the kerb.",
+    backUntil: Date.parse("2026-10-10T11:00:00Z"),
+    back: "The Aqua goes back <b>Saturday 10 October, 10:00 am</b>, at Queenstown Airport &mdash; your wedding morning. "
+      + "Worth handing to somebody else to do."
+  }
+};
 const YES_TEL = `<a href="tel:+6434202878">+64 3 420 2878</a>`;
 const YES_BRANCH_URL = "https://www.google.com/maps/search/?api=1&query="
   + encodeURIComponent("Yes Rentals, 43 Brookes Road, Frankton, Queenstown, New Zealand");
@@ -2221,25 +2285,17 @@ const YES_DOCS = "<ul class='van-docs'>"
   + "<li>your full <b>physical</b> driver&rsquo;s licence, with an English translation if it is not in English;</li>"
   + "<li>your <b>passport</b>, if the licence is not a New Zealand one;</li>"
   + "<li>a card for the <b>NZD 250</b> bond hold;</li>"
-  + "<li>payment for the <b>NZD 2,769</b> balance, unless it is already paid by bank transfer.</li>"
   + "</ul>";
+
+/* RENTALS is declared above the links it quotes, so the swap happens here,
+   once those consts exist. */
+for (const r of Object.values(RENTALS)) {
+  r.stops = r.stops.map((t) => t.replace("{TEL}", YES_TEL).replace("{SHEET}", YES_SHEET)
+    .replace("{BRANCH}", YES_BRANCH).replace("{DOCS}", YES_DOCS));
+}
 
 const ROUTES = {
   Angelo: {
-    /* The van pickup, four days before the wedding. The 5:30 pm call is its own
-       numbered step rather than a clause, since missing it costs NZD 45. */
-    arrive: { label: "Landing &middot; Monday 5 October", stops: [
-      "Van 1, booking <b>#141663</b>. You land at <b>4:15 pm</b> &mdash; collect the luggage, which takes until about <b>4:45</b>.",
-      "Call " + YES_TEL + " as soon as you have your bags, to say you are ready for the Yes Rentals shuttle. It has to be <b>before 5:30 pm</b>, or it costs NZD 45.",
-      "Leave by <b>door D</b> and follow the transfer signs to the shuttle area, just outside Air New Zealand check-in. " + YES_SHEET + " shows the spot.",
-      "Wait for the white Yes Rentals van &mdash; usually 10&ndash;15 minutes &mdash; and wave the driver down.",
-      "At the branch, " + YES_BRANCH + ", have these ready:" + YES_DOCS,
-      "Sign the rental agreement and collect the van."
-    ],
-    note: "<b>If the flight runs late.</b> A pickup after <b>6:00 pm</b> is after hours, and "
-      + "those normally have to be arranged 24 hours ahead. Queenstown is the exception: the team "
-      + "there runs its own after-hours service. Collect your bags and call " + YES_TEL
-      + " anyway &mdash; the same number &mdash; and they will arrange it from their end." },
     ceremony: { stops: ["The lake house, 13 McKerrow Place &mdash; all twelve of you leave from there at <b>2:10 pm</b>. It is 8 km and <b>11 minutes</b>, so you are there by 2:25."],
                 map: ["lake", "canyons"] },
     reception: { stops: [HILTON], map: ["canyons", "hilton"] },
@@ -2248,17 +2304,6 @@ const ROUTES = {
             map: ["hilton", "lake", "arrowtown"] }
   },
   Marvin: {
-    /* Car 2 is the other Yes Rentals van. Joy has not given his booking number,
-       date or landing time, so this says only what holds for any pickup at that
-       branch - a driver's card is the last place to guess. */
-    arrive: { label: "Collecting Car 2", stops: [
-      "Car 2 comes from Yes Rentals, " + YES_BRANCH + ". " + YES_SHEET
-        + " shows where the shuttle picks up at the airport &mdash; <b>door D</b>, by Air New Zealand check-in.",
-      "Call " + YES_TEL + " once you have your bags, and bring these to the desk:" + YES_DOCS
-    ],
-    note: "<b>If you land after 6:00 pm.</b> That is an after-hours pickup, normally arranged "
-      + "24 hours ahead, but the Queenstown team runs its own after-hours service &mdash; call the "
-      + "same number once you have landed and they will sort it." },
     start: "You start at the Arrowtown house with Jane and your daughter. The whole run is 30.6 km and <b>38 minutes of driving</b>, so with three pickups leave by <b>1:40 pm</b> to make 2:40.",
     ceremony: { stops: ["Joy and Patrick&rsquo;s hotel &mdash; Lara Mae, Cathlyn and Norrie, after their makeup.",
                         "4 Dublin Street &mdash; Erwan.",
@@ -2642,11 +2687,23 @@ function renderRides(q) {
       ${map ? `<a class="map" target="_blank" rel="noopener" href="${dirLink(map)}">${PIN} Open this run in Maps</a>` : ""}
     </div>`;
   };
+  /* The booking rides above whatever else the day holds for them, and outlives
+     the pickup as a one-line reminder of where the keys have to end up. */
+  /* Matched on the name typed, not on `me`: Joy and Patrick have no bed or
+     car row, so `me` never resolves for them and Patrick would never see the
+     Aqua he is collecting. */
+  const rental = RENTALS[Object.keys(RENTALS).find((k) => k.toLowerCase() === needle)];
+  const now = Date.now();
+  const hire = !rental ? ""
+    : (now < rental.until ? leg(rental.label, { stops: rental.stops, note: rental.note }) : "")
+      + (now < rental.backUntil
+          ? `<div><span class="leg-l">Giving it back<span class="leg-c">${rental.ref}</span></span>
+               <span class="leg-t"><span>${rental.back}</span></span></div>`
+          : "");
   let legs = "";
   if (driver) {
     const r = ROUTES[driver];
-    legs = (r.arrive && Date.now() < VAN_UNTIL ? leg(r.arrive.label, r.arrive) : "")
-      + (r.early ? leg("The 6:30 am run", r.early) : "")
+    legs = (r.early ? leg("The 6:30 am run", r.early) : "")
       + (r.start ? `<div><span class="leg-l">Before you set off</span><span class="leg-t"><span>${r.start}</span></span></div>` : "")
       + leg("To the ceremony", r.ceremony) + leg("To the reception", r.reception) + leg("Going home", r.home);
   } else if (me && car && stay) {
@@ -2654,6 +2711,7 @@ function renderRides(q) {
       + leg("To the reception", [`With <b>${car.driver}</b>, straight to the Hilton. About 25 minutes.`])
       + leg("Going home", [`<b>${car.driver}</b> ${HOME_BY_HOUSE[stay.place] || "takes you home"}.`]);
   }
+  legs = hire + legs;
   $("#driverRoute").innerHTML = !legs ? "" : `
     <div class="ride-card" style="padding:16px 17px">
       <h4>${driver ? "You&rsquo;re driving" : "Your day"}</h4>
