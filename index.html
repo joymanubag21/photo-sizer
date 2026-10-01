@@ -2391,11 +2391,19 @@ const CEREMONY_BY_HOUSE = {
   "Haka House": "You get ready at the lake house, 13 McKerrow Place, and the car leaves from there at <b>2:10 pm</b>."
 };
 const HOTEL_RUN = "At <b>6:30 am</b> Jun2x takes you to Joy and Patrick&rsquo;s hotel for makeup, and collects you from there again for the ceremony &mdash; leaving by <b>2:50 pm</b>, with Joy. <b>Marvin</b> brings you home afterwards.";
+/* The lake house is where they get ready, not whose car they are in: Angelo
+   leaves it at 2:10 with twelve aboard and no spare seat. */
+const LAKE_BUT_MARVIN = "You get ready at <b>the lake house</b>, 13 McKerrow Place. <b>Marvin</b> collects you "
+  + "there on his way through, and has you at the Canyons by <b>2:40</b> &mdash; so let Angelo&rsquo;s car go at 2:10 without you.";
+
 const CEREMONY_BY_NAME = {
   "Lara Mae": HOTEL_RUN,
   "Cathlyn": HOTEL_RUN,
   "Norrie": "At <b>6:30 am</b> Jun2x collects you at <b>4 Dublin Street</b> for makeup at Joy and Patrick&rsquo;s hotel, and takes you on to the ceremony from there &mdash; leaving by <b>2:50 pm</b>, with Joy. <b>Marvin</b> brings you home afterwards.",
   "Grace": "At <b>6:30 am</b> Jun2x takes you to Joy and Patrick&rsquo;s hotel for makeup. You wait there while she runs the groomsmen ahead, and come on the second run, leaving by <b>2:50 pm</b> with Joy. Jun2x drives you all day.",
+  "Mae": LAKE_BUT_MARVIN,
+  "Marge": LAKE_BUT_MARVIN,
+  "Sam": LAKE_BUT_MARVIN,
   "Jane": "Straight to the ceremony from the Arrowtown house.",
   "Marvin's daughter": "Straight to the ceremony from the Arrowtown house."
 };
@@ -2707,7 +2715,11 @@ function renderRides(q) {
   $("#staySub").textContent = ME
     ? "Your beds and every ride, in one card."
     : "Your house, your beds and every ride in one card.";
-  const myHouse = ME && STAYS.find((r) => members(r).some((w) => norm(w) === norm(ME)));
+  /* The name typed wins over the name stored. Searching someone else used to
+     leave this on the phone owner's own house, so Grace's card sat under the
+     Arrowtown house because Angelo had once said he was Angelo. */
+  const whose = (needle && everyone.find(isYou)) || ME;
+  const myHouse = whose && STAYS.find((r) => members(r).some((w) => norm(w) === norm(whose)));
   const others = STAYS.filter((r) => r !== myHouse);
   const elsewhere = needle && others.some((r) => members(r).some(isYou));
   $("#stayLists").innerHTML = myHouse
