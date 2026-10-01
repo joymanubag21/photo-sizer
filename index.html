@@ -248,6 +248,18 @@ details.ride-card[open] .acc-chev{transform:rotate(-135deg)}
 .acc-b{padding:0 17px 16px}
 .acc-b > .room:first-child{margin-top:0}
 .acc-b > .legs:first-child{margin-top:0; padding-top:0; border-top:0}
+/* The ride card renders its lists as name chips - flex, pill, no marker. The
+   documents the branch wants are prose, so they opt out of all of it. */
+.ride-card .van-docs{display:block; margin:9px 0 0; padding-left:17px; list-style:disc}
+.ride-card .van-docs li{
+  display:list-item; list-style:disc; background:none; border-radius:0; padding:0;
+  margin-top:5px; font-size:12.5px; line-height:1.6; color:var(--ink-2);
+}
+/* The late-flight fallback is not a step they all walk - it reads as an aside. */
+.leg-note{
+  display:block; margin-top:10px; padding:10px 12px; background:var(--warn-soft);
+  border-radius:var(--r); font-size:12.5px; line-height:1.6; color:var(--ink-2);
+}
 .route-n{display:inline-block; min-width:18px; margin-right:7px; font-variant-numeric:tabular-nums; color:var(--ink-3)}
 .ride-card .leg-c{font-size:10px; font-weight:600; letter-spacing:.1em; text-transform:uppercase; color:var(--rose); margin-left:7px}
 .steps{list-style:none; counter-reset:s; margin:11px 0 0; padding:0}
@@ -2192,8 +2204,42 @@ function dirLink(keys) {
     + (mid ? `&waypoints=${mid}` : "");
 }
 
+/* The van run retires at the end of Monday 6 October in Queenstown - the same
+   absolute-instant trick as SPY_OPENS, so it does not matter which timezone the
+   phone reading it is still set to. Dated a day past the pickup: a step they no
+   longer need costs a scroll, one that vanishes while they are still at the
+   rental desk costs them the van. */
+const VAN_UNTIL = Date.parse("2026-10-06T11:00:00Z");
+const YES_TEL = `<a href="tel:+6434202878">+64 3 420 2878</a>`;
+const YES_BRANCH_URL = "https://www.google.com/maps/search/?api=1&query="
+  + encodeURIComponent("Yes Rentals, 43 Brookes Road, Frankton, Queenstown, New Zealand");
+const YES_BRANCH = `<a href="${YES_BRANCH_URL}" target="_blank" rel="noopener"><b>43 Brookes Road, Frankton</b></a>`;
+const YES_SHEET = `<a href="https://yesrental.s3.ap-southeast-2.amazonaws.com/media/pickup_information/queenstown-airport_pickup.jpg" target="_blank" rel="noopener">Yes Rentals&rsquo; own pickup sheet</a>`;
+/* What the branch wants handed over. Both drivers collect a 12-seater from it,
+   so the list is written once. */
+const YES_DOCS = "<ul class='van-docs'>"
+  + "<li>your full <b>physical</b> driver&rsquo;s licence, with an English translation if it is not in English;</li>"
+  + "<li>your <b>passport</b>, if the licence is not a New Zealand one;</li>"
+  + "<li>a card for the <b>NZD 250</b> bond hold;</li>"
+  + "<li>payment for the <b>NZD 2,769</b> balance, unless it is already paid by bank transfer.</li>"
+  + "</ul>";
+
 const ROUTES = {
   Angelo: {
+    /* The van pickup, four days before the wedding. The 5:30 pm call is its own
+       numbered step rather than a clause, since missing it costs NZD 45. */
+    arrive: { label: "Landing &middot; Monday 5 October", stops: [
+      "Van 1, booking <b>#141663</b>. You land at <b>4:15 pm</b> &mdash; collect the luggage, which takes until about <b>4:45</b>.",
+      "Call " + YES_TEL + " as soon as you have your bags, to say you are ready for the Yes Rentals shuttle. It has to be <b>before 5:30 pm</b>, or it costs NZD 45.",
+      "Leave by <b>door D</b> and follow the transfer signs to the shuttle area, just outside Air New Zealand check-in. " + YES_SHEET + " shows the spot.",
+      "Wait for the white Yes Rentals van &mdash; usually 10&ndash;15 minutes &mdash; and wave the driver down.",
+      "At the branch, " + YES_BRANCH + ", have these ready:" + YES_DOCS,
+      "Sign the rental agreement and collect the van."
+    ],
+    note: "<b>If the flight runs late.</b> A pickup after <b>6:00 pm</b> is after hours, and "
+      + "those normally have to be arranged 24 hours ahead. Queenstown is the exception: the team "
+      + "there runs its own after-hours service. Collect your bags and call " + YES_TEL
+      + " anyway &mdash; the same number &mdash; and they will arrange it from their end." },
     ceremony: { stops: ["The lake house, 13 McKerrow Place &mdash; all twelve of you leave from there at <b>2:10 pm</b>. It is 8 km and <b>11 minutes</b>, so you are there by 2:25."],
                 map: ["lake", "canyons"] },
     reception: { stops: [HILTON], map: ["canyons", "hilton"] },
@@ -2202,6 +2248,17 @@ const ROUTES = {
             map: ["hilton", "lake", "arrowtown"] }
   },
   Marvin: {
+    /* Car 2 is the other Yes Rentals van. Joy has not given his booking number,
+       date or landing time, so this says only what holds for any pickup at that
+       branch - a driver's card is the last place to guess. */
+    arrive: { label: "Collecting Car 2", stops: [
+      "Car 2 comes from Yes Rentals, " + YES_BRANCH + ". " + YES_SHEET
+        + " shows where the shuttle picks up at the airport &mdash; <b>door D</b>, by Air New Zealand check-in.",
+      "Call " + YES_TEL + " once you have your bags, and bring these to the desk:" + YES_DOCS
+    ],
+    note: "<b>If you land after 6:00 pm.</b> That is an after-hours pickup, normally arranged "
+      + "24 hours ahead, but the Queenstown team runs its own after-hours service &mdash; call the "
+      + "same number once you have landed and they will sort it." },
     start: "You start at the Arrowtown house with Jane and your daughter. The whole run is 30.6 km and <b>38 minutes of driving</b>, so with three pickups leave by <b>1:40 pm</b> to make 2:40.",
     ceremony: { stops: ["Joy and Patrick&rsquo;s hotel &mdash; Lara Mae, Cathlyn and Norrie, after their makeup.",
                         "4 Dublin Street &mdash; Erwan.",
@@ -2581,13 +2638,15 @@ function renderRides(q) {
     return `<div>
       <span class="leg-l">${label}${stops.length > 1 ? `<span class="leg-c">${stops.length} stops</span>` : ""}</span>
       ${stops.map((t, i) => `<span class="leg-t"><span>${stops.length > 1 ? `<b class="route-n">${i + 1}</b>` : ""}${t}</span></span>`).join("")}
+      ${x.note ? `<span class="leg-note">${x.note}</span>` : ""}
       ${map ? `<a class="map" target="_blank" rel="noopener" href="${dirLink(map)}">${PIN} Open this run in Maps</a>` : ""}
     </div>`;
   };
   let legs = "";
   if (driver) {
     const r = ROUTES[driver];
-    legs = (r.early ? leg("The 6:30 am run", r.early) : "")
+    legs = (r.arrive && Date.now() < VAN_UNTIL ? leg(r.arrive.label, r.arrive) : "")
+      + (r.early ? leg("The 6:30 am run", r.early) : "")
       + (r.start ? `<div><span class="leg-l">Before you set off</span><span class="leg-t"><span>${r.start}</span></span></div>` : "")
       + leg("To the ceremony", r.ceremony) + leg("To the reception", r.reception) + leg("Going home", r.home);
   } else if (me && car && stay) {
