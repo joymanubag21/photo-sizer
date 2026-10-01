@@ -950,7 +950,7 @@ details[open] > .hire-steps{display:flex; flex-direction:column; gap:11px; paddi
    were already fixed. The page asks the server for its own current build once
    and reloads if it is behind. Guarded per build id, so a stale edge or a
    failed fetch can never put it in a loop. */
-const BUILD = "202610011702";
+const BUILD = "202610011713";
 document.documentElement.dataset.build = BUILD;
 (async () => {
   try {
@@ -2360,11 +2360,14 @@ const ROUTES = {
        not where his day starts. 18.6 km and 21 minutes by Malaghans and Gorge
        Road, measured between the two addresses the card already links to; 1:40 is
        Joy's call, giving nine minutes to load five people rather than four. */
+    /* Hotel before the lake house: Arrowtown, hotel, lake house, Canyons is
+       40 minutes, and taking the lake house first is 45. */
     ceremony: { rows: [
-      ["1:40 pm", "Leave the Arrowtown house", "Angelo, Emman, Sonito, Pia, Nica and Mae. 18.6 km and <b>21 minutes</b> to the lake house."],
-      ["2:10 pm", "Pick up four at the lake house", "Loren, Jan, Sai and Chit, at 13 McKerrow Place. <b>21 minutes</b> from Arrowtown. Ten aboard."],
-      ["2:25 pm", "At the Canyons", "8 km and <b>11 minutes</b> from the lake house. 32 minutes of driving in all."]
-    ], map: ["arrowtown", "lake", "canyons"] },
+      ["1:40 pm", "Leave the Arrowtown house", "Angelo, Emman, Sonito, Pia, Nica and Mae."],
+      ["1:51 pm", "Pick up Lara Mae and Cathlyn at the hotel", "<b>11 minutes</b> from Arrowtown, after their makeup."],
+      ["2:15 pm", "Pick up four at the lake house", "Loren, Jan, Sai and Chit, at 13 McKerrow Place. <b>18 minutes</b> from the hotel. Twelve aboard, which is every seat."],
+      ["2:33 pm", "At the Canyons", "<b>11 minutes</b> from the lake house. 40 minutes of driving in all, and seven minutes before the 2:40 call."]
+    ], map: ["arrowtown", "hotel", "lake", "canyons"] },
     reception: { rows: [
       ["4:45 pm", "The Canyons to the Hilton", "All ten of you, about 25 minutes."]
     ], map: ["canyons", "hilton"] },
@@ -2382,7 +2385,7 @@ const ROUTES = {
       ["2:25 pm", "At the Canyons", "<b>11 minutes</b> from the lake house. 35 minutes of driving in all, so a quarter of an hour spare before 2:40."]
     ], map: ["arrowtown", "dublin", "haka", "lake", "canyons"] },
     reception: { rows: [
-      ["4:45 pm", "The Canyons to the Hilton", "<b>Twelve now</b> &mdash; Lara Mae, Cathlyn and Norrie came out with Jun2x and get in here. About 25 minutes."]
+      ["4:45 pm", "The Canyons to the Hilton", "<b>Twelve now</b> &mdash; Lara Mae and Cathlyn came out with Angelo, Norrie with Jun2x, and all three get in here. About 25 minutes."]
     ], map: ["canyons", "hilton"] },
     home: { rows: [
       ["10:20 pm", "Drop five at the lake house", "Lara Mae, Cathlyn, JP, Daisy and Abby. <b>20 minutes</b> from the Hilton."],
@@ -2393,7 +2396,7 @@ const ROUTES = {
   },
   Franklin: {
     ceremony: { rows: [
-      ["By 2:40 pm", "The family Airbnb to the Canyons", "All seven of you, from Thompson Street."]
+      ["By 2:33 pm", "The family Airbnb to the Canyons", "Franklin, Nelly, Vicente, Blondie, Elisha, Nathaniel and Patrick, from Thompson Street."]
     ], map: ["airbnb", "canyons"] },
     reception: { rows: [
       ["4:45 pm", "The Canyons to the Hilton", "Once the photos are done. Everyone in your car, about 25 minutes."]
@@ -2412,17 +2415,11 @@ const ROUTES = {
     /* Patrick spends the morning at the family Airbnb, so he gets in there
        with the others and the hotel comes off the first run entirely - which
        takes it from 18 minutes to 8, and hands the turn-round ten of them. */
-    ceremony: [
-      { label: "To the ceremony &middot; the men", map: ["airbnb", "canyons"], rows: [
-        ["2:00 pm", "Leave the Airbnb with the men", "Joie, Gavin, Francis and Patrick."],
-        ["2:10 pm", "Drop them at the Canyons", "5.4 km and <b>8 minutes</b>. Then turn round for the bride &mdash; 15 minutes back to the hotel."]
-      ] },
-      { label: "To the ceremony &middot; the bride", map: ["hotel", "canyons"], rows: [
-        ["2:25 pm", "Back at the hotel", "Fifteen minutes to load."],
-        ["2:40 pm", "Leave the hotel with the bride", "Joy, Grace, Norrie, Lara Mae and Cathlyn."],
-        ["2:55 pm", "At the Canyons", "The last car in. Everybody is there before the guests are seated."]
-      ] }
-    ],
+    ceremony: { rows: [
+      ["2:10 pm", "Leave the Airbnb", "Francis, Gavin, Joie and Nieves."],
+      ["2:15 pm", "The hotel", "Joy, Grace and Norrie. <b>3 minutes</b> from the Airbnb. Eight aboard, which is every seat."],
+      ["2:33 pm", "At the Canyons", "<b>15 minutes</b> from the hotel &mdash; seven minutes before the 2:40 call."]
+    ], map: ["airbnb", "hotel", "canyons"] },
     reception: { rows: [
       ["4:45 pm", "The Canyons to the Hilton", "About 25 minutes."]
     ], map: ["canyons", "hilton"] },
