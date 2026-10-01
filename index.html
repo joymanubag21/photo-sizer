@@ -2716,7 +2716,11 @@ function renderRides(q) {
   const ALL_NAMES = Object.keys(carRow).sort((a, b) => b.length - a.length);
   const outLegs = (rt) => ["early", "start", "ceremony"].map((k) => {
     const l = rt[k]; if (!l) return "";
-    return typeof l === "string" ? l : (l.stops || []).join(" ");
+    if (typeof l === "string") return l;
+    /* legs are rows now; reading only .stops made every outbound driver
+       resolve to the car's own, which quietly undid the whole derivation */
+    if (l.rows) return l.rows.map((r) => r.join(" ")).join(" ");
+    return (l.stops || []).join(" ");
   }).join(" ");
   /* "Mae" sits inside "Lara Mae", so longer names are blanked before the
      shorter one is looked for. */
@@ -2796,6 +2800,7 @@ function renderRides(q) {
       <span class="leg-l">${label}</span>
       <ul class="plan-list hire-list">${x.rows.map(([w, what, who]) =>
         `<li><span class="plan-when">${w}</span><span class="plan-what">${what}<small>${who}</small></span></li>`).join("")}</ul>
+      ${x.note ? `<span class="leg-note">${x.note}</span>` : ""}
       ${x.map ? `<a class="map" target="_blank" rel="noopener" href="${dirLink(x.map)}">${PIN} Open this run in Maps</a>` : ""}
     </div>`;
     const stops = Array.isArray(x) ? x : x.stops;
@@ -2833,9 +2838,40 @@ function renderRides(q) {
       + (r.start ? `<div><span class="leg-l">Before you set off</span><span class="leg-t"><span>${r.start}</span></span></div>` : "")
       + leg("To the ceremony", r.ceremony) + leg("To the reception", r.reception) + leg("Going home", r.home);
   } else if (me && car && stay) {
-    legs = leg("To the ceremony", [CEREMONY_BY_NAME[me] || CEREMONY_BY_HOUSE[stay.place] || "Check with Joy."])
-      + leg("To the reception", [`With <b>${car.driver}</b>, straight to the Hilton. About 25 minutes.`])
-      + leg("Going home", [`<b>${car.driver}</b> ${HOME_BY_HOUSE[stay.place] || "takes you home"}.`]);
+    /* The same rows the driver sees, filtered to the ones that are about you -
+       plus the arrival, which is about everybody. A leg nobody is named in
+       belongs to the whole car, so it is kept whole. */
+    const outD = outDriver(me), rowsOf = (d, k) => (ROUTES[d] && ROUTES[d][k] && ROUTES[d][k].rows) || null;
+    const mineOnly = (rows) => rows.filter(([, what, who]) => names30(what + " " + who, me));
+    /* "Then" means after the row above it, which a guest may not be shown. If
+       their first row opens with one, it borrows the last clock before it. */
+    const unThen = (rows, all) => rows.map((r, i) => {
+      if (i || /\d/.test(r[0])) return r;
+      const at = all.indexOf(r);
+      for (let k = at - 1; k >= 0; k--) if (/\d/.test(all[k][0])) return ["After " + all[k][0], r[1], r[2]];
+      return r;
+    });
+    const withArrival = (rows) => {
+      if (!rows) return null;
+      const got = mineOnly(rows);
+      if (!got.length) return rows;
+      const last = rows[rows.length - 1];
+      return unThen(got.includes(last) ? got : got.concat([last]), rows);
+    };
+    const earlyRows = rowsOf(outD, "early");
+    const early = earlyRows && mineOnly(earlyRows).length ? withArrival(earlyRows) : null;
+    const cer = withArrival(rowsOf(outD, "ceremony"));
+    const rec = rowsOf(car.driver, "reception");
+    const homeRows = rowsOf(car.driver, "home");
+    const home = homeRows && (mineOnly(homeRows).length ? unThen(mineOnly(homeRows), homeRows) : homeRows);
+    const warn = CEREMONY_BY_NAME[me] || CEREMONY_BY_HOUSE[stay.place] || "";
+    legs = (early ? leg("Getting ready", { rows: early }) : "")
+      + (cer ? leg("To the ceremony", { rows: cer, note: warn })
+             : leg("To the ceremony", [warn || "Check with Joy."]))
+      + (rec ? leg("To the reception", { rows: rec })
+             : leg("To the reception", [`With <b>${car.driver}</b>, straight to the Hilton. About 25 minutes.`]))
+      + (home ? leg("Going home", { rows: home })
+              : leg("Going home", [`<b>${car.driver}</b> ${HOME_BY_HOUSE[stay.place] || "takes you home"}.`]));
   }
   legs = hire + legs;
   $("#driverRoute").innerHTML = !legs ? "" : `
