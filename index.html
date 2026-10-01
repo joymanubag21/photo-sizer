@@ -2164,9 +2164,7 @@ const STAYS = [
       { bed: "Two singles", who: ["JP", "Daisy", "Abby"] }
     ],
     legs: [
-      { l: "Getting ready", t: "Lara Mae and Cathlyn &mdash; at <b>6:30 am</b> Jun2x collects you and takes you to Joy and Patrick&rsquo;s hotel, with Grace and Norrie. Everyone else is here, and the car leaves at <b>2:10 pm</b>." },
-      { l: "Your driver, both ways", face: "samples/driver-angelo.jpg", t: "<b>Angelo</b> &mdash; Loren, Jan, Sai, Chit, JP, Daisy and Abby. He drops here first on the way home." },
-      { l: "", face: "samples/driver-marvin.jpg", t: "<b>Marvin</b> &mdash; Lara Mae and Cathlyn, home at the end of the night. Jun2x is the one who brings them from the hotel." }
+      { l: "Getting ready", t: "Lara Mae and Cathlyn &mdash; at <b>6:30 am</b> Jun2x collects you and takes you to Joy and Patrick&rsquo;s hotel, with Grace and Norrie. Everyone else is here, and the car leaves at <b>2:10 pm</b>." }
     ] },
   { place: "The Arrowtown house", addr: "760 Malaghans Road, Arrowtown 9371",
     rooms: [
@@ -2174,9 +2172,7 @@ const STAYS = [
       { bed: "3 beds for you to choose", who: ["Angelo", "Nica", "Mae", "Sonito", "Emman", "Pia"] }
     ],
     legs: [
-      { l: "Getting ready", t: "The six of you go to the lake house, 13 McKerrow Place. <b>Angelo&rsquo;s car leaves there at 2:10 pm</b> with five of you &mdash; Mae rides with Marvin, who collects her at the same house. Marvin's family goes straight to the ceremony." },
-      { l: "Your driver, both ways", face: "samples/driver-angelo.jpg", t: "<b>Angelo</b> &mdash; Angelo, Emman, Sonito, Pia and Nica." },
-      { l: "", face: "samples/driver-marvin.jpg", t: "<b>Marvin</b> &mdash; Marvin, Jane, his daughter and Mae." }
+      { l: "Getting ready", t: "The six of you go to the lake house, 13 McKerrow Place. <b>Angelo&rsquo;s car leaves there at 2:10 pm</b> with five of you &mdash; Mae rides with Marvin, who collects her at the same house. Marvin's family goes straight to the ceremony." }
     ] },
   { place: "The family Airbnb", addr: "Thompson Street, Queenstown 9300",
     rooms: [
@@ -2185,23 +2181,19 @@ const STAYS = [
     ],
     legs: [
       { l: "Getting ready", t: "Grace &mdash; at <b>6:30 am</b> Jun2x collects you and takes you to Joy and Patrick&rsquo;s hotel, with Lara Mae, Cathlyn and Norrie." },
-      { l: "Your driver, both ways", t: "<b>Franklin</b> &mdash; Nelly, Vicente, Blondie, Elisha, Nathaniel and Nieves." },
-      { l: "", t: "<b>Jun2x</b> &mdash; Joie, Gavin, Grace and Francis, with Joy and Patrick. Ten people, eight seats, so the ceremony run goes twice: the men at <b>2:00 pm</b>, then back for the bride and the bridesmaids at <b>2:50</b>." },
       { l: "", t: "No fixed time for either car &mdash; you go once the photos after the ceremony are done, and the same car brings you back." }
     ] },
   { place: "Norrie and Erwan&rsquo;s place", addr: "4 Dublin Street, Queenstown 9300",
     hit: "You&rsquo;re staying at <b>4 Dublin Street</b>.",
     rooms: [{ bed: "", who: ["Norrie", "Erwan"] }],
     legs: [
-      { l: "Getting ready", t: "Norrie &mdash; at <b>6:30 am</b> Jun2x collects you and takes you to Joy and Patrick&rsquo;s hotel, with Grace, Lara Mae and Cathlyn." },
-      { l: "Your driver", face: "samples/driver-marvin.jpg", t: "<b>Marvin</b> collects Erwan here on the way out, and brings you both back to Dublin Street at the end. Norrie goes to the ceremony with Jun2x, from the hotel." }
+      { l: "Getting ready", t: "Norrie &mdash; at <b>6:30 am</b> Jun2x collects you and takes you to Joy and Patrick&rsquo;s hotel, with Grace, Lara Mae and Cathlyn." }
     ] },
   { place: "Haka House", addr: "6 Henry Street, Queenstown 9300",
     hit: "You&rsquo;re staying at <b>Haka House</b>.",
     rooms: [{ bed: "", who: ["Marge", "Sam"] }],
     legs: [
       { l: "Getting ready", t: "You&rsquo;re both at the lake house, 13 McKerrow Place. <b>Marvin</b> collects you there &mdash; let Angelo&rsquo;s car go at <b>2:10</b> without you, it is full." },
-      { l: "Your driver, both ways", face: "samples/driver-marvin.jpg", t: "<b>Marvin</b>. He drops you at Haka House on the way back." }
     ] }
 ];
 const members = (x) => x.rooms.reduce((a, rm) => a.concat(rm.who), []);
@@ -2688,6 +2680,47 @@ function renderRides(q) {
     </div>`).join("");
   const car = needle && RIDES.find((r) => members(r).some(isYou));
   const stay = needle && STAYS.find((r) => members(r).some(isYou));
+  /* Who drives whom is worked out from the routes rather than written down
+     again under every house. Home is always the car you are rostered in;
+     outbound is whoever's own legs name you, which is how Jun2x taking the
+     bridesmaids from the hotel reaches their house card without anybody
+     remembering to edit it. This is the fact that went stale five times. */
+  const carRow = {};
+  RIDES.forEach((rd) => members(rd).forEach((w) => (carRow[w] = rd)));
+  const ALL_NAMES = Object.keys(carRow).sort((a, b) => b.length - a.length);
+  const outLegs = (rt) => ["early", "start", "ceremony"].map((k) => {
+    const l = rt[k]; if (!l) return "";
+    return typeof l === "string" ? l : (l.stops || []).join(" ");
+  }).join(" ");
+  /* "Mae" sits inside "Lara Mae", so longer names are blanked before the
+     shorter one is looked for. */
+  const names30 = (t, name) => {
+    let x = t;
+    ALL_NAMES.forEach((o) => { if (o !== name && o.includes(name)) x = x.split(o).join("\u0000"); });
+    return new RegExp("(^|[^A-Za-z])" + name.replace(/[.*+?^${}()|[\]\\]/g, "\\  const placeCard = (r, mine) => `") + "(?![A-Za-z])").test(x);
+  };
+  const outDriver = (w) => Object.keys(ROUTES).find((d) => names30(outLegs(ROUTES[d]), w))
+    || (carRow[w] && carRow[w].driver);
+  const andList = (a) => a.length < 2 ? (a[0] || "")
+    : a.slice(0, -1).join(", ") + " and " + a[a.length - 1];
+  const rideLines = (r) => {
+    const groups = new Map();
+    members(r).forEach((w) => {
+      const home = carRow[w], out = outDriver(w);
+      const key = out + "|" + (home ? home.driver : "?");
+      if (!groups.has(key)) groups.set(key, { out, home, who: [] });
+      groups.get(key).who.push(w);
+    });
+    const gs = [...groups.values()];
+    return gs.map((g, i) => ({
+      l: i ? "" : "Your driver" + (gs.length > 1 ? "s" : ""),
+      face: g.home && g.home.face,
+      t: g.out === (g.home && g.home.driver)
+        ? `<b>${g.out}</b> &mdash; ${andList(g.who)}, both ways.`
+        : `<b>${g.out}</b> takes ${andList(g.who)} to the ceremony; <b>${g.home.driver}</b> brings them home.`
+    }));
+  };
+
   const placeCard = (r, mine) => `
     <details class="ride-card" ${mine || (needle && members(r).some(isYou)) ? "open" : ""}>
       <summary>
@@ -2701,10 +2734,10 @@ function renderRides(q) {
       <div class="acc-b">
         ${r.rooms.map((rm) => `${rm.bed ? `<span class="room">${rm.bed}</span>` : ""}<ul>${rm.who.map(hit).join("")}</ul>`).join("")}
         ${r.note ? `<span class="note">${r.note}</span>` : ""}
-        ${r.legs ? `<div class="legs">${r.legs.map((g) => `
+        ${(() => { const gs = (r.legs || []).concat(r.addr ? rideLines(r) : []); return gs.length ? `<div class="legs">${gs.map((g) => `
           <div>${g.l ? `<span class="leg-l">${g.l}</span>` : ""}
             <span class="leg-t">${g.face ? `<img class="leg-face" src="${g.face}" alt="" loading="lazy">` : ""}<span>${g.t}</span></span>
-          </div>`).join("")}</div>` : ""}
+          </div>`).join("")}</div>` : ""; })()}
         ${r.addr ? `<a class="map" target="_blank" rel="noopener"
            href="https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(r.addr + ", New Zealand")}">${PIN} Open in Maps</a>` : ""}
       </div>
