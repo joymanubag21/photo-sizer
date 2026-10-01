@@ -2201,7 +2201,7 @@ const STAYS = [
     hit: "You&rsquo;re staying at <b>Haka House</b>.",
     rooms: [{ bed: "", who: ["Marge", "Sam"] }],
     legs: [
-      { l: "Getting ready", t: "You&rsquo;re both at the lake house, 13 McKerrow Place. <b>Marvin</b> collects you there &mdash; let Angelo&rsquo;s car go at <b>2:10</b> without you, it is full." },
+      { l: "Getting ready", t: "<b>Marvin</b> collects you here at about <b>2:02 pm</b>, on his way between Dublin Street and the lake house." },
     ] }
 ];
 const members = (x) => x.rooms.reduce((a, rm) => a.concat(rm.who), []);
@@ -2212,7 +2212,7 @@ const members = (x) => x.rooms.reduce((a, rm) => a.concat(rm.who), []);
 const READY = {
   rooms: [
     { bed: "", who: ["Angelo", "Sonito", "Pia", "Mae", "Nica", "Loren", "Jan",
-                     "Emman", "Sai", "Chit", "Marge", "Sam"] }
+                     "Emman", "Sai", "Chit"] }
   ]
 };
 
@@ -2352,9 +2352,10 @@ const ROUTES = {
     ceremony: { rows: [
       ["1:40 pm", "Leave the Arrowtown house", "Marvin, Jane and Marvin&rsquo;s daughter."],
       ["1:56 pm", "Pick up Erwan at 4 Dublin Street", "<b>16 minutes</b> from Arrowtown."],
-      ["2:10 pm", "Pick up five at the lake house", "Marge, Sam, JP, Daisy and Abby, at 13 McKerrow Place. <b>7 minutes</b> from Dublin Street. Twelve aboard."],
-      ["2:25 pm", "At the Canyons", "<b>11 minutes</b> from the lake house. 34 minutes of driving in all, so a quarter of an hour spare before 2:40."]
-    ], map: ["arrowtown", "dublin", "lake", "canyons"] },
+      ["2:02 pm", "Pick up Marge and Sam at Haka House", "6 Henry Street &mdash; 400 m from Dublin Street."],
+      ["2:10 pm", "Pick up three at the lake house", "JP, Daisy and Abby, at 13 McKerrow Place. <b>7 minutes</b> from Haka House. Twelve aboard."],
+      ["2:25 pm", "At the Canyons", "<b>11 minutes</b> from the lake house. 35 minutes of driving in all, so a quarter of an hour spare before 2:40."]
+    ], map: ["arrowtown", "dublin", "haka", "lake", "canyons"] },
     reception: { rows: [
       ["4:45 pm", "The Canyons to the Hilton", "All ten of you, about 25 minutes."]
     ], map: ["canyons", "hilton"] },
@@ -2408,22 +2409,15 @@ const CEREMONY_BY_HOUSE = {
   "The Arrowtown house": "You get ready at the lake house, 13 McKerrow Place, and the car leaves from there at <b>2:10 pm</b>.",
   "The family Airbnb": "You&rsquo;re collected at the Airbnb, Thompson Street.",
   "Norrie and Erwan&rsquo;s place": "You&rsquo;re collected at 4 Dublin Street.",
-  "Haka House": "You get ready at the lake house, 13 McKerrow Place. <b>Marvin</b> collects you there &mdash; Angelo&rsquo;s 2:10 is full."
+  "Haka House": "<b>Marvin</b> collects you here at about <b>2:02 pm</b>, between Dublin Street and the lake house."
 };
 const HOTEL_RUN = "At <b>6:30 am</b> Jun2x takes you to Joy and Patrick&rsquo;s hotel for makeup, and collects you from there again for the ceremony &mdash; leaving by <b>" + RUN_BRIDE + "</b>, with Joy. <b>Marvin</b> brings you home afterwards.";
-/* The lake house is where they get ready, not whose car they are in: Angelo
-   leaves it at 2:10 with twelve aboard and no spare seat. */
-const LAKE_BUT_MARVIN = "You get ready at <b>the lake house</b>, 13 McKerrow Place. <b>Marvin</b> collects you "
-  + "there on his way through, and has you at the Canyons by <b>2:40</b> &mdash; so let Angelo&rsquo;s car go at 2:10 without you.";
-
 const CEREMONY_BY_NAME = {
   "Lara Mae": HOTEL_RUN,
   "Cathlyn": HOTEL_RUN,
   "Norrie": "At <b>6:30 am</b> Jun2x collects you at <b>4 Dublin Street</b> for makeup at Joy and Patrick&rsquo;s hotel, and takes you on to the ceremony from there &mdash; leaving by <b>" + RUN_BRIDE + "</b>, with Joy. <b>Marvin</b> brings you home afterwards.",
   "Grace": "At <b>6:30 am</b> Jun2x takes you to Joy and Patrick&rsquo;s hotel for makeup, and you stay with Joy there. "
     + "You leave together at <b>" + RUN_BRIDE + "</b> &mdash; Jun2x has taken the men ahead and comes back for you. He drives you the rest of the day.",
-  "Marge": LAKE_BUT_MARVIN,
-  "Sam": LAKE_BUT_MARVIN,
   "Jane": "Straight to the ceremony from the Arrowtown house.",
   "Marvin's daughter": "Straight to the ceremony from the Arrowtown house."
 };
