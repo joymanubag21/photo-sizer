@@ -2269,12 +2269,9 @@ const RENTALS = {
       ["5:00 pm", "Collecting the van", "At {BRANCH}, about 5:00&ndash;5:15."]
     ],
     stops: [
-      "You land at <b>4:15 pm</b> &mdash; collect the luggage, which takes until about <b>4:45</b>.",
-      "Call " + "{TEL}" + " as soon as you have your bags, to say you are ready for the Yes Rentals shuttle. It has to be <b>before 5:30 pm</b>, or there is a late fee.",
       "Leave by <b>door D</b> and follow the transfer signs to the shuttle area, just outside Air New Zealand check-in. {SHEET} shows the spot.",
-      "Wait for the white Yes Rentals van &mdash; usually 10&ndash;15 minutes &mdash; and wave the driver down.",
-      "At the branch, {BRANCH}, expect to be collecting the van around <b>5:00&ndash;5:15 pm</b>. Have these ready:{DOCS}",
-      "Sign the rental agreement and collect the van."
+      "The van is white and marked Yes Rentals. Usually 10&ndash;15 minutes &mdash; wave the driver down.",
+      "At the desk, have these ready:{DOCS}"
     ],
   },
   Marvin: {
@@ -2287,10 +2284,9 @@ const RENTALS = {
       ["The desk", "Yes Rentals, Frankton", "{BRANCH}."]
     ],
     stops: [
-      "<b>8:00 am at Queenstown Airport</b> &mdash; the morning of the wedding. You and Casie are both on this booking.",
-      "Call {TEL} when you are there, to say you are ready for the Yes Rentals shuttle, then wait by <b>door D</b>, outside Air New Zealand check-in. {SHEET} shows the spot.",
-      "At the branch, {BRANCH}, have these ready:{DOCS}",
-      "Sign the agreement and collect the van."
+      "You and <b>Casie</b> are both on this booking, so either of you can sign for it.",
+      "Door D is outside Air New Zealand check-in. {SHEET} shows the spot.",
+      "At the desk, have these ready:{DOCS}"
     ],
     note: "<b>It is the wedding morning.</b> Your first pickup run leaves at <b>1:40 pm</b>, so there is "
       + "room &mdash; but this is the one errand on the day with somebody else&rsquo;s opening hours attached to it.",
@@ -2306,9 +2302,8 @@ const RENTALS = {
       ["The desk", "Yes Rentals, Frankton", "{BRANCH}."]
     ],
     stops: [
-      "<b>6:00 pm at Queenstown Airport.</b> Call {TEL} when you are ready, and wait by <b>door D</b>, outside Air New Zealand check-in. {SHEET} shows the spot.",
-      "At the branch, {BRANCH}, have these ready:{DOCS}",
-      "Sign the agreement and collect the car."
+      "Door D is outside Air New Zealand check-in. {SHEET} shows the spot.",
+      "At the desk, have these ready:{DOCS}"
     ],
   }
 };
@@ -2747,7 +2742,7 @@ function renderRides(q) {
           <span class="leg-l">${rental.label}</span>
           <ul class="plan-list hire-list">${rental.at.map(([k, v, d]) =>
             `<li><span class="plan-when">${k}</span><span class="plan-what">${v}<small>${d}</small></span></li>`).join("")}</ul>
-          <details class="more"><summary>The step by step</summary>
+          <details class="more"><summary>Where to wait, what to bring</summary>
             <div class="hire-steps">${rental.stops.map((t, i) =>
               `<span class="leg-t"><span><b class="route-n">${i + 1}</b>${t}</span></span>`).join("")}</div>
           </details>
