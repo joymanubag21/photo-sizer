@@ -2230,11 +2230,11 @@ const RENTALS = {
     until: Date.parse("2026-10-06T11:00:00Z"),
     stops: [
       "You land at <b>4:15 pm</b> &mdash; collect the luggage, which takes until about <b>4:45</b>.",
-      "Call " + "{TEL}" + " as soon as you have your bags, to say you are ready for the Yes Rentals shuttle. It has to be <b>before 5:30 pm</b>, or it costs NZD 45.",
+      "Call " + "{TEL}" + " as soon as you have your bags, to say you are ready for the Yes Rentals shuttle. It has to be <b>before 5:30 pm</b>, or there is a late fee.",
       "Leave by <b>door D</b> and follow the transfer signs to the shuttle area, just outside Air New Zealand check-in. {SHEET} shows the spot.",
       "Wait for the white Yes Rentals van &mdash; usually 10&ndash;15 minutes &mdash; and wave the driver down.",
       "At the branch, {BRANCH}, expect to be collecting the van around <b>5:00&ndash;5:15 pm</b>. Have these ready:{DOCS}",
-      "Sign the rental agreement and collect the van. The balance on this booking is <b>NZD 2,769.00</b>, unless it is already paid by bank transfer."
+      "Sign the rental agreement and collect the van."
     ],
     note: AFTER_HOURS,
     backUntil: Date.parse("2026-10-16T11:00:00Z"),
@@ -2249,7 +2249,7 @@ const RENTALS = {
       "<b>8:00 am at Queenstown Airport</b> &mdash; the morning of the wedding. You and Casie are both on this booking.",
       "Call {TEL} when you are there, to say you are ready for the Yes Rentals shuttle, then wait by <b>door D</b>, outside Air New Zealand check-in. {SHEET} shows the spot.",
       "At the branch, {BRANCH}, have these ready:{DOCS}",
-      "Sign the agreement and collect the van. The balance on this booking is <b>NZD 1,294.00</b>, unless it is already paid by bank transfer."
+      "Sign the agreement and collect the van."
     ],
     note: "<b>It is the wedding morning.</b> Your first pickup run leaves at <b>1:40 pm</b>, so there is "
       + "room &mdash; but this is the one errand on the day with somebody else&rsquo;s opening hours attached to it.",
@@ -2264,7 +2264,7 @@ const RENTALS = {
     stops: [
       "<b>6:00 pm at Queenstown Airport.</b> Call {TEL} when you are ready, and wait by <b>door D</b>, outside Air New Zealand check-in. {SHEET} shows the spot.",
       "At the branch, {BRANCH}, have these ready:{DOCS}",
-      "Sign the agreement and collect the car. The balance on this booking is <b>NZD 118.80</b>, unless it is already paid by bank transfer."
+      "Sign the agreement and collect the car."
     ],
     note: "<b>6:00 pm is the after-hours line itself.</b> If anything slips you are into the after-hours "
       + "service rather than the normal shuttle &mdash; same number, the Queenstown team arranges it, but ring "
@@ -2284,7 +2284,7 @@ const YES_SHEET = `<a href="https://yesrental.s3.ap-southeast-2.amazonaws.com/me
 const YES_DOCS = "<ul class='van-docs'>"
   + "<li>your full <b>physical</b> driver&rsquo;s licence, with an English translation if it is not in English;</li>"
   + "<li>your <b>passport</b>, if the licence is not a New Zealand one;</li>"
-  + "<li>a card for the <b>NZD 250</b> bond hold;</li>"
+  + "<li>a card for the bond hold;</li>"
   + "</ul>";
 
 /* RENTALS is declared above the links it quotes, so the swap happens here,
@@ -2392,7 +2392,7 @@ const JOBS = {
   "Grace":    [["10.45 am", "Your makeup with Christie, at Joy and Patrick&rsquo;s hotel."],
                ["5.15 pm", "<b>You MC.</b> Seat everyone and give the housekeeping notes."],
                ["6.10 pm", "Your speech, after Nelly and Vicente."],
-               ["All night", "The venue tells you and the planner when the bar tab hits $600 of $800."]],
+               ["All night", "The venue tells you and the planner when the bar tab is getting close to its limit."]],
   "Francis":  [["3.15 pm", "<b>You hold the rings</b> from the rehearsal until the day. Hand them to Nathan on the morning and walk him up the aisle with them."],
                ["6.10 pm", "Your speech, last &mdash; after Nelly, Vicente and Grace."]]
 };
