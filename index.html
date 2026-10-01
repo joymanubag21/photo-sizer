@@ -248,6 +248,29 @@ details.ride-card[open] .acc-chev{transform:rotate(-135deg)}
 .acc-b{padding:0 17px 16px}
 .acc-b > .room:first-child{margin-top:0}
 .acc-b > .legs:first-child{margin-top:0; padding-top:0; border-top:0}
+/* At-a-glance rows: the answer to "what am I doing and when" without reading
+   a procedure. 14px, because this is the densest screen in the app and it was
+   set smaller than everywhere else in it. */
+.ride-card .hire-at{display:block; list-style:none; margin:11px 0 0; padding:0}
+.ride-card .hire-at li{
+  display:flex; gap:13px; align-items:baseline; padding:10px 0; margin:0;
+  background:none; border-radius:0; border-bottom:1px solid var(--line);
+}
+.ride-card .hire-at li:last-child{border-bottom:0}
+.ride-card .hire-at b{
+  flex:none; min-width:86px; font-size:14px; font-weight:600; color:var(--ink);
+  font-variant-numeric:tabular-nums;
+}
+.ride-card .hire-at span{font-size:14px; line-height:1.5; color:var(--ink-2)}
+/* Inside the expander the steps are being walked, not scanned, so they get the
+   readable size too rather than the 12.5px the card bottomed out at. */
+/* A closed <details> hides its children with display:none; giving the panel
+   its own display overrides that and the steps never collapse. Only style it
+   open. */
+details[open] > .hire-steps{display:flex; flex-direction:column; gap:11px; padding-bottom:4px}
+.ride-card .hire-steps .leg-t{font-size:14px; line-height:1.6; align-items:flex-start}
+.ride-card .hire-steps .van-docs li{font-size:13.5px; line-height:1.6}
+.ride-card .leg-note{font-size:13.5px; line-height:1.6}
 /* The ride card renders its lists as name chips - flex, pill, no marker. The
    documents the branch wants are prose, so they opt out of all of it. */
 .ride-card .van-docs{display:block; margin:9px 0 0; padding-left:17px; list-style:disc}
@@ -2209,10 +2232,8 @@ function dirLink(keys) {
    phone reading it is still set to. Dated a day past the pickup: a step they no
    longer need costs a scroll, one that vanishes while they are still at the
    rental desk costs them the van. */
-const AFTER_HOURS = "<b>If the flight runs late.</b> A pickup after <b>6:00 pm</b> is after hours, and "
-  + "those normally have to be arranged 24 hours ahead. Queenstown is the exception: the team there "
-  + "runs its own after-hours service. Collect your bags and call the same number anyway, and they "
-  + "will arrange it from their end.";
+const AFTER_HOURS = "<b>Landing after 6:00 pm?</b> That is an after-hours pickup. Call the same "
+  + "number anyway &mdash; the Queenstown team runs its own after-hours service and will arrange it.";
 
 /* The three Yes Rentals bookings. Keyed by name rather than hung off ROUTES,
    because Patrick has one and does not drive the party anywhere.
@@ -2228,6 +2249,13 @@ const RENTALS = {
     ref: "#141663 &middot; Van 1, Hiace 12-seater",
     label: "Picking up Van 1 &middot; Monday 5 October",
     until: Date.parse("2026-10-06T11:00:00Z"),
+    /* What he needs standing at the carousel. The six steps are still there,
+       one tap down, for when he is actually walking them. */
+    at: [
+      ["4:15 pm", "You land. Bags take until about 4:45."],
+      ["By 5:30 pm", "Call {TEL} for the shuttle, or there is a late fee."],
+      ["5:00&ndash;5:15", "Collecting the van at {BRANCH}."]
+    ],
     stops: [
       "You land at <b>4:15 pm</b> &mdash; collect the luggage, which takes until about <b>4:45</b>.",
       "Call " + "{TEL}" + " as soon as you have your bags, to say you are ready for the Yes Rentals shuttle. It has to be <b>before 5:30 pm</b>, or there is a late fee.",
@@ -2238,8 +2266,8 @@ const RENTALS = {
     ],
     note: AFTER_HOURS,
     backUntil: Date.parse("2026-10-16T11:00:00Z"),
-    back: "Van 1 goes back <b>Friday 16 October, 6:00 am</b> &mdash; at <b>Christchurch Airport</b>, not Queenstown. "
-      + "That is most of a day's drive, so it is the day before that has to be planned, not the morning itself."
+    back: "<b>Friday 16 October, 6:00 am</b>, at <b>Christchurch Airport</b> &mdash; not Queenstown. "
+      + "Most of a day's drive, so the day before is the one to plan."
   },
   Marvin: {
     ref: "#141681 &middot; Van 2, Hiace 12-seater",
@@ -2290,8 +2318,10 @@ const YES_DOCS = "<ul class='van-docs'>"
 /* RENTALS is declared above the links it quotes, so the swap happens here,
    once those consts exist. */
 for (const r of Object.values(RENTALS)) {
-  r.stops = r.stops.map((t) => t.replace("{TEL}", YES_TEL).replace("{SHEET}", YES_SHEET)
-    .replace("{BRANCH}", YES_BRANCH).replace("{DOCS}", YES_DOCS));
+  const fill = (t) => t.replace("{TEL}", YES_TEL).replace("{SHEET}", YES_SHEET)
+    .replace("{BRANCH}", YES_BRANCH).replace("{DOCS}", YES_DOCS);
+  r.stops = r.stops.map(fill);
+  if (r.at) r.at = r.at.map(([k, v]) => [k, fill(v)]);
 }
 
 const ROUTES = {
@@ -2695,7 +2725,16 @@ function renderRides(q) {
   const rental = RENTALS[Object.keys(RENTALS).find((k) => k.toLowerCase() === needle)];
   const now = Date.now();
   const hire = !rental ? ""
-    : (now < rental.until ? leg(rental.label, { stops: rental.stops, note: rental.note }) : "")
+    : (now < rental.until ? (rental.at ? `<div>
+          <span class="leg-l">${rental.label}</span>
+          <ul class="hire-at">${rental.at.map(([k, v]) =>
+            `<li><b>${k}</b><span>${v}</span></li>`).join("")}</ul>
+          <details class="more"><summary>The step by step</summary>
+            <div class="hire-steps">${rental.stops.map((t, i) =>
+              `<span class="leg-t"><span><b class="route-n">${i + 1}</b>${t}</span></span>`).join("")}</div>
+          </details>
+          ${rental.note ? `<span class="leg-note">${rental.note}</span>` : ""}
+        </div>` : leg(rental.label, { stops: rental.stops, note: rental.note })) : "")
       + (now < rental.backUntil
           ? `<div><span class="leg-l">Giving it back<span class="leg-c">${rental.ref}</span></span>
                <span class="leg-t"><span>${rental.back}</span></span></div>`
