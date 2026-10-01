@@ -2327,14 +2327,18 @@ const ROUTES = {
        not where his day starts. 18.6 km and 21 minutes by Malaghans and Gorge
        Road, measured between the two addresses the card already links to; 1:40 is
        Joy's call, giving nine minutes to load five people rather than four. */
-    start: "You start at the Arrowtown house with Emman, Sonito, Pia and Nica. It is 18.6 km to the lake house and <b>21 minutes</b> of driving, so leave by <b>1:40 pm</b> to be there for 2:10.",
-    ceremony: { stops: [
-      "<b>The lake house</b>, 13 McKerrow Place, at <b>2:10 pm</b> &mdash; Loren, Jan, Sai, Chit, JP, Daisy and Abby join you there, twelve in the van. It is 8 km and <b>11 minutes</b>, so you are there by 2:25."],
-                map: ["lake", "canyons"] },
-    reception: { stops: [HILTON], map: ["canyons", "hilton"] },
-    home: { stops: ["<b>The lake house</b> &mdash; Loren, Jan, Sai, Chit, JP, Daisy and Abby.",
-                    "<b>The Arrowtown house</b> &mdash; Emman, Sonito, Pia, Nica and you."],
-            map: ["hilton", "lake", "arrowtown"] }
+    ceremony: { rows: [
+      ["1:40 pm", "Leave the Arrowtown house", "You, Emman, Sonito, Pia and Nica. 18.6 km and <b>21 minutes</b> to the lake house."],
+      ["2:10 pm", "Pick up seven at the lake house", "Loren, Jan, Sai, Chit, JP, Daisy and Abby, at 13 McKerrow Place. Twelve aboard."],
+      ["2:25 pm", "At the Canyons", "8 km and <b>11 minutes</b> from the lake house."]
+    ], map: ["arrowtown", "lake", "canyons"] },
+    reception: { rows: [
+      ["4:45 pm", "The Canyons to the Hilton", "All twelve of you, about 25 minutes."]
+    ], map: ["canyons", "hilton"] },
+    home: { rows: [
+      ["10:00 pm", "Drop seven at the lake house", "Loren, Jan, Sai, Chit, JP, Daisy and Abby."],
+      ["Then", "Drop five at the Arrowtown house", "Emman, Sonito, Pia, Nica and you."]
+    ], map: ["hilton", "lake", "arrowtown"] }
   },
   Marvin: {
     start: "You start at the Arrowtown house with Jane and your daughter. The whole run is 28.1 km and <b>34 minutes of driving</b>, so with two pickups leave by <b>1:40 pm</b> to make 2:40.",
@@ -2766,6 +2770,12 @@ function renderRides(q) {
   const driver = needle && Object.keys(ROUTES).find((d) => d.toLowerCase() === needle);
   // a guest's leg is one line; a driver's carries its stops and the whole route
   const leg = (label, x) => {
+    if (x && x.rows) return `<div>
+      <span class="leg-l">${label}</span>
+      <ul class="plan-list hire-list">${x.rows.map(([w, what, who]) =>
+        `<li><span class="plan-when">${w}</span><span class="plan-what">${what}<small>${who}</small></span></li>`).join("")}</ul>
+      ${x.map ? `<a class="map" target="_blank" rel="noopener" href="${dirLink(x.map)}">${PIN} Open this run in Maps</a>` : ""}
+    </div>`;
     const stops = Array.isArray(x) ? x : x.stops;
     const map = Array.isArray(x) ? null : x.map;
     return `<div>
