@@ -245,7 +245,11 @@ a.btn{text-decoration:none}
 .ride-card .room{display:block; font-size:var(--eb); font-weight:600; letter-spacing:var(--tr); text-transform:uppercase; color:var(--ink-3); margin-top:13px}
 .ride-card .room + ul{margin-top:6px}
 .ride-card .legs{margin-top:14px; padding-top:13px; border-top:1px solid var(--line); display:flex; flex-direction:column; gap:13px}
-.ride-card .leg-l{display:block; font-size:var(--eb); font-weight:600; letter-spacing:var(--tr); text-transform:uppercase; color:var(--ink-3); margin-bottom:5px}
+.ride-card .leg-l{display:block; font-size:var(--eb); font-weight:600; letter-spacing:var(--tr); text-transform:uppercase; color:var(--green); margin-bottom:6px}
+/* And a hairline between them, the way the timeline separates its rows. Legs
+   previously ran together on a 13px gap, so "To the ceremony" and "To the
+   reception" read as one block of text at a glance. */
+.ride-card .legs > div + div{border-top:1px solid var(--line); padding-top:15px}
 .ride-card .leg-t{display:flex; gap:9px; align-items:center; font-size:12.5px; color:var(--ink-2); line-height:1.55}
 .ride-card .leg-face{width:30px; height:30px; border-radius:50%; object-fit:cover; flex:none; border:1px solid var(--line-2)}
 details.ride-card{padding:0}
@@ -2260,7 +2264,7 @@ const RENTALS = {
        one tap down, for when he is actually walking them. */
     at: [
       ["4:15 pm", "You land", "Bags take until about 4:45."],
-      ["5:30 pm", "Call for the shuttle", "{TEL}. It has to be before this, or there is a late fee. "
+      ["4:45 pm", "Call for the shuttle", "{TEL}, as soon as you have your bags. It has to be before <b>5:30</b>, or there is a late fee. "
         + "Land after 6:00 pm and it is an after-hours pickup &mdash; same number, the Queenstown team still arranges it."],
       ["5:00 pm", "Collecting the van", "At {BRANCH}, about 5:00&ndash;5:15."]
     ],
