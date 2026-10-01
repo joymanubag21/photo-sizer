@@ -950,7 +950,7 @@ details[open] > .hire-steps{display:flex; flex-direction:column; gap:11px; paddi
    were already fixed. The page asks the server for its own current build once
    and reloads if it is behind. Guarded per build id, so a stale edge or a
    failed fetch can never put it in a loop. */
-const BUILD = "202610011647";
+const BUILD = "202610011653";
 document.documentElement.dataset.build = BUILD;
 (async () => {
   try {
@@ -2412,13 +2412,17 @@ const ROUTES = {
     /* Patrick spends the morning at the family Airbnb, so he gets in there
        with the others and the hotel comes off the first run entirely - which
        takes it from 18 minutes to 8, and hands the turn-round ten of them. */
-    ceremony: { rows: [
-      ["1:50 pm", "Leave the Airbnb with the men", "Joie, Gavin, Francis and Patrick."],
-      ["2:00 pm", "Drop them at the Canyons", "5.4 km and <b>8 minutes</b>. Then turn round for the bride &mdash; 15 minutes back to the hotel."],
-      ["2:15 pm", "Back at the hotel", "Twenty-five minutes to load, so nothing is rushed."],
-      ["2:40 pm", "Leave the hotel with the bride", "Joy, Grace, Norrie, Lara Mae and Cathlyn."],
-      ["2:55 pm", "At the Canyons", "The last car in. Everybody is there before the guests are seated."]
-    ], map: ["airbnb", "canyons", "hotel", "canyons"] },
+    ceremony: [
+      { label: "To the ceremony &middot; the men", map: ["airbnb", "canyons"], rows: [
+        ["1:50 pm", "Leave the Airbnb with the men", "Joie, Gavin, Francis and Patrick."],
+        ["2:00 pm", "Drop them at the Canyons", "5.4 km and <b>8 minutes</b>. Then turn round for the bride &mdash; 15 minutes back to the hotel."]
+      ] },
+      { label: "To the ceremony &middot; the bride", map: ["hotel", "canyons"], rows: [
+        ["2:15 pm", "Back at the hotel", "Twenty-five minutes to load, so nothing is rushed."],
+        ["2:40 pm", "Leave the hotel with the bride", "Joy, Grace, Norrie, Lara Mae and Cathlyn."],
+        ["2:55 pm", "At the Canyons", "The last car in. Everybody is there before the guests are seated."]
+      ] }
+    ],
     reception: { rows: [
       ["4:45 pm", "The Canyons to the Hilton", "About 25 minutes."]
     ], map: ["canyons", "hilton"] },
@@ -2879,7 +2883,9 @@ function renderRides(q) {
     const r = ROUTES[driver];
     legs = (r.early ? leg("The 6:30 am run", r.early) : "")
       + (r.start ? `<div><span class="leg-l">Before you set off</span><span class="leg-t"><span>${r.start}</span></span></div>` : "")
-      + leg("To the ceremony", r.ceremony) + leg("To the reception", r.reception) + leg("Going home", r.home);
+      + (Array.isArray(r.ceremony) ? r.ceremony.map((c) => leg(c.label, c)).join("")
+                                     : leg("To the ceremony", r.ceremony))
+      + leg("To the reception", r.reception) + leg("Going home", r.home);
   } else if (me && car && stay) {
     /* The same rows the driver sees, filtered to the ones that are about you -
        plus the arrival, which is about everybody. A leg nobody is named in
@@ -2907,13 +2913,19 @@ function renderRides(q) {
     };
     const earlyRows = rowsOf(outD, "early");
     const early = earlyRows && mineOnly(earlyRows).length ? withArrival(earlyRows) : null;
-    const cer = rowsOf(outD, "ceremony");
+    /* Two trips means two legs; you are shown the one you are on, because the
+       other one is not a stop on your way anywhere. */
+    const cerLeg = ROUTES[outD] && ROUTES[outD].ceremony;
+    const trips = Array.isArray(cerLeg) ? cerLeg : null;
+    const myTrip = trips && (trips.find((t) => t.rows.some(([, w, o]) => names30(w + " " + o, me))) || trips[trips.length - 1]);
+    const cer = trips ? myTrip.rows : rowsOf(outD, "ceremony");
+    const cerLabel = trips ? myTrip.label : "To the ceremony";
     const rec = rowsOf(car.driver, "reception");
     const homeRows = rowsOf(car.driver, "home");
     const home = homeRows;
     const warn = CEREMONY_BY_NAME[me] || CEREMONY_BY_HOUSE[stay.place] || "";
     legs = (early ? leg("Getting ready", { rows: early }) : "")
-      + (cer ? leg("To the ceremony", { rows: cer, note: warn })
+      + (cer ? leg(cerLabel, { rows: cer, note: warn })
              : leg("To the ceremony", [warn || "Check with Joy."]))
       + (rec ? leg("To the reception", { rows: rec })
              : leg("To the reception", [`With <b>${car.driver}</b>, straight to the Hilton. About 25 minutes.`]))
