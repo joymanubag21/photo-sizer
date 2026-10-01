@@ -276,6 +276,9 @@ details.ride-card[open] .acc-chev{transform:rotate(-135deg)}
   background:none; border-radius:0; font-size:inherit; color:inherit;
 }
 .ride-card .hire-list li + li{border-top:1px solid var(--line)}
+/* The stop that is yours, in a run that shows all of them. A tint and a rule,
+   not a colour change, so the row still reads as one of the set. */
+.ride-card .hire-list li.mine{background:var(--surface-2); box-shadow:inset 2px 0 0 var(--green)}
 /* Inside the expander the steps are being walked, not scanned, so they get the
    readable size too rather than the 12.5px the card bottomed out at. */
 /* A closed <details> hides its children with display:none; giving the panel
@@ -2130,16 +2133,17 @@ const RIDES = [
   { name: "Angelo&rsquo;s car", driver: "Angelo", hit: "Your driver both ways is <b>Angelo</b> &mdash; Car 1.", car: "Car 1 &middot; 12-seater", face: "samples/driver-angelo.jpg",
     rooms: [
       { bed: "Dropped first &mdash; the lake house",
-        who: ["Loren", "Jan", "Sai", "Chit", "JP", "Daisy", "Abby"] },
+        who: ["Loren", "Jan", "Sai", "Chit"] },
       { bed: "Then the Arrowtown house",
-        who: ["Angelo", "Emman", "Sonito", "Pia", "Nica"] }
+        who: ["Angelo", "Emman", "Sonito", "Pia", "Nica", "Mae"] }
     ],
     note: "Angelo drives this car both ways." },
   { name: "Marvin&rsquo;s car", driver: "Marvin", hit: "<b>Marvin</b> drives Car 2. Check your own line below &mdash; three of you come to the ceremony with Jun2x.", car: "Car 2 &middot; 12-seater", face: "samples/driver-marvin.jpg",
     rooms: [
       { bed: "The bridesmaids and Erwan", who: ["Lara Mae", "Cathlyn", "Norrie", "Erwan"] },
+      { bed: "JP&rsquo;s family", who: ["JP", "Daisy", "Abby"] },
       { bed: "Haka House", who: ["Marge", "Sam"] },
-      { bed: "The Arrowtown house", who: ["Marvin", "Jane", "Marvin's daughter", "Mae"] }
+      { bed: "The Arrowtown house", who: ["Marvin", "Jane", "Marvin's daughter"] }
     ],
     note: "Marvin drives this car both ways. It can head to the reception ahead of the others if the photos run long." },
   { name: "Franklin&rsquo;s car", driver: "Franklin", hit: "Your driver both ways is <b>Franklin</b>.", car: "The family car",
@@ -2176,7 +2180,7 @@ const STAYS = [
       { bed: "3 beds for you to choose", who: ["Angelo", "Nica", "Mae", "Sonito", "Emman", "Pia"] }
     ],
     legs: [
-      { l: "Getting ready", t: "Five of you go to the lake house, 13 McKerrow Place, and <b>Angelo&rsquo;s car leaves there at 2:10 pm</b>. Mae, Marvin, Jane and his daughter leave from here at <b>1:40</b> instead, and call at the lake house on the way." },
+      { l: "Getting ready", t: "Both cars leave here at <b>1:40 pm</b> and call at the lake house on the way, so nobody has to make their own way there." },
     ] },
   { place: "The family Airbnb", addr: "Thompson Street, Queenstown 9300",
     rooms: [
@@ -2332,33 +2336,33 @@ const ROUTES = {
        Road, measured between the two addresses the card already links to; 1:40 is
        Joy's call, giving nine minutes to load five people rather than four. */
     ceremony: { rows: [
-      ["1:40 pm", "Leave the Arrowtown house", "Angelo, Emman, Sonito, Pia and Nica. 18.6 km and <b>21 minutes</b> to the lake house."],
-      ["2:10 pm", "Pick up seven at the lake house", "Loren, Jan, Sai, Chit, JP, Daisy and Abby, at 13 McKerrow Place. Twelve aboard."],
-      ["2:25 pm", "At the Canyons", "8 km and <b>11 minutes</b> from the lake house."]
+      ["1:40 pm", "Leave the Arrowtown house", "Angelo, Emman, Sonito, Pia, Nica and Mae. 18.6 km and <b>21 minutes</b> to the lake house."],
+      ["2:10 pm", "Pick up four at the lake house", "Loren, Jan, Sai and Chit, at 13 McKerrow Place. <b>21 minutes</b> from Arrowtown. Ten aboard."],
+      ["2:25 pm", "At the Canyons", "8 km and <b>11 minutes</b> from the lake house. 32 minutes of driving in all."]
     ], map: ["arrowtown", "lake", "canyons"] },
     reception: { rows: [
       ["4:45 pm", "The Canyons to the Hilton", "All twelve of you, about 25 minutes."]
     ], map: ["canyons", "hilton"] },
     home: { rows: [
-      ["10:00 pm", "Drop seven at the lake house", "Loren, Jan, Sai, Chit, JP, Daisy and Abby."],
-      ["Then", "Drop five at the Arrowtown house", "Emman, Sonito, Pia, Nica and Angelo."]
+      ["10:00 pm", "Drop four at the lake house", "Loren, Jan, Sai and Chit."],
+      ["Then", "Drop six at the Arrowtown house", "Emman, Sonito, Pia, Nica, Mae and Angelo."]
     ], map: ["hilton", "lake", "arrowtown"] }
   },
   Marvin: {
     ceremony: { rows: [
-      ["1:40 pm", "Leave the Arrowtown house", "Marvin, Jane, Marvin&rsquo;s daughter and Mae."],
-      ["Then", "Pick up Erwan", "4 Dublin Street."],
-      ["Then", "Pick up Marge and Sam", "The lake house, 13 McKerrow Place. Ten aboard."],
-      ["2:40 pm", "At the Canyons", "28.1 km and <b>34 minutes</b> of driving in all."]
+      ["1:40 pm", "Leave the Arrowtown house", "Marvin, Jane and Marvin&rsquo;s daughter."],
+      ["1:56 pm", "Pick up Erwan at 4 Dublin Street", "<b>16 minutes</b> from Arrowtown."],
+      ["2:10 pm", "Pick up five at the lake house", "Marge, Sam, JP, Daisy and Abby, at 13 McKerrow Place. <b>7 minutes</b> from Dublin Street. Twelve aboard."],
+      ["2:25 pm", "At the Canyons", "<b>11 minutes</b> from the lake house. 34 minutes of driving in all, so a quarter of an hour spare before 2:40."]
     ], map: ["arrowtown", "dublin", "lake", "canyons"] },
     reception: { rows: [
       ["4:45 pm", "The Canyons to the Hilton", "All ten of you, about 25 minutes."]
     ], map: ["canyons", "hilton"] },
     home: { rows: [
-      ["10:00 pm", "Drop two at the lake house", "Lara Mae and Cathlyn."],
+      ["10:00 pm", "Drop five at the lake house", "Lara Mae, Cathlyn, JP, Daisy and Abby."],
       ["Then", "Drop two at 4 Dublin Street", "Norrie and Erwan."],
       ["Then", "Drop two at Haka House", "Marge and Sam, 6 Henry Street."],
-      ["Then", "Drop four at the Arrowtown house", "Marvin, Jane, Marvin&rsquo;s daughter and Mae."]
+      ["Then", "Drop three at the Arrowtown house", "Marvin, Jane and Marvin&rsquo;s daughter."]
     ], map: ["hilton", "lake", "dublin", "haka", "arrowtown"] }
   },
   Franklin: {
@@ -2418,8 +2422,6 @@ const CEREMONY_BY_NAME = {
   "Norrie": "At <b>6:30 am</b> Jun2x collects you at <b>4 Dublin Street</b> for makeup at Joy and Patrick&rsquo;s hotel, and takes you on to the ceremony from there &mdash; leaving by <b>" + RUN_BRIDE + "</b>, with Joy. <b>Marvin</b> brings you home afterwards.",
   "Grace": "At <b>6:30 am</b> Jun2x takes you to Joy and Patrick&rsquo;s hotel for makeup, and you stay with Joy there. "
     + "You leave together at <b>" + RUN_BRIDE + "</b> &mdash; Jun2x has taken the men ahead and comes back for you. He drives you the rest of the day.",
-  "Mae": "<b>Marvin</b> leaves the Arrowtown house at <b>1:40 pm</b> with you, Jane and his daughter, "
-    + "and calls at the lake house on the way. Angelo&rsquo;s car is full, so do not wait for the 2:10.",
   "Marge": LAKE_BUT_MARVIN,
   "Sam": LAKE_BUT_MARVIN,
   "Jane": "Straight to the ceremony from the Arrowtown house.",
@@ -2813,8 +2815,13 @@ function renderRides(q) {
   const leg = (label, x) => {
     if (x && x.rows) return `<div>
       <span class="leg-l">${label}</span>
-      <ul class="plan-list hire-list">${x.rows.map(([w, what, who]) =>
-        `<li><span class="plan-when">${w}</span><span class="plan-what">${voice(what)}<small>${voice(who)}</small></span></li>`).join("")}</ul>
+      <ul class="plan-list hire-list">${x.rows.map(([w, what, who]) => {
+        const vw = voice(what), vo = voice(who);
+        /* the rows that concern you are exactly the ones the voice swap
+           rewrote, so nothing has to be matched twice */
+        const mine = !driver && (vw !== what || vo !== who);
+        return `<li${mine ? ' class="mine"' : ""}><span class="plan-when">${w}</span><span class="plan-what">${vw}<small>${vo}</small></span></li>`;
+      }).join("")}</ul>
       ${x.note ? `<span class="leg-note">${x.note}</span>` : ""}
       ${x.map ? `<a class="map" target="_blank" rel="noopener" href="${dirLink(x.map)}">${PIN} Open this run in Maps</a>` : ""}
     </div>`;
@@ -2858,6 +2865,10 @@ function renderRides(q) {
        belongs to the whole car, so it is kept whole. */
     const outD = outDriver(me), rowsOf = (d, k) => (ROUTES[d] && ROUTES[d][k] && ROUTES[d][k].rows) || null;
     const mineOnly = (rows) => rows.filter(([, what, who]) => names30(what + " " + who, me));
+    /* The whole run is shown, so a passenger can see the van stops twice more
+       before it reaches them. Only the morning leg is still filtered, because
+       a 6:30 run nobody named you in is not your morning. */
+    const whole = (rows) => rows;
     /* "Then" means after the row above it, which a guest may not be shown. If
        their first row opens with one, it borrows the last clock before it. */
     const unThen = (rows, all) => rows.map((r, i) => {
@@ -2875,10 +2886,10 @@ function renderRides(q) {
     };
     const earlyRows = rowsOf(outD, "early");
     const early = earlyRows && mineOnly(earlyRows).length ? withArrival(earlyRows) : null;
-    const cer = withArrival(rowsOf(outD, "ceremony"));
+    const cer = rowsOf(outD, "ceremony");
     const rec = rowsOf(car.driver, "reception");
     const homeRows = rowsOf(car.driver, "home");
-    const home = homeRows && (mineOnly(homeRows).length ? unThen(mineOnly(homeRows), homeRows) : homeRows);
+    const home = homeRows;
     const warn = CEREMONY_BY_NAME[me] || CEREMONY_BY_HOUSE[stay.place] || "";
     legs = (early ? leg("Getting ready", { rows: early }) : "")
       + (cer ? leg("To the ceremony", { rows: cer, note: warn })
