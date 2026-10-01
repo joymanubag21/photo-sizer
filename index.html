@@ -2242,9 +2242,6 @@ function dirLink(keys) {
    phone reading it is still set to. Dated a day past the pickup: a step they no
    longer need costs a scroll, one that vanishes while they are still at the
    rental desk costs them the van. */
-const AFTER_HOURS = "<b>Landing after 6:00 pm?</b> That is an after-hours pickup. Call the same "
-  + "number anyway &mdash; the Queenstown team runs its own after-hours service and will arrange it.";
-
 /* The three Yes Rentals bookings. Keyed by name rather than hung off ROUTES,
    because Patrick has one and does not drive the party anywhere.
 
@@ -2263,7 +2260,8 @@ const RENTALS = {
        one tap down, for when he is actually walking them. */
     at: [
       ["4:15 pm", "You land", "Bags take until about 4:45."],
-      ["5:30 pm", "Call for the shuttle", "{TEL}. It has to be before this, or there is a late fee."],
+      ["5:30 pm", "Call for the shuttle", "{TEL}. It has to be before this, or there is a late fee. "
+        + "Land after 6:00 pm and it is an after-hours pickup &mdash; same number, the Queenstown team still arranges it."],
       ["5:00 pm", "Collecting the van", "At {BRANCH}, about 5:00&ndash;5:15."]
     ],
     stops: [
@@ -2274,7 +2272,6 @@ const RENTALS = {
       "At the branch, {BRANCH}, expect to be collecting the van around <b>5:00&ndash;5:15 pm</b>. Have these ready:{DOCS}",
       "Sign the rental agreement and collect the van."
     ],
-    note: AFTER_HOURS,
     backUntil: Date.parse("2026-10-16T11:00:00Z"),
     back: "<b>Friday 16 October, 6:00 am</b>, at <b>Christchurch Airport</b> &mdash; not Queenstown. "
       + "Most of a day's drive, so the day before is the one to plan."
@@ -2306,7 +2303,8 @@ const RENTALS = {
     until: Date.parse("2026-10-07T11:00:00Z"),
     at: [
       ["6:00 pm", "Collect the Aqua", "Queenstown Airport, Wednesday 7 October."],
-      ["Arrival", "Call for the shuttle", "{TEL}, then wait by door D."],
+      ["Arrival", "Call for the shuttle", "{TEL}, then wait by door D. A 6:00 pm pickup is already "
+        + "the after-hours line, so if anything slips, ring rather than wait at the kerb &mdash; they will still come."],
       ["The desk", "Yes Rentals, Frankton", "{BRANCH}."]
     ],
     stops: [
@@ -2314,9 +2312,6 @@ const RENTALS = {
       "At the branch, {BRANCH}, have these ready:{DOCS}",
       "Sign the agreement and collect the car."
     ],
-    note: "<b>6:00 pm is the after-hours line itself.</b> If anything slips you are into the after-hours "
-      + "service rather than the normal shuttle &mdash; same number, the Queenstown team arranges it, but ring "
-      + "them rather than waiting at the kerb.",
     backUntil: Date.parse("2026-10-10T11:00:00Z"),
     back: "The Aqua goes back <b>Saturday 10 October, 10:00 am</b>, at Queenstown Airport &mdash; your wedding morning. "
       + "Worth handing to somebody else to do."
