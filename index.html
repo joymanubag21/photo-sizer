@@ -2276,9 +2276,6 @@ const RENTALS = {
       "At the branch, {BRANCH}, expect to be collecting the van around <b>5:00&ndash;5:15 pm</b>. Have these ready:{DOCS}",
       "Sign the rental agreement and collect the van."
     ],
-    backUntil: Date.parse("2026-10-16T11:00:00Z"),
-    back: "<b>Friday 16 October, 6:00 am</b>, at <b>Christchurch Airport</b> &mdash; not Queenstown. "
-      + "Most of a day's drive, so the day before is the one to plan."
   },
   Marvin: {
     ref: "#141681 &middot; Van 2, Hiace 12-seater",
@@ -2297,9 +2294,6 @@ const RENTALS = {
     ],
     note: "<b>It is the wedding morning.</b> Your first pickup run leaves at <b>1:40 pm</b>, so there is "
       + "room &mdash; but this is the one errand on the day with somebody else&rsquo;s opening hours attached to it.",
-    backUntil: Date.parse("2026-10-15T11:00:00Z"),
-    back: "Van 2 goes back <b>Thursday 15 October, 8:00 am</b> &mdash; at <b>Christchurch Airport</b>, not Queenstown. "
-      + "Most of a day&rsquo;s drive, so plan the day before."
   },
   Patrick: {
     ref: "#142125 &middot; Toyota Aqua",
@@ -2316,9 +2310,6 @@ const RENTALS = {
       "At the branch, {BRANCH}, have these ready:{DOCS}",
       "Sign the agreement and collect the car."
     ],
-    backUntil: Date.parse("2026-10-10T11:00:00Z"),
-    back: "The Aqua goes back <b>Saturday 10 October, 10:00 am</b>, at Queenstown Airport &mdash; your wedding morning. "
-      + "Worth handing to somebody else to do."
   }
 };
 const YES_TEL = `<a href="tel:+6434202878">+64 3 420 2878</a>`;
@@ -2345,11 +2336,14 @@ for (const r of Object.values(RENTALS)) {
 
 const ROUTES = {
   Angelo: {
-    ceremony: { stops: ["The lake house, 13 McKerrow Place &mdash; all twelve of you leave from there at <b>2:10 pm</b>. It is 8 km and <b>11 minutes</b>, so you are there by 2:25."],
+    ceremony: { stops: [
+      "Leaves <b>the lake house</b>, 13 McKerrow Place, at <b>2:10 pm</b>. It is 8 km and <b>11 minutes</b>, so you are there by 2:25.",
+      "<b>Your twelve.</b> Already at the lake house: Loren, Jan, Sai, Chit, JP, Daisy and Abby. Coming from the Arrowtown house: you, Emman, Sonito, Pia and Nica."],
                 map: ["lake", "canyons"] },
     reception: { stops: [HILTON], map: ["canyons", "hilton"] },
-    home: { stops: ["The lake house &mdash; Loren, Jan, Sai, Chit, JP, Daisy and Abby.",
-                    "The Arrowtown house &mdash; you, Emman, Sonito, Pia and Nica."],
+    home: { stops: ["The lake house &mdash; Loren, Jan, Sai, Chit, JP, Daisy and Abby. Seven.",
+                    "The Arrowtown house &mdash; you, Emman, Sonito, Pia and Nica. Five."],
+            note: "The same twelve you brought, dropped in two stops.",
             map: ["hilton", "lake", "arrowtown"] }
   },
   Marvin: {
@@ -2754,10 +2748,7 @@ function renderRides(q) {
           </details>
           ${rental.note ? `<span class="leg-note">${rental.note}</span>` : ""}
         </div>` : leg(rental.label, { stops: rental.stops, note: rental.note })) : "")
-      + (now < rental.backUntil
-          ? `<div><span class="leg-l">Giving it back<span class="leg-c">${rental.ref}</span></span>
-               <span class="leg-t"><span>${rental.back}</span></span></div>`
-          : "");
+;
   let legs = "";
   if (driver) {
     const r = ROUTES[driver];
@@ -2773,7 +2764,7 @@ function renderRides(q) {
   $("#driverRoute").innerHTML = !legs ? "" : `
     <div class="ride-card" style="padding:16px 17px">
       <h4>${driver ? "You&rsquo;re driving" : "Your day"}</h4>
-      <span class="drv">${[stay && stay.place, car && car.name].filter(Boolean).join(" &middot; ")}</span>
+      <span class="drv">${[stay && stay.place, car && (driver ? car.car : car.name)].filter(Boolean).join(" &middot; ")}</span>
       <div class="legs">${legs}</div>
     </div>`;
   $("#rideHit").innerHTML = !needle || legs ? ""
