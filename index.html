@@ -2131,7 +2131,7 @@ const RIDES = [
         who: ["Angelo", "Emman", "Sonito", "Pia", "Nica"] }
     ],
     note: "Angelo drives this car both ways." },
-  { name: "Marvin&rsquo;s car", driver: "Marvin", hit: "Your driver both ways is <b>Marvin</b> &mdash; Car 2.", car: "Car 2 &middot; 12-seater", face: "samples/driver-marvin.jpg",
+  { name: "Marvin&rsquo;s car", driver: "Marvin", hit: "<b>Marvin</b> drives Car 2. Check your own line below &mdash; three of you come to the ceremony with Jun2x.", car: "Car 2 &middot; 12-seater", face: "samples/driver-marvin.jpg",
     rooms: [
       { bed: "The bridesmaids and Erwan", who: ["Lara Mae", "Cathlyn", "Norrie", "Erwan"] },
       { bed: "Haka House", who: ["Marge", "Sam"] },
@@ -2345,11 +2345,10 @@ const ROUTES = {
             map: ["hilton", "lake", "arrowtown"] }
   },
   Marvin: {
-    start: "You start at the Arrowtown house with Jane and your daughter. The whole run is 30.6 km and <b>38 minutes of driving</b>, so with three pickups leave by <b>1:40 pm</b> to make 2:40.",
-    ceremony: { stops: ["Joy and Patrick&rsquo;s hotel &mdash; Lara Mae, Cathlyn and Norrie, after their makeup.",
-                        "4 Dublin Street &mdash; Erwan.",
+    start: "You start at the Arrowtown house with Jane and your daughter. The whole run is 28.1 km and <b>34 minutes of driving</b>, so with two pickups leave by <b>1:40 pm</b> to make 2:40.",
+    ceremony: { stops: ["4 Dublin Street &mdash; Erwan.",
                         "The lake house &mdash; Mae, Marge and Sam, who get ready there."],
-                map: ["arrowtown", "hotel", "dublin", "lake", "canyons"] },
+                map: ["arrowtown", "dublin", "lake", "canyons"] },
     reception: { stops: [HILTON], map: ["canyons", "hilton"] },
     home: { stops: ["The lake house &mdash; Lara Mae and Cathlyn.",
                     "4 Dublin Street &mdash; Norrie and Erwan.",
@@ -2369,8 +2368,11 @@ const ROUTES = {
                      "<b>4 Dublin Street</b> &mdash; Norrie, on the way through.",
                      "<b>Joy and Patrick&rsquo;s hotel.</b> The lake house to the hotel is 18 minutes direct, so allow a little more for Dublin Street. Makeup starts at <b>7:45</b>."],
              map: ["airbnb", "lake", "dublin", "hotel"] },
-    ceremony: { stops: ["The family Airbnb &mdash; you start here, with Joie, Gavin and Francis.",
-                        "<b>2:40 pm</b> &mdash; Joy and Patrick&rsquo;s hotel, for Joy, Patrick and Grace. The Canyons is 15 minutes from there."],
+    /* Two runs. Ten people, eight seats - and the bride wants to arrive last
+       anyway, so the split costs nothing it does not already want to spend. */
+    ceremony: { stops: [
+      "<b>First run, leave at 2:00 pm.</b> The family Airbnb with Joie, Gavin and Francis, then <b>Patrick</b> at the hotel. 13.1 km and <b>18 minutes</b>, so they are at the Canyons by about 2:20.",
+      "<b>Then back for the bride.</b> The Canyons to the hotel is 15 minutes. Leave the hotel by <b>2:50 pm</b> with Joy, Grace, Norrie, Lara Mae and Cathlyn, and you are there by 3:05 &mdash; ten minutes before the procession."],
                 map: ["airbnb", "hotel", "canyons"] },
     reception: { stops: [HILTON], map: ["canyons", "hilton"] },
     home: { stops: ["The family Airbnb &mdash; you, Joie, Gavin, Grace and Francis.",
@@ -2388,11 +2390,11 @@ const CEREMONY_BY_HOUSE = {
   "Norrie and Erwan&rsquo;s place": "You&rsquo;re collected at 4 Dublin Street.",
   "Haka House": "You get ready at the lake house, 13 McKerrow Place, and the car leaves from there at <b>2:10 pm</b>."
 };
-const HOTEL_RUN = "At <b>6:30 am</b> Jun2x takes you to Joy and Patrick&rsquo;s hotel for makeup. <b>Marvin</b> collects you there for the ceremony.";
+const HOTEL_RUN = "At <b>6:30 am</b> Jun2x takes you to Joy and Patrick&rsquo;s hotel for makeup, and collects you from there again for the ceremony &mdash; leaving by <b>2:50 pm</b>, with Joy. <b>Marvin</b> brings you home afterwards.";
 const CEREMONY_BY_NAME = {
   "Lara Mae": HOTEL_RUN,
   "Cathlyn": HOTEL_RUN,
-  "Norrie": "At <b>6:30 am</b> Jun2x collects you at <b>4 Dublin Street</b> for makeup at Joy and Patrick&rsquo;s hotel. <b>Marvin</b> collects you there for the ceremony.",
+  "Norrie": "At <b>6:30 am</b> Jun2x collects you at <b>4 Dublin Street</b> for makeup at Joy and Patrick&rsquo;s hotel, and takes you on to the ceremony from there &mdash; leaving by <b>2:50 pm</b>, with Joy. <b>Marvin</b> brings you home afterwards.",
   "Grace": "At <b>6:30 am</b> Jun2x takes you to Joy and Patrick&rsquo;s hotel for makeup, and you stay in her car all day.",
   "Jane": "Straight to the ceremony from the Arrowtown house.",
   "Marvin's daughter": "Straight to the ceremony from the Arrowtown house."
