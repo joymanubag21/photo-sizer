@@ -2341,39 +2341,54 @@ const ROUTES = {
     ], map: ["hilton", "lake", "arrowtown"] }
   },
   Marvin: {
-    start: "You start at the Arrowtown house with Jane and your daughter. The whole run is 28.1 km and <b>34 minutes of driving</b>, so with two pickups leave by <b>1:40 pm</b> to make 2:40.",
-    ceremony: { stops: ["4 Dublin Street &mdash; Erwan.",
-                        "The lake house &mdash; Mae, Marge and Sam, who get ready there."],
-                map: ["arrowtown", "dublin", "lake", "canyons"] },
-    reception: { stops: [HILTON], map: ["canyons", "hilton"] },
-    home: { stops: ["The lake house &mdash; Lara Mae and Cathlyn.",
-                    "4 Dublin Street &mdash; Norrie and Erwan.",
-                    "<b>Haka House</b>, 6 Henry Street &mdash; Marge and Sam.",
-                    "The Arrowtown house &mdash; you, Jane, your daughter and Mae."],
-            map: ["hilton", "lake", "dublin", "haka", "arrowtown"] }
+    ceremony: { rows: [
+      ["1:40 pm", "Leave the Arrowtown house", "You, Jane and your daughter."],
+      ["Then", "Pick up Erwan", "4 Dublin Street."],
+      ["Then", "Pick up Mae, Marge and Sam", "The lake house, 13 McKerrow Place. Ten aboard."],
+      ["2:40 pm", "At the Canyons", "28.1 km and <b>34 minutes</b> of driving in all."]
+    ], map: ["arrowtown", "dublin", "lake", "canyons"] },
+    reception: { rows: [
+      ["4:45 pm", "The Canyons to the Hilton", "All ten of you, about 25 minutes."]
+    ], map: ["canyons", "hilton"] },
+    home: { rows: [
+      ["10:00 pm", "Drop two at the lake house", "Lara Mae and Cathlyn."],
+      ["Then", "Drop two at 4 Dublin Street", "Norrie and Erwan."],
+      ["Then", "Drop two at Haka House", "Marge and Sam, 6 Henry Street."],
+      ["Then", "Drop four at the Arrowtown house", "You, Jane, your daughter and Mae."]
+    ], map: ["hilton", "lake", "dublin", "haka", "arrowtown"] }
   },
   Franklin: {
-    ceremony: { stops: ["Straight from the family Airbnb, Thompson Street, with all seven of you."],
-                map: ["airbnb", "canyons"] },
-    reception: { stops: [HILTON], map: ["canyons", "hilton"] },
-    home: { stops: ["The family Airbnb &mdash; everyone in your car."], map: ["hilton", "airbnb"] }
+    ceremony: { rows: [
+      ["By 2:40 pm", "The family Airbnb to the Canyons", "All seven of you, from Thompson Street."]
+    ], map: ["airbnb", "canyons"] },
+    reception: { rows: [
+      ["4:45 pm", "The Canyons to the Hilton", "Once the photos are done. Everyone in your car, about 25 minutes."]
+    ], map: ["canyons", "hilton"] },
+    home: { rows: [
+      ["10:00 pm", "Drop everyone at the family Airbnb", "Nelly, Vicente, Blondie, Elisha, Nathaniel and Nieves."]
+    ], map: ["hilton", "airbnb"] }
   },
   Jun2x: {
-    early: { stops: ["<b>6:30 am</b> &mdash; leave the Airbnb with Grace.",
-                     "<b>6:44 am</b> &mdash; the lake house, for Lara Mae and Cathlyn. 14 minutes.",
-                     "<b>4 Dublin Street</b> &mdash; Norrie, on the way through.",
-                     "<b>Joy and Patrick&rsquo;s hotel.</b> The lake house to the hotel is 18 minutes direct, so allow a little more for Dublin Street. Makeup starts at <b>7:45</b>."],
-             map: ["airbnb", "lake", "dublin", "hotel"] },
-    /* Two runs. Ten people, eight seats - and the bride wants to arrive last
-       anyway, so the split costs nothing it does not already want to spend. */
-    ceremony: { stops: [
-      "<b>First run, leave at 2:00 pm.</b> The family Airbnb with Joie, Gavin and Francis, then <b>Patrick</b> at the hotel. 13.1 km and <b>18 minutes</b>, so they are at the Canyons by about 2:20.",
-      "<b>Then back for the bride.</b> The Canyons to the hotel is 15 minutes. Leave the hotel by <b>2:50 pm</b> with Joy, Grace, Norrie, Lara Mae and Cathlyn, and you are there by 3:05 &mdash; ten minutes before the procession."],
-                map: ["airbnb", "hotel", "canyons"] },
-    reception: { stops: [HILTON], map: ["canyons", "hilton"] },
-    home: { stops: ["The family Airbnb &mdash; you, Joie, Gavin, Grace and Francis.",
-                    "Joy and Patrick&rsquo;s hotel."],
-            map: ["hilton", "airbnb", "hotel"] }
+    early: { rows: [
+      ["6:30 am", "Leave the Airbnb", "With Grace."],
+      ["6:44 am", "The lake house", "Lara Mae and Cathlyn. 14 minutes."],
+      ["Then", "4 Dublin Street", "Norrie, on the way through."],
+      ["7:45 am", "Makeup starts at the hotel", "The lake house to the hotel is 18 minutes direct, so allow a little more for Dublin Street."]
+    ], map: ["airbnb", "lake", "dublin", "hotel"] },
+    ceremony: { rows: [
+      ["2:00 pm", "Leave the Airbnb with the men", "Joie, Gavin and Francis."],
+      ["Then", "Pick up Patrick at the hotel", "13.1 km and <b>18 minutes</b> in all."],
+      ["2:20 pm", "Drop them at the Canyons", "Then turn round for the bride &mdash; 15 minutes back to the hotel."],
+      ["2:50 pm", "Leave the hotel with the bride", "Joy, Grace, Norrie, Lara Mae and Cathlyn."],
+      ["3:05 pm", "At the Canyons", "Ten minutes before the procession."]
+    ], map: ["airbnb", "hotel", "canyons"] },
+    reception: { rows: [
+      ["4:45 pm", "The Canyons to the Hilton", "About 25 minutes."]
+    ], map: ["canyons", "hilton"] },
+    home: { rows: [
+      ["10:00 pm", "Drop five at the family Airbnb", "You, Joie, Gavin, Grace and Francis."],
+      ["Then", "Joy and Patrick to their hotel", "594 Frankton Road."]
+    ], map: ["hilton", "airbnb", "hotel"] }
   }
 };
 
