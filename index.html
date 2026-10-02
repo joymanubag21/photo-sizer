@@ -994,7 +994,7 @@ details[open] > .hire-steps{display:flex; flex-direction:column; gap:11px; paddi
    were already fixed. The page asks the server for its own current build once
    and reloads if it is behind. Guarded per build id, so a stale edge or a
    failed fetch can never put it in a loop. */
-const BUILD = "202610020419";
+const BUILD = "202610020423";
 document.documentElement.dataset.build = BUILD;
 (async () => {
   try {
@@ -2237,7 +2237,13 @@ const STAYS = [
       { bed: "Two singles", who: ["JP", "Daisy", "Abby"] }
     ],
     legs: [
-      { l: "Getting ready", t: "Lara Mae and Cathlyn &mdash; at <b>6:30 am</b> Jun2x collects you and takes you to Joy and Patrick&rsquo;s hotel, with Grace and Norrie. Everyone else is here, and the car leaves at <b>2:10 pm</b>." }
+      { l: "Getting ready", t: "Lara Mae and Cathlyn &mdash; at <b>6:30 am</b> Jun2x collects you and takes you to Joy and Patrick&rsquo;s hotel, with Grace and Norrie. Everyone else is here, and the car leaves at <b>2:10 pm</b>." },
+      /* The owner's arrival notes. The door code is deliberately not here: this
+         repository and the site built from it are both public, and a commit is
+         permanent even after a later edit. Joy sends it to the nine directly. */
+      { l: "Finding the house", t: "Drive down <b>McKerrow Place</b> to the roundabout and make a U-turn. A gravel path is on your right &mdash; about <b>20 metres</b> down it the house is on your right, <b>dark brown with a white base</b>. It is the last one on the driveway, so no need to knock anywhere else." },
+      { l: "Parking and the door", t: "Park in front of the downstairs unit, close to the retaining wall, then up the concrete steps &mdash; your unit is upstairs. The lock is digital: enter the code, then turn it to the <b>right</b>. Joy sends the code separately. The wifi password is in the welcome book by the TV." },
+      { l: "Check-in and out", t: "In after <b>3 pm</b>, out by <b>10 am</b>. Earlier or later is sometimes possible when there is no booking either side, but it has to be asked for." }
     ] },
   { place: "The Arrowtown house", addr: "760 Malaghans Road, Arrowtown 9371",
     rooms: [
