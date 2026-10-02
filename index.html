@@ -969,8 +969,8 @@ details[open] > .hire-steps{display:flex; flex-direction:column; gap:11px; paddi
 
     <ul class="plan-list">
       <li>
-        <span class="plan-when">2:40 pm</span>
-        <span class="plan-what">Be at Canyon&rsquo;s Lodge<small>Everyone else arrives 2:55, ceremony 3:15. Come early and nobody rushes.</small></span>
+        <span class="plan-when">2:55 pm</span>
+        <span class="plan-what">Be at Canyon&rsquo;s Lodge<small>The runsheet&rsquo;s time for guests, and your car has you there by <b>2:50</b>. The bride&rsquo;s party comes at 3:05, ceremony <b>3:15</b>.</small></span>
       </li>
       <li>
         <span class="plan-when">4:45 pm</span>
@@ -1221,7 +1221,7 @@ details[open] > .hire-steps{display:flex; flex-direction:column; gap:11px; paddi
   }
 })();
 
-const BUILD = "202610021714";
+const BUILD = "202610022102";
 document.documentElement.dataset.build = BUILD;
 (async () => {
   try {
@@ -2663,11 +2663,11 @@ const ROUTES = {
   },
   Marvin: {
     ceremony: { rows: [
-      ["1:59 pm", "Leave the Arrowtown house", "Marvin, Jane and Marvin&rsquo;s daughter."],
-      ["2:15 pm", "4 Dublin Street, for Erwan", "<b>16 minutes</b> from Arrowtown. Allow <b>4</b> to load."],
-      ["2:21 pm", "Haka House, for Marge and Sam", "6 Henry Street, <b>2 minutes</b> on. Allow <b>5</b>."],
-      ["2:33 pm", "The lake house, for three", "JP, Daisy and Abby, at 13 McKerrow Place. <b>7 minutes</b> from Haka House, and <b>6</b> to load. <b>Nine aboard</b>."],
-      ["2:50 pm", "At the Canyons", "<b>11 minutes</b> from the lake house. 36 minutes driving, 15 standing still."]
+      ["2:00 pm", "Leave the Arrowtown house", "Marvin, Jane and Marvin&rsquo;s daughter."],
+      ["2:16 pm", "4 Dublin Street, for Erwan", "<b>16 minutes</b> from Arrowtown. Allow <b>4</b> to load."],
+      ["2:22 pm", "Haka House, for Marge and Sam", "6 Henry Street, <b>2 minutes</b> on. Allow <b>5</b>."],
+      ["2:34 pm", "The lake house, for three", "JP, Daisy and Abby, at 13 McKerrow Place. <b>7 minutes</b> from Haka House, and <b>6</b> to load. <b>Nine aboard</b>."],
+      ["2:51 pm", "At the Canyons", "<b>11 minutes</b> from the lake house. 36 minutes driving, 15 standing still."]
     ], map: ["arrowtown", "dublin", "haka", "lake", "canyons"] },
     reception: { rows: [
       ["4:45 pm", "The Canyons to the Hilton", "<b>Twelve now</b> &mdash; Lara Mae, Cathlyn and Norrie came out with Jun2x and get in here. About 25 minutes."]
@@ -2718,9 +2718,9 @@ const ROUTES = {
       ["4:45 pm", "The Canyons to the Hilton", "About 25 minutes."]
     ], map: ["canyons", "hilton"] },
     home: { rows: [
-      ["10:20 pm", "Drop five at the family Airbnb", "Jun2x, Joie, Gavin, Grace and Francis. <b>16 minutes</b> from the Hilton."],
-      ["10:30 pm", "Joy and Patrick to their hotel", "594 Frankton Road, a few minutes back along the way."]
-    ], map: ["hilton", "airbnb", "hotel"] }
+      ["10:10 pm", "Joy and Patrick to their hotel", "594 Frankton Road, <b>9 minutes</b> from the Hilton."],
+      ["10:20 pm", "Home to the family Airbnb", "Jun2x, Joie, Gavin, Grace and Francis. <b>8 minutes</b> on &mdash; the last drop."]
+    ], map: ["hilton", "hotel", "airbnb"] }
   }
 };
 
@@ -2843,8 +2843,11 @@ function renderMusicFor(who) {
   $("#btnMusic").hidden = !(who && PARTY[who]);   // the party card is the party's
   $("#btnAfter").hidden = true;                   // Sunday lives in the line below, not as a card
   $("#btnStart").hidden = !printsOpen();          // the printer is only there on the night
-  $("#btnPlan").hidden = SUNDAY_ONLY.includes(who);   // the wedding is the wedding's
-  $("#dj").hidden = false;    // everyone can add to the two open playlists, party included
+  const sunOnly = SUNDAY_ONLY.includes(who);
+  $("#btnPlan").hidden = sunOnly;      // the wedding is the wedding's
+  $("#btnAlbum").hidden = sunOnly;     // and so is its album
+  if (sunOnly) $("#btnStart").hidden = true;   // and the printer on the night
+  $("#dj").hidden = sunOnly;  // everyone at the wedding can add to the two open playlists
   if (!role) return;
   $("#musRole").textContent = role;
   $("#musBody").innerHTML = `
@@ -3024,7 +3027,7 @@ function renderSundayCars() {
     </div>`).join("");
 }
 function renderLater(spyIsOpen) {
-  const spy = spyIsOpen ? "" : "<b>I spy</b> opens on the 9th.";
+  const spy = spyIsOpen || SUNDAY_ONLY.includes(ME) ? "" : "<b>I spy</b> opens on the 9th.";
   const sun = onSunday(ME)
     ? `<button type="button" class="later-go" id="goAfter">Sunday in Gibbston</button> &mdash; the day after, read it whenever.`
     : "";
@@ -3042,10 +3045,12 @@ function renderMe() {
      the wedding-party card is not addressed to her. Her brief already carries
      the runsheet and the music cues. */
   const isSummer = ME === "Summer";
+  const sunOnly = SUNDAY_ONLY.includes(ME);
   $("#btnSummer").hidden = !isSummer;
-  $("#btnStart").hidden = isSummer;
-  $("#btnSpy").hidden = isSummer;
-  // the footnote promises something about printing, which she no longer has
+  $("#btnStart").hidden = isSummer || sunOnly;
+  $("#btnSpy").hidden = isSummer || sunOnly;
+  // the footnote promises something about cards the reader may not have
+  $(".w-foot").hidden = sunOnly;
   $(".w-foot").textContent = isSummer
     ? "Only the album uploads anything. Nothing else leaves your phone."
     : "Only the album uploads your photos. Printing stays on your phone.";
