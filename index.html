@@ -165,20 +165,27 @@ a.btn{text-decoration:none}
    the shots are Saturday's. */
 /* Quieter than a card on purpose: it is a note about the future, not a thing
    to press. */
-/* The Sunday drivers, same circle as the ride cards use. */
-.sun-lab{
-  margin:18px 0 0; font-size:var(--eb); font-weight:600; letter-spacing:var(--tr);
-  text-transform:uppercase; color:var(--green); text-align:center;
+/* The two Sunday cars, on the card shell the rest of the app uses. */
+#sunCars{margin:18px 0 0}
+.sun-car{
+  background:#fff; border:1px solid var(--line-2); border-radius:var(--r-lg);
+  padding:14px 15px; margin-top:10px;
 }
-.sun-drivers{
-  list-style:none; margin:9px 0 0; padding:0; display:flex; justify-content:center; gap:22px;
+.sun-hd{display:flex; align-items:center; gap:11px}
+.sun-hd img{width:40px; height:40px; border-radius:50%; object-fit:cover; flex:none; border:1px solid var(--line-2)}
+.sun-hd span{
+  font-family:'Cormorant Garamond',Georgia,serif; font-size:1.15rem; line-height:1.2; color:var(--ink);
 }
-.sun-drivers li{display:flex; flex-direction:column; align-items:center; gap:6px}
-.sun-drivers img{
-  width:46px; height:46px; border-radius:50%; object-fit:cover;
-  border:1px solid var(--line-2);
+.sun-hd small{
+  display:block; font-family:'Jost',sans-serif; font-size:var(--eb); font-weight:600;
+  letter-spacing:var(--tr); text-transform:uppercase; color:var(--green); margin-top:3px;
 }
-.sun-drivers span{font-size:13px; color:var(--ink-2)}
+.sun-car ul{list-style:none; margin:11px 0 0; padding:0; display:flex; flex-wrap:wrap; gap:6px}
+.sun-car li{
+  background:var(--surface-2); border-radius:var(--r-pill); padding:5px 11px;
+  font-size:12.5px; color:var(--ink-2);
+}
+.sun-car li.you{background:var(--green); color:#fff; font-weight:600}
 .later{
   margin:14px 2px 2px; font-size:13px; line-height:1.6; color:var(--ink-3);
 }
@@ -864,11 +871,7 @@ details[open] > .hire-steps{display:flex; flex-direction:column; gap:11px; paddi
       <p class="spy-kicker">Sunday 11 October</p>
       <h2 class="spy-h">The day <em>after</em></h2>
       <p class="spy-lede">Nothing here is compulsory. Join what you fancy.</p>
-      <p class="sun-lab">Driving</p>
-      <ul class="sun-drivers">
-        <li><img src="samples/driver-angelo.jpg" alt="" loading="lazy"><span>Angelo</span></li>
-        <li><img src="samples/driver-kc.webp" alt="" loading="lazy"><span>KC</span></li>
-      </ul>
+      <div id="sunCars"></div>
     </div>
 
     <ul class="plan-list">
@@ -1029,7 +1032,7 @@ details[open] > .hire-steps{display:flex; flex-direction:column; gap:11px; paddi
    were already fixed. The page asks the server for its own current build once
    and reloads if it is behind. Guarded per build id, so a stale edge or a
    failed fetch can never put it in a loop. */
-const BUILD = "202610020455";
+const BUILD = "202610020457";
 document.documentElement.dataset.build = BUILD;
 (async () => {
   try {
@@ -2774,6 +2777,12 @@ const SUNDAY = [
   "Pia", "Angelo", "Nica"
 ];
 const onSunday = (who) => !!who && SUNDAY.includes(who);
+const SUNDAY_CARS = [
+  { driver: "Angelo", face: "samples/driver-angelo.jpg",
+    who: ["Angelo", "Loren", "Jan", "Emman", "Sai", "Chit", "Sonito", "Mae", "Pia", "Nica"] },
+  { driver: "KC", face: "samples/driver-kc.webp",
+    who: ["KC (Cassie)", "Lara Mae", "Cathlyn", "Marge", "Sam", "Norrie", "Patrick", "Joy", "Grace", "Francis"] }
+];
 /* Here for the Sunday and not the wedding. Listed by name on purpose: Joy and
    Patrick have no bed row either, so inferring this from the houses would have
    hidden the wedding from the couple. */
@@ -2809,6 +2818,16 @@ function renderSpyLock() {
 /* One line in place of the cards that are not yet anything. It names only what
    this reader will actually get, and disappears when there is nothing left to
    wait for. */
+/* Who is in which car on the Sunday, with your own name marked. */
+function renderSundayCars() {
+  const box = $("#sunCars");
+  if (!box) return;
+  box.innerHTML = SUNDAY_CARS.map((c) => `
+    <div class="sun-car">
+      <div class="sun-hd"><img src="${c.face}" alt="" loading="lazy"><span>${c.driver}&rsquo;s car<small>${c.who.length} of you</small></span></div>
+      <ul>${c.who.map((w) => `<li class="${w === ME ? "you" : ""}">${w === "KC (Cassie)" ? "KC" : w}</li>`).join("")}</ul>
+    </div>`).join("");
+}
 function renderLater(spyIsOpen) {
   const spy = spyIsOpen ? "" : "<b>I spy</b> opens on the 9th.";
   const sun = onSunday(ME)
@@ -2836,6 +2855,7 @@ function renderMe() {
     ? "Only the album uploads anything. Nothing else leaves your phone."
     : "Only the album uploads your photos. Printing stays on your phone.";
   renderSpyLock();
+  renderSundayCars();
   renderMusic();
 }
 function renderWho(q) {
