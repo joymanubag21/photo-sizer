@@ -831,8 +831,8 @@ details[open] > .hire-steps{display:flex; flex-direction:column; gap:11px; paddi
     <div class="hero-in">
       <span class="invited">You are invited</span>
       <div class="names"><span>Joy</span><em>&amp;</em><span>Patrick</span></div>
-      <p class="when">Saturday &middot; 10 October 2026</p>
-      <p class="where">The Canyons B&amp;B &middot; Queenstown, New Zealand</p>
+      <p class="when" id="heroWhen">Saturday &middot; 10 October 2026</p>
+      <p class="where" id="heroWhere">The Canyons B&amp;B &middot; Queenstown, New Zealand</p>
       <p class="cue">Scroll for everything you need</p>
     </div>
   </header>
@@ -1221,7 +1221,7 @@ details[open] > .hire-steps{display:flex; flex-direction:column; gap:11px; paddi
   }
 })();
 
-const BUILD = "202610022102";
+const BUILD = "202610022122";
 document.documentElement.dataset.build = BUILD;
 (async () => {
   try {
@@ -2685,7 +2685,7 @@ const ROUTES = {
       ["2:50 pm", "At the Canyons", "<b>8 minutes</b> from Thompson Street."]
     ], map: ["airbnb", "canyons"] },
     reception: { rows: [
-      ["4:45 pm", "The Canyons to the Hilton", "Once the photos are done. Everyone in your car, about 25 minutes."]
+      ["4:45 pm", "The Canyons to the Hilton", "Seven again &mdash; Jun2x brought Nieves out, and Patrick goes on with Joy. About 25 minutes."]
     ], map: ["canyons", "hilton"] },
     home: { rows: [
       ["10:20 pm", "Drop everyone at the family Airbnb", "Nelly, Vicente, Blondie, Elisha, Nathaniel and Nieves. <b>16 minutes</b> from the Hilton."]
@@ -3046,6 +3046,13 @@ function renderMe() {
      the runsheet and the music cues. */
   const isSummer = ME === "Summer";
   const sunOnly = SUNDAY_ONLY.includes(ME);
+  /* Invite her to the day she is actually coming to. */
+  $("#heroWhen").innerHTML = sunOnly
+    ? "Sunday &middot; 11 October 2026"
+    : "Saturday &middot; 10 October 2026";
+  $("#heroWhere").innerHTML = sunOnly
+    ? "Arrowtown, Gibbston &amp; Queenstown, New Zealand"
+    : "The Canyons B&amp;B &middot; Queenstown, New Zealand";
   $("#btnSummer").hidden = !isSummer;
   $("#btnStart").hidden = isSummer || sunOnly;
   $("#btnSpy").hidden = isSummer || sunOnly;
