@@ -284,6 +284,29 @@ a.btn{text-decoration:none}
 }
 .sun-map:hover{border-color:var(--rose)}
 .sun-map svg{flex:none}
+/* Shown only to someone who arrived inside another app's browser. It sits at
+   the bottom so it never covers the hero, and it goes away on a tap. */
+.iab{
+  position:fixed; left:0; right:0; bottom:0; z-index:90;
+  display:none; align-items:center; gap:12px;
+  padding:14px 16px calc(14px + env(safe-area-inset-bottom,0px));
+  background:var(--surface); border-top:1px solid var(--line-2);
+  box-shadow:0 -6px 24px rgba(42,36,32,.07);
+}
+.iab.on{display:flex}
+.iab-t{flex:1; min-width:0}
+.iab-t b{display:block; font-size:14.5px; font-weight:600; color:var(--ink); line-height:1.3}
+.iab-t span{display:block; font-size:12.5px; color:var(--ink-2); line-height:1.45; margin-top:3px}
+.iab-go{
+  flex:none; height:40px; padding:0 15px; border:0; border-radius:var(--r-pill);
+  background:var(--green); color:#fff; font-family:inherit; font-size:var(--eb-ctl);
+  font-weight:600; letter-spacing:var(--tr); text-transform:uppercase; cursor:pointer;
+  text-decoration:none; display:inline-flex; align-items:center;
+}
+.iab-x{
+  flex:none; width:34px; height:34px; border:0; background:none; cursor:pointer;
+  color:var(--ink-3); font-size:17px; line-height:1; font-family:inherit;
+}
 .plan-h{
   font-family:'Cormorant Garamond',Georgia,serif; font-weight:500; font-size:1.5rem;
   margin:30px 0 4px; color:var(--ink);
@@ -792,6 +815,12 @@ details[open] > .hire-steps{display:flex; flex-direction:column; gap:11px; paddi
 
 </style>
 
+<div class="iab" id="iab">
+  <div class="iab-t"><b id="iabH"></b><span id="iabP"></span></div>
+  <a class="iab-go" id="iabGo"></a>
+  <button class="iab-x" id="iabX" type="button" aria-label="Dismiss">&#10005;</button>
+</div>
+
 <section class="welcome" id="welcome">
   <header class="hero">
     <img src="samples/hero.jpg" alt="Joy and Patrick above Lake Wakatipu">
@@ -1060,7 +1089,55 @@ details[open] > .hire-steps{display:flex; flex-direction:column; gap:11px; paddi
    were already fixed. The page asks the server for its own current build once
    and reloads if it is behind. Guarded per build id, so a stale edge or a
    failed fetch can never put it in a loop. */
-const BUILD = "202610021624";
+/* Most of this is sent over Messenger, and a link tapped there opens
+   Messenger's own browser - where there is no Add to Home Screen, and where
+   a name you tap is stored somewhere Safari will never look. Nothing can
+   push a page out of that browser from the inside, so the page says where it
+   is and hands over the one tap that fixes it. */
+(function inApp() {
+  const ua = navigator.userAgent || "";
+  const apps = [[/FBAN|FBAV|FB_IAB|FBMD|Messenger/i, "Messenger"], [/Instagram/i, "Instagram"],
+                [/MicroMessenger/i, "WeChat"], [/Line\//i, "LINE"], [/TikTok|BytedanceWebview/i, "TikTok"],
+                [/LinkedInApp/i, "LinkedIn"], [/Twitter/i, "X"]];
+  const hit = apps.find(([re]) => re.test(ua));
+  if (!hit) return;
+  if (sessionStorage.getItem("jp-iab") === "off") return;
+  const ios = /iPhone|iPad|iPod/i.test(ua);
+  const bar = document.getElementById("iab");
+  const go  = document.getElementById("iabGo");
+  document.getElementById("iabH").textContent = ios ? "Open in Safari" : "Open in Chrome";
+  document.getElementById("iabP").textContent =
+    hit[1] + "\u2019s browser can\u2019t save this to your home screen.";
+  if (ios) {
+    /* No scheme moves a page from a webview to Safari on iOS, so the link
+       travels by clipboard instead. */
+    go.textContent = "Copy link";
+    go.href = "#";
+    go.onclick = (e) => {
+      e.preventDefault();
+      const url = location.href.split("#")[0];
+      const done = () => { go.textContent = "Copied"; };
+      if (navigator.clipboard) navigator.clipboard.writeText(url).then(done, done);
+      else {
+        const t = document.createElement("textarea");
+        t.value = url; document.body.appendChild(t); t.select();
+        try { document.execCommand("copy"); } catch (err) { /* nothing to do */ }
+        t.remove(); done();
+      }
+    };
+  } else {
+    go.textContent = "Open";
+    go.href = "intent://" + location.host + location.pathname
+      + "#Intent;scheme=https;package=com.android.chrome;end";
+  }
+  document.getElementById("iabX").onclick = () => {
+    sessionStorage.setItem("jp-iab", "off");
+    bar.classList.remove("on");
+  };
+  bar.classList.add("on");
+})();
+
+const BUILD = "202610021710";
 document.documentElement.dataset.build = BUILD;
 (async () => {
   try {
