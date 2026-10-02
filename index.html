@@ -161,6 +161,12 @@ a.btn{text-decoration:none}
 .spy-h{font-family:'Cormorant Garamond',Georgia,serif; font-weight:400; font-size:3.6rem; line-height:.95; margin:10px 0 12px}
 .spy-h em{font-style:italic; color:var(--rose)}
 .spy-lede{font-size:14.5px; color:var(--ink-2); line-height:1.55; max-width:30ch; margin:0 auto}
+/* Shown only between the 9th and the night itself: they can read the ten, but
+   the shots are Saturday's. */
+.spy-ahead{
+  margin:12px auto 0; max-width:34ch; padding:10px 13px; background:var(--warn-soft);
+  border-radius:var(--r-md); font-size:13px; line-height:1.55; color:var(--ink-2);
+}
 .spy-count{margin-top:16px; font-size:var(--eb); font-weight:600; letter-spacing:var(--tr); text-transform:uppercase; color:var(--ink-3)}
 .spy-count b{color:var(--rose); font-weight:600}
 .spy-bar{height:3px; border-radius:var(--r); background:var(--surface-3); margin:13px auto 0; max-width:210px; overflow:hidden}
@@ -772,7 +778,7 @@ details[open] > .hire-steps{display:flex; flex-direction:column; gap:11px; paddi
       <button class="wcard" type="button" id="btnSpy">
         <span class="eyebrow" id="spyEyebrow">A game for tonight</span>
         <span class="wc-h">I spy, with my little camera</span>
-        <span class="wc-p">Ten moments to catch before the night is out.</span>
+        <span class="wc-p">Ten moments to catch on Saturday night.</span>
       </button>
     </div>
 
@@ -908,6 +914,7 @@ details[open] > .hire-steps{display:flex; flex-direction:column; gap:11px; paddi
       <p class="spy-kicker" id="spyKicker">With my little camera</p>
       <h2 class="spy-h">I <em>spy</em></h2>
       <p class="spy-lede">Tap one to add your photo.</p>
+      <p class="spy-ahead" id="spyAhead" hidden>Have a look now, but these are for <b>Saturday</b> &mdash; the photographs are of the wedding day, not of tonight.</p>
       <p class="spy-count" id="spyCount"></p>
       <div class="spy-bar"><i id="spyBar"></i></div>
     </div>
@@ -980,7 +987,7 @@ details[open] > .hire-steps{display:flex; flex-direction:column; gap:11px; paddi
    were already fixed. The page asks the server for its own current build once
    and reloads if it is behind. Guarded per build id, so a stale edge or a
    failed fetch can never put it in a loop. */
-const BUILD = "202610020405";
+const BUILD = "202610020411";
 document.documentElement.dataset.build = BUILD;
 (async () => {
   try {
@@ -2734,11 +2741,16 @@ function setMe(name) {
 /* I spy opens at midnight on 9 October in Queenstown. Date.now() is absolute,
    so a guest still in transit unlocks at the same moment as one already there. */
 const SPY_OPENS = Date.parse("2026-10-08T11:00:00Z");
+/* midnight on the 10th in Queenstown, by the same absolute instant */
+const SPY_NIGHT = Date.parse("2026-10-09T11:00:00Z");
+const spyIsTonight = () => Date.now() >= SPY_NIGHT;
 const spyOpen = () => Date.now() >= SPY_OPENS || ME === "Elisha";
 function renderSpyLock() {
   const open = spyOpen();
   $("#btnSpy").classList.toggle("locked", !open);
-  $("#spyEyebrow").textContent = open ? "A game for tonight" : "Opens 9 October";
+  $("#spyEyebrow").textContent = !open ? "Opens 9 October"
+    : spyIsTonight() ? "A game for tonight" : "A game for Saturday";
+  $("#spyAhead").hidden = !open || spyIsTonight();
 }
 function renderMe() {
   $("#meChip").innerHTML = ME
