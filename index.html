@@ -1001,7 +1001,7 @@ details[open] > .hire-steps{display:flex; flex-direction:column; gap:11px; paddi
    were already fixed. The page asks the server for its own current build once
    and reloads if it is behind. Guarded per build id, so a stale edge or a
    failed fetch can never put it in a loop. */
-const BUILD = "202610020425";
+const BUILD = "202610020431";
 document.documentElement.dataset.build = BUILD;
 (async () => {
   try {
@@ -2867,10 +2867,12 @@ function renderRides(q) {
   }).join(" ");
   /* "Mae" sits inside "Lara Mae", so longer names are blanked before the
      shorter one is looked for. */
+  const esc30 = (t) => t.replace(/[.*+?^${}()|[\]\\]/g, "\\$&")
+    .replace(/'|\u2019|&rsquo;/g, "(?:'|\u2019|&rsquo;)");
   const names30 = (t, name) => {
     let x = t;
     ALL_NAMES.forEach((o) => { if (o !== name && o.includes(name)) x = x.split(o).join("\u0000"); });
-    return new RegExp("(^|[^A-Za-z])" + name.replace(/[.*+?^${}()|[\]\\]/g, "\\  const placeCard = (r, mine) => `") + "(?![A-Za-z])").test(x);
+    return new RegExp("(^|[^A-Za-z])" + esc30(name) + "(?![A-Za-z])").test(x);
   };
   const outDriver = (w) => Object.keys(ROUTES).find((d) => names30(outLegs(ROUTES[d]), w))
     || (carRow[w] && carRow[w].driver);
@@ -2953,8 +2955,11 @@ function renderRides(q) {
     const longer = ALL_NAMES.filter((x) => x !== reader && x.includes(reader));
     let out = t;
     longer.forEach((o, i) => { out = out.split(o).join("\u0001" + i + "\u0001"); });
-    out = out.replace(new RegExp(esc(reader) + "&rsquo;s\\b", "g"), "your")
-             .replace(new RegExp("\\b" + esc(reader) + "\\b", "g"), "you");
+    /* The roster writes Marvin's daughter with a straight apostrophe and the
+       rows write it as an entity, so she alone never saw her own name turn
+       into "you". Any of the three spellings matches any other. */
+    out = out.replace(new RegExp(esc30(reader) + "(?:'|\u2019|&rsquo;)s\\b", "g"), "your")
+             .replace(new RegExp("\\b" + esc30(reader) + "\\b", "g"), "you");
     longer.forEach((o, i) => { out = out.split("\u0001" + i + "\u0001").join(o); });
     return out.replace(/^you\b/, "You");
   };
