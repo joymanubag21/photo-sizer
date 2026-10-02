@@ -980,7 +980,7 @@ details[open] > .hire-steps{display:flex; flex-direction:column; gap:11px; paddi
    were already fixed. The page asks the server for its own current build once
    and reloads if it is behind. Guarded per build id, so a stale edge or a
    failed fetch can never put it in a loop. */
-const BUILD = "202610020402";
+const BUILD = "202610020405";
 document.documentElement.dataset.build = BUILD;
 (async () => {
   try {
@@ -2203,9 +2203,9 @@ const RIDES = [
     note: "No fixed time &mdash; you go once the photos after the ceremony are done, and Franklin brings you back." },
   { name: "Jun2x&rsquo;s car", driver: "Jun2x", hit: "Your driver all day is <b>Jun2x</b>.", car: "8-seater",
     rooms: [
-      { bed: "", who: ["Jun2x", "Joie", "Gavin", "Grace", "Francis"] }
+      { bed: "", who: ["Jun2x", "Joie", "Gavin", "Grace", "Francis", "Joy", "Patrick"] }
     ],
-    note: "Joy and Patrick ride in this car all day too. Jun2x does the <b>6:30 am</b> run to their hotel with Grace, Lara Mae, Cathlyn and Norrie, and the ceremony run twice &mdash; the men at <b>" + RUN_MEN + "</b>, then back for the bride and the bridesmaids at <b>" + RUN_BRIDE + "</b>." }
+    note: "Jun2x does the <b>6:30 am</b> run to their hotel with Grace, Lara Mae, Cathlyn and Norrie, and the ceremony run twice &mdash; the men at <b>" + RUN_MEN + "</b>, then back for the bride and the bridesmaids at <b>" + RUN_BRIDE + "</b>." }
 ];
 
 
@@ -2246,6 +2246,12 @@ const STAYS = [
     rooms: [{ bed: "", who: ["Norrie", "Erwan"] }],
     legs: [
       { l: "Getting ready", t: "Norrie &mdash; at <b>6:30 am</b> Jun2x collects you and takes you to Joy and Patrick&rsquo;s hotel, with Grace, Lara Mae and Cathlyn." }
+    ] },
+  { place: "Joy and Patrick&rsquo;s hotel", addr: "594 Frankton Road, Queenstown 9348",
+    hit: "You&rsquo;re at <b>the Holiday Inn</b>, Frankton Road.",
+    rooms: [{ bed: "", who: ["Joy", "Patrick"] }],
+    legs: [
+      { l: "Getting ready", t: "Christie arrives at <b>7:30 am</b>. The bridesmaids are done by 11:45, then Joy from <b>11:45 to 1:45</b> and into the dress by <b>2:15</b>. Patrick gets ready on his own and the two of you do not see each other until the aisle." }
     ] },
   { place: "Haka House", addr: "6 Henry Street, Queenstown 9300",
     hit: "You&rsquo;re staying at <b>Haka House</b>.",
@@ -2486,6 +2492,8 @@ const CEREMONY_BY_NAME = {
   "Norrie": "At <b>6:30 am</b> Jun2x collects you at <b>4 Dublin Street</b> for makeup at Joy and Patrick&rsquo;s hotel, and takes you on to the ceremony from there &mdash; leaving by <b>" + RUN_BRIDE + "</b>, with Joy. <b>Marvin</b> brings you home afterwards.",
   "Grace": "At <b>6:30 am</b> Jun2x takes you to Joy and Patrick&rsquo;s hotel for makeup, and you stay with Joy there. "
     + "You leave together at <b>" + RUN_BRIDE + "</b> &mdash; Jun2x has taken the men ahead and comes back for you. He drives you the rest of the day.",
+  "Joy": "Your photo session with the bridesmaids is <b>2:15 to 2:45</b> at the hotel, then <b>Jun2x</b> takes you all at <b>2:50 pm</b>. You are at the Canyons at 3:05, ten minutes before the aisle.",
+  "Patrick": "You are at the family Airbnb from the morning &mdash; Marvin brings you there after the Aqua goes back. <b>Franklin</b> takes you to the Canyons at <b>2:40 pm</b>.",
   "Jane": "Straight to the ceremony from the Arrowtown house.",
   "Marvin's daughter": "Straight to the ceremony from the Arrowtown house."
 };
@@ -2494,7 +2502,8 @@ const HOME_BY_HOUSE = {
   "The Arrowtown house": "drops you at the Arrowtown house",
   "The family Airbnb": "drops you at the Airbnb",
   "Norrie and Erwan&rsquo;s place": "drops you at 4 Dublin Street",
-  "Haka House": "drops you at Haka House"
+  "Haka House": "drops you at Haka House",
+  "Joy and Patrick&rsquo;s hotel": "drops you at your hotel on Frankton Road"
 };
 
 /* The wedding party carries the music. A guest shown these would only wonder
