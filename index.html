@@ -980,7 +980,7 @@ details[open] > .hire-steps{display:flex; flex-direction:column; gap:11px; paddi
    were already fixed. The page asks the server for its own current build once
    and reloads if it is behind. Guarded per build id, so a stale edge or a
    failed fetch can never put it in a loop. */
-const BUILD = "202610020400";
+const BUILD = "202610020402";
 document.documentElement.dataset.build = BUILD;
 (async () => {
   try {
@@ -2159,6 +2159,7 @@ function applyState(st) {
   // swapping to a name outside the party while the sheet is up must close it
   if (st.ov === "music" && !(ME && (PARTY[ME] || ME === "Summer"))) st = { ...st, ov: undefined };
   if (st.ov === "after" && !onSunday(ME)) st = { ...st, ov: undefined };
+  if (st.ov === "plan" && SUNDAY_ONLY.includes(ME)) st = { ...st, ov: undefined };
   SHEETS.forEach((id) => { $("#" + id).hidden = st.ov !== id; });
   if (st.view === "studio") requestAnimationFrame(redrawAllSheets);
 }
@@ -2584,6 +2585,7 @@ function renderMusicFor(who) {
   const role = (who === "Summer" && "Wedding coordinator") || (who && PARTY[who]);
   $("#btnMusic").hidden = !(who && PARTY[who]);   // the party card is the party's
   $("#btnAfter").hidden = !onSunday(who);         // and Sunday is Sunday's
+  $("#btnPlan").hidden = SUNDAY_ONLY.includes(who);   // the wedding is the wedding's
   $("#dj").hidden = false;    // everyone can add to the two open playlists, party included
   if (!role) return;
   $("#musRole").textContent = role;
@@ -2706,6 +2708,10 @@ const SUNDAY = [
   "Pia", "Angelo", "Nica"
 ];
 const onSunday = (who) => !!who && SUNDAY.includes(who);
+/* Here for the Sunday and not the wedding. Listed by name on purpose: Joy and
+   Patrick have no bed row either, so inferring this from the houses would have
+   hidden the wedding from the couple. */
+const SUNDAY_ONLY = ["KC (Cassie)"];
 /* KC is in the picker but in no bed and no car - she is here for the Sunday
    and nothing else. */
 const ALL_NAMES = [...new Set(STAYS.reduce((a, st) => a.concat(members(st)), [])
