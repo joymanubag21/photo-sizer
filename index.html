@@ -128,13 +128,17 @@ a.btn{text-decoration:none}
 
 .w-in{max-width:640px; margin:0 auto; width:100%; padding:52px 22px calc(46px + env(safe-area-inset-bottom,0px))}
 .sec-eyebrow{
-  display:block; font-size:var(--eb); font-weight:600; letter-spacing:var(--tr-wide);
-  text-transform:uppercase; color:var(--green); margin-bottom:2px;
-  font-family:inherit; background:none; border:0; padding:14px 0; text-align:left; cursor:pointer;
+  display:flex; align-items:center; gap:11px; flex-wrap:wrap;
+  font-size:15px; font-weight:600; letter-spacing:0; color:var(--ink); margin-bottom:4px;
+  font-family:inherit; background:none; border:0; padding:14px 0 6px; text-align:left; cursor:pointer;
 }
 .wcard.locked{opacity:.55}
 .wcard.locked .eyebrow{color:var(--ink-3)}
-.sec-eyebrow .swap{color:var(--ink-3); text-decoration:underline; text-underline-offset:2px}
+.sec-eyebrow .swap{
+  font-size:11.5px; font-weight:600; letter-spacing:var(--tr); text-transform:uppercase;
+  color:var(--green); text-decoration:none; background:var(--surface);
+  border:1px solid var(--line-2); border-radius:var(--r-pill); padding:6px 12px;
+}
 .who-list{list-style:none; margin:15px 0 0; padding:0; display:flex; flex-wrap:wrap; gap:8px}
 .who-list button{
   font-family:inherit; font-size:13.5px; color:var(--ink-2); background:var(--surface-2);
@@ -629,7 +633,7 @@ details[open] > .hire-steps{display:flex; flex-direction:column; gap:11px; paddi
 .seg{display:flex; gap:4px; padding:4px; background:var(--surface-3); border:1px solid var(--line); border-radius:var(--r)}
 .seg button{flex:1; min-height:42px; border-radius:var(--r); font-size:13px; font-weight:500; color:var(--ink-2)}
 .seg button[aria-pressed="true"]{background:var(--surface); color:var(--green); font-weight:600; box-shadow:0 1px 3px rgba(42,36,32,.14)}
-.seg-note{font-size:12.5px; color:var(--ink-3); margin-top:9px; line-height:1.5}
+.seg-note{font-size:14px; color:var(--ink-2); margin-top:11px; line-height:1.6}
 .thumbs{display:flex; flex-wrap:wrap; gap:9px; margin-top:12px}
 .chip{position:relative; width:78px; border-radius:var(--r); overflow:hidden; background:var(--surface-2); border:1px solid var(--line)}
 .chip canvas{display:block; width:100%; height:78px; object-fit:cover}
@@ -1056,7 +1060,7 @@ details[open] > .hire-steps{display:flex; flex-direction:column; gap:11px; paddi
    were already fixed. The page asks the server for its own current build once
    and reloads if it is behind. Guarded per build id, so a stale edge or a
    failed fetch can never put it in a loop. */
-const BUILD = "202610021620";
+const BUILD = "202610021624";
 document.documentElement.dataset.build = BUILD;
 (async () => {
   try {
