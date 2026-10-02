@@ -994,7 +994,7 @@ details[open] > .hire-steps{display:flex; flex-direction:column; gap:11px; paddi
    were already fixed. The page asks the server for its own current build once
    and reloads if it is behind. Guarded per build id, so a stale edge or a
    failed fetch can never put it in a loop. */
-const BUILD = "202610020416";
+const BUILD = "202610020419";
 document.documentElement.dataset.build = BUILD;
 (async () => {
   try {
@@ -2167,6 +2167,7 @@ const here = () => history.state || { view: "welcome" };
 
 function applyState(st) {
   st = st || { view: "welcome" };
+  if (st.view === "studio" && !printsOpen()) st = { view: "welcome" };
   $("#welcome").hidden = st.view !== "welcome";
   $("#studio").hidden = st.view !== "studio";
   if (st.ov === "spy" && typeof spyOpen === "function" && !spyOpen()) st = { ...st, ov: undefined };
@@ -2608,6 +2609,7 @@ function renderMusicFor(who) {
   const role = (who === "Summer" && "Wedding coordinator") || (who && PARTY[who]);
   $("#btnMusic").hidden = !(who && PARTY[who]);   // the party card is the party's
   $("#btnAfter").hidden = !onSunday(who) || !afterOpen();   // and Sunday is Sunday's, on the day
+  $("#btnStart").hidden = !printsOpen();          // the printer is only there on the night
   $("#btnPlan").hidden = SUNDAY_ONLY.includes(who);   // the wedding is the wedding's
   $("#dj").hidden = false;    // everyone can add to the two open playlists, party included
   if (!role) return;
@@ -2754,6 +2756,9 @@ const SPY_NIGHT = Date.parse("2026-10-09T11:00:00Z");
    late enough that it is not a fifth thing to decide about all week. */
 const AFTER_OPENS = SPY_NIGHT;
 const afterOpen = () => Date.now() >= AFTER_OPENS;
+/* midnight on the 11th: the printer went home with the reception */
+const PRINTS_CLOSE = Date.parse("2026-10-10T11:00:00Z");
+const printsOpen = () => Date.now() < PRINTS_CLOSE;
 const spyIsTonight = () => Date.now() >= SPY_NIGHT;
 const spyOpen = () => Date.now() >= SPY_OPENS || ME === "Elisha";
 function renderSpyLock() {
