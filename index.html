@@ -258,6 +258,14 @@ a.btn{text-decoration:none}
   display:block; font-family:'Jost',sans-serif; font-size:13px; line-height:1.55;
   color:var(--ink-2); margin-top:5px;
 }
+.plan-what .map{
+  display:inline-flex; align-items:center; gap:7px; margin-top:12px; height:44px; padding:0 15px;
+  border:1px solid var(--line-2); border-radius:var(--r-pill); background:var(--surface); box-sizing:border-box;
+  font-family:'Jost',sans-serif; font-size:var(--eb-ctl); font-weight:600; letter-spacing:var(--tr);
+  text-transform:uppercase; color:var(--green); text-decoration:none;
+}
+.plan-what .map:hover{border-color:var(--rose)}
+.plan-what .map svg{flex:none}
 .plan-h{
   font-family:'Cormorant Garamond',Georgia,serif; font-weight:500; font-size:1.5rem;
   margin:30px 0 4px; color:var(--ink);
@@ -875,17 +883,17 @@ details[open] > .hire-steps{display:flex; flex-direction:column; gap:11px; paddi
     </div>
 
     <ul class="plan-list">
-      <li><span class="plan-when">9:15 am</span><span class="plan-what">Breakfast at Mora<small>265 Arrowtown&ndash;Lake Hayes Road, in the <b>Louvre</b> space &mdash; in the garden, but heated and weatherproof. Sitting is <b>9:30</b> and a little early is fine. No pre-orders, so everyone orders on the day.</small></span></li>
-      <li><span class="plan-when">10:45 am</span><span class="plan-what">Drive to Arrowtown<small>Five minutes.</small></span></li>
+      <li><span class="plan-when">9:15 am</span><span class="plan-what">Breakfast at Mora<small>265 Arrowtown&ndash;Lake Hayes Road, in the <b>Louvre</b> space &mdash; in the garden, but heated and weatherproof. Sitting is <b>9:30</b> and a little early is fine. No pre-orders, so everyone orders on the day.</small><a class="map" target="_blank" rel="noopener" href="https://www.google.com/maps/dir/?api=1&travelmode=driving&destination=Mora%2C%20265%20Arrowtown-Lake%20Hayes%20Road%2C%20Lake%20Hayes%2C%20Queenstown%209371%2C%20New%20Zealand"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 0 1 16 0z"/><circle cx="12" cy="10" r="3"/></svg> Open in Maps</a></span></li>
+      <li><span class="plan-when">10:45 am</span><span class="plan-what">Drive to Arrowtown<small>Five minutes.</small><a class="map" target="_blank" rel="noopener" href="https://www.google.com/maps/dir/?api=1&travelmode=driving&destination=Buckingham%20Street%2C%20Arrowtown%209302%2C%20New%20Zealand"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 0 1 16 0z"/><circle cx="12" cy="10" r="3"/></svg> Open in Maps</a></span></li>
       <li><span class="plan-when">10:50 am</span><span class="plan-what">Walk around Arrowtown<small>Buckingham Street, the Chinese settlement, the river. Bring layers &mdash; it is colder than town. You have until about <b>12:55</b>.</small></span></li>
-      <li><span class="plan-when">12:55 pm</span><span class="plan-what">Drive to Kinross<small><b>15 minutes</b>, so you are there just before the table.</small></span></li>
+      <li><span class="plan-when">12:55 pm</span><span class="plan-what">Drive to Kinross<small><b>15 minutes</b>, so you are there just before the table.</small><a class="map" target="_blank" rel="noopener" href="https://www.google.com/maps/dir/?api=1&travelmode=driving&destination=Kinross%20Winery%2C%202300%20Gibbston%20Highway%2C%20Queenstown%209371%2C%20New%20Zealand"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 0 1 16 0z"/><circle cx="12" cy="10" r="3"/></svg> Open in Maps</a></span></li>
       <li><span class="plan-when">1:15 pm</span><span class="plan-what">Lunch at Kinross<small>Pizzas and platters, as the group voted.</small></span></li>
       <li><span class="plan-when">2:30 pm</span><span class="plan-what">Classic Wine Experience<small>Same private room, no moving anywhere. You leave Kinross about <b>3:30</b>.<span id="sunTasting"></span></small></span></li>
       <li><span class="plan-when">3:30 pm</span><span class="plan-what">Drive back to town<small><b>35 minutes</b> to Brecon Street.</small></span></li>
-      <li><span class="plan-when">Either, or</span><span class="plan-what">Lake Hayes, or the escape room<small>Twenty minutes at the Lake Hayes jetty on the way in, or an hour in a room once you are in town. One or the other.</small></span></li>
-      <li><span class="plan-when">5:15 pm</span><span class="plan-what">Be at the Skyline base<small>The one time to hold. Skyline want you <b>45 minutes</b> before your luge session, so it books for <b>6:00</b>.</small></span></li>
+      <li><span class="plan-when">Either, or</span><span class="plan-what">Lake Hayes, or the escape room<small>Twenty minutes at the Lake Hayes jetty on the way in, or an hour in a room once you are in town. One or the other.</small><a class="map" target="_blank" rel="noopener" href="https://www.google.com/maps/dir/?api=1&travelmode=driving&destination=Lake%20Hayes%20Reserve%2C%20Arrowtown-Lake%20Hayes%20Road%2C%20Queenstown%209371%2C%20New%20Zealand"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 0 1 16 0z"/><circle cx="12" cy="10" r="3"/></svg> Lake Hayes in Maps</a></span></li>
+      <li><span class="plan-when">5:15 pm</span><span class="plan-what">Be at the Skyline base<small>The one time to hold. Skyline want you <b>45 minutes</b> before your luge session, so it books for <b>6:00</b>.</small><a class="map" target="_blank" rel="noopener" href="https://www.google.com/maps/dir/?api=1&travelmode=driving&destination=Skyline%20Queenstown%2C%2053%20Brecon%20Street%2C%20Queenstown%209300%2C%20New%20Zealand"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 0 1 16 0z"/><circle cx="12" cy="10" r="3"/></svg> Open in Maps</a></span></li>
       <li><span class="plan-when">6:00 pm</span><span class="plan-what">Gondola and luge<small>Two runs and back down by about <b>6:55</b>.</small></span></li>
-      <li><span class="plan-when">7:15 pm</span><span class="plan-what">Dinner at SODA<small>2 Rees Street, lakeside, a seven-minute walk down from the gondola. Twenty of you, and the table is yours until <b>9:15</b>.</small></span></li>
+      <li><span class="plan-when">7:15 pm</span><span class="plan-what">Dinner at SODA<small>2 Rees Street, lakeside, a seven-minute walk down from the gondola. Twenty of you, and the table is yours until <b>9:15</b>.</small><a class="map" target="_blank" rel="noopener" href="https://www.google.com/maps/dir/?api=1&travelmode=driving&destination=SODA%2C%202%20Rees%20Street%2C%20Queenstown%209300%2C%20New%20Zealand"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 0 1 16 0z"/><circle cx="12" cy="10" r="3"/></svg> Open in Maps</a></span></li>
     </ul>
 
   </div>
@@ -1033,7 +1041,7 @@ details[open] > .hire-steps{display:flex; flex-direction:column; gap:11px; paddi
    were already fixed. The page asks the server for its own current build once
    and reloads if it is behind. Guarded per build id, so a stale edge or a
    failed fetch can never put it in a loop. */
-const BUILD = "202610020512";
+const BUILD = "202610021323";
 document.documentElement.dataset.build = BUILD;
 (async () => {
   try {
