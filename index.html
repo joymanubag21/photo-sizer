@@ -165,6 +165,20 @@ a.btn{text-decoration:none}
    the shots are Saturday's. */
 /* Quieter than a card on purpose: it is a note about the future, not a thing
    to press. */
+/* The Sunday drivers, same circle as the ride cards use. */
+.sun-lab{
+  margin:18px 0 0; font-size:var(--eb); font-weight:600; letter-spacing:var(--tr);
+  text-transform:uppercase; color:var(--green); text-align:center;
+}
+.sun-drivers{
+  list-style:none; margin:9px 0 0; padding:0; display:flex; justify-content:center; gap:22px;
+}
+.sun-drivers li{display:flex; flex-direction:column; align-items:center; gap:6px}
+.sun-drivers img{
+  width:46px; height:46px; border-radius:50%; object-fit:cover;
+  border:1px solid var(--line-2);
+}
+.sun-drivers span{font-size:13px; color:var(--ink-2)}
 .later{
   margin:14px 2px 2px; font-size:13px; line-height:1.6; color:var(--ink-3);
 }
@@ -850,6 +864,11 @@ details[open] > .hire-steps{display:flex; flex-direction:column; gap:11px; paddi
       <p class="spy-kicker">Sunday 11 October</p>
       <h2 class="spy-h">The day <em>after</em></h2>
       <p class="spy-lede">Nothing here is compulsory. Join what you fancy.</p>
+      <p class="sun-lab">Driving</p>
+      <ul class="sun-drivers">
+        <li><img src="samples/driver-angelo.jpg" alt="" loading="lazy"><span>Angelo</span></li>
+        <li><img src="samples/driver-kc.webp" alt="" loading="lazy"><span>KC</span></li>
+      </ul>
     </div>
 
     <ul class="plan-list">
@@ -861,7 +880,7 @@ details[open] > .hire-steps{display:flex; flex-direction:column; gap:11px; paddi
       <li><span class="plan-when">2:30 pm</span><span class="plan-what">Classic Wine Experience<small>Same private room, no moving anywhere. You leave Kinross about <b>3:30</b>.</small></span></li>
       <li><span class="plan-when">3:30 pm</span><span class="plan-what">Drive back to town<small><b>35 minutes</b> to Brecon Street, so you are there about <b>4:05</b>.</small></span></li>
       <li><span class="plan-when">5:00 pm</span><span class="plan-what">Skyline gondola and luge<small>Brecon Street. The luge is a <b>booked session</b> and Skyline ask you at the base <b>45 minutes before it</b> &mdash; the 3:30 drive has you there by 4:05, so book the session for <b>5:00</b>. Two runs and back down by about 5:50.</small></span></li>
-      <li><span class="plan-when">6:00 pm</span><span class="plan-what">Escape room, all together<small>An hour of locking the family in a room and seeing who takes charge. Done by 7, which gets you to the table.</small></span></li>
+      <li><span class="plan-when">6:00 pm</span><span class="plan-what">Escape room, all together<small>An hour of locking your friends in a room and seeing who takes charge. Done by 7, which gets you to the table.</small></span></li>
       <li><span class="plan-when">7:15 pm</span><span class="plan-what">Dinner at SODA<small>2 Rees Street, lakeside, a seven-minute walk down from the gondola. Twenty of you, and the table is yours until <b>9:15</b>.</small></span></li>
     </ul>
 
@@ -1010,7 +1029,7 @@ details[open] > .hire-steps{display:flex; flex-direction:column; gap:11px; paddi
    were already fixed. The page asks the server for its own current build once
    and reloads if it is behind. Guarded per build id, so a stale edge or a
    failed fetch can never put it in a loop. */
-const BUILD = "202610020453";
+const BUILD = "202610020455";
 document.documentElement.dataset.build = BUILD;
 (async () => {
   try {
