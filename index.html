@@ -295,7 +295,8 @@ a.btn{text-decoration:none}
 }
 .iab.on{display:flex}
 .iab-t{flex:1; min-width:0}
-.iab-t b{display:block; font-size:14.5px; font-weight:600; color:var(--ink); line-height:1.3}
+.iab-t > b{display:block; font-size:14.5px; font-weight:600; color:var(--ink); line-height:1.3}
+.iab-t span b{display:inline; font-size:inherit; color:var(--ink)}
 .iab-t span{display:block; font-size:12.5px; color:var(--ink-2); line-height:1.45; margin-top:3px}
 .iab-go{
   flex:none; height:40px; padding:0 15px; border:0; border-radius:var(--r-pill);
@@ -303,6 +304,8 @@ a.btn{text-decoration:none}
   font-weight:600; letter-spacing:var(--tr); text-transform:uppercase; cursor:pointer;
   text-decoration:none; display:inline-flex; align-items:center;
 }
+.iab-go.off{display:none}
+.iab-t b svg{vertical-align:-2px; margin:0 1px}
 .iab-x{
   flex:none; width:34px; height:34px; border:0; background:none; cursor:pointer;
   color:var(--ink-3); font-size:17px; line-height:1; font-family:inherit;
@@ -1137,7 +1140,88 @@ details[open] > .hire-steps{display:flex; flex-direction:column; gap:11px; paddi
   bar.classList.add("on");
 })();
 
-const BUILD = "202610021710";
+/* "Add it to your home screen" is one tap on Android, where Chrome hands the
+   page a real install dialog, and no taps at all on iPhone, where Apple
+   offers no such thing and the Share sheet is the only door. So: the dialog
+   where there is one, and a picture of the button where there is not.
+
+   Held back until someone has scrolled past the hero. A bar that lands on
+   first paint is something to dismiss; one that waits until they are reading
+   is an offer. */
+(function addToHome() {
+  const ua = navigator.userAgent || "";
+  const onHome = window.matchMedia("(display-mode: standalone)").matches
+              || navigator.standalone === true;
+  if (onHome) return;                                   /* already saved */
+  const bar = document.getElementById("iab");
+  if (bar.classList.contains("on")) return;             /* the in-app bar owns the slot */
+  if (sessionStorage.getItem("jp-add") === "off") return;
+
+  const SHARE = '<svg width="13" height="14" viewBox="0 0 24 26" fill="none" stroke="currentColor"'
+    + ' stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">'
+    + '<path d="M12 2.5v13"/><path d="M8 6.5l4-4 4 4"/>'
+    + '<path d="M6.5 10.5H4.5v13h15v-13h-2"/></svg>';
+
+  const show = (sub2, label, fn) => {
+    document.getElementById("iabH").textContent = "Keep this on your home screen";
+    document.getElementById("iabP").innerHTML = sub2;
+    const go = document.getElementById("iabGo");
+    if (label) {
+      go.className = "iab-go"; go.textContent = label; go.href = "#";
+      go.onclick = (e) => { e.preventDefault(); fn(); };
+    } else go.className = "iab-go off";
+    document.getElementById("iabX").onclick = () => {
+      sessionStorage.setItem("jp-add", "off");
+      bar.classList.remove("on");
+    };
+    bar.classList.add("on");
+  };
+
+  /* Scrolled past the hero, or picked a name - either way they are here on
+     purpose. Whichever happens first, once. */
+  let armed = null, fired = false;
+  const when = (fn) => { armed = fn; if (fired) run(); };
+  const run = () => {
+    fired = true;
+    if (!armed || sessionStorage.getItem("jp-add") === "off") return;
+    const f = armed; armed = null; f();
+  };
+  /* The page scrolls inside its sections, not the window - body is
+     overflow:hidden - so window.scrollY never moves. Scroll events do not
+     bubble, but they are dispatched on the element, so the document catches
+     them all in the capture phase. */
+  const onScroll = (ev) => {
+    const el = ev.target === document || ev.target === window
+      ? document.documentElement : ev.target;
+    if (el.scrollTop > el.clientHeight * 0.6) {
+      document.removeEventListener("scroll", onScroll, true);
+      run();
+    }
+  };
+  document.addEventListener("scroll", onScroll, { capture: true, passive: true });
+
+  /* Chrome offers the dialog itself; catch it before the browser's own
+     banner takes it, and keep it for the button. */
+  addEventListener("beforeinstallprompt", (e) => {
+    e.preventDefault();
+    when(() => show("One tap and it is there on the day.", "Add", () => {
+      bar.classList.remove("on");
+      e.prompt();
+    }));
+  });
+  addEventListener("appinstalled", () => {
+    sessionStorage.setItem("jp-add", "off");
+    bar.classList.remove("on");
+  });
+
+  /* Safari: no dialog exists, so point at the button that does it. */
+  const iOS = /iPhone|iPad|iPod/i.test(ua) || (/Macintosh/.test(ua) && navigator.maxTouchPoints > 1);
+  if (iOS && !/CriOS|FxiOS|EdgiOS|OPiOS/i.test(ua)) {
+    when(() => show("Tap " + SHARE + " below, then <b>Add to Home Screen</b>.", "", null));
+  }
+})();
+
+const BUILD = "202610021714";
 document.documentElement.dataset.build = BUILD;
 (async () => {
   try {
