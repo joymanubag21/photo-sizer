@@ -745,7 +745,7 @@ details[open] > .hire-steps{display:flex; flex-direction:column; gap:11px; paddi
         <span class="wc-h">How the day runs</span>
         <span class="wc-p">Where to be, which car you&rsquo;re in, and what to bring.</span>
       </button>
-      <button class="wcard" type="button" id="btnAfter">
+      <button class="wcard" type="button" id="btnAfter" hidden>
         <span class="eyebrow">The day after</span>
         <span class="wc-h">Sunday in Gibbston</span>
         <span class="wc-p">Breakfast, Arrowtown, the wineries and the gondola.</span>
@@ -980,7 +980,7 @@ details[open] > .hire-steps{display:flex; flex-direction:column; gap:11px; paddi
    were already fixed. The page asks the server for its own current build once
    and reloads if it is behind. Guarded per build id, so a stale edge or a
    failed fetch can never put it in a loop. */
-const BUILD = "202610020353";
+const BUILD = "202610020400";
 document.documentElement.dataset.build = BUILD;
 (async () => {
   try {
@@ -2158,6 +2158,7 @@ function applyState(st) {
   if (st.ov === "spy" && typeof spyOpen === "function" && !spyOpen()) st = { ...st, ov: undefined };
   // swapping to a name outside the party while the sheet is up must close it
   if (st.ov === "music" && !(ME && (PARTY[ME] || ME === "Summer"))) st = { ...st, ov: undefined };
+  if (st.ov === "after" && !onSunday(ME)) st = { ...st, ov: undefined };
   SHEETS.forEach((id) => { $("#" + id).hidden = st.ov !== id; });
   if (st.view === "studio") requestAnimationFrame(redrawAllSheets);
 }
@@ -2582,6 +2583,7 @@ function renderMusic() { renderMusicFor(ME); }
 function renderMusicFor(who) {
   const role = (who === "Summer" && "Wedding coordinator") || (who && PARTY[who]);
   $("#btnMusic").hidden = !(who && PARTY[who]);   // the party card is the party's
+  $("#btnAfter").hidden = !onSunday(who);         // and Sunday is Sunday's
   $("#dj").hidden = false;    // everyone can add to the two open playlists, party included
   if (!role) return;
   $("#musRole").textContent = role;
@@ -2698,7 +2700,16 @@ let spoilOk = false;   // has this name been warned about Summer's brief
 const ME_KEY = "jp-me";
 let ME = null;
 try { ME = localStorage.getItem(ME_KEY); } catch (e) { /* private window */ }
-const ALL_NAMES = [...new Set(STAYS.reduce((a, st) => a.concat(members(st)), []).concat(["Summer"]))].sort();
+const SUNDAY = [
+  "Lara Mae", "Cathlyn", "Marge", "Sam", "Norrie", "KC (Cassie)", "Patrick", "Joy",
+  "Grace", "Francis", "Loren", "Jan", "Emman", "Sai", "Chit", "Sonito", "Mae",
+  "Pia", "Angelo", "Nica"
+];
+const onSunday = (who) => !!who && SUNDAY.includes(who);
+/* KC is in the picker but in no bed and no car - she is here for the Sunday
+   and nothing else. */
+const ALL_NAMES = [...new Set(STAYS.reduce((a, st) => a.concat(members(st)), [])
+  .concat(["Summer"], SUNDAY))].sort();
 function setMe(name) {
   ME = name;
   try { name ? localStorage.setItem(ME_KEY, name) : localStorage.removeItem(ME_KEY); } catch (e) {}
