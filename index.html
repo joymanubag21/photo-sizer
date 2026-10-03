@@ -1238,7 +1238,7 @@ details[open] > .hire-steps{display:flex; flex-direction:column; gap:11px; paddi
   }
 })();
 
-const BUILD = "202610030958";
+const BUILD = "202610031002";
 document.documentElement.dataset.build = BUILD;
 (async () => {
   try {
@@ -3018,7 +3018,6 @@ function renderSummer() {
         mail.select();
         return;
       }
-      try { localStorage.setItem(SUM_KEY, "1"); } catch (e) { /* asked again next time */ }
       open();
     };
     $("#spoilGo").onclick = check;
@@ -3056,9 +3055,15 @@ function renderSummer() {
 /* SHA-256 of the address aMoment works from, so the answer is not sitting in
    the page for a curious guest to read off. */
 const SUMMER_MAIL = "47e8375b6049d5f82de111b86be3edf5909609bd5576ac4ae7e5446380cf1147";
+/* This was remembered on the phone once, to save Summer typing twice. It was
+   the wrong place to keep it: the flag belongs to the phone, not to the
+   reader, so it outlived her - any later load walked straight in, whoever was
+   holding it. Reloads are not rare here either; the page refreshes itself
+   whenever a new build lands. It lives in memory now and dies with the tab.
+   Phones carrying the old flag are cleared on the way past. */
 const SUM_KEY = "jp-summer-ok";
+try { localStorage.removeItem(SUM_KEY); } catch (e) { /* nothing kept anyway */ }
 let spoilOk = false;   // has this name been warned about Summer's brief
-try { spoilOk = localStorage.getItem(SUM_KEY) === "1"; } catch (e) { /* asked each time */ }
 /* Who the reader was before they tapped Summer, if they were anyone. */
 let WAS_ME = null;
 const ME_KEY = "jp-me";
