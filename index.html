@@ -771,7 +771,10 @@ details[open] > .hire-steps{display:flex; flex-direction:column; gap:11px; paddi
   font-family:inherit; font-size:14px; min-height:48px; border-radius:var(--r); cursor:pointer;
   border:1px solid var(--line-2); background:#fff; color:var(--ink);
 }
-.spoil button.go{background:transparent; border-color:transparent; color:var(--ink-3); font-size:13px}
+/* It is one of two answers to a question, not an afterthought: same height
+   and the same border as the other, a step quieter in weight rather than a
+   whisper in the lightest ink the app owns. */
+.spoil button.go{background:transparent; color:var(--ink-2); font-size:14px}
 /* Guests are not handed a whole sheet for this &mdash; one line under the fold,
    the two playlists that are still open, and nothing else to read. */
 .dj{
@@ -1235,7 +1238,7 @@ details[open] > .hire-steps{display:flex; flex-direction:column; gap:11px; paddi
   }
 })();
 
-const BUILD = "202610030954";
+const BUILD = "202610030958";
 document.documentElement.dataset.build = BUILD;
 (async () => {
   try {
@@ -3019,10 +3022,16 @@ function renderSummer() {
       open();
     };
     $("#spoilGo").onclick = check;
+    /* A cross in the corner is a third way out that does neither of the two
+       things being asked, and it used to leave the reader standing there as
+       Summer. The question has two answers; the corner is not one of them. */
+    $("#summerClose").hidden = true;
     mail.oninput = () => { err.hidden = true; };
     mail.onkeydown = (e) => { if (e.key === "Enter") check(); };
     return;
   }
+  /* Past the gate it is an ordinary sheet again, and closes like one. */
+  $("#summerClose").hidden = false;
   $("#summerBody").innerHTML = `
     <p class="how-hd"><span>Everything for</span><em>the day</em></p>
     <p class="mus-sub">Wedding coordinator</p>
