@@ -145,6 +145,11 @@ a.btn{text-decoration:none}
   border:1px solid transparent; border-radius:var(--r-pill); padding:8px 14px; cursor:pointer;
 }
 .who-list button.on{background:var(--green); color:#fff; font-weight:600}
+.who-list button small{
+  display:block; font-size:10px; font-weight:600; letter-spacing:.08em;
+  text-transform:uppercase; color:var(--ink-3); margin-top:2px;
+}
+.who-list button.on small{color:rgba(255,255,255,.72)}
 .sec-h{
   font-family:'Cormorant Garamond',Georgia,serif; font-weight:400;
   font-size:2.2rem; line-height:1.04; margin:0 0 22px; color:var(--ink);
@@ -1221,7 +1226,7 @@ details[open] > .hire-steps{display:flex; flex-direction:column; gap:11px; paddi
   }
 })();
 
-const BUILD = "202610030919";
+const BUILD = "202610030924";
 document.documentElement.dataset.build = BUILD;
 (async () => {
   try {
@@ -3077,11 +3082,17 @@ function renderMe() {
   renderSundayCars();
   renderMusic();
 }
+/* Summer runs the day; she is not one of the thirty-six. Her name sitting
+   unmarked in a list of guests is an invitation to tap it and wonder who she
+   is - and the tapper ends up holding her brief and having to undo it. */
+const NOT_A_GUEST = { Summer: "coordinator" };
+
 function renderWho(q) {
   const needle = (q || "").trim().toLowerCase();
   $("#whoList").innerHTML = ALL_NAMES
     .filter((n) => !needle || n.toLowerCase().includes(needle))
-    .map((n) => `<li><button type="button" class="${n === ME ? "on" : ""}" data-me="${n}">${n}</button></li>`)
+    .map((n) => `<li><button type="button" class="${n === ME ? "on" : ""}" data-me="${n}">${n}${
+      NOT_A_GUEST[n] ? `<small>${NOT_A_GUEST[n]}</small>` : ""}</button></li>`)
     .join("");
   $("#whoList").querySelectorAll("[data-me]").forEach((b) => {
     b.onclick = () => { setMe(b.dataset.me); afterWho(); };
