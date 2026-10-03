@@ -1232,7 +1232,7 @@ details[open] > .hire-steps{display:flex; flex-direction:column; gap:11px; paddi
   }
 })();
 
-const BUILD = "202610030937";
+const BUILD = "202610030942";
 document.documentElement.dataset.build = BUILD;
 (async () => {
   try {
@@ -1766,10 +1766,13 @@ async function loadSamples() {
   // the real photographs, shipped with the app; the drawn fallback is for
   // the offline copy, where fetch of a relative path is blocked
   const out = [];
-  /* Two photographs of them, cropped square so the card shows faces rather
-   than whatever sat in the middle of a portrait. The second slot used to
-   hold a picture of an empty living room. */
-for (const u of ["samples/card-1.jpg", "samples/card-2.jpg"]) {
+  /* Five photographs of them, each cropped to the card frame's own portrait
+     ratio so a face lands where the frame can see it. Five because four-up
+     then fills and six-up keeps one frame empty, which is the whole point of
+     having six. */
+  const SAMPLES = ["samples/card-1.jpg", "samples/card-2.jpg", "samples/card-3.jpg",
+                   "samples/card-4.jpg", "samples/card-5.jpg"];
+  for (const u of SAMPLES) {
     try {
       const r = await fetch(u);
       if (!r.ok) throw new Error(r.status);
@@ -1779,7 +1782,10 @@ for (const u of ["samples/card-1.jpg", "samples/card-2.jpg"]) {
                  name: "sample", sample: true, t: { zoom: 1, ox: 0, oy: 0 } });
     } catch (e) { /* fall through to the drawn pair */ }
   }
-  if (out.length === 2) { state.photos = out; return; }
+  /* All of them or none: a half-loaded set would leave the card looking like
+     a mistake. This counted to two, so adding a third photograph silently
+     threw the lot away and drew the gradient pair instead. */
+  if (out.length === SAMPLES.length) { state.photos = out; return; }
   const a = sampleImage(1500, 1125, { stops: ["#F7C46B", "#E8734A", "#7B3563"], sx: .72, sy: .28, glow: "rgba(255,226,170,.85)", band: "rgba(58,26,52,.82)", hz: .74 });
   const b = sampleImage(1125, 1500, { stops: ["#BFE3E8", "#4E93B5", "#1E3F61"], sx: .3, sy: .2, glow: "rgba(238,250,252,.7)", band: "rgba(16,38,62,.78)", hz: .66 });
   state.photos = [
