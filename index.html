@@ -1221,7 +1221,7 @@ details[open] > .hire-steps{display:flex; flex-direction:column; gap:11px; paddi
   }
 })();
 
-const BUILD = "202610030906";
+const BUILD = "202610030911";
 document.documentElement.dataset.build = BUILD;
 (async () => {
   try {
@@ -2427,7 +2427,7 @@ const RIDES = [
       { bed: "Dropped first &mdash; the lake house",
         who: ["Loren", "Jan", "Sai", "Chit"] },
       { bed: "Then the Arrowtown house",
-        who: ["Angelo", "Emman", "Sonito", "Pia", "Nica", "Mae"] }
+        who: ["Angelo", "Emman", "Sonito", "Pia", "Nikka", "Mae"] }
     ],
     note: "Angelo drives this car both ways." },
   { name: "Marvin&rsquo;s car", driver: "Marvin", hit: "<b>Marvin</b> drives Car 2. Check your own line below &mdash; three of you come to the ceremony with Jun2x.", car: "Car 2 &middot; 12-seater", face: "samples/driver-marvin.jpg",
@@ -2475,7 +2475,7 @@ const STAYS = [
   { place: "The Arrowtown house", addr: "760 Malaghans Road, Arrowtown 9371",
     rooms: [
       { bed: "Super king, in the living room", who: ["Marvin", "Jane", "Marvin's daughter"] },
-      { bed: "3 beds for you to choose", who: ["Angelo", "Nica", "Mae", "Sonito", "Emman", "Pia"] }
+      { bed: "3 beds for you to choose", who: ["Angelo", "Nikka", "Mae", "Sonito", "Emman", "Pia"] }
     ],
     legs: [
       { l: "Getting ready", t: "Angelo leaves here at <b>2:10 pm</b> and Marvin at <b>1:59</b>, and both call at the lake house on the way, so nobody has to make their own way there." },
@@ -2515,7 +2515,7 @@ const members = (x) => x.rooms.reduce((a, rm) => a.concat(rm.who), []);
    they sleep. Read by the name lookup; each house card says it in its own words. */
 const READY = {
   rooms: [
-    { bed: "", who: ["Angelo", "Sonito", "Pia", "Mae", "Nica", "Loren", "Jan",
+    { bed: "", who: ["Angelo", "Sonito", "Pia", "Mae", "Nikka", "Loren", "Jan",
                      "Emman", "Sai", "Chit"] }
   ]
 };
@@ -2572,7 +2572,7 @@ const RENTALS = {
         + "Land after 6:00 pm and it is an after-hours pickup &mdash; same number, the Queenstown team still arranges it."],
       ["5:00 pm", "Collecting the van", "At {BRANCH}, about 5:00&ndash;5:15."]
     ],
-    with: ["Sonito", "Mae", "Pia", "Emman", "Nica"],
+    with: ["Sonito", "Mae", "Pia", "Emman", "Nikka"],
     stops: [
       "Leave by <b>door D</b> and follow the transfer signs to the shuttle area, just outside Air New Zealand check-in. {SHEET} shows the spot.",
       "The van is white and marked Yes Rentals. Usually 10&ndash;15 minutes &mdash; wave the driver down.",
@@ -2650,7 +2650,7 @@ const ROUTES = {
     /* Hotel before the lake house: Arrowtown, hotel, lake house, Canyons is
        40 minutes, and taking the lake house first is 45. */
     ceremony: { rows: [
-      ["2:10 pm", "Leave the Arrowtown house", "Angelo, Emman, Sonito, Pia, Nica and Mae."],
+      ["2:10 pm", "Leave the Arrowtown house", "Angelo, Emman, Sonito, Pia, Nikka and Mae."],
       ["2:31 pm", "The lake house, for four", "Loren, Jan, Sai and Chit, at 13 McKerrow Place. <b>21 minutes</b> from Arrowtown, and <b>8</b> to load. Ten aboard."],
       ["2:50 pm", "At the Canyons", "<b>11 minutes</b> from the lake house &mdash; five minutes before the 2:55 the runsheet gives the guests."]
     ], map: ["arrowtown", "lake", "canyons"] },
@@ -2659,7 +2659,7 @@ const ROUTES = {
     ], map: ["canyons", "hilton"] },
     home: { rows: [
       ["10:20 pm", "Drop four at the lake house", "Loren, Jan, Sai and Chit. <b>20 minutes</b> from the Hilton."],
-      ["10:45 pm", "Drop six at the Arrowtown house", "Emman, Sonito, Pia, Nica, Mae and Angelo. <b>21 minutes</b> from the lake house &mdash; the last drop."]
+      ["10:45 pm", "Drop six at the Arrowtown house", "Emman, Sonito, Pia, Nikka, Mae and Angelo. <b>21 minutes</b> from the lake house &mdash; the last drop."]
     ], map: ["hilton", "lake", "arrowtown"] }
   },
   Marvin: {
@@ -2962,19 +2962,27 @@ function renderSummer() {
    so it survives closing the browser; nothing leaves the phone. */
 let spoilOk = false;   // has this name been warned about Summer's brief
 const ME_KEY = "jp-me";
+/* Nica was a misspelling. A phone that remembered the old one would resolve
+   to nobody - no bed, no car, "no match" - so it is corrected here, before
+   anything reads it, not after. */
+const RENAMED = { Nica: "Nikka" };
 let ME = null;
 try { ME = localStorage.getItem(ME_KEY); } catch (e) { /* private window */ }
+if (ME && RENAMED[ME]) {
+  ME = RENAMED[ME];
+  try { localStorage.setItem(ME_KEY, ME); } catch (e) { /* nothing to keep */ }
+}
 const SUNDAY = [
   "Lara Mae", "Cathlyn", "Marge", "Sam", "Norrie", "KC (Cassie)", "Patrick", "Joy",
   "Grace", "Francis", "Loren", "Jan", "Emman", "Sai", "Chit", "Sonito", "Mae",
-  "Pia", "Angelo", "Nica"
+  "Pia", "Angelo", "Nikka"
 ];
 const onSunday = (who) => !!who && SUNDAY.includes(who);
 /* Took the pizzas and platters, not the tasting. */
 const LUNCH_ONLY = ["Lara Mae", "Cathlyn", "Patrick", "Mae"];
 const SUNDAY_CARS = [
   { driver: "Angelo", face: "samples/driver-angelo.jpg",
-    who: ["Angelo", "Loren", "Jan", "Emman", "Sai", "Chit", "Sonito", "Mae", "Pia", "Nica"] },
+    who: ["Angelo", "Loren", "Jan", "Emman", "Sai", "Chit", "Sonito", "Mae", "Pia", "Nikka"] },
   { driver: "KC", face: "samples/driver-kc.webp",
     who: ["KC (Cassie)", "Lara Mae", "Cathlyn", "Marge", "Sam", "Norrie", "Patrick", "Joy", "Grace", "Francis"] }
 ];
