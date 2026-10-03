@@ -145,11 +145,6 @@ a.btn{text-decoration:none}
   border:1px solid transparent; border-radius:var(--r-pill); padding:8px 14px; cursor:pointer;
 }
 .who-list button.on{background:var(--green); color:#fff; font-weight:600}
-.who-list button small{
-  display:block; font-size:10px; font-weight:600; letter-spacing:.08em;
-  text-transform:uppercase; color:var(--ink-3); margin-top:2px;
-}
-.who-list button.on small{color:rgba(255,255,255,.72)}
 .sec-h{
   font-family:'Cormorant Garamond',Georgia,serif; font-weight:400;
   font-size:2.2rem; line-height:1.04; margin:0 0 22px; color:var(--ink);
@@ -1226,7 +1221,7 @@ details[open] > .hire-steps{display:flex; flex-direction:column; gap:11px; paddi
   }
 })();
 
-const BUILD = "202610030924";
+const BUILD = "202610030927";
 document.documentElement.dataset.build = BUILD;
 (async () => {
   try {
@@ -2943,8 +2938,18 @@ function renderSummer() {
           <button type="button" class="go" id="spoilBack">Not me, take me back</button>
         </div>
       </div>`;
-    $("#spoilBack").onclick = back;
-    $("#spoilGo").onclick = () => { spoilOk = true; renderSummer(); };
+    /* "Not me" used to close the sheet and leave them standing there as
+       Summer, their own card gone and no sign of how to undo it. It gives
+       them back the name they arrived with, or the picker if they had none. */
+    $("#spoilBack").onclick = () => {
+      const was = WAS_ME;
+      WAS_ME = null;
+      setMe(was);
+      if (was) { back(); return; }
+      renderWho("");
+      swap({ view: "welcome", ov: "who" });
+    };
+    $("#spoilGo").onclick = () => { WAS_ME = null; spoilOk = true; renderSummer(); };
     return;
   }
   $("#summerBody").innerHTML = `
@@ -2969,6 +2974,8 @@ function renderSummer() {
 /* One tap, once. It rides in localStorage exactly as the I spy progress does,
    so it survives closing the browser; nothing leaves the phone. */
 let spoilOk = false;   // has this name been warned about Summer's brief
+/* Who the reader was before they tapped Summer, if they were anyone. */
+let WAS_ME = null;
 const ME_KEY = "jp-me";
 /* Nica was a misspelling. A phone that remembered the old one would resolve
    to nobody - no bed, no car, "no match" - so it is corrected here, before
@@ -3082,20 +3089,20 @@ function renderMe() {
   renderSundayCars();
   renderMusic();
 }
-/* Summer runs the day; she is not one of the thirty-six. Her name sitting
-   unmarked in a list of guests is an invitation to tap it and wonder who she
-   is - and the tapper ends up holding her brief and having to undo it. */
-const NOT_A_GUEST = { Summer: "coordinator" };
-
 function renderWho(q) {
   const needle = (q || "").trim().toLowerCase();
   $("#whoList").innerHTML = ALL_NAMES
     .filter((n) => !needle || n.toLowerCase().includes(needle))
-    .map((n) => `<li><button type="button" class="${n === ME ? "on" : ""}" data-me="${n}">${n}${
-      NOT_A_GUEST[n] ? `<small>${NOT_A_GUEST[n]}</small>` : ""}</button></li>`)
+    .map((n) => `<li><button type="button" class="${n === ME ? "on" : ""}" data-me="${n}">${n}</button></li>`)
     .join("");
   $("#whoList").querySelectorAll("[data-me]").forEach((b) => {
-    b.onclick = () => { setMe(b.dataset.me); afterWho(); };
+    b.onclick = () => {
+      /* Tapping Summer hands you her brief at once, warning first. Remember
+         who you were, so saying "not me" can put you back. */
+      if (b.dataset.me === "Summer") WAS_ME = ME;
+      setMe(b.dataset.me);
+      afterWho();
+    };
   });
 }
 
