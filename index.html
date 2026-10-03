@@ -753,6 +753,17 @@ details[open] > .hire-steps{display:flex; flex-direction:column; gap:11px; paddi
 .spoil{text-align:center; padding:8px 0 0}
 .spoil p{margin:0 0 22px; font-size:14px; line-height:1.7; color:var(--ink-2)}
 .spoil .row{display:flex; flex-direction:column; gap:10px}
+.spoil-l{
+  display:block; font-size:var(--eb-ctl); font-weight:600; letter-spacing:var(--tr);
+  text-transform:uppercase; color:var(--green); margin:0 0 9px;
+}
+.spoil-in{
+  width:100%; box-sizing:border-box; height:50px; padding:0 16px; margin:0 0 10px;
+  font-family:inherit; font-size:15px; color:var(--ink); text-align:center;
+  background:var(--surface); border:1px solid var(--line-2); border-radius:var(--r-pill);
+}
+.spoil-in:focus{outline:none; border-color:var(--rose)}
+.spoil-err{margin:0 0 14px !important; font-size:13px !important; color:var(--rose) !important}
 .spoil button{
   font-family:inherit; font-size:14px; min-height:48px; border-radius:var(--r); cursor:pointer;
   border:1px solid var(--line-2); background:#fff; color:var(--ink);
@@ -1221,7 +1232,7 @@ details[open] > .hire-steps{display:flex; flex-direction:column; gap:11px; paddi
   }
 })();
 
-const BUILD = "202610030934";
+const BUILD = "202610030937";
 document.documentElement.dataset.build = BUILD;
 (async () => {
   try {
@@ -2923,8 +2934,13 @@ function renderSummer() {
         <p>It is the coordinator&rsquo;s brief &mdash; the timings, the table plans, the
         bits that are meant to be a surprise on the day. Read on and you will
         know exactly what is coming.</p>
+        <label class="spoil-l" for="spoilMail">Type the address aMoment uses</label>
+        <input class="spoil-in" id="spoilMail" type="email" inputmode="email"
+               autocomplete="email" autocapitalize="off" spellcheck="false"
+               placeholder="you@&hellip;" aria-describedby="spoilErr">
+        <p class="spoil-err" id="spoilErr" hidden>That is not the address I have.</p>
         <div class="row">
-          <button type="button" id="spoilGo">I&rsquo;m Summer &mdash; open it</button>
+          <button type="button" id="spoilGo">Open it</button>
           <button type="button" class="go" id="spoilBack">Not me, take me back</button>
         </div>
       </div>`;
@@ -2939,7 +2955,38 @@ function renderSummer() {
       renderWho("");
       swap({ view: "welcome", ov: "who" });
     };
-    $("#spoilGo").onclick = () => { WAS_ME = null; spoilOk = true; renderSummer(); };
+    /* Summer proves it by typing the address aMoment works from. The address
+       itself is not in this file - only the SHA-256 of it - so reading the
+       source does not hand anybody the answer. It is a courtesy lock, not a
+       safe: this page is public and so is its source. */
+    const open = () => { WAS_ME = null; spoilOk = true; renderSummer(); };
+    const mail = $("#spoilMail"), err = $("#spoilErr");
+    /* No crypto on an insecure origin; rather than lock her out, fall back to
+       the honour system this gate used before. */
+    if (!(window.crypto && crypto.subtle)) {
+      $("#spoilGo").textContent = "I’m Summer — open it";
+      mail.hidden = true;
+      $(".spoil-l").hidden = true;
+      $("#spoilGo").onclick = open;
+      return;
+    }
+    const check = async () => {
+      const typed = (mail.value || "").trim().toLowerCase();
+      if (!typed) { mail.focus(); return; }
+      const bytes = new Uint8Array(await crypto.subtle.digest("SHA-256",
+        new TextEncoder().encode(typed)));
+      const hex = [...bytes].map((b) => b.toString(16).padStart(2, "0")).join("");
+      if (hex !== SUMMER_MAIL) {
+        err.hidden = false;
+        mail.select();
+        return;
+      }
+      try { localStorage.setItem(SUM_KEY, "1"); } catch (e) { /* asked again next time */ }
+      open();
+    };
+    $("#spoilGo").onclick = check;
+    mail.oninput = () => { err.hidden = true; };
+    mail.onkeydown = (e) => { if (e.key === "Enter") check(); };
     return;
   }
   $("#summerBody").innerHTML = `
@@ -2963,7 +3010,12 @@ function renderSummer() {
 
 /* One tap, once. It rides in localStorage exactly as the I spy progress does,
    so it survives closing the browser; nothing leaves the phone. */
+/* SHA-256 of the address aMoment works from, so the answer is not sitting in
+   the page for a curious guest to read off. */
+const SUMMER_MAIL = "47e8375b6049d5f82de111b86be3edf5909609bd5576ac4ae7e5446380cf1147";
+const SUM_KEY = "jp-summer-ok";
 let spoilOk = false;   // has this name been warned about Summer's brief
+try { spoilOk = localStorage.getItem(SUM_KEY) === "1"; } catch (e) { /* asked each time */ }
 /* Who the reader was before they tapped Summer, if they were anyone. */
 let WAS_ME = null;
 const ME_KEY = "jp-me";
