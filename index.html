@@ -1243,7 +1243,7 @@ details[open] > .hire-steps{display:flex; flex-direction:column; gap:11px; paddi
   }
 })();
 
-const BUILD = "202610031337";
+const BUILD = "202610031339";
 document.documentElement.dataset.build = BUILD;
 (async () => {
   try {
@@ -2461,9 +2461,14 @@ function applyState(st) {
   SHEETS.forEach((id) => { $("#" + id).hidden = st.ov !== id; });
   if (st.view === "studio") requestAnimationFrame(redrawAllSheets);
 }
-function go(st) { history.pushState(st, ""); applyState(st); }
+/* Sheets used to live only in history state, so there was no address to copy
+   and nothing to send anybody: every link was the front door. The open sheet
+   is in the hash now, which makes /#album a link to the album, and makes the
+   "#music" row in Summer's brief work as it always looked like it should. */
+const sheetUrl = (st) => (st && st.ov ? "#" + st.ov : location.pathname + location.search);
+function go(st) { history.pushState(st, "", sheetUrl(st)); applyState(st); }
 // replaces the current entry, so Back does not land on a sheet already answered
-function swap(st) { history.replaceState(st, ""); applyState(st); }
+function swap(st) { history.replaceState(st, "", sheetUrl(st)); applyState(st); }
 function back() {
   if (history.state) history.back(); else applyState({ view: "welcome" });
 }
@@ -3652,7 +3657,17 @@ function closeOut() { if (here().ov === "out") back(); else $("#out").hidden = t
 
 redrawEverything();
 renderTray();
-history.replaceState({ view: "welcome" }, "");
+/* Arriving on a link to a sheet opens it. applyState keeps its own gates, so
+   a deep link to somebody else's sheet still lands on the front page. */
+const fromHash = () => {
+  const id = (location.hash || "").replace(/^#/, "");
+  return SHEETS.includes(id) ? { view: "welcome", ov: id } : { view: "welcome" };
+};
+history.replaceState(fromHash(), "", sheetUrl(fromHash()));
+applyState(fromHash());
+/* A plain anchor changes the hash without touching history state, which is
+   how Summer's music row moves. */
+addEventListener("hashchange", () => swap(fromHash()));
 loadSamples().then(() => { redrawEverything(); renderHero(); });
 
 if (window.claude && typeof window.claude.use === "function") {
