@@ -1221,7 +1221,7 @@ details[open] > .hire-steps{display:flex; flex-direction:column; gap:11px; paddi
   }
 })();
 
-const BUILD = "202610030911";
+const BUILD = "202610030919";
 document.documentElement.dataset.build = BUILD;
 (async () => {
   try {
@@ -1755,7 +1755,10 @@ async function loadSamples() {
   // the real photographs, shipped with the app; the drawn fallback is for
   // the offline copy, where fetch of a relative path is blocked
   const out = [];
-  for (const u of ["samples/01.jpg", "samples/02.jpg"]) {
+  /* Two photographs of them, cropped square so the card shows faces rather
+   than whatever sat in the middle of a portrait. The second slot used to
+   hold a picture of an empty living room. */
+for (const u of ["samples/card-1.jpg", "samples/card-2.jpg"]) {
     try {
       const r = await fetch(u);
       if (!r.ok) throw new Error(r.status);
