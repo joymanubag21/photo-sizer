@@ -190,6 +190,13 @@ a.btn{text-decoration:none}
 }
 .sun-hd{display:flex; align-items:center; gap:11px}
 .sun-hd img{width:40px; height:40px; border-radius:50%; object-fit:cover; flex:none; border:1px solid var(--line-2)}
+/* A driver without a photograph still needs a face-sized circle, or the names
+   below it shift out of line with the other cars. */
+.sun-initial{
+  width:40px; height:40px; border-radius:50%; flex:none; border:1px solid var(--line-2);
+  display:grid; place-items:center; background:var(--surface-2);
+  font-family:'Cormorant Garamond',Georgia,serif; font-size:1.25rem; color:var(--ink-2);
+}
 .sun-hd span{
   font-family:'Cormorant Garamond',Georgia,serif; font-size:1.15rem; line-height:1.2; color:var(--ink);
 }
@@ -1238,7 +1245,7 @@ details[open] > .hire-steps{display:flex; flex-direction:column; gap:11px; paddi
   }
 })();
 
-const BUILD = "202610031152";
+const BUILD = "202610031155";
 document.documentElement.dataset.build = BUILD;
 (async () => {
   try {
@@ -3129,9 +3136,14 @@ const SUNDAY = [
 const onSunday = (who) => !!who && SUNDAY.includes(who);
 /* Took the pizzas and platters, not the tasting. */
 const LUNCH_ONLY = ["Lara Mae", "Cathlyn", "Patrick", "Mae"];
+/* Four cars on the Sunday: the two couples take their own, as they do on the
+   Saturday, which leaves Angelo with six. Jan and Sai have no photograph
+   here, so their circle carries an initial instead. */
 const SUNDAY_CARS = [
   { driver: "Angelo", face: "samples/driver-angelo.jpg",
-    who: ["Angelo", "Loren", "Jan", "Emman", "Sai", "Chit", "Sonito", "Mae", "Pia", "Nikka"] },
+    who: ["Angelo", "Emman", "Sonito", "Mae", "Pia", "Nikka"] },
+  { driver: "Jan", who: ["Jan", "Loren"] },
+  { driver: "Sai", who: ["Sai", "Chit"] },
   { driver: "KC", face: "samples/driver-kc.webp",
     who: ["KC (Cassie)", "Lara Mae", "Cathlyn", "Marge", "Sam", "Norrie", "Patrick", "Joy", "Grace", "Francis"] }
 ];
@@ -3180,7 +3192,10 @@ function renderSundayCars() {
   if (!box) return;
   box.innerHTML = SUNDAY_CARS.map((c) => `
     <div class="sun-car">
-      <div class="sun-hd"><img src="${c.face}" alt="" loading="lazy"><span>${c.driver}&rsquo;s car<small>${c.who.length} of you</small></span></div>
+      <div class="sun-hd">${c.face
+        ? `<img src="${c.face}" alt="" loading="lazy">`
+        : `<span class="sun-initial">${c.driver.slice(0, 1)}</span>`
+      }<span>${c.driver}&rsquo;s car<small>${c.who.length} of you</small></span></div>
       <ul>${c.who.map((w) => `<li class="${w === ME ? "you" : ""}">${w === "KC (Cassie)" ? "KC" : w}</li>`).join("")}</ul>
     </div>`).join("");
 }
