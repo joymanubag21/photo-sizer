@@ -540,7 +540,10 @@ details[open] > .hire-steps{display:flex; flex-direction:column; gap:11px; paddi
   color:var(--ink-2); min-width:104px; text-align:center;
 }
 .sheetdots{display:flex; gap:7px; justify-content:center; margin-top:2px}
-.sheetdots button{width:24px; height:24px; display:grid; place-items:center}
+/* The dot is 6 px because it should be quiet; the button around it is 44
+   because a thumb is not. */
+.sheetdots{gap:0}
+.sheetdots button{width:44px; height:44px; display:grid; place-items:center; border:0; background:none; cursor:pointer}
 .sheetdots i{display:block; width:6px; height:6px; border-radius:50%; background:var(--line-2)}
 .sheetdots button[aria-current="true"] i{background:var(--green)}
 
@@ -1232,7 +1235,7 @@ details[open] > .hire-steps{display:flex; flex-direction:column; gap:11px; paddi
   }
 })();
 
-const BUILD = "202610030942";
+const BUILD = "202610030944";
 document.documentElement.dataset.build = BUILD;
 (async () => {
   try {
@@ -1362,6 +1365,9 @@ const FORMATS = [{
 }, {
   id: "six",
   name: "Six up",
+  /* The demonstration leaves one frame open here, so the six reads as "there
+     is room for yours" rather than "this is finished". */
+  demo: 5,
   desc: "Three across, two down — a contact sheet of the night.",
   meta: "6 photos / sheet",
   slots: 6,
@@ -1984,8 +1990,15 @@ const redrawEverything = () => { renderStage(); renderCat(); renderTray(); fitPa
 
 function sheetsFor(fmt) {
   const out = [];
-  for (let i = 0; i < state.photos.length; i += fmt.slots) {
-    out.push(state.photos.slice(i, i + fmt.slots).map((p) => ({
+  /* The samples are a demonstration, not a job. Show one sheet of them, cut
+     to this format's own frames, instead of paginating a pile the reader
+     never chose - five photographs turned every card into "sheet 1 of 3"
+     before anybody had added anything. A guest's own photographs paginate
+     as they always did. */
+  const demo = state.photos.length && state.photos.every((p) => p.sample);
+  const photos = demo ? state.photos.slice(0, fmt.demo || fmt.slots) : state.photos;
+  for (let i = 0; i < photos.length; i += fmt.slots) {
+    out.push(photos.slice(i, i + fmt.slots).map((p) => ({
       photo: p, img: p.src, t: p.t, sheetKey: String(out.length)
     })));
   }
