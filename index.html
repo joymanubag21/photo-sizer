@@ -866,6 +866,12 @@ details[open] > .hire-steps{display:flex; flex-direction:column; gap:11px; paddi
     <button class="sec-eyebrow" id="meChip" type="button"></button>
     <h2 class="sec-h">Everything you <em>need</em></h2>
     <div class="cards">
+      <button class="wcard" type="button" id="btnTrip" hidden>
+        <span class="eyebrow">Just ours</span>
+        <span class="wc-h">Our New Zealand</span>
+        <span class="wc-p">The flights, and the days either side of the wedding.</span>
+      </button>
+
       <button class="wcard" type="button" id="btnSummer" hidden>
         <span class="eyebrow">For the wedding coordinator</span>
         <span class="wc-h">Summer&rsquo;s brief</span>
@@ -1082,6 +1088,55 @@ details[open] > .hire-steps{display:flex; flex-direction:column; gap:11px; paddi
   </div>
 </div>
 
+<!-- Patrick only. Our own flights and the days around the wedding, in the same
+     shape as the guest sheets so it needs no explaining. No reference, no
+     ticket number, no card digits, no amounts: the repository is public. -->
+<div class="modal" id="trip" hidden>
+  <div class="modal-in">
+    <div class="modal-head"><span style="flex:1"></span><button class="close" id="tripClose" aria-label="Close">&#10005;</button></div>
+    <div class="spy-head">
+      <p class="spy-kicker">7 &ndash; 25 October</p>
+      <h2 class="spy-h">Our <em>trip</em></h2>
+      <p class="spy-lede">Just ours. Nobody else is shown this.</p>
+    </div>
+
+    <h3 class="plan-h" style="margin-top:22px">Getting there</h3>
+    <p class="plan-sub">You and Joy are on the same four flights. Every time is local to the airport you are standing in.</p>
+    <ul class="plan-list">
+      <li>
+        <span class="plan-when">00:05</span>
+        <span class="plan-what">Manila to Brisbane<small><b>PR221</b> &middot; Terminal 1. It leaves just after midnight, so the airport run is the <b>evening of Tuesday the 6th</b>. Eight hours in the air, landing <b>10:05</b>.</small></span>
+      </li>
+      <li>
+        <span class="plan-when">10:55</span>
+        <span class="plan-what">Brisbane to Queenstown<small><b>NZ268</b> &middot; Fifty minutes between the two. Three and a half hours, and you are on the ground in Queenstown at <b>5:30 pm on Wednesday the 7th</b> &mdash; in time for the 6:00 pm pickup.</small></span>
+      </li>
+      <li>
+        <span class="plan-when">30 kg</span>
+        <span class="plan-what">Checked bags, going out<small>Each of you. Anything for the wedding that cannot be replaced travels in the cabin.</small></span>
+      </li>
+    </ul>
+
+    <h3 class="plan-h">Coming home</h3>
+    <p class="plan-sub">Both legs on Sunday 25 October, out of Christchurch &mdash; the same city the vans go back to.</p>
+    <ul class="plan-list">
+      <li>
+        <span class="plan-when">06:00</span>
+        <span class="plan-what">Christchurch to Melbourne<small><b>NZ213</b> &middot; A very early start: at the airport by <b>4:00 am</b>, so the last night is a short one. Landing <b>7:55</b>.</small></span>
+      </li>
+      <li>
+        <span class="plan-when">09:00</span>
+        <span class="plan-what">Melbourne to Manila<small><b>PR210</b> &middot; Sixty-five minutes in Melbourne, so it is straight off one and on to the next. Home at <b>2:25 pm</b>.</small></span>
+      </li>
+      <li>
+        <span class="plan-when">35 kg</span>
+        <span class="plan-what">Checked bags, coming back<small>Five kilos more than on the way out, which is about one wine box each.</small></span>
+      </li>
+    </ul>
+
+  </div>
+</div>
+
 <div class="modal" id="summer" hidden>
   <div class="modal-in">
     <div class="modal-head"><span style="flex:1"></span><button class="close" id="summerClose" aria-label="Close">&#10005;</button></div>
@@ -1242,7 +1297,7 @@ details[open] > .hire-steps{display:flex; flex-direction:column; gap:11px; paddi
   }
 })();
 
-const BUILD = "202610031350";
+const BUILD = "202610031404";
 document.documentElement.dataset.build = BUILD;
 (async () => {
   try {
@@ -2444,7 +2499,7 @@ function renderSpyCount() {
 /* Every screen and sheet is a history entry, so the phone's own back gesture
    walks back through them instead of leaving the site entirely. State is
    {view, ov}: the screen underneath, and the sheet on top of it if any. */
-const SHEETS = ["plan", "after", "spy", "help", "out", "album", "who", "shot", "music", "summer"];
+const SHEETS = ["plan", "after", "spy", "help", "out", "album", "who", "shot", "music", "summer", "trip"];
 const here = () => history.state || { view: "welcome" };
 
 function applyState(st) {
@@ -2457,6 +2512,7 @@ function applyState(st) {
   if (st.ov === "music" && !(ME && (PARTY[ME] || ME === "Summer"))) st = { ...st, ov: undefined };
   if (st.ov === "after" && !onSunday(ME)) st = { ...st, ov: undefined };   // still only theirs
   if (st.ov === "plan" && SUNDAY_ONLY.includes(ME)) st = { ...st, ov: undefined };
+  if (st.ov === "trip" && ME !== "Patrick") st = { ...st, ov: undefined };   // ours, hash included
   SHEETS.forEach((id) => { $("#" + id).hidden = st.ov !== id; });
   if (st.view === "studio") requestAnimationFrame(redrawAllSheets);
 }
@@ -3254,6 +3310,7 @@ function renderMe() {
     ? "Arrowtown, Gibbston &amp; Queenstown, New Zealand"
     : "The Canyons B&amp;B &middot; Queenstown, New Zealand";
   $("#btnSummer").hidden = !isSummer;
+  $("#btnTrip").hidden = ME !== "Patrick";
   $("#btnStart").hidden = isSummer || sunOnly;
   $("#btnSpy").hidden = isSummer || sunOnly;
   // the footnote promises something about cards the reader may not have
@@ -3578,6 +3635,8 @@ $("#btnAlbum").onclick = () => go({ view: "welcome", ov: "album" });
 $("#btnMusic").onclick = () => go({ view: "welcome", ov: "music" });
 $("#btnSummer").onclick = () => { renderSummer(); go({ view: "welcome", ov: "summer" }); };
 $("#summerClose").onclick = back;
+$("#btnTrip").onclick = () => go({ view: "welcome", ov: "trip" });
+$("#tripClose").onclick = back;
 $("#musicClose").onclick = back;
 $("#albumClose").onclick = back;
 $("#btnSpy").onclick = () => { if (!spyOpen()) return; renderSpy(); go({ view: "welcome", ov: "spy" }); };
