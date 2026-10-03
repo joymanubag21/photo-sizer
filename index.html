@@ -1238,7 +1238,7 @@ details[open] > .hire-steps{display:flex; flex-direction:column; gap:11px; paddi
   }
 })();
 
-const BUILD = "202610031136";
+const BUILD = "202610031152";
 document.documentElement.dataset.build = BUILD;
 (async () => {
   try {
@@ -2481,13 +2481,13 @@ const RIDES = [
     note: "Angelo drives this car both ways." },
   /* Two couples at the lake house keep their own cars, so they are not in
      anybody's van. Four fewer seats for Angelo and four fewer stops. */
-  { name: "Loren and Jan&rsquo;s car", driver: "Loren", hit: "You two have your own car, all day.",
+  { name: "Jan and Loren&rsquo;s car", driver: "Jan", hit: "You two have your own car, all day.",
     car: "Your own car",
-    rooms: [{ bed: "", who: ["Loren", "Jan"] }],
+    rooms: [{ bed: "", who: ["Jan", "Loren"] }],
     note: "Angelo takes you out; your own car brings you to the reception and home." },
-  { name: "Chit and Sai&rsquo;s car", driver: "Chit", hit: "You two have your own car, all day.",
+  { name: "Sai and Chit&rsquo;s car", driver: "Sai", hit: "You two have your own car, all day.",
     car: "Your own car",
-    rooms: [{ bed: "", who: ["Chit", "Sai"] }],
+    rooms: [{ bed: "", who: ["Sai", "Chit"] }],
     note: "Angelo takes you out; your own car brings you to the reception and home." },
   { name: "Marvin&rsquo;s car", driver: "Marvin", hit: "<b>Marvin</b> drives Car 2. Check your own line below &mdash; three of you come to the ceremony with Jun2x.", car: "Car 2 &middot; 12-seater", face: "samples/driver-marvin.jpg",
     rooms: [
@@ -2729,7 +2729,7 @@ const ROUTES = {
   },
   /* The two couples ride out with Angelo and drive themselves back in. Written
      twice rather than shared, because each of them is the one driving. */
-  Loren: {
+  Jan: {
     ceremony: { rows: [
       ["2:31 pm", "Angelo collects you", "At the lake house. Leave your car here &mdash; you want it after the ceremony."],
       ["2:50 pm", "At the Canyons", "<b>11 minutes</b> from 13 McKerrow Place. Ten aboard."]
@@ -2743,7 +2743,7 @@ const ROUTES = {
       ["10:25 pm", "Back to the lake house", "<b>25 minutes</b> from the Hilton, in your own time."]
     ], map: ["hilton", "lake"] }
   },
-  Chit: {
+  Sai: {
     ceremony: { rows: [
       ["2:31 pm", "Angelo collects you", "At the lake house. Leave your car here &mdash; you want it after the ceremony."],
       ["2:50 pm", "At the Canyons", "<b>11 minutes</b> from 13 McKerrow Place. Ten aboard."]
