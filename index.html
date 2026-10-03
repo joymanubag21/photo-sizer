@@ -177,6 +177,7 @@ a.btn{text-decoration:none}
 .spy-kicker{font-size:var(--eb); font-weight:600; letter-spacing:var(--tr-wide); text-transform:uppercase; color:var(--green)}
 .spy-h{font-family:'Cormorant Garamond',Georgia,serif; font-weight:400; font-size:3.6rem; line-height:.95; margin:10px 0 12px}
 .spy-h em{font-style:italic; color:var(--rose)}
+.spy-lede .shout{font-weight:600; text-transform:uppercase; letter-spacing:.07em; color:var(--ink)}
 .spy-lede{font-size:14.5px; color:var(--ink-2); line-height:1.55; max-width:30ch; margin:0 auto}
 /* Shown only between the 9th and the night itself: they can read the ten, but
    the shots are Saturday's. */
@@ -1075,7 +1076,7 @@ details[open] > .hire-steps{display:flex; flex-direction:column; gap:11px; paddi
     <div class="modal-head"><span style="flex:1"></span><button class="close" id="albumClose" aria-label="Close">&#10005;</button></div>
     <div class="sheet-art"><img src="samples/hero.jpg" alt="Joy and Patrick above Lake Wakatipu"></div>
     <p class="how-hd" style="margin-top:22px"><span>Send us your</span><em>photos</em></p>
-    <p class="spy-lede" style="max-width:33ch;margin:16px auto 26px">We would love your favourite shots: the wedding, your
+    <p class="spy-lede" style="max-width:33ch;margin:16px auto 26px">We would love your favourite shots: the <span class="shout">wedding</span>, your
       trip, and the New Zealand you found on the way. The view is most of why we are all here.</p>
     <a class="btn primary" style="width:100%;box-sizing:border-box;text-align:center" href="https://app.kululu.com/m4fvel" target="_blank" rel="noopener">Open the album</a>
     <p class="how-fine">One album everybody adds to: photos, videos, even a note. Nothing to install, nothing shrunk, and the only part of this site that uploads anything.</p>
@@ -1242,7 +1243,7 @@ details[open] > .hire-steps{display:flex; flex-direction:column; gap:11px; paddi
   }
 })();
 
-const BUILD = "202610031336";
+const BUILD = "202610031337";
 document.documentElement.dataset.build = BUILD;
 (async () => {
   try {
