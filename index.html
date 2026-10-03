@@ -1238,7 +1238,7 @@ details[open] > .hire-steps{display:flex; flex-direction:column; gap:11px; paddi
   }
 })();
 
-const BUILD = "202610031002";
+const BUILD = "202610031027";
 document.documentElement.dataset.build = BUILD;
 (async () => {
   try {
@@ -2529,7 +2529,7 @@ const STAYS = [
       { bed: "3 beds for you to choose", who: ["Angelo", "Nikka", "Mae", "Sonito", "Emman", "Pia"] }
     ],
     legs: [
-      { l: "Getting ready", t: "Angelo leaves here at <b>2:10 pm</b> and Marvin at <b>1:59</b>, and both call at the lake house on the way, so nobody has to make their own way there." },
+      { l: "Getting ready", t: "Angelo leaves here at <b>2:10 pm</b> and Marvin at <b>2:00</b>, and both call at the lake house on the way, so nobody has to make their own way there." },
     ] },
   { place: "The family Airbnb", addr: "Thompson Street, Queenstown 9300",
     rooms: [
@@ -2612,62 +2612,68 @@ function dirLink(keys) {
    time retires them at the same moment. */
 const RENTALS = {
   Angelo: {
-    ref: "#141663 &middot; Van 1, Hiace 12-seater",
-    label: "Picking up Van 1 &middot; Monday 5 October",
-    until: Date.parse("2026-10-06T11:00:00Z"),
-    /* What he needs standing at the carousel. The six steps are still there,
-       one tap down, for when he is actually walking them. */
+    ref: "#141663 &middot; Van 1, Hiace 12-seater &middot; KTN442",
+    label: "Van 1 &middot; the 5th to the 16th",
+    until: Date.parse("2026-10-16T11:00:00Z"),
     at: [
-      ["4:15 pm", "You land", "Bags take until about 4:45."],
-      ["4:45 pm", "Call for the shuttle", "{TEL}, as soon as you have your bags. It has to be before <b>5:30</b>, or there is a late fee. "
-        + "Land after 6:00 pm and it is an after-hours pickup &mdash; same number, the Queenstown team still arranges it."],
-      ["5:00 pm", "Collecting the van", "At {BRANCH}, about 5:00&ndash;5:15."]
+      ["On landing", "Call {TEL}", "As soon as you have your bags. Tell them you have arrived and they send the shuttle. "
+        + "The branch is at {BRANCH} &mdash; not the terminal."],
+      ["Then", "Wait at Zone C", "Follow the airport signs to Zone C. The shuttle is usually there within <b>10&ndash;15 minutes</b>."],
+      ["5:30 pm", "Van 1 is booked for", "Monday 5 October. Reception is open <b>8:00 am to 6:00 pm</b>."],
+      ["Fri 16 Oct", "Back at Christchurch Airport", "<b>6:00 am</b>, which is before the branch opens &mdash; so they email and text "
+        + "the return instructions to the booking contact by <b>3:30 pm on the 15th</b>. Follow those on the day."]
     ],
     with: ["Sonito", "Mae", "Pia", "Emman", "Nikka"],
     stops: [
-      "Leave by <b>door D</b> and follow the transfer signs to the shuttle area, just outside Air New Zealand check-in. {SHEET} shows the spot.",
-      "The van is white and marked Yes Rentals. Usually 10&ndash;15 minutes &mdash; wave the driver down.",
+      "The shuttle is free until <b>5:30 pm</b> and charged after it. Making your own way to the branch instead, you can collect "
+        + "until <b>6:00 pm</b> with nothing extra.",
+      "After 6:00 pm it is the after-hours service. Same number, but it has to be booked <b>a day ahead</b> &mdash; it is not "
+        + "something to ring for from the carousel.",
+      "Only a driver named on the booking can collect it or hand it back, and the agreement is signed in person. {SHEET} shows the spot.",
       "At the desk, have these ready:{DOCS}"
     ],
   },
   Marvin: {
-    ref: "#141681 &middot; Van 2, Hiace 12-seater",
-    label: "Picking up Van 2 &middot; Saturday 10 October",
-    until: Date.parse("2026-10-10T11:00:00Z"),
+    ref: "#141681 &middot; Van 2, Hiace 12-seater &middot; FRH776",
+    label: "Van 2 &middot; the 10th to the 15th",
+    until: Date.parse("2026-10-15T11:00:00Z"),
     at: [
-      ["8:00 am", "Collect Van 2", "Queenstown Airport &mdash; the morning of the wedding. <b>Patrick</b> is there too, handing the Aqua back."],
-      ["Arrival", "Call for the shuttle", "{TEL}, then wait by door D."],
+      ["8:00 am", "Collect Van 2", "Queenstown Airport &mdash; the morning of the wedding, and the hour reception opens. "
+        + "<b>Patrick</b> is there too, handing the Aqua back."],
+      ["On arrival", "Call {TEL}", "Then follow the airport signs to <b>Zone C</b> and wait there."],
       ["The desk", "Yes Rentals, Frankton", "{BRANCH}."],
-      ["Then", "Take Patrick to the family Airbnb", "Thompson Street. <b>14 minutes</b> from the branch, and he has no other way there."]
+      ["Then", "Take Patrick to the family Airbnb", "Thompson Street. <b>14 minutes</b> from the branch, and he has no other way there."],
+      ["Thu 15 Oct", "Back at Christchurch Airport", "<b>8:00 am</b>."]
     ],
     stops: [
-      "You and <b>Casie</b> are both on this booking, so either of you can sign for it.",
-      "Door D is outside Air New Zealand check-in. {SHEET} shows the spot.",
+      "You and <b>Casie</b> are both named on this booking, so either of you can sign for it &mdash; and either of you can hand it back.",
+      "Only a named driver can collect or return it, and the agreement is signed in person. {SHEET} shows the spot.",
       "At the desk, have these ready:{DOCS}"
     ],
-    note: "<b>It is the wedding morning.</b> Your first pickup run leaves at <b>1:59 pm</b>, so there is "
+    note: "<b>It is the wedding morning.</b> Your first pickup run leaves at <b>2:00 pm</b>, so there is "
       + "room &mdash; but this is the one errand on the day with somebody else&rsquo;s opening hours attached to it.",
   },
   Patrick: {
-    ref: "#142125 &middot; Toyota Aqua",
     /* The handback is the last thing that happens to this car, so it goes
        last - and the block has to outlive the pickup, or the one row he needs
        on Saturday morning would have retired on Wednesday night. */
+    ref: "#142125 &middot; Toyota Aqua",
     label: "The Aqua &middot; Wednesday to Saturday",
     until: Date.parse("2026-10-10T11:00:00Z"),
     at: [
       ["Wed 6:00 pm", "Collect the Aqua", "Queenstown Airport, Wednesday 7 October."],
-      ["Arrival", "Call for the shuttle", "{TEL}, then wait by door D. A 6:00 pm pickup is already "
-        + "the after-hours line, so if anything slips, ring rather than wait at the kerb &mdash; they will still come."],
-      ["The desk", "Yes Rentals, Frankton", "{BRANCH}."],
+      ["On landing", "Call {TEL}", "Then follow the airport signs to <b>Zone C</b> and wait there for the shuttle."],
+      ["The desk", "Yes Rentals, Frankton", "{BRANCH}. Reception closes at <b>6:00 pm</b>, which is the hour this is booked for."],
       ["Sat 8:00 am", "Hand it back, and ride with Marvin", "Queenstown Airport, the morning of the wedding. The booking says 10:00, "
-        + "and you are giving it back early on purpose &mdash; eight is when <b>Marvin</b> is there for Van 2, and he takes you on to "
+        + "and you are giving it back early on purpose &mdash; eight is when Marvin is there for Van 2, and he takes you on to "
         + "the family Airbnb, Thompson Street, <b>14 minutes</b> from the branch."]
     ],
     stops: [
-      "Door D is outside Air New Zealand check-in. {SHEET} shows the spot.",
+      "Only a driver named on the booking can collect it or hand it back, and the agreement is signed in person. {SHEET} shows the spot.",
       "At the desk, have these ready:{DOCS}"
     ],
+    note: "<b>Six o&rsquo;clock is the hour reception closes.</b> If the flight slips, the after-hours service has to be booked "
+      + "<b>a day ahead</b> &mdash; so ring Yes Rentals before you fly, not from the carousel.",
   }
 };
 const YES_TEL = `<a href="tel:+6434202878">+64 3 420 2878</a>`;
