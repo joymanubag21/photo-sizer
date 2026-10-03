@@ -1238,7 +1238,7 @@ details[open] > .hire-steps{display:flex; flex-direction:column; gap:11px; paddi
   }
 })();
 
-const BUILD = "202610031122";
+const BUILD = "202610031136";
 document.documentElement.dataset.build = BUILD;
 (async () => {
   try {
@@ -2484,11 +2484,11 @@ const RIDES = [
   { name: "Loren and Jan&rsquo;s car", driver: "Loren", hit: "You two have your own car, all day.",
     car: "Your own car",
     rooms: [{ bed: "", who: ["Loren", "Jan"] }],
-    note: "Parked at the lake house until you leave for the ceremony." },
+    note: "Angelo takes you out; your own car brings you to the reception and home." },
   { name: "Chit and Sai&rsquo;s car", driver: "Chit", hit: "You two have your own car, all day.",
     car: "Your own car",
     rooms: [{ bed: "", who: ["Chit", "Sai"] }],
-    note: "Parked at the lake house until you leave for the ceremony." },
+    note: "Angelo takes you out; your own car brings you to the reception and home." },
   { name: "Marvin&rsquo;s car", driver: "Marvin", hit: "<b>Marvin</b> drives Car 2. Check your own line below &mdash; three of you come to the ceremony with Jun2x.", car: "Car 2 &middot; 12-seater", face: "samples/driver-marvin.jpg",
     rooms: [
       { bed: "The bridesmaids and Erwan", who: ["Lara Mae", "Cathlyn", "Norrie", "Erwan"] },
@@ -2708,44 +2708,53 @@ for (const r of Object.values(RENTALS)) {
 
 const ROUTES = {
   Angelo: {
-    /* The lake house four drive themselves now, so this run is Arrowtown to
-       the Canyons and nothing else: 11 minutes down Malaghans Road, against
-       the 32 the old detour cost. */
+    /* Ten out, six back. The four keep their own cars at the lake house and
+       pick them up on the way to the reception, which is why this run goes
+       the long way round at 4:45. */
     ceremony: { rows: [
-      ["2:35 pm", "Leave the Arrowtown house", "Angelo, Emman, Sonito, Pia, Nikka and Mae. Six aboard."],
-      ["2:46 pm", "At the Canyons", "<b>11 minutes</b> down Malaghans Road &mdash; comfortably before the 2:55 the runsheet gives the guests."]
-    ], map: ["arrowtown", "canyons"] },
+      ["2:10 pm", "Leave the Arrowtown house", "Angelo, Emman, Sonito, Pia, Nikka and Mae."],
+      ["2:31 pm", "The lake house, for four", "Loren, Jan, Sai and Chit, at 13 McKerrow Place. <b>21 minutes</b> from Arrowtown, and <b>8</b> to load. Ten aboard."],
+      ["2:50 pm", "At the Canyons", "<b>11 minutes</b> from the lake house &mdash; five minutes before the 2:55 the runsheet gives the guests."]
+    ], map: ["arrowtown", "lake", "canyons"] },
     reception: { rows: [
-      ["4:45 pm", "The Canyons to the Hilton", "All six of you, about 25 minutes."]
-    ], map: ["canyons", "hilton"] },
+      ["4:45 pm", "Leave the Canyons", "Ten aboard, and the lake house first."],
+      ["5:00 pm", "Drop four at the lake house", "Loren, Jan, Sai and Chit. <b>15 minutes</b> from the Canyons &mdash; their own two cars take them on from here."],
+      ["5:29 pm", "At the Hilton", "<b>26 minutes</b> from the lake house, with your six."]
+    ], note: "The reception opens at <b>5:15</b> and the bridal party comes in at <b>5:30</b>. This run lands between the two, "
+      + "so take your seats rather than stop at the door.", map: ["canyons", "lake", "hilton"] },
     home: { rows: [
-      ["10:19 pm", "Everyone to the Arrowtown house", "Emman, Sonito, Pia, Nikka, Mae and Angelo. <b>19 minutes</b> from the Hilton, and the only stop."]
+      ["10:19 pm", "Everyone to the Arrowtown house", "Emman, Sonito, Pia, Nikka, Mae and Angelo. <b>19 minutes</b> from the Hilton, and the only stop "
+        + "&mdash; the lake house four have their own cars at the Hilton."]
     ], map: ["hilton", "arrowtown"] }
   },
-  /* The two couples with their own cars make the same journey, so it is
-     written twice rather than shared - each of them is driving. */
+  /* The two couples ride out with Angelo and drive themselves back in. Written
+     twice rather than shared, because each of them is the one driving. */
   Loren: {
     ceremony: { rows: [
-      ["2:39 pm", "Leave the lake house", "The two of you, in your own car."],
-      ["2:50 pm", "At the Canyons", "<b>11 minutes</b> from 13 McKerrow Place &mdash; before the 2:55 the runsheet gives the guests."]
-    ], map: ["lake", "canyons"] },
+      ["2:31 pm", "Angelo collects you", "At the lake house. Leave your car here &mdash; you want it after the ceremony."],
+      ["2:50 pm", "At the Canyons", "<b>11 minutes</b> from 13 McKerrow Place. Ten aboard."]
+    ], who: "Angelo", map: ["lake", "canyons"] },
     reception: { rows: [
-      ["4:45 pm", "The Canyons to the Hilton", "About 25 minutes, the same road as the vans."]
-    ], map: ["canyons", "hilton"] },
+      ["4:45 pm", "Leave the Canyons with Angelo", "The lake house first."],
+      ["5:00 pm", "Back at the lake house", "<b>15 minutes</b>, and your own car is waiting."],
+      ["5:29 pm", "At the Hilton", "<b>26 minutes</b>. The reception opens at 5:15 and the bridal party comes in at 5:30, so go straight to your seats."]
+    ], map: ["canyons", "lake", "hilton"] },
     home: { rows: [
-      ["10:25 pm", "Back to the lake house", "<b>25 minutes</b> from the Hilton, whenever you are ready."]
+      ["10:25 pm", "Back to the lake house", "<b>25 minutes</b> from the Hilton, in your own time."]
     ], map: ["hilton", "lake"] }
   },
   Chit: {
     ceremony: { rows: [
-      ["2:39 pm", "Leave the lake house", "The two of you, in your own car."],
-      ["2:50 pm", "At the Canyons", "<b>11 minutes</b> from 13 McKerrow Place &mdash; before the 2:55 the runsheet gives the guests."]
-    ], map: ["lake", "canyons"] },
+      ["2:31 pm", "Angelo collects you", "At the lake house. Leave your car here &mdash; you want it after the ceremony."],
+      ["2:50 pm", "At the Canyons", "<b>11 minutes</b> from 13 McKerrow Place. Ten aboard."]
+    ], who: "Angelo", map: ["lake", "canyons"] },
     reception: { rows: [
-      ["4:45 pm", "The Canyons to the Hilton", "About 25 minutes, the same road as the vans."]
-    ], map: ["canyons", "hilton"] },
+      ["4:45 pm", "Leave the Canyons with Angelo", "The lake house first."],
+      ["5:00 pm", "Back at the lake house", "<b>15 minutes</b>, and your own car is waiting."],
+      ["5:29 pm", "At the Hilton", "<b>26 minutes</b>. The reception opens at 5:15 and the bridal party comes in at 5:30, so go straight to your seats."]
+    ], map: ["canyons", "lake", "hilton"] },
     home: { rows: [
-      ["10:25 pm", "Back to the lake house", "<b>25 minutes</b> from the Hilton, whenever you are ready."]
+      ["10:25 pm", "Back to the lake house", "<b>25 minutes</b> from the Hilton, in your own time."]
     ], map: ["hilton", "lake"] }
   },
   Marvin: {
