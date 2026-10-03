@@ -318,9 +318,67 @@ a.btn{text-decoration:none}
   flex:none; width:34px; height:34px; border:0; background:none; cursor:pointer;
   color:var(--ink-3); font-size:17px; line-height:1; font-family:inherit;
 }
-/* The flights sheet puts a label in the left column, not only a time. */
-#trip .plan-when{width:84px}
-#trip .plan-what small b{color:var(--ink)}
+/* The flights sheet. Every other sheet is prose because it is read once at
+   home; this one is read standing in an airport, so it is a row of boarding
+   passes instead: where you are, where you land, what you carry, one tap to
+   the ticket. Nothing to read, only to find. */
+.fl{
+  background:var(--surface); border:1px solid var(--line-2); border-radius:var(--r-lg);
+  padding:14px 16px 16px; margin:0 0 12px;
+}
+.fl-top{
+  display:flex; align-items:baseline; gap:10px;
+  font-size:var(--eb); font-weight:600; letter-spacing:var(--tr); text-transform:uppercase;
+}
+.fl-date{color:var(--green)}
+.fl-no{margin-left:auto; color:var(--ink-3)}
+.fl-leg{display:flex; align-items:flex-start; gap:10px; margin:12px 0 0}
+.fl-end{flex:none; max-width:40%}
+.fl-end b{
+  display:block; font-family:'Cormorant Garamond',Georgia,serif; font-weight:500;
+  font-size:1.55rem; line-height:1.05; color:var(--ink);
+}
+.fl-end span{
+  display:block; margin-top:4px; font-size:var(--eb); font-weight:600;
+  letter-spacing:var(--tr); color:var(--ink-2);
+}
+.fl-end small{display:block; margin-top:2px; font-size:12px; line-height:1.35; color:var(--ink-3)}
+.fl-to{margin-left:auto; text-align:right}
+.fl-mid{flex:1; min-width:30px; margin-top:13px; text-align:center}
+.fl-mid i{display:block; height:1px; background:var(--line-2)}
+.fl-mid span{display:block; margin-top:5px; font-size:11px; color:var(--ink-3)}
+.fl-facts{margin:14px 0 0; padding:12px 0 0; border-top:1px solid var(--line)}
+.fl-facts > div{display:flex; gap:12px; padding:3px 0}
+.fl-facts dt{
+  flex:none; width:72px; padding-top:3px; font-size:var(--eb); font-weight:600;
+  letter-spacing:var(--tr); text-transform:uppercase; color:var(--green);
+}
+.fl-facts dd{flex:1; min-width:0; margin:0; font-size:13.5px; line-height:1.5; color:var(--ink-2)}
+.fl-facts dd b{color:var(--ink); font-weight:600}
+.fl-go{
+  display:flex; align-items:center; justify-content:center; gap:7px;
+  height:44px; margin-top:14px; box-sizing:border-box;
+  border:1px solid var(--line-2); border-radius:var(--r-pill); background:var(--surface-2);
+  font-size:var(--eb-ctl); font-weight:600; letter-spacing:var(--tr); text-transform:uppercase;
+  color:var(--green); text-decoration:none;
+}
+.fl-go:hover{border-color:var(--rose)}
+.fl-go svg{flex:none; width:14px; height:14px}
+/* The gap between two flights, which is the part people get wrong. */
+.fl-wait{
+  margin:0 0 12px 0; padding:11px 14px;
+  border-left:2px solid var(--line-2); border-radius:0 var(--r-md) var(--r-md) 0;
+  background:var(--surface-2); font-size:13px; line-height:1.55; color:var(--ink-2);
+}
+.fl-wait b{color:var(--ink); font-weight:600}
+.fl-wait.tight{border-left-color:var(--rust); background:var(--warn-soft)}
+.fl-note{
+  margin:0 0 12px; padding:14px 16px; background:var(--surface);
+  border:1px dashed var(--line-2); border-radius:var(--r-lg);
+  font-size:13.5px; line-height:1.55; color:var(--ink-2);
+}
+.fl-note b{color:var(--ink); font-weight:600}
+.fl-note > b:first-child{display:block; margin-bottom:3px; font-size:14.5px}
 .trip-go{display:flex; flex-wrap:wrap; gap:8px; margin-top:12px}
 .trip-go a{
   display:inline-flex; align-items:center; height:44px; padding:0 15px; box-sizing:border-box;
@@ -1099,77 +1157,103 @@ details[open] > .hire-steps{display:flex; flex-direction:column; gap:11px; paddi
   </div>
 </div>
 
-<!-- Patrick only. Our own flights, every number taken off the tickets in
-     Drive. No booking reference, ticket number, card digits or fare: this
-     repository is public. -->
+<!-- Patrick only. Every number here is off the tickets in Drive. No booking
+     reference, ticket number, card digits or fare on the page: this
+     repository is public, and the "View ticket" links lean on the folder's
+     own sharing. -->
 <div class="modal" id="trip" hidden>
   <div class="modal-in">
     <div class="modal-head"><span style="flex:1"></span><button class="close" id="tripClose" aria-label="Close">&#10005;</button></div>
     <div class="spy-head">
-      <p class="spy-kicker">6 October &ndash; 25 October</p>
+      <p class="spy-kicker">6 &ndash; 25 October</p>
       <h2 class="spy-h">Our <em>flights</em></h2>
-      <p class="spy-lede">Five flights, you and Joy on all of them. Hand baggage is <b>7 kg</b> on every single one.</p>
+      <p class="spy-lede">Five of them, you and Joy on every one. Hand baggage is <b>7 kg</b> the whole way.</p>
     </div>
 
-    <h3 class="plan-h" style="margin-top:22px">Tuesday 6 October &middot; Davao to Manila</h3>
-    <ul class="plan-list">
-      <li>
-        <span class="plan-when">4:05 pm</span>
-        <span class="plan-what">Davao &rarr; Manila<small><b>5J 958</b>, Cebu Pacific, flown by Cebgo. Leaves Francisco Bangoy at <b>4:05 pm</b>, lands <b>Manila Terminal 3</b> at <b>6:10 pm</b>. Two hours five.<br><b>Bags:</b> one checked bag each, up to <b>32 kg</b>. Hand baggage <b>7 kg</b> &mdash; Cebgo weighs it.<br><b>Counters:</b> open <b>1:05 pm</b>, shut <b>3:05 pm</b>. At the gate by <b>3:20 pm</b>.</small></span>
-      </li>
-      <li>
-        <span class="plan-when">6:10 pm</span>
-        <span class="plan-what">Move to Terminal 1<small>You land at <b>T3</b>. The flight to Brisbane goes from <b>T1</b>. The free airport shuttle runs between them every 30&ndash;40 minutes until 1:00 am &mdash; ask for the <b>MIAA transfer</b>. You have nearly six hours, so move early and wait on the T1 side rather than cutting it fine.</small></span>
-      </li>
-    </ul>
+    <h3 class="plan-h" style="margin-top:22px">Going</h3>
 
-    <h3 class="plan-h">Overnight &middot; Manila to Queenstown</h3>
-    <ul class="plan-list">
-      <li>
-        <span class="plan-when">12:05 am</span>
-        <span class="plan-what">Manila &rarr; Brisbane<small><b>PR221</b>, Philippine Airlines, <b>NAIA Terminal 1</b>. It leaves five minutes after midnight, so the date on the ticket is <b>Wednesday the 7th</b> but you check in on the <b>night of Tuesday the 6th</b>. Eight hours. Lands <b>Brisbane International</b> at <b>10:05 am</b>.<br><b>Bags:</b> <b>30 kg</b> checked, <b>7 kg</b> hand. Your bag is tagged through to Queenstown &mdash; you will not see it in Brisbane.</small></span>
-      </li>
-      <li>
-        <span class="plan-when">50 min</span>
-        <span class="plan-what">Brisbane, and it is tight<small>Fifty minutes between landing and the next one. Same terminal: follow <b>Transfers</b>, do not go out to the arrivals hall, do not stop for coffee. It is one ticket all the way to Queenstown, so if Brisbane runs late Air New Zealand owes you the next flight &mdash; but do not test it.</small></span>
-      </li>
-      <li>
-        <span class="plan-when">10:55 am</span>
-        <span class="plan-what">Brisbane &rarr; Queenstown<small><b>NZ268</b>, Air New Zealand. Three hours thirty-five. Wheels down in <b>Queenstown at 5:30 pm, Wednesday 7 October</b> &mdash; your ride is booked for <b>6:00 pm</b>.<br><b>Bags:</b> <b>30 kg</b> checked, <b>7 kg</b> hand.</small></span>
-      </li>
-    </ul>
+    <article class="fl">
+      <header class="fl-top"><span class="fl-date">Tue 6 Oct</span><span class="fl-no">5J 958</span></header>
+      <div class="fl-leg">
+        <div class="fl-end"><b>4:05 pm</b><span>DVO</span><small>Davao</small></div>
+        <div class="fl-mid"><i></i><span>2h 05</span></div>
+        <div class="fl-end fl-to"><b>6:10 pm</b><span>MNL</span><small>Terminal 3</small></div>
+      </div>
+      <dl class="fl-facts">
+        <div><dt>Bags</dt><dd><b>32 kg</b> checked, one each &middot; <b>7 kg</b> hand</dd></div>
+        <div><dt>Counters</dt><dd>Open <b>1:05 pm</b>, shut <b>3:05 pm</b> &middot; gate by <b>3:20 pm</b></dd></div>
+        <div><dt>Airline</dt><dd>Cebu Pacific, flown by Cebgo</dd></div>
+      </dl>
+    </article>
 
-    <h3 class="plan-h">Sunday 25 October &middot; Christchurch home</h3>
-    <ul class="plan-list">
-      <li>
-        <span class="plan-when">6:00 am</span>
-        <span class="plan-what">Christchurch &rarr; Melbourne<small><b>NZ213</b>, Air New Zealand. A 6:00 am departure means being at <b>Christchurch airport by 4:00 am</b>, so the last night is a short one and the drive down has to happen the day before. Three hours fifty-five. Lands <b>Melbourne Terminal 2</b> at <b>7:55 am</b>.<br><b>Bags:</b> <b>35 kg</b> checked, <b>7 kg</b> hand.</small></span>
-      </li>
-      <li>
-        <span class="plan-when">65 min</span>
-        <span class="plan-what">Melbourne, also tight<small>An hour and five minutes, and it is <b>Terminal 2 to Terminal 2</b> &mdash; no train, no bus, just a walk. Same ticket again, so a late arrival is their problem, not yours.</small></span>
-      </li>
-      <li>
-        <span class="plan-when">9:00 am</span>
-        <span class="plan-what">Melbourne &rarr; Manila<small><b>PR210</b>, Philippine Airlines, <b>Melbourne Terminal 2</b>. Eight hours twenty-five. Lands <b>NAIA Terminal 1 at 2:25 pm</b>.<br><b>Bags:</b> <b>35 kg</b> checked, <b>7 kg</b> hand.</small></span>
-      </li>
-      <li>
-        <span class="plan-when">Still to book</span>
-        <span class="plan-what">Manila &rarr; Davao<small>There is no flight home from Manila booked for the 25th. When it is booked, remember you land at <b>T1</b> and a Cebu Pacific flight to Davao goes from <b>T3</b> &mdash; the same shuttle, the other way.</small></span>
-      </li>
-    </ul>
+    <p class="fl-wait"><b>5 h 55 in Manila</b> &mdash; but you land at <b>T3</b> and leave from <b>T1</b>. The free airport shuttle runs between them every 30&ndash;40 minutes until 1:00 am; ask for the <b>MIAA transfer</b>. Move across early and wait on the T1 side.</p>
 
-    <h3 class="plan-h">Two things to do before you go</h3>
-    <ul class="plan-list">
-      <li>
-        <span class="plan-when">eTravel</span>
-        <span class="plan-what">Register twice<small>Free, and the form takes a few minutes. Once <b>within 72 hours of leaving</b> the Philippines, and again <b>within 72 hours of coming home</b>. Both of you, every time.</small></span>
-      </li>
-      <li>
-        <span class="plan-when">Check in</span>
-        <span class="plan-what">Online, the day before each one<small>Cebu Pacific opens first, then Philippine Airlines, then Air New Zealand. Doing it early is how you choose where you sit.</small></span>
-      </li>
-    </ul>
+    <article class="fl">
+      <header class="fl-top"><span class="fl-date">Wed 7 Oct</span><span class="fl-no">PR221</span></header>
+      <div class="fl-leg">
+        <div class="fl-end"><b>12:05 am</b><span>MNL</span><small>Terminal 1</small></div>
+        <div class="fl-mid"><i></i><span>8h 00</span></div>
+        <div class="fl-end fl-to"><b>10:05 am</b><span>BNE</span><small>International</small></div>
+      </div>
+      <dl class="fl-facts">
+        <div><dt>Check in</dt><dd>The <b>night of Tuesday the 6th</b> &mdash; it leaves five minutes after midnight</dd></div>
+        <div><dt>Bags</dt><dd><b>30 kg</b> checked &middot; <b>7 kg</b> hand &middot; tagged through to Queenstown</dd></div>
+        <div><dt>Airline</dt><dd>Philippine Airlines</dd></div>
+      </dl>
+    </article>
+
+    <p class="fl-wait tight"><b>50 minutes in Brisbane.</b> Same terminal. Follow <b>Transfers</b> &mdash; do not go out to arrivals, do not stop. One ticket all the way, so a late landing is theirs to fix.</p>
+
+    <article class="fl">
+      <header class="fl-top"><span class="fl-date">Wed 7 Oct</span><span class="fl-no">NZ268</span></header>
+      <div class="fl-leg">
+        <div class="fl-end"><b>10:55 am</b><span>BNE</span><small>International</small></div>
+        <div class="fl-mid"><i></i><span>3h 35</span></div>
+        <div class="fl-end fl-to"><b>5:30 pm</b><span>ZQN</span><small>Queenstown</small></div>
+      </div>
+      <dl class="fl-facts">
+        <div><dt>Bags</dt><dd><b>30 kg</b> checked &middot; <b>7 kg</b> hand</dd></div>
+        <div><dt>Then</dt><dd>Your ride is booked for <b>6:00 pm</b></dd></div>
+        <div><dt>Airline</dt><dd>Air New Zealand</dd></div>
+      </dl>
+    </article>
+
+    <h3 class="plan-h">Coming home</h3>
+
+    <article class="fl">
+      <header class="fl-top"><span class="fl-date">Sun 25 Oct</span><span class="fl-no">NZ213</span></header>
+      <div class="fl-leg">
+        <div class="fl-end"><b>6:00 am</b><span>CHC</span><small>Christchurch</small></div>
+        <div class="fl-mid"><i></i><span>3h 55</span></div>
+        <div class="fl-end fl-to"><b>7:55 am</b><span>MEL</span><small>Terminal 2</small></div>
+      </div>
+      <dl class="fl-facts">
+        <div><dt>Be there</dt><dd><b>4:00 am</b> &mdash; so the drive down happens on the 24th</dd></div>
+        <div><dt>Bags</dt><dd><b>35 kg</b> checked &middot; <b>7 kg</b> hand</dd></div>
+        <div><dt>Airline</dt><dd>Air New Zealand</dd></div>
+      </dl>
+    </article>
+
+    <p class="fl-wait tight"><b>65 minutes in Melbourne.</b> Terminal 2 to Terminal 2 &mdash; a walk, no train, no bus. Same ticket again.</p>
+
+    <article class="fl">
+      <header class="fl-top"><span class="fl-date">Sun 25 Oct</span><span class="fl-no">PR210</span></header>
+      <div class="fl-leg">
+        <div class="fl-end"><b>9:00 am</b><span>MEL</span><small>Terminal 2</small></div>
+        <div class="fl-mid"><i></i><span>8h 25</span></div>
+        <div class="fl-end fl-to"><b>2:25 pm</b><span>MNL</span><small>Terminal 1</small></div>
+      </div>
+      <dl class="fl-facts">
+        <div><dt>Bags</dt><dd><b>35 kg</b> checked &middot; <b>7 kg</b> hand</dd></div>
+        <div><dt>Airline</dt><dd>Philippine Airlines</dd></div>
+      </dl>
+    </article>
+
+    <p class="fl-note"><b>Manila to Davao is not booked.</b>Nothing is held for the way home on the 25th. When it is booked: you land at <b>T1</b> and a Cebu Pacific flight to Davao goes from <b>T3</b> &mdash; the same shuttle, the other way.</p>
+
+    <h3 class="plan-h">Before you go</h3>
+    <p class="fl-note"><b>eTravel, twice.</b>Free, a few minutes. Once within <b>72 hours of leaving</b> the Philippines, once within <b>72 hours of coming home</b>. Both of you, both times.</p>
+    <p class="fl-note"><b>Check in online the day before each flight.</b>It is how you choose where you sit.</p>
     <div class="trip-go">
       <a href="https://etravel.gov.ph/" target="_blank" rel="noopener">eTravel</a>
       <a href="https://www.cebupacificair.com/en-PH/manage-booking" target="_blank" rel="noopener">Cebu Pacific</a>
@@ -1340,7 +1424,7 @@ details[open] > .hire-steps{display:flex; flex-direction:column; gap:11px; paddi
   }
 })();
 
-const BUILD = "202610031413";
+const BUILD = "202610031419";
 document.documentElement.dataset.build = BUILD;
 (async () => {
   try {
