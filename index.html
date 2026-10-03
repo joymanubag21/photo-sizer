@@ -1245,7 +1245,7 @@ details[open] > .hire-steps{display:flex; flex-direction:column; gap:11px; paddi
   }
 })();
 
-const BUILD = "202610031155";
+const BUILD = "202610031201";
 document.documentElement.dataset.build = BUILD;
 (async () => {
   try {
@@ -2499,11 +2499,17 @@ const RIDES = [
   { name: "Marvin&rsquo;s car", driver: "Marvin", hit: "<b>Marvin</b> drives Car 2. Check your own line below &mdash; three of you come to the ceremony with Jun2x.", car: "Car 2 &middot; 12-seater", face: "samples/driver-marvin.jpg",
     rooms: [
       { bed: "The bridesmaids and Erwan", who: ["Lara Mae", "Cathlyn", "Norrie", "Erwan"] },
-      { bed: "JP&rsquo;s family", who: ["JP", "Daisy", "Abby"] },
+
       { bed: "Haka House", who: ["Marge", "Sam"] },
       { bed: "The Arrowtown house", who: ["Marvin", "Jane", "Marvin's daughter"] }
     ],
     note: "Marvin drives this car both ways. It can head to the reception ahead of the others if the photos run long." },
+  /* JP keeps a car at the lake house, so his three ride out with Marvin and
+     drive themselves from the reception on. */
+  { name: "JP&rsquo;s car", driver: "JP", hit: "Your own car from the reception on.",
+    car: "Your own car",
+    rooms: [{ bed: "", who: ["JP", "Daisy", "Abby"] }],
+    note: "Marvin takes you out; your own car brings you to the reception and home." },
   { name: "Franklin&rsquo;s car", driver: "Franklin", hit: "Your driver both ways is <b>Franklin</b>.", car: "The family car",
     rooms: [
       { bed: "", who: ["Franklin", "Nelly", "Vicente", "Blondie", "Elisha", "Nathaniel", "Nieves"] }
@@ -2668,6 +2674,7 @@ const RENTALS = {
     note: "<b>It is the wedding morning.</b> Your first pickup run leaves at <b>2:00 pm</b>, so there is "
       + "room &mdash; but this is the one errand on the day with somebody else&rsquo;s opening hours attached to it.",
   },
+
   Patrick: {
     /* The handback is the last thing that happens to this car, so it goes
        last - and the block has to outlive the pickup, or the one row he needs
@@ -2773,14 +2780,32 @@ const ROUTES = {
       ["2:51 pm", "At the Canyons", "<b>11 minutes</b> from the lake house. 36 minutes driving, 15 standing still."]
     ], map: ["arrowtown", "dublin", "haka", "lake", "canyons"] },
     reception: { rows: [
-      ["4:45 pm", "The Canyons to the Hilton", "<b>Twelve now</b> &mdash; Lara Mae, Cathlyn and Norrie came out with Jun2x and get in here. About 25 minutes."]
-    ], map: ["canyons", "hilton"] },
+      ["4:45 pm", "Leave the Canyons", "<b>Twelve now</b> &mdash; Lara Mae, Cathlyn and Norrie came out with Jun2x and get in here. The lake house first."],
+      ["5:00 pm", "Drop three at the lake house", "JP, Daisy and Abby. <b>15 minutes</b> from the Canyons &mdash; JP&rsquo;s own car takes them on from here."],
+      ["5:29 pm", "At the Hilton", "<b>26 minutes</b> from the lake house, with your nine."]
+    ], note: "The reception opens at <b>5:15</b> and the bridal party comes in at <b>5:30</b>. This run lands between the two, "
+      + "so take your seats rather than stop at the door.", map: ["canyons", "lake", "hilton"] },
     home: { rows: [
-      ["10:25 pm", "Drop five at the lake house", "Lara Mae, Cathlyn, JP, Daisy and Abby. <b>25 minutes</b> from the Hilton."],
+      ["10:25 pm", "Drop two at the lake house", "Lara Mae and Cathlyn. <b>25 minutes</b> from the Hilton &mdash; JP, Daisy and Abby have their own car."],
       ["10:32 pm", "Drop two at 4 Dublin Street", "Norrie and Erwan. <b>7 minutes</b> on."],
       ["10:37 pm", "Drop two at Haka House", "Marge and Sam, 6 Henry Street &mdash; 400 m from Dublin Street."],
       ["10:51 pm", "Drop three at the Arrowtown house", "Marvin, Jane and Marvin&rsquo;s daughter. <b>14 minutes</b> from Haka House &mdash; the last drop."]
     ], map: ["hilton", "lake", "dublin", "haka", "arrowtown"] }
+  },
+  /* Out with Marvin, back in his own car. */
+  JP: {
+    ceremony: { rows: [
+      ["2:34 pm", "Marvin collects you", "At the lake house, with Daisy and Abby. Leave your car here &mdash; you want it after the ceremony."],
+      ["2:51 pm", "At the Canyons", "<b>11 minutes</b> from 13 McKerrow Place."]
+    ], who: "Marvin", map: ["lake", "canyons"] },
+    reception: { rows: [
+      ["4:45 pm", "Leave the Canyons with Marvin", "The lake house first."],
+      ["5:00 pm", "Back at the lake house", "<b>15 minutes</b>, and your own car is waiting."],
+      ["5:29 pm", "At the Hilton", "<b>26 minutes</b>. The reception opens at 5:15 and the bridal party comes in at 5:30, so go straight to your seats."]
+    ], map: ["canyons", "lake", "hilton"] },
+    home: { rows: [
+      ["10:25 pm", "Back to the lake house", "<b>25 minutes</b> from the Hilton, in your own time."]
+    ], map: ["hilton", "lake"] }
   },
   Franklin: {
     ceremony: { rows: [
