@@ -363,6 +363,9 @@ a.btn{text-decoration:none}
   color:var(--green); text-decoration:none;
 }
 .fl-go:hover{border-color:var(--rose)}
+/* Two separate bookings for the same four flights, so two tickets to carry. */
+.fl-pair{display:flex; gap:8px; margin-top:14px}
+.fl-pair .fl-go{flex:1; min-width:0; margin-top:0; padding:0 10px}
 .fl-go svg{flex:none; width:14px; height:14px}
 /* The gap between two flights, which is the part people get wrong. */
 .fl-wait{
@@ -1185,7 +1188,7 @@ details[open] > .hire-steps{display:flex; flex-direction:column; gap:11px; paddi
         <div><dt>Counters</dt><dd>Open <b>1:05 pm</b>, shut <b>3:05 pm</b> &middot; gate by <b>3:20 pm</b></dd></div>
         <div><dt>Airline</dt><dd>Cebu Pacific, flown by Cebgo</dd></div>
       </dl>
-    <a class="fl-go" href="https://drive.google.com/file/d/1ARpJfaMrSJ8p1Uo7MFQHV8YwECG_5s_I/view" target="_blank" rel="noopener">View ticket</a>
+    <a class="fl-go" href="https://drive.google.com/file/d/1ARpJfaMrSJ8p1Uo7MFQHV8YwECG_5s_I/view" target="_blank" rel="noopener">The booking &mdash; both of you</a>
     </article>
 
     <p class="fl-wait"><b>5 h 55 in Manila</b> &mdash; but you land at <b>T3</b> and leave from <b>T1</b>. The free airport shuttle runs between them every 30&ndash;40 minutes until 1:00 am; ask for the <b>MIAA transfer</b>. Move across early and wait on the T1 side.</p>
@@ -1203,7 +1206,10 @@ details[open] > .hire-steps{display:flex; flex-direction:column; gap:11px; paddi
         <div><dt>Seats</dt><dd><b>64A</b> and <b>64B</b> &mdash; Joy is next to you</dd></div>
         <div><dt>Airline</dt><dd>Philippine Airlines</dd></div>
       </dl>
-    <a class="fl-go" href="https://drive.google.com/file/d/1iOjo8Kc2dNX64buN7KU-qUk56Mw2-HvZ/view" target="_blank" rel="noopener">View ticket</a>
+    <div class="fl-pair">
+      <a class="fl-go" href="https://drive.google.com/file/d/1iOjo8Kc2dNX64buN7KU-qUk56Mw2-HvZ/view" target="_blank" rel="noopener">Your ticket</a>
+      <a class="fl-go" href="https://drive.google.com/file/d/1AnCCZHdODZ4-yPNwgGxQ7yvB6kcF_TgA/view" target="_blank" rel="noopener">Joy&rsquo;s ticket</a>
+    </div>
     </article>
 
     <p class="fl-wait tight"><b>50 minutes in Brisbane.</b> Same terminal. Follow <b>Transfers</b> &mdash; do not go out to arrivals, do not stop. One ticket all the way, so a late landing is theirs to fix.</p>
@@ -1220,7 +1226,10 @@ details[open] > .hire-steps{display:flex; flex-direction:column; gap:11px; paddi
         <div><dt>Then</dt><dd>Your ride is booked for <b>6:00 pm</b></dd></div>
         <div><dt>Airline</dt><dd>Air New Zealand</dd></div>
       </dl>
-    <a class="fl-go" href="https://drive.google.com/file/d/1iOjo8Kc2dNX64buN7KU-qUk56Mw2-HvZ/view" target="_blank" rel="noopener">View ticket</a>
+    <div class="fl-pair">
+      <a class="fl-go" href="https://drive.google.com/file/d/1iOjo8Kc2dNX64buN7KU-qUk56Mw2-HvZ/view" target="_blank" rel="noopener">Your ticket</a>
+      <a class="fl-go" href="https://drive.google.com/file/d/1AnCCZHdODZ4-yPNwgGxQ7yvB6kcF_TgA/view" target="_blank" rel="noopener">Joy&rsquo;s ticket</a>
+    </div>
     </article>
 
     <h3 class="plan-h">Coming home</h3>
@@ -1237,7 +1246,10 @@ details[open] > .hire-steps{display:flex; flex-direction:column; gap:11px; paddi
         <div><dt>Bags</dt><dd><b>35 kg</b> checked &middot; <b>7 kg</b> hand</dd></div>
         <div><dt>Airline</dt><dd>Air New Zealand</dd></div>
       </dl>
-    <a class="fl-go" href="https://drive.google.com/file/d/1iOjo8Kc2dNX64buN7KU-qUk56Mw2-HvZ/view" target="_blank" rel="noopener">View ticket</a>
+    <div class="fl-pair">
+      <a class="fl-go" href="https://drive.google.com/file/d/1iOjo8Kc2dNX64buN7KU-qUk56Mw2-HvZ/view" target="_blank" rel="noopener">Your ticket</a>
+      <a class="fl-go" href="https://drive.google.com/file/d/1AnCCZHdODZ4-yPNwgGxQ7yvB6kcF_TgA/view" target="_blank" rel="noopener">Joy&rsquo;s ticket</a>
+    </div>
     </article>
 
     <p class="fl-wait tight"><b>65 minutes in Melbourne.</b> Terminal 2 to Terminal 2 &mdash; a walk, no train, no bus. Same ticket again.</p>
@@ -1253,7 +1265,10 @@ details[open] > .hire-steps{display:flex; flex-direction:column; gap:11px; paddi
         <div><dt>Bags</dt><dd><b>35 kg</b> checked &middot; <b>7 kg</b> hand</dd></div>
         <div><dt>Airline</dt><dd>Philippine Airlines</dd></div>
       </dl>
-    <a class="fl-go" href="https://drive.google.com/file/d/1iOjo8Kc2dNX64buN7KU-qUk56Mw2-HvZ/view" target="_blank" rel="noopener">View ticket</a>
+    <div class="fl-pair">
+      <a class="fl-go" href="https://drive.google.com/file/d/1iOjo8Kc2dNX64buN7KU-qUk56Mw2-HvZ/view" target="_blank" rel="noopener">Your ticket</a>
+      <a class="fl-go" href="https://drive.google.com/file/d/1AnCCZHdODZ4-yPNwgGxQ7yvB6kcF_TgA/view" target="_blank" rel="noopener">Joy&rsquo;s ticket</a>
+    </div>
     </article>
 
     <p class="fl-note"><b>Manila to Davao is not booked.</b>Nothing is held for the way home on the 25th. When it is booked: you land at <b>T1</b> and a Cebu Pacific flight to Davao goes from <b>T3</b> &mdash; the same shuttle, the other way.</p>
@@ -1647,7 +1662,7 @@ details[open] > .hire-steps{display:flex; flex-direction:column; gap:11px; paddi
   }
 })();
 
-const BUILD = "202610041605";
+const BUILD = "202610041610";
 document.documentElement.dataset.build = BUILD;
 (async () => {
   try {
