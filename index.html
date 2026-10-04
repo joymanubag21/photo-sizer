@@ -1490,7 +1490,12 @@ details[open] > .hire-steps{display:flex; flex-direction:column; gap:11px; paddi
     <p class="fl-note" style="margin-top:12px"><b>What to wear</b>Whatever you can sit in for seventeen hours: soft, warm, slip-on shoes.</p>
 
     <h3 class="plan-h">Borders and paperwork</h3>
-    <p class="plan-sub">Four things, all online, all free, none of them done at a counter. In the order you need them.</p>
+    <p class="fl-note"><b>Both New Zealand visas are approved.</b>Visitor visas, <b>multiple entry</b>, good until <b>February 2027</b> and up to two months per entry &mdash; eighteen days sits well inside that. They are eVisas, so there is nothing stuck in your passport, and that is the catch: <b>print both letters and carry them with your passports</b>. The airline can refuse to board you without one, and the border can ask for it. Have the return ticket where you can reach it too, and a card &mdash; they are allowed to ask you to show you can support yourselves and leave again.</p>
+    <div class="fl-pair" style="margin-bottom:12px">
+      <a class="fl-go" href="https://drive.google.com/file/d/1CtoQFcURkvMKbAD4NojxD2HwQlgmnt96/view" target="_blank" rel="noopener">Your visa</a>
+      <a class="fl-go" href="https://drive.google.com/file/d/16TRXblm1M_LLyw8hpCpFi8-9Te55WMtS/view" target="_blank" rel="noopener">Joy&rsquo;s visa</a>
+    </div>
+    <p class="plan-sub">Then four things, all online, all free, none of them done at a counter. In the order you need them.</p>
     <ul class="plan-list">
       <li>
         <span class="plan-when">eTravel</span>
@@ -1520,7 +1525,7 @@ details[open] > .hire-steps{display:flex; flex-direction:column; gap:11px; paddi
       <a href="https://www.cebupacificair.com/en-PH/manage-booking" target="_blank" rel="noopener">Cebu Pacific</a>
       <a href="https://www.philippineairlines.com/" target="_blank" rel="noopener">PAL</a>
       <a href="https://www.airnewzealand.com/check-in" target="_blank" rel="noopener">Air New Zealand</a>
-      <a href="https://drive.google.com/drive/folders/17NT1AqCBQ7u0cxmGr-uGNLZzvkhOyJYE" target="_blank" rel="noopener">All the tickets</a>
+      <a href="https://drive.google.com/drive/folders/17NT1AqCBQ7u0cxmGr-uGNLZzvkhOyJYE" target="_blank" rel="noopener">Tickets &amp; visas</a>
     </div>
 
   </div>
@@ -1686,7 +1691,7 @@ details[open] > .hire-steps{display:flex; flex-direction:column; gap:11px; paddi
   }
 })();
 
-const BUILD = "202610041612";
+const BUILD = "202610041629";
 document.documentElement.dataset.build = BUILD;
 (async () => {
   try {
@@ -2948,7 +2953,7 @@ const RIDES = [
       { bed: "The bridesmaids and Erwan", who: ["Lara Mae", "Cathlyn", "Norrie", "Erwan"] },
 
       { bed: "Haka House", who: ["Marge", "Sam"] },
-      { bed: "The Arrowtown house", who: ["Marvin", "Jane", "Marvin's daughter"] }
+      { bed: "The Arrowtown house", who: ["Marvin", "Jane", "Trixie"] }
     ],
     note: "Marvin drives this car both ways. It can head to the reception ahead of the others if the photos run long." },
   /* JP keeps a car at the lake house, so his three ride out with Marvin and
@@ -2993,7 +2998,7 @@ const STAYS = [
     ] },
   { place: "The Arrowtown house", addr: "760 Malaghans Road, Arrowtown 9371",
     rooms: [
-      { bed: "Super king, in the living room", who: ["Marvin", "Jane", "Marvin's daughter"] },
+      { bed: "Super king, in the living room", who: ["Marvin", "Jane", "Trixie"] },
       { bed: "3 beds for you to choose", who: ["Angelo", "Nikka", "Mae", "Sonito", "Emman", "Pia"] }
     ],
     legs: [
@@ -3220,7 +3225,7 @@ const ROUTES = {
   },
   Marvin: {
     ceremony: { rows: [
-      ["2:00 pm", "Leave the Arrowtown house", "Marvin, Jane and Marvin&rsquo;s daughter."],
+      ["2:00 pm", "Leave the Arrowtown house", "Marvin, Jane and Trixie."],
       ["2:16 pm", "4 Dublin Street, for Erwan", "<b>16 minutes</b> from Arrowtown. Allow <b>4</b> to load."],
       ["2:22 pm", "Haka House, for Marge and Sam", "6 Henry Street, <b>2 minutes</b> on. Allow <b>5</b>."],
       ["2:34 pm", "The lake house, for three", "JP, Daisy and Abby, at 13 McKerrow Place. <b>7 minutes</b> from Haka House, and <b>6</b> to load. <b>Nine aboard</b>."],
@@ -3236,7 +3241,7 @@ const ROUTES = {
       ["10:25 pm", "Drop two at the lake house", "Lara Mae and Cathlyn. <b>25 minutes</b> from the Hilton &mdash; JP, Daisy and Abby have their own car."],
       ["10:32 pm", "Drop two at 4 Dublin Street", "Norrie and Erwan. <b>7 minutes</b> on."],
       ["10:37 pm", "Drop two at Haka House", "Marge and Sam, 6 Henry Street &mdash; 400 m from Dublin Street."],
-      ["10:51 pm", "Drop three at the Arrowtown house", "Marvin, Jane and Marvin&rsquo;s daughter. <b>14 minutes</b> from Haka House &mdash; the last drop."]
+      ["10:51 pm", "Drop three at the Arrowtown house", "Marvin, Jane and Trixie. <b>14 minutes</b> from Haka House &mdash; the last drop."]
     ], map: ["hilton", "lake", "dublin", "haka", "arrowtown"] }
   },
   /* Out with Marvin, back in his own car. */
@@ -3318,7 +3323,7 @@ const CEREMONY_BY_NAME = {
   "Joy": "Your photo session with the bridesmaids is <b>2:15 to 2:45</b> at the hotel, then <b>Jun2x</b> takes you all at <b>2:50 pm</b>. You are at the Canyons at 3:05, ten minutes before the aisle.",
   "Patrick": "You are at the family Airbnb from the morning &mdash; Marvin brings you there after the Aqua goes back. <b>Franklin</b> takes you to the Canyons at <b>2:40 pm</b>.",
   "Jane": "Straight to the ceremony from the Arrowtown house.",
-  "Marvin's daughter": "Straight to the ceremony from the Arrowtown house."
+  "Trixie": "Straight to the ceremony from the Arrowtown house."
 };
 const HOME_BY_HOUSE = {
   "The lake house": "drops you at the lake house",
@@ -3593,7 +3598,7 @@ const ME_KEY = "jp-me";
 /* Nica was a misspelling. A phone that remembered the old one would resolve
    to nobody - no bed, no car, "no match" - so it is corrected here, before
    anything reads it, not after. */
-const RENAMED = { Nica: "Nikka" };
+const RENAMED = { Nica: "Nikka", "Marvin's daughter": "Trixie" };
 let ME = null;
 try { ME = localStorage.getItem(ME_KEY); } catch (e) { /* private window */ }
 if (ME && RENAMED[ME]) {
@@ -3860,9 +3865,9 @@ function renderRides(q) {
     const longer = ALL_NAMES.filter((x) => x !== reader && x.includes(reader));
     let out = t;
     longer.forEach((o, i) => { out = out.split(o).join("\u0001" + i + "\u0001"); });
-    /* The roster writes Marvin's daughter with a straight apostrophe and the
-       rows write it as an entity, so she alone never saw her own name turn
-       into "you". Any of the three spellings matches any other. */
+    /* A roster can write an apostrophe straight while a row writes it as an
+       entity, and whoever is caught between the two never sees their own name
+       turn into "you". Any of the three spellings matches any other. */
     out = out.replace(new RegExp(esc30(reader) + "(?:'|\u2019|&rsquo;)s\\b", "g"), "your")
              .replace(new RegExp("\\b" + esc30(reader) + "\\b", "g"), "you");
     longer.forEach((o, i) => { out = out.split("\u0001" + i + "\u0001").join(o); });
