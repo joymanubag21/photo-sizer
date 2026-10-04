@@ -364,6 +364,14 @@ a.btn{text-decoration:none}
 }
 .fl-go:hover{border-color:var(--rose)}
 /* Two separate bookings for the same four flights, so two tickets to carry. */
+/* Standing at a counter, nobody scrolls 20,000 pixels for a document. */
+.docs-h{
+  margin:24px 0 8px; text-align:center; font-size:var(--eb); font-weight:600;
+  letter-spacing:var(--tr); text-transform:uppercase; color:var(--green);
+}
+.fl-docs{display:grid; grid-template-columns:1fr 1fr; gap:8px}
+.fl-docs .fl-go{margin-top:0; padding:0 10px}
+.fl-docs .fl-go.wide{grid-column:1 / -1}
 .fl-pair{display:flex; gap:8px; margin-top:14px}
 .fl-pair .fl-go{flex:1; min-width:0; margin-top:0; padding:0 10px}
 .fl-go svg{flex:none; width:14px; height:14px}
@@ -1174,6 +1182,15 @@ details[open] > .hire-steps{display:flex; flex-direction:column; gap:11px; paddi
       <p class="spy-lede">Five of them, you and Joy on every one &mdash; separate bookings, seats side by side. Hand baggage is <b>7 kg</b> the whole way.</p>
     </div>
 
+    <p class="docs-h">What you will be asked for</p>
+    <div class="fl-docs">
+      <a class="fl-go" href="https://drive.google.com/file/d/1iOjo8Kc2dNX64buN7KU-qUk56Mw2-HvZ/view" target="_blank" rel="noopener">Your ticket</a>
+      <a class="fl-go" href="https://drive.google.com/file/d/1AnCCZHdODZ4-yPNwgGxQ7yvB6kcF_TgA/view" target="_blank" rel="noopener">Joy&rsquo;s ticket</a>
+      <a class="fl-go" href="https://drive.google.com/file/d/1CtoQFcURkvMKbAD4NojxD2HwQlgmnt96/view" target="_blank" rel="noopener">Your visa</a>
+      <a class="fl-go" href="https://drive.google.com/file/d/16TRXblm1M_LLyw8hpCpFi8-9Te55WMtS/view" target="_blank" rel="noopener">Joy&rsquo;s visa</a>
+      <a class="fl-go wide" href="https://drive.google.com/file/d/1ARpJfaMrSJ8p1Uo7MFQHV8YwECG_5s_I/view" target="_blank" rel="noopener">Davao &rarr; Manila booking</a>
+    </div>
+
     <h3 class="plan-h" style="margin-top:22px">Going</h3>
 
     <article class="fl">
@@ -1691,7 +1708,7 @@ details[open] > .hire-steps{display:flex; flex-direction:column; gap:11px; paddi
   }
 })();
 
-const BUILD = "202610041629";
+const BUILD = "202610041638";
 document.documentElement.dataset.build = BUILD;
 (async () => {
   try {
