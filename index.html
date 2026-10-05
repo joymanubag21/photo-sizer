@@ -373,6 +373,18 @@ a.btn{text-decoration:none}
 .fl-docs .fl-go{margin-top:0; padding:0 10px}
 .fl-docs .fl-go.wide{grid-column:1 / -1}
 /* The reference shots: the one part of a print sheet worth keeping as a photo. */
+.seat-side{
+  margin:14px 0 6px; font-size:var(--eb); font-weight:600; letter-spacing:var(--tr);
+  text-transform:uppercase; color:var(--green);
+}
+.seats{
+  list-style:none; margin:0; padding:0; display:grid; grid-template-columns:1fr 1fr; gap:6px;
+}
+.seats li{
+  display:flex; gap:8px; align-items:baseline; padding:8px 10px; background:var(--surface);
+  border:1px solid var(--line); border-radius:var(--r-md); font-size:14px; color:var(--ink);
+}
+.seats li b{flex:none; min-width:15px; font-size:11px; font-weight:600; color:var(--ink-3)}
 .pr-img{
   display:block; width:100%; margin:0 0 12px; border-radius:var(--r-lg);
   border:1px solid var(--line-2);
@@ -1603,7 +1615,54 @@ details[open] > .hire-steps{display:flex; flex-direction:column; gap:11px; paddi
     </ul>
     <p class="fl-note" style="margin-top:12px"><b>Three rules for this one.</b>The <b>letter and the photo must carry the same name</b> &mdash; follow the seating plan, they are the only personalised pieces.<br>The <b>QR cards alternate</b> around the table: no two neighbours get the same one. <i>(The printed sheet still says the QR cards are all identical &mdash; that is out of date. This is the version to follow.)</i><br><b>Joy and Patrick get napkin and menu only.</b></p>
 
-    <h3 class="plan-h">2 &middot; Memory lane cards</h3>
+
+    <h3 class="plan-h">2 &middot; Who sits where</h3>
+    <p class="plan-sub">One long table, eighteen a side, numbered from the <b>entrance end</b>. This is the order the letters and photos follow &mdash; it is the same order the memory lane cards are numbered in.</p>
+    <p class="seat-side">Window side</p>
+    <ul class="seats">
+        <li><b>1</b>Sonito</li>
+        <li><b>2</b>Pia</li>
+        <li><b>3</b>Angelo</li>
+        <li><b>4</b>Emman</li>
+        <li><b>5</b>Loren</li>
+        <li><b>6</b>Marge</li>
+        <li><b>7</b>Norrie</li>
+        <li><b>8</b>Joy</li>
+        <li><b>9</b>Patrick</li>
+        <li><b>10</b>Grace</li>
+        <li><b>11</b>Francis</li>
+        <li><b>12</b>Vicente</li>
+        <li><b>13</b>JP</li>
+        <li><b>14</b>Daisy</li>
+        <li><b>15</b>Abby</li>
+        <li><b>16</b>Trixie</li>
+        <li><b>17</b>Jane</li>
+        <li><b>18</b>Marvin</li>
+    </ul>
+    <p class="seat-side">Facing side</p>
+    <ul class="seats">
+        <li><b>1</b>Sai</li>
+        <li><b>2</b>Chit</li>
+        <li><b>3</b>Nikka</li>
+        <li><b>4</b>Mae</li>
+        <li><b>5</b>Jan</li>
+        <li><b>6</b>Sam</li>
+        <li><b>7</b>Lara Mae</li>
+        <li><b>8</b>Erwan</li>
+        <li><b>9</b>Cathlyn</li>
+        <li><b>10</b>Nelly</li>
+        <li><b>11</b>Nieves</li>
+        <li><b>12</b>Jun2x</li>
+        <li><b>13</b>Gavin</li>
+        <li><b>14</b>Joie</li>
+        <li><b>15</b>Blondie</li>
+        <li><b>16</b>Elisha</li>
+        <li><b>17</b>Nathaniel</li>
+        <li><b>18</b>Franklin</li>
+    </ul>
+    <p class="fl-note" style="margin-top:12px"><b>Joy and Patrick are 8 and 9 on the window side</b>, in the middle, and they are the only two covers without a letter or a photo.</p>
+
+    <h3 class="plan-h">3 &middot; Memory lane cards</h3>
     <p class="plan-sub">Eighteen cards go on the tables, one in a gold holder between the two names shown on the map. The numbers are the story order &mdash; keep them in sequence. There are <b>nineteen in the stack</b>: the last one is not a table card.</p>
     <img class="pr-img" src="prints/memorylane.jpg" alt="A memory lane card standing in its gold holder on the table">
     <ul class="plan-list">
@@ -1612,7 +1671,7 @@ details[open] > .hire-steps{display:flex; flex-direction:column; gap:11px; paddi
     </ul>
     <img class="pr-img" style="margin-top:12px" src="prints/floorplan.jpg" alt="The floorplan showing which card sits between which two names">
 
-    <h3 class="plan-h">3 &middot; The guestbook table</h3>
+    <h3 class="plan-h">4 &middot; The guestbook table</h3>
     <p class="plan-sub">A separate side table near the entrance. Copy this photo.</p>
     <img class="pr-img" src="prints/guestbook.jpg" alt="The guestbook table: frame, QR sign, book, instax camera and the SELPHY printer">
     <ul class="plan-list">
@@ -1626,7 +1685,7 @@ details[open] > .hire-steps{display:flex; flex-direction:column; gap:11px; paddi
     </ul>
     <p class="fl-note" style="margin-top:12px"><b>How it is meant to run.</b>A guest takes a photo, prints it on the SELPHY, sticks it in the book and writes a note. Spare paper and ink are under the table, and the print-station sign stands next to the printer.</p>
 
-    <h3 class="plan-h">4 &middot; The cake</h3>
+    <h3 class="plan-h">5 &middot; The cake</h3>
     <p class="plan-sub">Set up before <b>5:00 pm</b>. The cutting is at <b>5:30</b>.</p>
     <img class="pr-img" src="prints/cake.jpg" alt="The cake as it should look: white, round, baby's breath only">
     <ul class="plan-list">
@@ -1809,7 +1868,7 @@ details[open] > .hire-steps{display:flex; flex-direction:column; gap:11px; paddi
   }
 })();
 
-const BUILD = "202610050947";
+const BUILD = "202610050950";
 document.documentElement.dataset.build = BUILD;
 (async () => {
   try {
