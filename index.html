@@ -388,6 +388,16 @@ a.btn{text-decoration:none}
   font-size:1.5rem; font-weight:500; line-height:1.15; color:var(--ink);
 }
 .pg-n{display:block; margin-top:5px; font-size:13.5px; line-height:1.5; color:var(--ink-2)}
+.qr2{display:grid; grid-template-columns:1fr 1fr; gap:10px; margin-top:12px}
+.qr2 figure{margin:0}
+.qr2 img{
+  display:block; width:100%; height:138px; object-fit:contain; padding:8px; box-sizing:border-box;
+  background:#fff; border:1px solid var(--line); border-radius:var(--r-md);
+}
+.qr2 figcaption{
+  margin-top:6px; text-align:center; font-size:var(--eb); font-weight:600;
+  letter-spacing:var(--tr); text-transform:uppercase; color:var(--ink-3);
+}
 .seat-side{
   margin:14px 0 6px; font-size:var(--eb); font-weight:600; letter-spacing:var(--tr);
   text-transform:uppercase; color:var(--green);
@@ -1624,11 +1634,15 @@ details[open] > .hire-steps{display:flex; flex-direction:column; gap:11px; paddi
         <span class="pg-t">Table setup instructions</span>
         <span class="pg-n">Every seat, the memory lane cards and the seating map, the guestbook table, the cake &mdash; and the bubbles and champagne pop at the Canyons.</span>
       </a>
-      <a class="pg" href="prints/pages/qr-card.html" target="_blank" rel="noopener">
-        <span class="pg-k">Two print pages</span>
+      <div class="pg">
+        <span class="pg-k">Two cards</span>
         <span class="pg-t">Instax QR cards</span>
-        <span class="pg-n">The pair that alternate around the table &mdash; capture the love, and the song request. One card to a page, so most of each sheet is blank.</span>
-      </a>
+        <span class="pg-n">One of each, alternating around the table.</span>
+        <div class="qr2">
+          <figure><img src="prints/pages/assets/capture-the-love-black.png" alt="The capture the love QR card"><figcaption>Even seats</figcaption></figure>
+          <figure><img src="prints/pages/assets/song-request-card-black.png" alt="The song requests QR card"><figcaption>Odd seats</figcaption></figure>
+        </div>
+      </div>
       <a class="pg" href="prints/pages/bingo.html" target="_blank" rel="noopener">
         <span class="pg-k">Game 1 &middot; two sets + key</span>
         <span class="pg-t">Human bingo</span>
@@ -1820,7 +1834,7 @@ details[open] > .hire-steps{display:flex; flex-direction:column; gap:11px; paddi
   }
 })();
 
-const BUILD = "202610051030";
+const BUILD = "202610051035";
 document.documentElement.dataset.build = BUILD;
 (async () => {
   try {
