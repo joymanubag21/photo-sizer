@@ -951,12 +951,6 @@ details[open] > .hire-steps{display:flex; flex-direction:column; gap:11px; paddi
     <button class="sec-eyebrow" id="meChip" type="button"></button>
     <h2 class="sec-h">Everything you <em>need</em></h2>
     <div class="cards">
-      <button class="wcard" type="button" id="btnPrints" hidden>
-        <span class="eyebrow">For the room</span>
-        <span class="wc-h">Setting the room</span>
-        <span class="wc-p">Every printed piece, and where it goes.</span>
-      </button>
-
       <button class="wcard" type="button" id="btnTrip" hidden>
         <span class="eyebrow">Just ours</span>
         <span class="wc-h">Our New Zealand</span>
@@ -977,8 +971,14 @@ details[open] > .hire-steps{display:flex; flex-direction:column; gap:11px; paddi
 
       <button class="wcard" type="button" id="btnMusic" hidden>
         <span class="eyebrow">For the wedding party</span>
-        <span class="wc-h">The runsheet</span>
+        <span class="wc-h">Runsheet and music</span>
         <span class="wc-p">Every time for the day, and what plays when.</span>
+      </button>
+
+      <button class="wcard" type="button" id="btnPrints" hidden>
+        <span class="eyebrow">For the room</span>
+        <span class="wc-h">Setting the room</span>
+        <span class="wc-p">Every printed piece, and where it goes.</span>
       </button>
 
       <button class="wcard" type="button" id="btnAlbum">
@@ -1810,7 +1810,7 @@ details[open] > .hire-steps{display:flex; flex-direction:column; gap:11px; paddi
   }
 })();
 
-const BUILD = "202610050923";
+const BUILD = "202610050943";
 document.documentElement.dataset.build = BUILD;
 (async () => {
   try {
