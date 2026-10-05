@@ -66,5 +66,23 @@ class Component extends DCLogic {
   renderVals() { return { cards: Array.from({ length: 10 }, () => ({})) }; }
 }
 </script>
+<script>(function(){
+var CSS="position:fixed;left:12px;bottom:18px;z-index:2147483647;"
++"display:inline-flex;align-items:center;height:44px;padding:0 16px;background:#2A2420;color:#FDF9F3;"
++"border-radius:999px;text-decoration:none;font-family:-apple-system,BlinkMacSystemFont,sans-serif;"
++"font-size:13px;font-weight:600;letter-spacing:.06em;text-transform:uppercase;"
++"box-shadow:0 4px 16px rgba(42,36,32,.3)";
+function add(){
+  if(!document.body||document.getElementById("appback"))return;
+  var a=document.createElement("a");
+  a.id="appback";a.href="../../index.html#prints";a.setAttribute("style",CSS);
+  a.textContent="\u2190  Back";document.body.appendChild(a);
+}
+var m=document.createElement("style");
+m.textContent="@media print{#appback{display:none!important}}";
+(document.head||document.documentElement).appendChild(m);
+add();document.addEventListener("DOMContentLoaded",add);
+var n=0,t=setInterval(function(){add();if(++n>40)clearInterval(t)},250);
+})();</script>
 </body>
 </html>
