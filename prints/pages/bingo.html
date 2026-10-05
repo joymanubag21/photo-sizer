@@ -1,0 +1,400 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,500;0,600;1,500;1,600&family=Jost:wght@400;500;600&display=swap" rel="stylesheet">
+<script src="image-slot.js"></script>
+<style>
+  body { margin:0; background:#EFE9DC; font-family:'Jost',sans-serif; color:#000; }
+  doc-page .page, doc-page .sheet, .page { border-radius:0 !important; }
+  a { color:#B5532A; } a:hover { color:#8F3F1E; }
+@media print { * { -webkit-print-color-adjust:exact; print-color-adjust:exact; } image-slot:has(+ img.pfinal), img[data-slot]:has(+ img.pfinal) { visibility:hidden !important; } img.pfinal { display:block !important; z-index:1; } image-slot:has(+ div.pfinal), img[data-slot]:has(+ div.pfinal) { visibility:hidden !important; } div.pfinal { display:block !important; z-index:1; } }
+</style>
+<script src="bingo-sync.js?v=8"></script>
+</helmet>
+
+<x-import component-from-global-scope="doc-page" from="./doc-page.js" width="11in" height="8.3in" margin="0" hint-size="100%,820px">
+  <section class="page" data-screen-label="Bingo sheet" style="font-family:'Jost',sans-serif;width:11in;height:8.3in;box-sizing:border-box;background:#fff;display:grid;grid-template-columns:1fr 1fr;grid-template-rows:1fr;color:#2A2420;">
+        <div style="min-width:0;min-height:0;box-sizing:border-box;border-right:0.4px dashed #B9AE9F;padding:0.13in 0.13in 0.12in;display:flex;flex-direction:column;gap:0.06in;">
+          <div style="flex:none;text-align:center;display:flex;flex-direction:column;align-items:center;gap:0.05in;padding-bottom:0.04in;">
+            <div style="font-size:6.5pt;font-weight:600;letter-spacing:0.24em;text-transform:uppercase;color:#4A6B4A;">Joy &amp; Patrick · 10.10.2026</div>
+            <div style="font-family:'Cormorant Garamond',serif;font-weight:600;font-size:26pt;line-height:0.9;color:#2A2420;">Find <em style="font-style:italic;color:#B5532A;">them</em></div>
+            <div style="font-family:'Cormorant Garamond',serif;font-style:italic;font-weight:500;font-size:10pt;line-height:1.2;color:#4A6B4A;white-space:nowrap;">Find all 12. Get each one to sign their own photo. First full card to Lara with a “Kia ora!” wins.</div>
+          </div>
+
+          <div style="flex:1;min-height:0;display:grid;grid-template-columns:repeat(4,1fr);grid-template-rows:repeat(3,1fr);gap:0.05in;">
+            <div style="background:#fff;box-sizing:border-box;padding:0.04in 0.04in 0.03in;display:flex;flex-direction:column;gap:0.03in;min-height:0;">
+              <div style="position:relative;flex:1;min-height:0;background:#F1ECE4;overflow:hidden;">
+                <image-slot id="bingo-28" src="https://drive.google.com/thumbnail?id=1dRPX-_dAv5l0-Imw-ivLsbDAsfUTWv1A&amp;sz=w1000" shape="rect" placeholder="Photo of Nelly" style="position:absolute;inset:0;width:100%;height:100%;"></image-slot><div class="pfinal" style="display:none;position:absolute;inset:0;overflow:hidden;"><img src="https://drive.google.com/thumbnail?id=1dRPX-_dAv5l0-Imw-ivLsbDAsfUTWv1A&amp;sz=w1000" alt="" style="position:absolute;max-width:none;width:172.869%;height:150.628%;left:60.8831%;top:70.001%;transform:translate(-50%,-50%);"></div>
+              </div>
+              <div data-clue="bingo-28" style="flex:none;padding:1px 2px 0;font-family:'Cormorant Garamond',serif;font-style:italic;font-weight:600;font-size:9.5pt;line-height:1.05;color:#B5532A;text-align:center;">Raised six. Unbothered</div>
+              <div style="flex:none;height:0.2in;border-bottom:1px solid #4A6B4A;display:flex;align-items:flex-end;padding-bottom:1px;font-size:5pt;font-weight:600;letter-spacing:0.16em;text-transform:uppercase;color:#7D9A7D;">Your autograph?</div>
+            </div>
+            <div style="background:#fff;box-sizing:border-box;padding:0.04in 0.04in 0.03in;display:flex;flex-direction:column;gap:0.03in;min-height:0;">
+              <div style="position:relative;flex:1;min-height:0;background:#F1ECE4;overflow:hidden;">
+                <image-slot id="bingo-29" src="assets/bingo/bingo-29.jpg" shape="rect" placeholder="Photo of Nieves" style="position:absolute;inset:0;width:100%;height:100%;"></image-slot><img class="pfinal" data-final="bingo-29" src="assets/bingo/final/bingo-29.png?v=1791002130535" alt="" style="display:none;position:absolute;inset:0;width:100%;height:100%;object-fit:cover;">
+              </div>
+              <div data-clue="bingo-29" style="flex:none;padding:1px 2px 0;font-family:'Cormorant Garamond',serif;font-style:italic;font-weight:600;font-size:9.5pt;line-height:1.05;color:#B5532A;text-align:center;">Mama's sidekick</div>
+              <div style="flex:none;height:0.2in;border-bottom:1px solid #4A6B4A;display:flex;align-items:flex-end;padding-bottom:1px;font-size:5pt;font-weight:600;letter-spacing:0.16em;text-transform:uppercase;color:#7D9A7D;">Your autograph?</div>
+            </div>
+            <div style="background:#fff;box-sizing:border-box;padding:0.04in 0.04in 0.03in;display:flex;flex-direction:column;gap:0.03in;min-height:0;">
+              <div style="position:relative;flex:1;min-height:0;background:#F1ECE4;overflow:hidden;">
+                <image-slot id="bingo-07" src="assets/bingo/bingo-07.jpg" shape="rect" placeholder="Photo of Loren" style="position:absolute;inset:0;width:100%;height:100%;"></image-slot><img class="pfinal" data-final="bingo-07" src="assets/bingo/final/bingo-07.png?v=1791002130535" alt="" style="display:none;position:absolute;inset:0;width:100%;height:100%;object-fit:cover;">
+              </div>
+              <div data-clue="bingo-07" style="flex:none;padding:1px 2px 0;font-family:'Cormorant Garamond',serif;font-style:italic;font-weight:600;font-size:9.5pt;line-height:1.05;color:#B5532A;text-align:center;">Knew it first</div>
+              <div style="flex:none;height:0.2in;border-bottom:1px solid #4A6B4A;display:flex;align-items:flex-end;padding-bottom:1px;font-size:5pt;font-weight:600;letter-spacing:0.16em;text-transform:uppercase;color:#7D9A7D;">Your autograph?</div>
+            </div>
+            <div style="background:#fff;box-sizing:border-box;padding:0.04in 0.04in 0.03in;display:flex;flex-direction:column;gap:0.03in;min-height:0;">
+              <div style="position:relative;flex:1;min-height:0;background:#F1ECE4;overflow:hidden;">
+                <image-slot id="bingo-19" src="assets/bingo/bingo-19.jpg" shape="rect" placeholder="Photo of Sai" style="position:absolute;inset:0;width:100%;height:100%;"></image-slot><img class="pfinal" data-final="bingo-19" src="assets/bingo/final/bingo-19.png?v=1791002130535" alt="" style="display:none;position:absolute;inset:0;width:100%;height:100%;object-fit:cover;">
+              </div>
+              <div data-clue="bingo-19" style="flex:none;padding:1px 2px 0;font-family:'Cormorant Garamond',serif;font-style:italic;font-weight:600;font-size:9.5pt;line-height:1.05;color:#B5532A;text-align:center;">Quiet sunshine</div>
+              <div style="flex:none;height:0.2in;border-bottom:1px solid #4A6B4A;display:flex;align-items:flex-end;padding-bottom:1px;font-size:5pt;font-weight:600;letter-spacing:0.16em;text-transform:uppercase;color:#7D9A7D;">Your autograph?</div>
+            </div>
+            <div style="background:#fff;box-sizing:border-box;padding:0.04in 0.04in 0.03in;display:flex;flex-direction:column;gap:0.03in;min-height:0;">
+              <div style="position:relative;flex:1;min-height:0;background:#F1ECE4;overflow:hidden;">
+                <image-slot id="bingo-03" src="https://drive.google.com/thumbnail?id=1x623Tlx11qhqLwg2o2G-RhyRxhbHUcAE&amp;sz=w1000" shape="rect" placeholder="Photo of Sonito" style="position:absolute;inset:0;width:100%;height:100%;"></image-slot><div class="pfinal" style="display:none;position:absolute;inset:0;overflow:hidden;"><img src="https://drive.google.com/thumbnail?id=1x623Tlx11qhqLwg2o2G-RhyRxhbHUcAE&amp;sz=w1000" alt="" style="position:absolute;max-width:none;width:141.922%;height:123.569%;left:43.2786%;top:51.661%;transform:translate(-50%,-50%);"></div>
+              </div>
+              <div data-clue="bingo-03" style="flex:none;padding:1px 2px 0;font-family:'Cormorant Garamond',serif;font-style:italic;font-weight:600;font-size:9.5pt;line-height:1.05;color:#B5532A;text-align:center;">Dink specialist</div>
+              <div style="flex:none;height:0.2in;border-bottom:1px solid #4A6B4A;display:flex;align-items:flex-end;padding-bottom:1px;font-size:5pt;font-weight:600;letter-spacing:0.16em;text-transform:uppercase;color:#7D9A7D;">Your autograph?</div>
+            </div>
+            <div style="background:#fff;box-sizing:border-box;padding:0.04in 0.04in 0.03in;display:flex;flex-direction:column;gap:0.03in;min-height:0;">
+              <div style="position:relative;flex:1;min-height:0;background:#F1ECE4;overflow:hidden;">
+                <image-slot id="bingo-21" src="assets/bingo/bingo-21.jpg" shape="rect" placeholder="Photo of Nica" style="position:absolute;inset:0;width:100%;height:100%;"></image-slot><img class="pfinal" data-final="bingo-21" src="assets/bingo/final/bingo-21.png?v=1791002130535" alt="" style="display:none;position:absolute;inset:0;width:100%;height:100%;object-fit:cover;">
+              </div>
+              <div data-clue="bingo-21" style="flex:none;padding:1px 2px 0;font-family:'Cormorant Garamond',serif;font-style:italic;font-weight:600;font-size:9.5pt;line-height:1.05;color:#B5532A;text-align:center;">Contagious laugh</div>
+              <div style="flex:none;height:0.2in;border-bottom:1px solid #4A6B4A;display:flex;align-items:flex-end;padding-bottom:1px;font-size:5pt;font-weight:600;letter-spacing:0.16em;text-transform:uppercase;color:#7D9A7D;">Your autograph?</div>
+            </div>
+            <div style="background:#fff;box-sizing:border-box;padding:0.04in 0.04in 0.03in;display:flex;flex-direction:column;gap:0.03in;min-height:0;">
+              <div style="position:relative;flex:1;min-height:0;background:#F1ECE4;overflow:hidden;">
+                <image-slot id="bingo-26" src="https://drive.google.com/thumbnail?id=18NzY0KoptujTDLrG-UWZmZS3AqIjcb97&amp;sz=w1000" shape="rect" placeholder="Photo of Erwan" style="position:absolute;inset:0;width:100%;height:100%;"></image-slot><div class="pfinal" style="display:none;position:absolute;inset:0;overflow:hidden;"><img src="https://drive.google.com/thumbnail?id=18NzY0KoptujTDLrG-UWZmZS3AqIjcb97&amp;sz=w1000" alt="" style="position:absolute;max-width:none;width:204.333%;height:289.176%;left:40.2019%;top:119.791%;transform:translate(-50%,-50%);"></div>
+              </div>
+              <div data-clue="bingo-26" style="flex:none;padding:1px 2px 0;font-family:'Cormorant Garamond',serif;font-style:italic;font-weight:600;font-size:9.5pt;line-height:1.05;color:#B5532A;text-align:center;">Norrie approved</div>
+              <div style="flex:none;height:0.2in;border-bottom:1px solid #4A6B4A;display:flex;align-items:flex-end;padding-bottom:1px;font-size:5pt;font-weight:600;letter-spacing:0.16em;text-transform:uppercase;color:#7D9A7D;">Your autograph?</div>
+            </div>
+            <div style="background:#fff;box-sizing:border-box;padding:0.04in 0.04in 0.03in;display:flex;flex-direction:column;gap:0.03in;min-height:0;">
+              <div style="position:relative;flex:1;min-height:0;background:#F1ECE4;overflow:hidden;">
+                <image-slot id="bingo-24" src="assets/bingo/bingo-24.jpg" shape="rect" placeholder="Photo of Sam" style="position:absolute;inset:0;width:100%;height:100%;"></image-slot><img class="pfinal" data-final="bingo-24" src="assets/bingo/final/bingo-24.png?v=1791002130535" alt="" style="display:none;position:absolute;inset:0;width:100%;height:100%;object-fit:cover;">
+              </div>
+              <div data-clue="bingo-24" style="flex:none;padding:1px 2px 0;font-family:'Cormorant Garamond',serif;font-style:italic;font-weight:600;font-size:9.5pt;line-height:1.05;color:#B5532A;text-align:center;">Always on holiday</div>
+              <div style="flex:none;height:0.2in;border-bottom:1px solid #4A6B4A;display:flex;align-items:flex-end;padding-bottom:1px;font-size:5pt;font-weight:600;letter-spacing:0.16em;text-transform:uppercase;color:#7D9A7D;">Your autograph?</div>
+            </div>
+            <div style="background:#fff;box-sizing:border-box;padding:0.04in 0.04in 0.03in;display:flex;flex-direction:column;gap:0.03in;min-height:0;">
+              <div style="position:relative;flex:1;min-height:0;background:#F1ECE4;overflow:hidden;">
+                <image-slot id="bingo-22" src="assets/bingo/bingo-22.jpg" shape="rect" placeholder="Photo of Mae" style="position:absolute;inset:0;width:100%;height:100%;"></image-slot><img class="pfinal" data-final="bingo-22" src="assets/bingo/final/bingo-22.png?v=1791002130535" alt="" style="display:none;position:absolute;inset:0;width:100%;height:100%;object-fit:cover;">
+              </div>
+              <div data-clue="bingo-22" style="flex:none;padding:1px 2px 0;font-family:'Cormorant Garamond',serif;font-style:italic;font-weight:600;font-size:9.5pt;line-height:1.05;color:#B5532A;text-align:center;">Karaoke closer</div>
+              <div style="flex:none;height:0.2in;border-bottom:1px solid #4A6B4A;display:flex;align-items:flex-end;padding-bottom:1px;font-size:5pt;font-weight:600;letter-spacing:0.16em;text-transform:uppercase;color:#7D9A7D;">Your autograph?</div>
+            </div>
+            <div style="background:#fff;box-sizing:border-box;padding:0.04in 0.04in 0.03in;display:flex;flex-direction:column;gap:0.03in;min-height:0;">
+              <div style="position:relative;flex:1;min-height:0;background:#F1ECE4;overflow:hidden;">
+                <image-slot id="bingo-27" src="assets/bingo/bingo-27.jpg" shape="rect" placeholder="Photo of Cathlyn" style="position:absolute;inset:0;width:100%;height:100%;"></image-slot><img class="pfinal" data-final="bingo-27" src="assets/bingo/final/bingo-27.png?v=1791002130535" alt="" style="display:none;position:absolute;inset:0;width:100%;height:100%;object-fit:cover;">
+              </div>
+              <div data-clue="bingo-27" style="flex:none;padding:1px 2px 0;font-family:'Cormorant Garamond',serif;font-style:italic;font-weight:600;font-size:9.5pt;line-height:1.05;color:#B5532A;text-align:center;">Chika champion</div>
+              <div style="flex:none;height:0.2in;border-bottom:1px solid #4A6B4A;display:flex;align-items:flex-end;padding-bottom:1px;font-size:5pt;font-weight:600;letter-spacing:0.16em;text-transform:uppercase;color:#7D9A7D;">Your autograph?</div>
+            </div>
+            <div style="background:#fff;box-sizing:border-box;padding:0.04in 0.04in 0.03in;display:flex;flex-direction:column;gap:0.03in;min-height:0;">
+              <div style="position:relative;flex:1;min-height:0;background:#F1ECE4;overflow:hidden;">
+                <image-slot id="bingo-05" src="assets/bingo/bingo-05.jpg" shape="rect" placeholder="Photo of Angelo" style="position:absolute;inset:0;width:100%;height:100%;"></image-slot><img class="pfinal" data-final="bingo-05" src="assets/bingo/final/bingo-05.png?v=1791002130535" alt="" style="display:none;position:absolute;inset:0;width:100%;height:100%;object-fit:cover;">
+              </div>
+              <div data-clue="bingo-05" style="flex:none;padding:1px 2px 0;font-family:'Cormorant Garamond',serif;font-style:italic;font-weight:600;font-size:9.5pt;line-height:1.05;color:#B5532A;text-align:center;">Never panics</div>
+              <div style="flex:none;height:0.2in;border-bottom:1px solid #4A6B4A;display:flex;align-items:flex-end;padding-bottom:1px;font-size:5pt;font-weight:600;letter-spacing:0.16em;text-transform:uppercase;color:#7D9A7D;">Your autograph?</div>
+            </div>
+            <div style="background:#fff;box-sizing:border-box;padding:0.04in 0.04in 0.03in;display:flex;flex-direction:column;gap:0.03in;min-height:0;">
+              <div style="position:relative;flex:1;min-height:0;background:#F1ECE4;overflow:hidden;">
+                <image-slot id="bingo-16" src="assets/bingo/bingo-16.jpg" shape="rect" placeholder="Photo of Jun2x" style="position:absolute;inset:0;width:100%;height:100%;"></image-slot><img class="pfinal" data-final="bingo-16" src="assets/bingo/final/bingo-16.png?v=1791002130535" alt="" style="display:none;position:absolute;inset:0;width:100%;height:100%;object-fit:cover;">
+              </div>
+              <div data-clue="bingo-16" style="flex:none;padding:1px 2px 0;font-family:'Cormorant Garamond',serif;font-style:italic;font-weight:600;font-size:9.5pt;line-height:1.05;color:#B5532A;text-align:center;">Jokes first, cares most</div>
+              <div style="flex:none;height:0.2in;border-bottom:1px solid #4A6B4A;display:flex;align-items:flex-end;padding-bottom:1px;font-size:5pt;font-weight:600;letter-spacing:0.16em;text-transform:uppercase;color:#7D9A7D;">Your autograph?</div>
+            </div>
+          </div>
+          <div style="flex:none;text-align:right;font-size:5.5pt;font-weight:600;letter-spacing:0.12em;text-transform:uppercase;color:#9A8E82;">Set 1</div>
+        </div>
+        <div style="min-width:0;min-height:0;box-sizing:border-box;padding:0.13in 0.13in 0.12in;display:flex;flex-direction:column;gap:0.06in;">
+          <div style="flex:none;text-align:center;display:flex;flex-direction:column;align-items:center;gap:0.05in;padding-bottom:0.04in;">
+            <div style="font-size:6.5pt;font-weight:600;letter-spacing:0.24em;text-transform:uppercase;color:#4A6B4A;">Joy &amp; Patrick · 10.10.2026</div>
+            <div style="font-family:'Cormorant Garamond',serif;font-weight:600;font-size:26pt;line-height:0.9;color:#2A2420;">Find <em style="font-style:italic;color:#B5532A;">them</em></div>
+            <div style="font-family:'Cormorant Garamond',serif;font-style:italic;font-weight:500;font-size:10pt;line-height:1.2;color:#4A6B4A;white-space:nowrap;">Find all 12. Get each one to sign their own photo. First full card to Lara with a “Kia ora!” wins.</div>
+          </div>
+
+          <div style="flex:1;min-height:0;display:grid;grid-template-columns:repeat(4,1fr);grid-template-rows:repeat(3,1fr);gap:0.05in;">
+            <div style="background:#fff;box-sizing:border-box;padding:0.04in 0.04in 0.03in;display:flex;flex-direction:column;gap:0.03in;min-height:0;">
+              <div style="position:relative;flex:1;min-height:0;background:#F1ECE4;overflow:hidden;">
+                <image-slot id="bingo-09" src="assets/bingo/bingo-09.jpg" shape="rect" placeholder="Photo of Norrie" style="position:absolute;inset:0;width:100%;height:100%;"></image-slot><img class="pfinal" data-final="bingo-09" src="assets/bingo/final/bingo-09.png?v=1791002130535" alt="" style="display:none;position:absolute;inset:0;width:100%;height:100%;object-fit:cover;">
+              </div>
+              <div data-clue="bingo-09" style="flex:none;padding:1px 2px 0;font-family:'Cormorant Garamond',serif;font-style:italic;font-weight:600;font-size:9.5pt;line-height:1.05;color:#B5532A;text-align:center;">Long-distance legend</div>
+              <div style="flex:none;height:0.2in;border-bottom:1px solid #4A6B4A;display:flex;align-items:flex-end;padding-bottom:1px;font-size:5pt;font-weight:600;letter-spacing:0.16em;text-transform:uppercase;color:#7D9A7D;">Your autograph?</div>
+            </div>
+            <div style="background:#fff;box-sizing:border-box;padding:0.04in 0.04in 0.03in;display:flex;flex-direction:column;gap:0.03in;min-height:0;">
+              <div style="position:relative;flex:1;min-height:0;background:#F1ECE4;overflow:hidden;">
+                <image-slot id="bingo-11" src="https://drive.google.com/thumbnail?id=1j6-Ht0YGBC0nFERZ70fWSCkuNq0GRzGb&amp;sz=w1000" shape="rect" placeholder="Photo of Francis" style="position:absolute;inset:0;width:100%;height:100%;"></image-slot><div class="pfinal" style="display:none;position:absolute;inset:0;overflow:hidden;"><img src="https://drive.google.com/thumbnail?id=1j6-Ht0YGBC0nFERZ70fWSCkuNq0GRzGb&amp;sz=w1000" alt="" style="position:absolute;max-width:none;width:215.217%;height:188.073%;left:57.1987%;top:64.5359%;transform:translate(-50%,-50%);"></div>
+              </div>
+              <div data-clue="bingo-11" style="flex:none;padding:1px 2px 0;font-family:'Cormorant Garamond',serif;font-style:italic;font-weight:600;font-size:9.5pt;line-height:1.05;color:#B5532A;text-align:center;">Honorary bridesmaid</div>
+              <div style="flex:none;height:0.2in;border-bottom:1px solid #4A6B4A;display:flex;align-items:flex-end;padding-bottom:1px;font-size:5pt;font-weight:600;letter-spacing:0.16em;text-transform:uppercase;color:#7D9A7D;">Your autograph?</div>
+            </div>
+            <div style="background:#fff;box-sizing:border-box;padding:0.04in 0.04in 0.03in;display:flex;flex-direction:column;gap:0.03in;min-height:0;">
+              <div style="position:relative;flex:1;min-height:0;background:#F1ECE4;overflow:hidden;">
+                <image-slot id="bingo-08" src="assets/bingo/bingo-08.jpg" shape="rect" placeholder="Photo of Marge" style="position:absolute;inset:0;width:100%;height:100%;"></image-slot><img class="pfinal" data-final="bingo-08" src="assets/bingo/final/bingo-08.png?v=1791002130535" alt="" style="display:none;position:absolute;inset:0;width:100%;height:100%;object-fit:cover;">
+              </div>
+              <div data-clue="bingo-08" style="flex:none;padding:1px 2px 0;font-family:'Cormorant Garamond',serif;font-style:italic;font-weight:600;font-size:9.5pt;line-height:1.05;color:#B5532A;text-align:center;">Our resident nightingale</div>
+              <div style="flex:none;height:0.2in;border-bottom:1px solid #4A6B4A;display:flex;align-items:flex-end;padding-bottom:1px;font-size:5pt;font-weight:600;letter-spacing:0.16em;text-transform:uppercase;color:#7D9A7D;">Your autograph?</div>
+            </div>
+            <div style="background:#fff;box-sizing:border-box;padding:0.04in 0.04in 0.03in;display:flex;flex-direction:column;gap:0.03in;min-height:0;">
+              <div style="position:relative;flex:1;min-height:0;background:#F1ECE4;overflow:hidden;">
+                <image-slot id="bingo-17" src="assets/bingo/bingo-17.jpg" shape="rect" placeholder="Photo of Jane" style="position:absolute;inset:0;width:100%;height:100%;"></image-slot><img class="pfinal" data-final="bingo-17" src="assets/bingo/final/bingo-17.png?v=1791002130535" alt="" style="display:none;position:absolute;inset:0;width:100%;height:100%;object-fit:cover;">
+              </div>
+              <div data-clue="bingo-17" style="flex:none;padding:1px 2px 0;font-family:'Cormorant Garamond',serif;font-style:italic;font-weight:600;font-size:9.5pt;line-height:1.05;color:#B5532A;text-align:center;">The real boss</div>
+              <div style="flex:none;height:0.2in;border-bottom:1px solid #4A6B4A;display:flex;align-items:flex-end;padding-bottom:1px;font-size:5pt;font-weight:600;letter-spacing:0.16em;text-transform:uppercase;color:#7D9A7D;">Your autograph?</div>
+            </div>
+            <div style="background:#fff;box-sizing:border-box;padding:0.04in 0.04in 0.03in;display:flex;flex-direction:column;gap:0.03in;min-height:0;">
+              <div style="position:relative;flex:1;min-height:0;background:#F1ECE4;overflow:hidden;">
+                <image-slot id="bingo-20" src="assets/bingo/bingo-20.jpg" shape="rect" placeholder="Photo of Chit" style="position:absolute;inset:0;width:100%;height:100%;"></image-slot><img class="pfinal" data-final="bingo-20" src="assets/bingo/final/bingo-20.png?v=1791002130535" alt="" style="display:none;position:absolute;inset:0;width:100%;height:100%;object-fit:cover;">
+              </div>
+              <div data-clue="bingo-20" style="flex:none;padding:1px 2px 0;font-family:'Cormorant Garamond',serif;font-style:italic;font-weight:600;font-size:9.5pt;line-height:1.05;color:#B5532A;text-align:center;">Pickleball speedrun</div>
+              <div style="flex:none;height:0.2in;border-bottom:1px solid #4A6B4A;display:flex;align-items:flex-end;padding-bottom:1px;font-size:5pt;font-weight:600;letter-spacing:0.16em;text-transform:uppercase;color:#7D9A7D;">Your autograph?</div>
+            </div>
+            <div style="background:#fff;box-sizing:border-box;padding:0.04in 0.04in 0.03in;display:flex;flex-direction:column;gap:0.03in;min-height:0;">
+              <div style="position:relative;flex:1;min-height:0;background:#F1ECE4;overflow:hidden;">
+                <image-slot id="bingo-37" src="assets/bingo/bingo-37.jpg" shape="rect" placeholder="Photo of Nathan" style="position:absolute;inset:0;width:100%;height:100%;"></image-slot><img class="pfinal" data-final="bingo-37" src="assets/bingo/final/bingo-37.png?v=1791002130535" alt="" style="display:none;position:absolute;inset:0;width:100%;height:100%;object-fit:cover;">
+              </div>
+              <div data-clue="bingo-37" style="flex:none;padding:1px 2px 0;font-family:'Cormorant Garamond',serif;font-style:italic;font-weight:600;font-size:9.5pt;line-height:1.05;color:#B5532A;text-align:center;">Braver than the room</div>
+              <div style="flex:none;height:0.2in;border-bottom:1px solid #4A6B4A;display:flex;align-items:flex-end;padding-bottom:1px;font-size:5pt;font-weight:600;letter-spacing:0.16em;text-transform:uppercase;color:#7D9A7D;">Your autograph?</div>
+            </div>
+            <div style="background:#fff;box-sizing:border-box;padding:0.04in 0.04in 0.03in;display:flex;flex-direction:column;gap:0.03in;min-height:0;">
+              <div style="position:relative;flex:1;min-height:0;background:#F1ECE4;overflow:hidden;">
+                <image-slot id="bingo-06" src="assets/bingo/bingo-06.jpg" shape="rect" placeholder="Photo of Emman" style="position:absolute;inset:0;width:100%;height:100%;"></image-slot><img class="pfinal" data-final="bingo-06" src="assets/bingo/final/bingo-06.png?v=1791002130535" alt="" style="display:none;position:absolute;inset:0;width:100%;height:100%;object-fit:cover;">
+              </div>
+              <div data-clue="bingo-06" style="flex:none;padding:1px 2px 0;font-family:'Cormorant Garamond',serif;font-style:italic;font-weight:600;font-size:9.5pt;line-height:1.05;color:#B5532A;text-align:center;">Walking Google</div>
+              <div style="flex:none;height:0.2in;border-bottom:1px solid #4A6B4A;display:flex;align-items:flex-end;padding-bottom:1px;font-size:5pt;font-weight:600;letter-spacing:0.16em;text-transform:uppercase;color:#7D9A7D;">Your autograph?</div>
+            </div>
+            <div style="background:#fff;box-sizing:border-box;padding:0.04in 0.04in 0.03in;display:flex;flex-direction:column;gap:0.03in;min-height:0;">
+              <div style="position:relative;flex:1;min-height:0;background:#F1ECE4;overflow:hidden;">
+                <image-slot id="bingo-14" src="assets/bingo/bingo-14.jpg" shape="rect" placeholder="Photo of Joie" style="position:absolute;inset:0;width:100%;height:100%;"></image-slot><img class="pfinal" data-final="bingo-14" src="assets/bingo/final/bingo-14.png?v=1791002130535" alt="" style="display:none;position:absolute;inset:0;width:100%;height:100%;object-fit:cover;">
+              </div>
+              <div data-clue="bingo-14" style="flex:none;padding:1px 2px 0;font-family:'Cormorant Garamond',serif;font-style:italic;font-weight:600;font-size:9.5pt;line-height:1.05;color:#B5532A;text-align:center;">Supermom mode</div>
+              <div style="flex:none;height:0.2in;border-bottom:1px solid #4A6B4A;display:flex;align-items:flex-end;padding-bottom:1px;font-size:5pt;font-weight:600;letter-spacing:0.16em;text-transform:uppercase;color:#7D9A7D;">Your autograph?</div>
+            </div>
+            <div style="background:#fff;box-sizing:border-box;padding:0.04in 0.04in 0.03in;display:flex;flex-direction:column;gap:0.03in;min-height:0;">
+              <div style="position:relative;flex:1;min-height:0;background:#F1ECE4;overflow:hidden;">
+                <image-slot id="bingo-13" src="assets/bingo/bingo-13.jpg" shape="rect" placeholder="Photo of JP" style="position:absolute;inset:0;width:100%;height:100%;"></image-slot><img class="pfinal" data-final="bingo-13" src="assets/bingo/final/bingo-13.png?v=1791002130535" alt="" style="display:none;position:absolute;inset:0;width:100%;height:100%;object-fit:cover;">
+              </div>
+              <div data-clue="bingo-13" style="flex:none;padding:1px 2px 0;font-family:'Cormorant Garamond',serif;font-style:italic;font-weight:600;font-size:9.5pt;line-height:1.05;color:#B5532A;text-align:center;">Future rockstar</div>
+              <div style="flex:none;height:0.2in;border-bottom:1px solid #4A6B4A;display:flex;align-items:flex-end;padding-bottom:1px;font-size:5pt;font-weight:600;letter-spacing:0.16em;text-transform:uppercase;color:#7D9A7D;">Your autograph?</div>
+            </div>
+            <div style="background:#fff;box-sizing:border-box;padding:0.04in 0.04in 0.03in;display:flex;flex-direction:column;gap:0.03in;min-height:0;">
+              <div style="position:relative;flex:1;min-height:0;background:#F1ECE4;overflow:hidden;">
+                <image-slot id="bingo-36" src="assets/bingo/bingo-36.jpg" shape="rect" placeholder="Photo of Franklin" style="position:absolute;inset:0;width:100%;height:100%;"></image-slot><img class="pfinal" data-final="bingo-36" src="assets/bingo/final/bingo-36.png?v=1791002130535" alt="" style="display:none;position:absolute;inset:0;width:100%;height:100%;object-fit:cover;">
+              </div>
+              <div data-clue="bingo-36" style="flex:none;padding:1px 2px 0;font-family:'Cormorant Garamond',serif;font-style:italic;font-weight:600;font-size:9.5pt;line-height:1.05;color:#B5532A;text-align:center;">Said “get married”</div>
+              <div style="flex:none;height:0.2in;border-bottom:1px solid #4A6B4A;display:flex;align-items:flex-end;padding-bottom:1px;font-size:5pt;font-weight:600;letter-spacing:0.16em;text-transform:uppercase;color:#7D9A7D;">Your autograph?</div>
+            </div>
+            <div style="background:#fff;box-sizing:border-box;padding:0.04in 0.04in 0.03in;display:flex;flex-direction:column;gap:0.03in;min-height:0;">
+              <div style="position:relative;flex:1;min-height:0;background:#F1ECE4;overflow:hidden;">
+                <image-slot id="bingo-25" src="assets/bingo/bingo-25.jpg" shape="rect" placeholder="Photo of Lara Mae" style="position:absolute;inset:0;width:100%;height:100%;"></image-slot><img class="pfinal" data-final="bingo-25" src="assets/bingo/final/bingo-25.png?v=1791002130535" alt="" style="display:none;position:absolute;inset:0;width:100%;height:100%;object-fit:cover;">
+              </div>
+              <div data-clue="bingo-25" style="flex:none;padding:1px 2px 0;font-family:'Cormorant Garamond',serif;font-style:italic;font-weight:600;font-size:9.5pt;line-height:1.05;color:#B5532A;text-align:center;">Yin to her yang</div>
+              <div style="flex:none;height:0.2in;border-bottom:1px solid #4A6B4A;display:flex;align-items:flex-end;padding-bottom:1px;font-size:5pt;font-weight:600;letter-spacing:0.16em;text-transform:uppercase;color:#7D9A7D;">Your autograph?</div>
+            </div>
+            <div style="background:#fff;box-sizing:border-box;padding:0.04in 0.04in 0.03in;display:flex;flex-direction:column;gap:0.03in;min-height:0;">
+              <div style="position:relative;flex:1;min-height:0;background:#F1ECE4;overflow:hidden;">
+                <image-slot id="bingo-23" src="assets/bingo/bingo-23.jpg" shape="rect" placeholder="Photo of Jan" style="position:absolute;inset:0;width:100%;height:100%;"></image-slot><img class="pfinal" data-final="bingo-23" src="assets/bingo/final/bingo-23.png?v=1791002130535" alt="" style="display:none;position:absolute;inset:0;width:100%;height:100%;object-fit:cover;">
+              </div>
+              <div data-clue="bingo-23" style="flex:none;padding:1px 2px 0;font-family:'Cormorant Garamond',serif;font-style:italic;font-weight:600;font-size:9.5pt;line-height:1.05;color:#B5532A;text-align:center;">Sees everything</div>
+              <div style="flex:none;height:0.2in;border-bottom:1px solid #4A6B4A;display:flex;align-items:flex-end;padding-bottom:1px;font-size:5pt;font-weight:600;letter-spacing:0.16em;text-transform:uppercase;color:#7D9A7D;">Your autograph?</div>
+            </div>
+          </div>
+          <div style="flex:none;text-align:right;font-size:5.5pt;font-weight:600;letter-spacing:0.12em;text-transform:uppercase;color:#9A8E82;">Set 2</div>
+        </div>
+    </section>
+
+  <section class="page" data-screen-label="Answer key" style="font-family:'Jost',sans-serif;width:11in;height:8.3in;box-sizing:border-box;padding:0.35in 0.4in 0.3in;background:#fff;display:flex;flex-direction:column;gap:0.16in;color:#2A2420;">
+    <div>
+      <div style="font-size:7.5pt;font-weight:600;letter-spacing:0.24em;text-transform:uppercase;color:#4A6B4A;">Answer key · for Lara only</div>
+      <div style="font-family:'Cormorant Garamond',serif;font-weight:600;font-size:30pt;line-height:1;margin-top:4px;">Answer <em style="font-style:italic;color:#B5532A;">key</em></div>
+      <div style="font-size:9pt;line-height:1.45;margin-top:4px;">Every face, with the name. Photos mirror from page 1 automatically — drop photos on the cards, not here. Print this page separately for Grace; don't hand it out.</div>
+    </div>
+    <div style="flex:1;min-height:0;display:grid;grid-template-columns:repeat(8,1fr);grid-template-rows:repeat(3,1fr);gap:0.1in;">
+        <div style="box-sizing:border-box;padding:0.05in;display:flex;flex-direction:column;gap:0.04in;min-height:0;">
+          <div style="position:relative;flex:1;min-height:0;background:#F1ECE4;overflow:hidden;">
+            <img data-slot="bingo-03" src="https://drive.google.com/thumbnail?id=1x623Tlx11qhqLwg2o2G-RhyRxhbHUcAE&amp;sz=w1000" alt="Photo of Sonito" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;display:block;"><div class="pfinal" style="display:none;position:absolute;inset:0;overflow:hidden;"><img src="https://drive.google.com/thumbnail?id=1x623Tlx11qhqLwg2o2G-RhyRxhbHUcAE&amp;sz=w1000" alt="" style="position:absolute;max-width:none;width:141.922%;height:123.569%;left:43.2786%;top:51.661%;transform:translate(-50%,-50%);"></div>
+          </div>
+          <div style="flex:none;font-size:8pt;font-weight:600;line-height:1.1;text-align:center;overflow:hidden;white-space:nowrap;text-overflow:ellipsis;">Sonito</div>
+          <div data-clue-for="bingo-03" style="flex:none;font-family:'Cormorant Garamond',serif;font-style:italic;font-size:8pt;line-height:1;text-align:center;color:#B5532A;">Dink specialist</div>
+        </div>
+        <div style="box-sizing:border-box;padding:0.05in;display:flex;flex-direction:column;gap:0.04in;min-height:0;">
+          <div style="position:relative;flex:1;min-height:0;background:#F1ECE4;overflow:hidden;">
+            <img data-slot="bingo-37" src="assets/bingo/bingo-37.jpg" alt="Photo of Nathan" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;display:block;"><img class="pfinal" src="assets/bingo/final/bingo-37.png?v=1791002130535" alt="" style="display:none;position:absolute;inset:0;width:100%;height:100%;object-fit:cover;">
+          </div>
+          <div style="flex:none;font-size:8pt;font-weight:600;line-height:1.1;text-align:center;overflow:hidden;white-space:nowrap;text-overflow:ellipsis;">Nathan</div>
+          <div data-clue-for="bingo-37" style="flex:none;font-family:'Cormorant Garamond',serif;font-style:italic;font-size:8pt;line-height:1;text-align:center;color:#B5532A;">Chika champion</div>
+        </div>
+        <div style="box-sizing:border-box;padding:0.05in;display:flex;flex-direction:column;gap:0.04in;min-height:0;">
+          <div style="position:relative;flex:1;min-height:0;background:#F1ECE4;overflow:hidden;">
+            <img data-slot="bingo-05" src="assets/bingo/bingo-05.jpg" alt="Photo of Angelo" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;display:block;"><img class="pfinal" src="assets/bingo/final/bingo-05.png?v=1791002130535" alt="" style="display:none;position:absolute;inset:0;width:100%;height:100%;object-fit:cover;">
+          </div>
+          <div style="flex:none;font-size:8pt;font-weight:600;line-height:1.1;text-align:center;overflow:hidden;white-space:nowrap;text-overflow:ellipsis;">Angelo</div>
+          <div data-clue-for="bingo-05" style="flex:none;font-family:'Cormorant Garamond',serif;font-style:italic;font-size:8pt;line-height:1;text-align:center;color:#B5532A;">Never panics</div>
+        </div>
+        <div style="box-sizing:border-box;padding:0.05in;display:flex;flex-direction:column;gap:0.04in;min-height:0;">
+          <div style="position:relative;flex:1;min-height:0;background:#F1ECE4;overflow:hidden;">
+            <img data-slot="bingo-06" src="assets/bingo/bingo-06.jpg" alt="Photo of Emman" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;display:block;"><img class="pfinal" src="assets/bingo/final/bingo-06.png?v=1791002130535" alt="" style="display:none;position:absolute;inset:0;width:100%;height:100%;object-fit:cover;">
+          </div>
+          <div style="flex:none;font-size:8pt;font-weight:600;line-height:1.1;text-align:center;overflow:hidden;white-space:nowrap;text-overflow:ellipsis;">Emman</div>
+          <div data-clue-for="bingo-06" style="flex:none;font-family:'Cormorant Garamond',serif;font-style:italic;font-size:8pt;line-height:1;text-align:center;color:#B5532A;">Unpaid therapist</div>
+        </div>
+        <div style="box-sizing:border-box;padding:0.05in;display:flex;flex-direction:column;gap:0.04in;min-height:0;">
+          <div style="position:relative;flex:1;min-height:0;background:#F1ECE4;overflow:hidden;">
+            <img data-slot="bingo-07" src="assets/bingo/bingo-07.jpg" alt="Photo of Loren" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;display:block;"><img class="pfinal" src="assets/bingo/final/bingo-07.png?v=1791002130535" alt="" style="display:none;position:absolute;inset:0;width:100%;height:100%;object-fit:cover;">
+          </div>
+          <div style="flex:none;font-size:8pt;font-weight:600;line-height:1.1;text-align:center;overflow:hidden;white-space:nowrap;text-overflow:ellipsis;">Loren</div>
+          <div data-clue-for="bingo-07" style="flex:none;font-family:'Cormorant Garamond',serif;font-style:italic;font-size:8pt;line-height:1;text-align:center;color:#B5532A;">Knew it first</div>
+        </div>
+        <div style="box-sizing:border-box;padding:0.05in;display:flex;flex-direction:column;gap:0.04in;min-height:0;">
+          <div style="position:relative;flex:1;min-height:0;background:#F1ECE4;overflow:hidden;">
+            <img data-slot="bingo-08" src="assets/bingo/bingo-08.jpg" alt="Photo of Marge" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;display:block;"><img class="pfinal" src="assets/bingo/final/bingo-08.png?v=1791002130535" alt="" style="display:none;position:absolute;inset:0;width:100%;height:100%;object-fit:cover;">
+          </div>
+          <div style="flex:none;font-size:8pt;font-weight:600;line-height:1.1;text-align:center;overflow:hidden;white-space:nowrap;text-overflow:ellipsis;">Marge</div>
+          <div data-clue-for="bingo-08" style="flex:none;font-family:'Cormorant Garamond',serif;font-style:italic;font-size:8pt;line-height:1;text-align:center;color:#B5532A;">Anime scholar</div>
+        </div>
+        <div style="box-sizing:border-box;padding:0.05in;display:flex;flex-direction:column;gap:0.04in;min-height:0;">
+          <div style="position:relative;flex:1;min-height:0;background:#F1ECE4;overflow:hidden;">
+            <img data-slot="bingo-09" src="assets/bingo/bingo-09.jpg" alt="Photo of Norrie" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;display:block;"><img class="pfinal" src="assets/bingo/final/bingo-09.png?v=1791002130535" alt="" style="display:none;position:absolute;inset:0;width:100%;height:100%;object-fit:cover;">
+          </div>
+          <div style="flex:none;font-size:8pt;font-weight:600;line-height:1.1;text-align:center;overflow:hidden;white-space:nowrap;text-overflow:ellipsis;">Norrie</div>
+          <div data-clue-for="bingo-09" style="flex:none;font-family:'Cormorant Garamond',serif;font-style:italic;font-size:8pt;line-height:1;text-align:center;color:#B5532A;">Worth the airfare</div>
+        </div>
+        <div style="box-sizing:border-box;padding:0.05in;display:flex;flex-direction:column;gap:0.04in;min-height:0;">
+          <div style="position:relative;flex:1;min-height:0;background:#F1ECE4;overflow:hidden;">
+            <img data-slot="bingo-11" src="https://drive.google.com/thumbnail?id=1j6-Ht0YGBC0nFERZ70fWSCkuNq0GRzGb&amp;sz=w1000" alt="Photo of Francis" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;display:block;"><div class="pfinal" style="display:none;position:absolute;inset:0;overflow:hidden;"><img src="https://drive.google.com/thumbnail?id=1j6-Ht0YGBC0nFERZ70fWSCkuNq0GRzGb&amp;sz=w1000" alt="" style="position:absolute;max-width:none;width:215.217%;height:188.073%;left:57.1987%;top:64.5359%;transform:translate(-50%,-50%);"></div>
+          </div>
+          <div style="flex:none;font-size:8pt;font-weight:600;line-height:1.1;text-align:center;overflow:hidden;white-space:nowrap;text-overflow:ellipsis;">Francis</div>
+          <div data-clue-for="bingo-11" style="flex:none;font-family:'Cormorant Garamond',serif;font-style:italic;font-size:8pt;line-height:1;text-align:center;color:#B5532A;">Honorary bridesmaid/groomsman</div>
+        </div>
+        <div style="box-sizing:border-box;padding:0.05in;display:flex;flex-direction:column;gap:0.04in;min-height:0;">
+          <div style="position:relative;flex:1;min-height:0;background:#F1ECE4;overflow:hidden;">
+            <img data-slot="bingo-13" src="assets/bingo/bingo-13.jpg" alt="Photo of JP" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;display:block;"><img class="pfinal" src="assets/bingo/final/bingo-13.png?v=1791002130535" alt="" style="display:none;position:absolute;inset:0;width:100%;height:100%;object-fit:cover;">
+          </div>
+          <div style="flex:none;font-size:8pt;font-weight:600;line-height:1.1;text-align:center;overflow:hidden;white-space:nowrap;text-overflow:ellipsis;">JP</div>
+          <div data-clue-for="bingo-13" style="flex:none;font-family:'Cormorant Garamond',serif;font-style:italic;font-size:8pt;line-height:1;text-align:center;color:#B5532A;">Future rockstar</div>
+        </div>
+        <div style="box-sizing:border-box;padding:0.05in;display:flex;flex-direction:column;gap:0.04in;min-height:0;">
+          <div style="position:relative;flex:1;min-height:0;background:#F1ECE4;overflow:hidden;">
+            <img data-slot="bingo-14" src="assets/bingo/bingo-14.jpg" alt="Photo of Joie" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;display:block;"><img class="pfinal" src="assets/bingo/final/bingo-14.png?v=1791002130535" alt="" style="display:none;position:absolute;inset:0;width:100%;height:100%;object-fit:cover;">
+          </div>
+          <div style="flex:none;font-size:8pt;font-weight:600;line-height:1.1;text-align:center;overflow:hidden;white-space:nowrap;text-overflow:ellipsis;">Joie</div>
+          <div data-clue-for="bingo-14" style="flex:none;font-family:'Cormorant Garamond',serif;font-style:italic;font-size:8pt;line-height:1;text-align:center;color:#B5532A;">Front row always</div>
+        </div>
+        <div style="box-sizing:border-box;padding:0.05in;display:flex;flex-direction:column;gap:0.04in;min-height:0;">
+          <div style="position:relative;flex:1;min-height:0;background:#F1ECE4;overflow:hidden;">
+            <img data-slot="bingo-16" src="assets/bingo/bingo-16.jpg" alt="Photo of Jun2x" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;display:block;"><img class="pfinal" src="assets/bingo/final/bingo-16.png?v=1791002130535" alt="" style="display:none;position:absolute;inset:0;width:100%;height:100%;object-fit:cover;">
+          </div>
+          <div style="flex:none;font-size:8pt;font-weight:600;line-height:1.1;text-align:center;overflow:hidden;white-space:nowrap;text-overflow:ellipsis;">Jun2x</div>
+          <div data-clue-for="bingo-16" style="flex:none;font-family:'Cormorant Garamond',serif;font-style:italic;font-size:8pt;line-height:1;text-align:center;color:#B5532A;">Office legend</div>
+        </div>
+        <div style="box-sizing:border-box;padding:0.05in;display:flex;flex-direction:column;gap:0.04in;min-height:0;">
+          <div style="position:relative;flex:1;min-height:0;background:#F1ECE4;overflow:hidden;">
+            <img data-slot="bingo-17" src="assets/bingo/bingo-17.jpg" alt="Photo of Jane" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;display:block;"><img class="pfinal" src="assets/bingo/final/bingo-17.png?v=1791002130535" alt="" style="display:none;position:absolute;inset:0;width:100%;height:100%;object-fit:cover;">
+          </div>
+          <div style="flex:none;font-size:8pt;font-weight:600;line-height:1.1;text-align:center;overflow:hidden;white-space:nowrap;text-overflow:ellipsis;">Jane</div>
+          <div data-clue-for="bingo-17" style="flex:none;font-family:'Cormorant Garamond',serif;font-style:italic;font-size:8pt;line-height:1;text-align:center;color:#B5532A;">The real boss</div>
+        </div>
+        <div style="box-sizing:border-box;padding:0.05in;display:flex;flex-direction:column;gap:0.04in;min-height:0;">
+          <div style="position:relative;flex:1;min-height:0;background:#F1ECE4;overflow:hidden;">
+            <img data-slot="bingo-19" src="assets/bingo/bingo-19.jpg" alt="Photo of Sai" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;display:block;"><img class="pfinal" src="assets/bingo/final/bingo-19.png?v=1791002130535" alt="" style="display:none;position:absolute;inset:0;width:100%;height:100%;object-fit:cover;">
+          </div>
+          <div style="flex:none;font-size:8pt;font-weight:600;line-height:1.1;text-align:center;overflow:hidden;white-space:nowrap;text-overflow:ellipsis;">Sai</div>
+          <div data-clue-for="bingo-19" style="flex:none;font-family:'Cormorant Garamond',serif;font-style:italic;font-size:8pt;line-height:1;text-align:center;color:#B5532A;">Quiet sunshine</div>
+        </div>
+        <div style="box-sizing:border-box;padding:0.05in;display:flex;flex-direction:column;gap:0.04in;min-height:0;">
+          <div style="position:relative;flex:1;min-height:0;background:#F1ECE4;overflow:hidden;">
+            <img data-slot="bingo-20" src="assets/bingo/bingo-20.jpg" alt="Photo of Chit" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;display:block;"><img class="pfinal" src="assets/bingo/final/bingo-20.png?v=1791002130535" alt="" style="display:none;position:absolute;inset:0;width:100%;height:100%;object-fit:cover;">
+          </div>
+          <div style="flex:none;font-size:8pt;font-weight:600;line-height:1.1;text-align:center;overflow:hidden;white-space:nowrap;text-overflow:ellipsis;">Chit</div>
+          <div data-clue-for="bingo-20" style="flex:none;font-family:'Cormorant Garamond',serif;font-style:italic;font-size:8pt;line-height:1;text-align:center;color:#B5532A;">Top of the class</div>
+        </div>
+        <div style="box-sizing:border-box;padding:0.05in;display:flex;flex-direction:column;gap:0.04in;min-height:0;">
+          <div style="position:relative;flex:1;min-height:0;background:#F1ECE4;overflow:hidden;">
+            <img data-slot="bingo-21" src="assets/bingo/bingo-21.jpg" alt="Photo of Nica" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;display:block;"><img class="pfinal" src="assets/bingo/final/bingo-21.png?v=1791002130535" alt="" style="display:none;position:absolute;inset:0;width:100%;height:100%;object-fit:cover;">
+          </div>
+          <div style="flex:none;font-size:8pt;font-weight:600;line-height:1.1;text-align:center;overflow:hidden;white-space:nowrap;text-overflow:ellipsis;">Nica</div>
+          <div data-clue-for="bingo-21" style="flex:none;font-family:'Cormorant Garamond',serif;font-style:italic;font-size:8pt;line-height:1;text-align:center;color:#B5532A;">Laughs first</div>
+        </div>
+        <div style="box-sizing:border-box;padding:0.05in;display:flex;flex-direction:column;gap:0.04in;min-height:0;">
+          <div style="position:relative;flex:1;min-height:0;background:#F1ECE4;overflow:hidden;">
+            <img data-slot="bingo-22" src="assets/bingo/bingo-22.jpg" alt="Photo of Mae" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;display:block;"><img class="pfinal" src="assets/bingo/final/bingo-22.png?v=1791002130535" alt="" style="display:none;position:absolute;inset:0;width:100%;height:100%;object-fit:cover;">
+          </div>
+          <div style="flex:none;font-size:8pt;font-weight:600;line-height:1.1;text-align:center;overflow:hidden;white-space:nowrap;text-overflow:ellipsis;">Mae</div>
+          <div data-clue-for="bingo-22" style="flex:none;font-family:'Cormorant Garamond',serif;font-style:italic;font-size:8pt;line-height:1;text-align:center;color:#B5532A;">Karaoke closer</div>
+        </div>
+        <div style="box-sizing:border-box;padding:0.05in;display:flex;flex-direction:column;gap:0.04in;min-height:0;">
+          <div style="position:relative;flex:1;min-height:0;background:#F1ECE4;overflow:hidden;">
+            <img data-slot="bingo-23" src="assets/bingo/bingo-23.jpg" alt="Photo of Jan" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;display:block;"><img class="pfinal" src="assets/bingo/final/bingo-23.png?v=1791002130535" alt="" style="display:none;position:absolute;inset:0;width:100%;height:100%;object-fit:cover;">
+          </div>
+          <div style="flex:none;font-size:8pt;font-weight:600;line-height:1.1;text-align:center;overflow:hidden;white-space:nowrap;text-overflow:ellipsis;">Jan</div>
+          <div data-clue-for="bingo-23" style="flex:none;font-family:'Cormorant Garamond',serif;font-style:italic;font-size:8pt;line-height:1;text-align:center;color:#B5532A;">Karaoke closer</div>
+        </div>
+        <div style="box-sizing:border-box;padding:0.05in;display:flex;flex-direction:column;gap:0.04in;min-height:0;">
+          <div style="position:relative;flex:1;min-height:0;background:#F1ECE4;overflow:hidden;">
+            <img data-slot="bingo-24" src="assets/bingo/bingo-24.jpg" alt="Photo of Sam" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;display:block;"><img class="pfinal" src="assets/bingo/final/bingo-24.png?v=1791002130535" alt="" style="display:none;position:absolute;inset:0;width:100%;height:100%;object-fit:cover;">
+          </div>
+          <div style="flex:none;font-size:8pt;font-weight:600;line-height:1.1;text-align:center;overflow:hidden;white-space:nowrap;text-overflow:ellipsis;">Sam</div>
+          <div data-clue-for="bingo-24" style="flex:none;font-family:'Cormorant Garamond',serif;font-style:italic;font-size:8pt;line-height:1;text-align:center;color:#B5532A;">Passport full</div>
+        </div>
+        <div style="box-sizing:border-box;padding:0.05in;display:flex;flex-direction:column;gap:0.04in;min-height:0;">
+          <div style="position:relative;flex:1;min-height:0;background:#F1ECE4;overflow:hidden;">
+            <img data-slot="bingo-25" src="assets/bingo/bingo-25.jpg" alt="Photo of Lara Mae" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;display:block;"><img class="pfinal" src="assets/bingo/final/bingo-25.png?v=1791002130535" alt="" style="display:none;position:absolute;inset:0;width:100%;height:100%;object-fit:cover;">
+          </div>
+          <div style="flex:none;font-size:8pt;font-weight:600;line-height:1.1;text-align:center;overflow:hidden;white-space:nowrap;text-overflow:ellipsis;">Lara Mae</div>
+          <div data-clue-for="bingo-25" style="flex:none;font-family:'Cormorant Garamond',serif;font-style:italic;font-size:8pt;line-height:1;text-align:center;color:#B5532A;">Yin to her yang</div>
+        </div>
+        <div style="box-sizing:border-box;padding:0.05in;display:flex;flex-direction:column;gap:0.04in;min-height:0;">
+          <div style="position:relative;flex:1;min-height:0;background:#F1ECE4;overflow:hidden;">
+            <img data-slot="bingo-26" src="https://drive.google.com/thumbnail?id=18NzY0KoptujTDLrG-UWZmZS3AqIjcb97&amp;sz=w1000" alt="Photo of Erwan" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;display:block;"><div class="pfinal" style="display:none;position:absolute;inset:0;overflow:hidden;"><img src="https://drive.google.com/thumbnail?id=18NzY0KoptujTDLrG-UWZmZS3AqIjcb97&amp;sz=w1000" alt="" style="position:absolute;max-width:none;width:204.333%;height:289.176%;left:40.2019%;top:119.791%;transform:translate(-50%,-50%);"></div>
+          </div>
+          <div style="flex:none;font-size:8pt;font-weight:600;line-height:1.1;text-align:center;overflow:hidden;white-space:nowrap;text-overflow:ellipsis;">Erwan</div>
+          <div data-clue-for="bingo-26" style="flex:none;font-family:'Cormorant Garamond',serif;font-style:italic;font-size:8pt;line-height:1;text-align:center;color:#B5532A;">Plus-one, level 1</div>
+        </div>
+        <div style="box-sizing:border-box;padding:0.05in;display:flex;flex-direction:column;gap:0.04in;min-height:0;">
+          <div style="position:relative;flex:1;min-height:0;background:#F1ECE4;overflow:hidden;">
+            <img data-slot="bingo-27" src="assets/bingo/bingo-27.jpg" alt="Photo of Cathlyn" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;display:block;"><img class="pfinal" src="assets/bingo/final/bingo-27.png?v=1791002130535" alt="" style="display:none;position:absolute;inset:0;width:100%;height:100%;object-fit:cover;">
+          </div>
+          <div style="flex:none;font-size:8pt;font-weight:600;line-height:1.1;text-align:center;overflow:hidden;white-space:nowrap;text-overflow:ellipsis;">Cathlyn</div>
+          <div data-clue-for="bingo-27" style="flex:none;font-family:'Cormorant Garamond',serif;font-style:italic;font-size:8pt;line-height:1;text-align:center;color:#B5532A;">Chika champion</div>
+        </div>
+        <div style="box-sizing:border-box;padding:0.05in;display:flex;flex-direction:column;gap:0.04in;min-height:0;">
+          <div style="position:relative;flex:1;min-height:0;background:#F1ECE4;overflow:hidden;">
+            <img data-slot="bingo-28" src="https://drive.google.com/thumbnail?id=1dRPX-_dAv5l0-Imw-ivLsbDAsfUTWv1A&amp;sz=w1000" alt="Photo of Nelly" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;display:block;"><div class="pfinal" style="display:none;position:absolute;inset:0;overflow:hidden;"><img src="https://drive.google.com/thumbnail?id=1dRPX-_dAv5l0-Imw-ivLsbDAsfUTWv1A&amp;sz=w1000" alt="" style="position:absolute;max-width:none;width:172.869%;height:150.628%;left:60.8831%;top:70.001%;transform:translate(-50%,-50%);"></div>
+          </div>
+          <div style="flex:none;font-size:8pt;font-weight:600;line-height:1.1;text-align:center;overflow:hidden;white-space:nowrap;text-overflow:ellipsis;">Nelly</div>
+          <div data-clue-for="bingo-28" style="flex:none;font-family:'Cormorant Garamond',serif;font-style:italic;font-size:8pt;line-height:1;text-align:center;color:#B5532A;">Raised six. Unbothered</div>
+        </div>
+        <div style="box-sizing:border-box;padding:0.05in;display:flex;flex-direction:column;gap:0.04in;min-height:0;">
+          <div style="position:relative;flex:1;min-height:0;background:#F1ECE4;overflow:hidden;">
+            <img data-slot="bingo-29" src="assets/bingo/bingo-29.jpg" alt="Photo of Nieves" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;display:block;"><img class="pfinal" src="assets/bingo/final/bingo-29.png?v=1791002130535" alt="" style="display:none;position:absolute;inset:0;width:100%;height:100%;object-fit:cover;">
+          </div>
+          <div style="flex:none;font-size:8pt;font-weight:600;line-height:1.1;text-align:center;overflow:hidden;white-space:nowrap;text-overflow:ellipsis;">Nieves</div>
+          <div data-clue-for="bingo-29" style="flex:none;font-family:'Cormorant Garamond',serif;font-style:italic;font-size:8pt;line-height:1;text-align:center;color:#B5532A;">Laughs first</div>
+        </div>
+        <div style="box-sizing:border-box;padding:0.05in;display:flex;flex-direction:column;gap:0.04in;min-height:0;">
+          <div style="position:relative;flex:1;min-height:0;background:#F1ECE4;overflow:hidden;">
+            <img data-slot="bingo-36" src="assets/bingo/bingo-36.jpg" alt="Photo of Franklin" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;display:block;"><img class="pfinal" src="assets/bingo/final/bingo-36.png?v=1791002130535" alt="" style="display:none;position:absolute;inset:0;width:100%;height:100%;object-fit:cover;">
+          </div>
+          <div style="flex:none;font-size:8pt;font-weight:600;line-height:1.1;text-align:center;overflow:hidden;white-space:nowrap;text-overflow:ellipsis;">Franklin</div>
+          <div data-clue-for="bingo-36" style="flex:none;font-family:'Cormorant Garamond',serif;font-style:italic;font-size:8pt;line-height:1;text-align:center;color:#B5532A;">Said “get married”</div>
+        </div>
+    </div>
+  </section>
+</x-import>
+</x-dc>
+<script type="text/x-dc" data-dc-script>
+class Component extends DCLogic { renderVals() { return {}; } }
+</script>
+</body>
+</html>

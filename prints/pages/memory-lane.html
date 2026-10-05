@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500;1,600&family=Jost:wght@400;500;600;700&display=swap" rel="stylesheet">
+<script src="image-slot.js"></script>
+<style>
+  body { margin:0; background:#EFE9DC; font-family:'Jost',sans-serif; color:#3E3833; }
+  doc-page .page, doc-page .sheet, .page { border-radius:0 !important; }
+  a { color:#B5532A; } a:hover { color:#8F3F1E; }
+</style>
+</helmet>
+
+<div style="max-width:8.5in;margin:0 auto;padding:18px 0 6px;">
+  <div style="font-size:0.62rem;font-weight:600;letter-spacing:0.24em;text-transform:uppercase;color:#4A6B4A;">Joy &amp; Patrick · Memory lane cards — SELPHY 4×6 print file</div>
+  <div style="font-size:0.78rem;color:#7B5E4A;line-height:1.6;margin-top:4px;">One card per 4×6 sheet, content pre-rotated for the SELPHY feed — exactly the layout that worked in your test print, restyled. Drop photos into the two frames per card (they save automatically). On screen the cards read sideways; out of the printer they read landscape.</div>
+</div>
+
+<x-import component-from-global-scope="doc-page" from="./doc-page.js" width="4.7in" height="3.5in" hint-size="100%,950px">
+  <sc-for list="{{ cards }}" as="c" hint-placeholder-count="9">
+    <section class="page" style="font-family:'Jost',sans-serif;position:relative;width:4.7in;height:3.5in;background:#fff;overflow:hidden;box-sizing:border-box;border-radius:0;">
+      <div style="width:100%;height:100%;box-sizing:border-box;padding:0.13in 0.16in 0.16in;display:flex;flex-direction:column;gap:0.08in;background:#fff;">
+        <div style="flex:none;text-align:center;">
+          <div style="font-family:'Cormorant Garamond',serif;font-weight:600;font-size:15pt;line-height:1;color:#000;">{{ c.era }}</div>
+          <div style="font-family:'Jost',sans-serif;font-size:7.6pt;font-weight:500;line-height:1.5;height:35pt;overflow:hidden;color:#000;max-width:4.4in;margin:3px auto 0;">{{ c.body }}</div>
+          <div style="font-family:'Cormorant Garamond',serif;font-weight:500;font-style:italic;font-size:9pt;color:#000;margin-top:3px;">Joy &amp; Patrick · 10.10.2026 · Queenstown</div>
+        </div>
+        <div style="flex:1;min-height:0;display:flex;gap:0.1in;width:100%;max-width:100%;box-sizing:border-box;overflow:hidden;">
+          <sc-if value="{{ c.slots }}" hint-placeholder-val="{{ true }}">
+            <sc-for list="{{ c.slots }}" as="s" hint-placeholder-count="2">
+              <div style="flex:1 1 0px;min-width:0;max-width:100%;position:relative;overflow:hidden;"><image-slot id="{{ s.id }}" shape="rect" placeholder="{{ s.ph }}" style="position:absolute;inset:0;width:100%;height:100%;"></image-slot></div>
+            </sc-for>
+          </sc-if>
+          <sc-if value="{{ c.blank }}" hint-placeholder-val="{{ false }}">
+            <div style="flex:1;border:2px dashed #C8B99A;box-sizing:border-box;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:0.14in;gap:5px;">
+              <div style="color:#C4785A;font-size:11pt;line-height:1;">♡</div>
+              <div style="font-family:'Cormorant Garamond',serif;font-weight:600;font-style:italic;font-size:11.5pt;color:#111;line-height:1.35;">this photo is being taken tonight</div>
+              <img src="https://api.qrserver.com/v1/create-qr-code/?size=600x600&amp;ecc=M&amp;data=https%3A%2F%2Fapp.kululu.com%2Fm4fvel" alt="Kululu shared album QR" style="width:1.05in;height:1.05in;display:block;">
+              <div style="font-family:'Jost',sans-serif;font-size:6.5pt;font-weight:600;letter-spacing:0.2em;text-transform:uppercase;color:#000;line-height:1.6;max-width:2.4in;">Please scan to upload<br>the photos you take today ♡</div>
+            </div>
+          </sc-if>
+        </div>
+      </div>
+    </section>
+  </sc-for>
+</x-import>
+</x-dc>
+<script type="text/x-dc" data-dc-script>
+class Component extends DCLogic {
+  renderVals() {
+    const cards = [
+      { era: 'Her \u201990s, his \u201980s', title: 'The originals', slots: [{ id: 'ml-orig-1', ph: 'Joy as a kid' }, { id: 'ml-orig-2', ph: 'Patrick as a kid' }], body: 'Joy, already posing. Patrick, already sure he was the main character. Two kids growing up in different cities, with no idea the other one existed.' },
+      { era: 'The JS prom', title: 'The JS prom', slots: [{ id: 'ml-hs-1', ph: 'Joy\u2019s JS prom photo' }, { id: 'ml-hs-2', ph: 'Patrick\u2019s JS prom photo' }], body: 'Two proms, two cities, two borrowed outfits, two slow dances with the wrong person. Somewhere between those songs, the right one was already on the way. The hair was not.' },
+      { era: 'The wild times', title: 'The wild times', slots: [{ id: 'ml-wild-1', ph: 'Patrick\u2019s band photo' }, { id: 'ml-wild-2', ph: 'Joy\u2019s late-night office photo' }], body: 'Our twenties, still strangers. Patrick in a band, playing any gig with a working amp. Joy underwater, on a mountain, or on a plane. He had a set list, she had a bucket list.' },
+      { era: 'The swipe right', title: 'The swipe right', slots: [{ id: 'ml-swipe-1', ph: 'Patrick\u2019s profile photo that did it' }, { id: 'ml-swipe-2', ph: 'Joy\u2019s profile photo' }], body: 'The two photos that did it. Joy saw the rash guard: \u201cfinally, an active guy.\u201d Patrick saw Joy: \u201cI\u2019d like a date.\u201d Only one of us had a plan. Both got more than we swiped for.' },
+      { era: 'How we knew this was it', title: 'How we knew this was it', slots: [{ id: 'ml-jp-1', ph: 'Japan photo 1' }, { id: 'ml-jp-2', ph: 'Japan photo 2' }], body: 'Joy knew Patrick was the one when he started reminding her to pay the bills. She got a personal assistant. Patrick knew Joy was the one when every fight turned into a therapy session. He got a therapist. \uD83D\uDE02' },
+      { era: 'Meeting the parents', title: 'Meeting the parents', slots: [{ id: 'ml-fam-1', ph: 'With Joy\u2019s family' }, { id: 'ml-fam-2', ph: 'With Patrick\u2019s family' }], body: 'Both families have always thought their own child was a little crazy. Then Joy and Patrick brought each other home. Finally. Someone who could match the crazy.' },
+      { era: 'Home, together', title: 'Home, together', slots: [{ id: 'ml-home-1', ph: 'First flat photo' }, { id: 'ml-home-2', ph: 'A homey moment' }], body: 'Patrick believes every purchase should answer: \u201cDo we actually need this?\u201d Joy has a much broader definition of \u201cneed.\u201d Most shopping trips end in negotiation. Our home suggests Joy has the better lawyer.' },
+      { era: 'Our three cat babies', title: 'Our three cat babies', slots: [{ id: 'ml-cats-1', ph: 'The three cats' }, { id: 'ml-cats-2', ph: 'Cats being cats' }], body: 'Patrick doesn\u2019t like cats. Patrick swore we\u2019d only ever have one. Patrick now lives with three, and was caught baby-talking to the newest one. He denies this. We have video.' },
+      { era: 'The 6 am era', title: 'The 6 am era', slots: [{ id: 'ml-cycle-1', ph: 'Ride photo 1' }, { id: 'ml-cycle-2', ph: 'Ride photo 2' }], body: 'Joy asked the universe for an active guy. The universe sent snowboarding, running, badminton, pickleball and 6 a.m. cycling. Be specific when manifesting.' },
+      { era: 'The travelling era', title: 'The travelling era', slots: [{ id: 'ml-food-1', ph: 'Food trip photo 1' }, { id: 'ml-food-2', ph: 'Food trip photo 2' }], body: 'Soon Patrick was on planes, in caves, on mountains, and generally wherever Joy had found next. At some point, \u201cWhere are we going?\u201d became one of our favourite questions.' },
+      { era: 'Pickleball & friends', title: 'Pickleball & friends', slots: [{ id: 'ml-pb-1', ph: 'His pickleball crew' }, { id: 'ml-pb-2', ph: 'Her pickleball crew' }], body: 'The one sport Joy beats Patrick at, and she never lets him forget it. Patrick says he lets her win. The scoreboard disagrees. Bonus: the court gave us new friends now sitting at this table.' },
+      { era: 'Telling the friends', title: 'Telling the friends', slots: [{ id: 'ml-tell-1', ph: 'The group chat reaction' }, { id: 'ml-tell-2', ph: 'Friends finding out' }], body: 'We told our friends we were getting married. Within days, everyone was asking AI to plan their New Zealand itinerary. Come for the wedding. Stay because ChatGPT found twelve other things to do.' },
+      { era: 'The proposal \u00b7 Sapporo', title: 'The proposal', slots: [{ id: 'ml-prop-1', ph: 'The proposal photo' }, { id: 'ml-prop-2', ph: 'The ring / celebration' }], body: 'Patrick spent the whole trip hunting for the moment. He wanted the snow, but feared Joy would drop the ring in it. He asked anyway. She said yes, and held on tight.' },
+      { era: 'The planning months', title: 'The planning months', slots: [{ id: 'ml-plan-1', ph: 'Fitting / tasting photo' }, { id: 'ml-plan-2', ph: 'Behind-the-scenes photo' }], body: 'Francis started as best man. After enough gown hunting with Joy, he somehow became honorary bridesmaid too. Joy and Patrick also went to the gym once for the wedding. Everyone made sacrifices.' },
+      { era: 'Landing in Queenstown', title: 'Landing in Queenstown', slots: [{ id: 'ml-land-1', ph: 'Airport arrivals photo' }, { id: 'ml-land-2', ph: 'First lake view together' }], body: 'Everyone we love, flying in from three countries to one small town. The group chat became a flight tracker. Someone asked \u201cwhich lake\u201d on arrival. There is one lake. It is very large.' },
+      { era: 'The rehearsal', title: 'The rehearsal', slots: [{ id: 'ml-reh-1', ph: 'Rehearsal with Summer' }, { id: 'ml-reh-2', ph: 'Walking the aisle, practice run' }], body: 'Oct 8, noon, walking the aisle with our coordinator Summer. Joy nailed it on the first try. Patrick forgot which side to stand on. Twice. Summer stayed very calm.' },
+      { era: 'The vows', title: 'The vows', slots: [{ id: 'ml-vows-1', ph: 'Date night at The Nest' }, { id: 'ml-vows-2', ph: 'Writing the vows' }], body: 'Oct 8, dinner at The Nest. Our last date night unmarried: two notebooks, one dessert. Joy wrote three pages. Patrick wrote four lines and called it \u201cconcise.\u201d' },
+      { era: 'The pre-wedding dinner', title: 'The pre-wedding dinner', slots: [{ id: 'ml-week-1', ph: 'Arrivals in Queenstown' }, { id: 'ml-week-2', ph: 'Pre-wedding dinner photo' }], body: 'People who knew us as kids met people who knew us from work, travel, family, and pickleball. Different chapters of our lives, suddenly having dinner together. That was pretty special.' },
+      { era: 'The wedding day', title: 'The wedding day', blank: true, body: 'Every card before this one is a story we already know. This one isn\u2019t yet. So take the photos. Make them good. You\u2019re officially part of the next one.' }
+    ];
+    return { cards };
+  }
+}
+</script>
+</body>
+</html>

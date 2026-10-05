@@ -373,6 +373,21 @@ a.btn{text-decoration:none}
 .fl-docs .fl-go{margin-top:0; padding:0 10px}
 .fl-docs .fl-go.wide{grid-column:1 / -1}
 /* The reference shots: the one part of a print sheet worth keeping as a photo. */
+.pages{display:grid; gap:10px}
+.pg{
+  display:block; padding:16px 18px; background:var(--surface);
+  border:1px solid var(--line-2); border-radius:var(--r-lg); text-decoration:none;
+}
+.pg:hover{border-color:var(--rose)}
+.pg-k{
+  display:block; font-size:var(--eb); font-weight:600; letter-spacing:var(--tr);
+  text-transform:uppercase; color:var(--green);
+}
+.pg-t{
+  display:block; margin-top:5px; font-family:'Cormorant Garamond',Georgia,serif;
+  font-size:1.5rem; font-weight:500; line-height:1.15; color:var(--ink);
+}
+.pg-n{display:block; margin-top:5px; font-size:13.5px; line-height:1.5; color:var(--ink-2)}
 .seat-side{
   margin:14px 0 6px; font-size:var(--eb); font-weight:600; letter-spacing:var(--tr);
   text-transform:uppercase; color:var(--green);
@@ -1600,110 +1615,32 @@ details[open] > .hire-steps{display:flex; flex-direction:column; gap:11px; paddi
     <div class="spy-head">
       <p class="spy-kicker">Wakatipu Grill &middot; 10 October</p>
       <h2 class="spy-h">Setting <em>the room</em></h2>
-      <p class="spy-lede">Everything that was printed, and where each piece goes.</p>
+      <p class="spy-lede">Every page that was printed, exactly as it was printed.</p>
     </div>
 
-    <h3 class="plan-h" style="margin-top:22px">1 &middot; Every seat</h3>
-    <p class="plan-sub">Copy this photo at every cover.</p>
-    <img class="pr-img" src="prints/seat.jpg" alt="A finished place setting: napkin, menu, letter, flower and the two instax cards">
-    <ul class="plan-list">
-      <li><span class="plan-when">1</span><span class="plan-what">Napkin<small>Down the plate.</small></span></li>
-      <li><span class="plan-when">2</span><span class="plan-what">Menu<small>On the napkin.</small></span></li>
-      <li><span class="plan-when">3</span><span class="plan-what">Letter<small>On the menu, with <b>MENU</b> still showing.</small></span></li>
-      <li><span class="plan-when">4</span><span class="plan-what">Flower and peg<small>The letter&rsquo;s top-right corner.</small></span></li>
-      <li><span class="plan-when">5</span><span class="plan-what">Two instax cards<small>Off the plate, top-right. <b>Their photo</b> on the left, a <b>QR card</b> on the right.</small></span></li>
-    </ul>
-    <p class="fl-note" style="margin-top:12px"><b>Three rules for this one.</b>The <b>letter and the photo must carry the same name</b> &mdash; follow the seating plan, they are the only personalised pieces.<br>The <b>QR cards alternate</b> around the table: no two neighbours get the same one. <i>(The printed sheet still says the QR cards are all identical &mdash; that is out of date. This is the version to follow.)</i><br><b>Joy and Patrick get napkin and menu only.</b></p>
-
-
-    <h3 class="plan-h">2 &middot; Who sits where</h3>
-    <p class="plan-sub">One long table, eighteen a side, numbered from the <b>entrance end</b>. This is the order the letters and photos follow &mdash; it is the same order the memory lane cards are numbered in.</p>
-    <p class="seat-side">Window side</p>
-    <ul class="seats">
-        <li><b>1</b>Sonito</li>
-        <li><b>2</b>Pia</li>
-        <li><b>3</b>Angelo</li>
-        <li><b>4</b>Emman</li>
-        <li><b>5</b>Loren</li>
-        <li><b>6</b>Marge</li>
-        <li><b>7</b>Norrie</li>
-        <li><b>8</b>Joy</li>
-        <li><b>9</b>Patrick</li>
-        <li><b>10</b>Grace</li>
-        <li><b>11</b>Francis</li>
-        <li><b>12</b>Vicente</li>
-        <li><b>13</b>JP</li>
-        <li><b>14</b>Daisy</li>
-        <li><b>15</b>Abby</li>
-        <li><b>16</b>Trixie</li>
-        <li><b>17</b>Jane</li>
-        <li><b>18</b>Marvin</li>
-    </ul>
-    <p class="seat-side">Facing side</p>
-    <ul class="seats">
-        <li><b>1</b>Sai</li>
-        <li><b>2</b>Chit</li>
-        <li><b>3</b>Nikka</li>
-        <li><b>4</b>Mae</li>
-        <li><b>5</b>Jan</li>
-        <li><b>6</b>Sam</li>
-        <li><b>7</b>Lara Mae</li>
-        <li><b>8</b>Erwan</li>
-        <li><b>9</b>Cathlyn</li>
-        <li><b>10</b>Nelly</li>
-        <li><b>11</b>Nieves</li>
-        <li><b>12</b>Jun2x</li>
-        <li><b>13</b>Gavin</li>
-        <li><b>14</b>Joie</li>
-        <li><b>15</b>Blondie</li>
-        <li><b>16</b>Elisha</li>
-        <li><b>17</b>Nathaniel</li>
-        <li><b>18</b>Franklin</li>
-    </ul>
-    <p class="fl-note" style="margin-top:12px"><b>Joy and Patrick are 8 and 9 on the window side</b>, in the middle, and they are the only two covers without a letter or a photo.</p>
-
-    <h3 class="plan-h">3 &middot; Memory lane cards</h3>
-    <p class="plan-sub">Eighteen cards go on the tables, one in a gold holder between the two names shown on the map. The numbers are the story order &mdash; keep them in sequence. There are <b>nineteen in the stack</b>: the last one is not a table card.</p>
-    <img class="pr-img" src="prints/memorylane.jpg" alt="A memory lane card standing in its gold holder on the table">
-    <ul class="plan-list">
-      <li><span class="plan-when">1&ndash;9</span><span class="plan-what">Window side<small>Row 2, top to bottom. Start at the entrance end.</small></span></li>
-      <li><span class="plan-when">10&ndash;18</span><span class="plan-what">Back along the facing side<small>Row 1, bottom to top.</small></span></li>
-    </ul>
-    <img class="pr-img" style="margin-top:12px" src="prints/floorplan.jpg" alt="The floorplan showing which card sits between which two names">
-
-    <h3 class="plan-h">4 &middot; The guestbook table</h3>
-    <p class="plan-sub">A separate side table near the entrance. Copy this photo.</p>
-    <img class="pr-img" src="prints/guestbook.jpg" alt="The guestbook table: frame, QR sign, book, instax camera and the SELPHY printer">
-    <ul class="plan-list">
-      <li><span class="plan-when">1</span><span class="plan-what">Photo frame<small>Back left, leaning on the wall.</small></span></li>
-      <li><span class="plan-when">2</span><span class="plan-what">QR sign<small>Back right, on its stand.</small></span></li>
-      <li><span class="plan-when">3</span><span class="plan-what">Guestbook<small>Front centre, open, two pens.</small></span></li>
-      <li><span class="plan-when">4</span><span class="plan-what">Instax camera<small>Front left.</small></span></li>
-      <li><span class="plan-when">5</span><span class="plan-what">SELPHY printer<small>Front right, plugged in, paper loaded.</small></span></li>
-      <li><span class="plan-when">6</span><span class="plan-what">Flowers and candles<small>At both ends.</small></span></li>
-      <li><span class="plan-when">7</span><span class="plan-what">Memory lane card 19<small>&ldquo;The wedding day&rdquo; &mdash; the last card in the stack. It belongs here, beside the book, not on a dining table.</small></span></li>
-    </ul>
-    <p class="fl-note" style="margin-top:12px"><b>How it is meant to run.</b>A guest takes a photo, prints it on the SELPHY, sticks it in the book and writes a note. Spare paper and ink are under the table, and the print-station sign stands next to the printer.</p>
-
-    <h3 class="plan-h">5 &middot; The cake</h3>
-    <p class="plan-sub">Set up before <b>5:00 pm</b>. The cutting is at <b>5:30</b>.</p>
-    <img class="pr-img" src="prints/cake.jpg" alt="The cake as it should look: white, round, baby's breath only">
-    <ul class="plan-list">
-      <li><span class="plan-when">1</span><span class="plan-what">The cake<small>White, round, on its plain white board.</small></span></li>
-      <li><span class="plan-when">2</span><span class="plan-what">&ldquo;Just married&rdquo;, written on<small>Not a topper &mdash; the cake maker writes it straight onto the cake, flat on top and off-centre. It arrives already done, so there is nothing to place. <i>(The printed sheet calls it a topper. It is not one.)</i></small></span></li>
-      <li><span class="plan-when">3</span><span class="plan-what">Baby&rsquo;s breath<small>The only flowers. No colour.</small></span></li>
-      <li><span class="plan-when">4</span><span class="plan-what">Knife and server<small>Beside the cake, for the cutting.</small></span></li>
-    </ul>
-    <p class="fl-note" style="margin-top:12px"><b>Keep it out of direct sun and away from the candles.</b>After the cutting the venue serves it as dessert for about thirty-five.</p>
-
-    <h3 class="plan-h">The printed pieces</h3>
-    <p class="plan-sub">What each one is, in case you are handed a stack and asked where it goes.</p>
-    <ul class="plan-list">
-      <li><span class="plan-when">QR card</span><span class="plan-what">&ldquo;Capture the love&rdquo;<small>Instax-sized, one per seat beside their photo. It opens the guest guide &mdash; the album, the music and their own card are all behind it.</small></span></li>
-      <li><span class="plan-when">Bingo</span><span class="plan-what">Find them<small>Twelve faces per card, two sets. Guests get each person to sign their own photo; the first full card to Lara with a &ldquo;Kia ora!&rdquo; wins. The answer key is <b>not</b> handed out &mdash; one copy, for Grace.</small></span></li>
-      <li><span class="plan-when">Cards</span><span class="plan-what">Memory lane, 4&times;6<small>One card per sheet, printed on the SELPHY. They read sideways on screen and come out landscape.</small></span></li>
-      <li><span class="plan-when">Letters</span><span class="plan-what">One per guest, by name<small>Sits on the menu. The back carries the photo QR.</small></span></li>
-    </ul>
+    <div class="pages">
+      <a class="pg" href="prints/pages/table-setup.html" target="_blank" rel="noopener">
+        <span class="pg-k">Four pages</span>
+        <span class="pg-t">Table setup instructions</span>
+        <span class="pg-n">Every seat, the memory lane cards and where each one sits, the guestbook table, and the cake.</span>
+      </a>
+      <a class="pg" href="prints/pages/qr-card.html" target="_blank" rel="noopener">
+        <span class="pg-k">Two cards</span>
+        <span class="pg-t">Instax QR cards</span>
+        <span class="pg-n">The pair that alternate around the table &mdash; capture the love, and the song request.</span>
+      </a>
+      <a class="pg" href="prints/pages/bingo.html" target="_blank" rel="noopener">
+        <span class="pg-k">Two sets + key</span>
+        <span class="pg-t">Human bingo</span>
+        <span class="pg-n">Twelve faces a card. The answer key is the last page &mdash; one copy, for Grace, not handed out.</span>
+      </a>
+      <a class="pg" href="prints/pages/memory-lane.html" target="_blank" rel="noopener">
+        <span class="pg-k">4&times;6 on the SELPHY</span>
+        <span class="pg-t">Memory lane story cards</span>
+        <span class="pg-n">One card per sheet, pre-rotated for the printer feed.</span>
+      </a>
+    </div>
+    <p class="fl-note" style="margin-top:14px"><b>These are the printed pages themselves.</b>Not a summary &mdash; the same files that went to the printer, opened full size. Pinch to zoom.</p>
 
   </div>
 </div>
@@ -1868,7 +1805,7 @@ details[open] > .hire-steps{display:flex; flex-direction:column; gap:11px; paddi
   }
 })();
 
-const BUILD = "202610050950";
+const BUILD = "202610050953";
 document.documentElement.dataset.build = BUILD;
 (async () => {
   try {

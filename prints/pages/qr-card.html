@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="omelette-fixed-size" content="816,1248">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,500&family=Mrs+Saint+Delafield&family=Sacramento&family=Jost:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  body { margin:0; background:#EFE9DC; font-family:'Jost',sans-serif; color:#000; }
+  doc-page .page, doc-page .sheet, .page { border-radius:0 !important; }
+  @media screen and (max-width: 1000px) { doc-page { zoom: 0.85; } }
+  @media screen and (max-width: 860px) { doc-page { zoom: 0.72; } }
+  @media screen and (max-width: 700px) { doc-page { zoom: 0.58; } }
+  @media screen and (max-width: 560px) { doc-page { zoom: 0.45; } }
+  html, body { overflow-x:hidden; }
+  * { -webkit-print-color-adjust:exact; print-color-adjust:exact; }
+  a { color:#B5532A; } a:hover { color:#8F3F1E; }
+</style>
+</helmet>
+
+<x-import component-from-global-scope="doc-page" from="./doc-page.js" width="8.5in" height="13in" margin="0" hint-size="100%,1250px">
+  <section class="page" style="font-family:'Jost',sans-serif;position:relative;width:8.5in;height:13in;background:#fff;overflow:hidden;box-sizing:border-box;border-radius:0;display:grid;grid-template-columns:86mm 86mm;grid-auto-rows:54mm;justify-content:center;align-content:center;gap:4mm 4mm;">
+    <sc-for list="{{ cards }}" as="c" hint-placeholder-count="2">
+      <div style="flex:none;width:86mm;height:54mm;position:relative;">
+        <div style="position:absolute;inset:0;box-sizing:border-box;background:#fff;outline:0.3px dashed #B9AE9F;outline-offset:-0.15px;overflow:hidden;">
+          <div style="position:absolute;left:3mm;top:10.25mm;width:46mm;height:33.5mm;overflow:hidden;">
+            <img src="assets/capture-the-love-black.png?v=3" alt="Camera with QR code" style="position:absolute;left:-7.48mm;top:-28.54mm;width:61.18mm;height:auto;max-width:none;display:block;">
+            <div style="position:absolute;left:32.2mm;top:0;width:2.6mm;height:0.7mm;background:#fff;"></div>
+            <div style="position:absolute;left:26mm;top:20.67mm;transform:translate(-50%,-50%);width:17.6mm;height:17.6mm;background:transparent;display:flex;align-items:center;justify-content:center;">
+              <img src="https://api.qrserver.com/v1/create-qr-code/?size=1000x1000&amp;ecc=M&amp;margin=0&amp;color=000000&amp;bgcolor=ffffff&amp;format=png&amp;data=joymanubag21.github.io%2Fphoto-sizer%2Fphotos%2F" alt="QR code to the wedding photo album" style="width:13.6mm;height:13.6mm;display:block;">
+            </div>
+          </div>
+          <div style="position:absolute;left:52mm;top:16.45mm;width:31mm;height:13.6mm;overflow:hidden;">
+            <img src="assets/capture-the-love-black.png?v=3" alt="Capture the love" style="position:absolute;left:-3.83mm;top:-3.5mm;width:36.8mm;height:auto;max-width:none;display:block;">
+          </div>
+          <div style="position:absolute;left:52mm;top:35.45mm;width:31mm;height:2.5mm;overflow:hidden;">
+            <img src="assets/capture-the-love-black.png?v=3" alt="Share your photos with us — scan the QR code and upload your favourites" style="position:absolute;left:-4.28mm;top:-42.05mm;width:39.34mm;height:auto;max-width:none;display:block;">
+          </div>
+        </div>
+      </div>
+    </sc-for>
+  </section>
+  <section class="page" style="font-family:'Jost',sans-serif;position:relative;width:8.5in;height:13in;background:#fff;overflow:hidden;box-sizing:border-box;border-radius:0;display:grid;grid-template-columns:86mm 86mm;grid-auto-rows:54mm;justify-content:center;align-content:center;gap:4mm 4mm;">
+    <sc-for list="{{ cards }}" as="c" hint-placeholder-count="2">
+      <div style="flex:none;width:86mm;height:54mm;position:relative;">
+        <div style="position:absolute;inset:0;box-sizing:border-box;background:#fff;outline:0.3px dashed #B9AE9F;outline-offset:-0.15px;overflow:hidden;">
+          <img src="assets/song-request-card-black.png?v=3" alt="Song requests — pick a song for our night" style="position:absolute;left:0;top:0;width:86mm;height:54mm;display:block;">
+          <div style="position:absolute;left:33.0mm;top:26.0mm;width:19.8mm;height:19.8mm;background:#fff;display:flex;align-items:center;justify-content:center;">
+            <img src="https://api.qrserver.com/v1/create-qr-code/?size=1000x1000&amp;ecc=Q&amp;margin=0&amp;color=000000&amp;bgcolor=ffffff&amp;format=png&amp;data=https%3A%2F%2Fjoymanubag21.github.io%2Fwedding-jam%2F" alt="QR code to the wedding song requests page" style="width:15.8mm;height:15.8mm;display:block;image-rendering:pixelated;">
+          </div>
+          <div style="position:absolute;inset:0;box-sizing:border-box;border:0.3px dashed #B9AE9F;pointer-events:none;z-index:2;"></div>
+        </div>
+      </div>
+    </sc-for>
+  </section>
+</x-import>
+</x-dc>
+<script type="text/x-dc" data-dc-script>
+class Component extends DCLogic {
+  renderVals() { return { cards: Array.from({ length: 10 }, () => ({})) }; }
+}
+</script>
+</body>
+</html>
