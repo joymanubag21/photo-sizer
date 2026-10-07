@@ -2258,7 +2258,7 @@ details[open] > .hire-steps{display:flex; flex-direction:column; gap:11px; paddi
   }
 })();
 
-const BUILD = "202610081150";
+const BUILD = "202610081158";
 document.documentElement.dataset.build = BUILD;
 (async () => {
   try {
@@ -4242,7 +4242,7 @@ function renderSundayCars() {
   box.innerHTML = SUNDAY_CARS.map((c) => `
     <div class="sun-car">
       <div class="sun-hd">${c.face
-        ? `<img src="${c.face}" alt="">`
+        ? `<img src="${c.face}" alt="" loading="lazy">`
         : `<span class="sun-initial">${c.driver.slice(0, 1)}</span>`
       }<span>${c.driver}&rsquo;s car<small>${c.who.length} of you</small></span></div>
       <ul>${c.who.map((w) => `<li class="${w === ME ? "you" : ""}">${w === "KC (Cassie)" ? "KC" : w}</li>`).join("")}</ul>
@@ -4324,7 +4324,7 @@ function renderRides(q) {
   $("#rideLists").innerHTML = RIDES.map((r) => `
     <div class="ride-card">
       <div class="drv-row">
-        ${r.face ? `<img class="drv-face" src="${r.face}" alt="">` : ""}
+        ${r.face ? `<img class="drv-face" src="${r.face}" alt="" loading="lazy">` : ""}
         <div><h4>${r.name}</h4><span class="drv">${r.car}</span></div>
       </div>
       ${r.rooms.map((rm) => `${rm.bed ? `<span class="room">${rm.bed}</span>` : ""}<ul>${rm.who.map(hit).join("")}</ul>`).join("")}
@@ -4396,7 +4396,7 @@ function renderRides(q) {
         ${r.note ? `<span class="note">${r.note}</span>` : ""}
         ${(() => { const gs = (r.legs || []).concat(r.addr ? rideLines(r) : []); return gs.length ? `<div class="legs">${gs.map((g) => `
           <div>${g.l ? `<span class="leg-l">${g.l}</span>` : ""}
-            <span class="leg-t">${g.face ? `<img class="leg-face" src="${g.face}" alt="">` : ""}<span>${g.t}</span></span>
+            <span class="leg-t">${g.face ? `<img class="leg-face" src="${g.face}" alt="" loading="lazy">` : ""}<span>${g.t}</span></span>
           </div>`).join("")}</div>` : ""; })()}
         ${r.addr ? `<a class="map" target="_blank" rel="noopener"
            href="https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(r.addr + ", New Zealand")}">${PIN} Open in Maps</a>` : ""}
@@ -4430,7 +4430,7 @@ function renderRides(q) {
   const faceOf = (who) => {
     const r = RIDES.find((x) => x.driver === who);
     return r && r.face
-      ? `<img class="leg-face" src="${r.face}" alt="">`
+      ? `<img class="leg-face" src="${r.face}" alt="" loading="lazy">`
       : `<span class="leg-face leg-initial">${(who || "?").slice(0, 1)}</span>`;
   };
   const reader = driver || me;
