@@ -1028,6 +1028,12 @@ details[open] > .hire-steps{display:flex; flex-direction:column; gap:11px; paddi
         <span class="wc-p">All five flights, the bags, and the two tight connections.</span>
       </button>
 
+      <button class="wcard" type="button" id="btnVows" hidden>
+        <span class="eyebrow">Just ours</span>
+        <span class="wc-h">Writing the vows</span>
+        <span class="wc-p">What to say, what to leave out, and the shape that works.</span>
+      </button>
+
       <button class="wcard" type="button" id="btnSummer" hidden>
         <span class="eyebrow">For the wedding coordinator</span>
         <span class="wc-h">Summer&rsquo;s brief</span>
@@ -1413,9 +1419,9 @@ details[open] > .hire-steps{display:flex; flex-direction:column; gap:11px; paddi
       <li><span class="plan-when">11:45 am</span><span class="plan-what">Instax film, Five Mile at Frankton<small><b>The Warehouse</b> and <b>Noel Leeming</b> sit in the same centre on Grant Road, so whichever has it. <b>Three twin packs &mdash; sixty shots.</b> Thirty-six guests, a card each, and the duds are what catch people out. Spare <b>AA batteries</b> while you are there. Carry the film inside tonight; a freezing car ruins it.</small></span></li>
       <li><span class="plan-when">12:30 pm</span><span class="plan-what">Lunch<small>Five Mile has food, or drive the ten minutes back into town.</small></span></li>
       <li><span class="plan-when">1:00 pm</span><span class="plan-what">Out to Glenorchy and back<small>Forty-five minutes each way along the lake, and the one famous drive here that is <b>not</b> already in the next two weeks. Stop at <b>Bennett&rsquo;s Bluff</b> lookout &mdash; signposted, ten minutes, no walking. Coffee at Glenorchy, look at the wharf, turn around. <b>Leave Glenorchy by 3:00.</b></small></span></li>
-      <li><span class="plan-when">4:00 pm</span><span class="plan-what">Write the vows &mdash; separately<small>Summer hands you the cards this morning. Draft on paper and copy it over once. An hour each, apart, then stop. This is the last empty evening you get: tomorrow the family land, and Saturday starts at <b>5:15 am</b>.</small></span></li>
+      <li><span class="plan-when">4:00 pm</span><span class="plan-what">Read the vow notes &mdash; ten minutes<small>On the welcome screen, <b>Writing the vows</b>. Three beats, four questions, and what not to say. Read it before dinner, not at the table.</small></span></li>
       <li><span class="plan-when">5:45 pm</span><span class="plan-what">Shower, both of you, back to back<small>Twenty-five minutes of hot water and then three hours to recover. Stagger them and the second one is cold.</small></span></li>
-      <li><span class="plan-when">6:30 pm</span><span class="plan-what">Dinner at Nest<small>At <b>Kamana Lakehouse, 139 Fernhill Road</b> &mdash; up the hill, the same side of town as the house you move into tomorrow. <b>Just the two of you</b>, three courses, and the table is yours until <b>8:30</b>. They hold it for fifteen minutes and no longer, so leave early enough. There is a fireplace in the lounge if you want a drink first.</small></span></li>
+      <li><span class="plan-when">6:30 pm</span><span class="plan-what">Dinner at Nest<small>At <b>Kamana Lakehouse, 139 Fernhill Road</b> &mdash; up the hill, the same side of town as the house you move into tomorrow. <b>Just the two of you</b>, three courses, and the table is yours until <b>8:30</b>. <b>This is where the vows get written</b> &mdash; take paper and two pens, answer the four questions apart, and do not read each other&rsquo;s. They hold it for fifteen minutes and no longer, so leave early enough. There is a fireplace in the lounge if you want a drink first.</small></span></li>
     </ul>
     <div class="trip-go" style="margin-bottom:4px"><a href="https://www.google.com/maps/search/?api=1&query=The%20Warehouse%2C%20Grant%20Road%2C%20Frankton%2C%20Queenstown" target="_blank" rel="noopener">Open Five Mile, Frankton in Maps</a></div>
     <div class="trip-go" style="margin-bottom:4px"><a href="https://www.google.com/maps/dir/?api=1&origin=Queenstown%2C%20New%20Zealand&destination=Glenorchy%2C%20New%20Zealand" target="_blank" rel="noopener">Open the Glenorchy drive in Maps</a></div>
@@ -1738,6 +1744,63 @@ details[open] > .hire-steps{display:flex; flex-direction:column; gap:11px; paddi
 
 <!-- Grace only. She reads this live, holding a microphone, one thumb on the
      screen - so what she says and what she does never look alike. -->
+<div class="modal" id="vows" hidden>
+  <div class="modal-in">
+    <div class="modal-head"><span style="flex:1"></span><button class="close" id="vowsClose" aria-label="Close">&#10005;</button></div>
+    <div class="spy-head">
+      <p class="spy-kicker">Thursday 8 October &middot; Nest, over dinner</p>
+      <h2 class="spy-h">Writing the <em>vows</em></h2>
+      <p class="spy-lede">Read this before you sit down. Then put the phone away &mdash; the rest happens on paper.</p>
+    </div>
+
+    <section class="mc">
+      <h3 class="mc-h"><span>First</span>Agree three things before you order</h3>
+      <ul class="mc-check"><li><b>How long.</b> One minute each, spoken aloud &mdash; about 150 words. Short vows are remembered; long ones are endured</li><li><b>Whether you read each other&rsquo;s.</b> Our answer is no. Hearing it for the first time on Saturday is the whole point</li><li><b>The register.</b> If one of you is funny and the other is solemn it lands lopsided. Warm, with one laugh in it, is the easiest thing for both of you to hit</li></ul>
+      <p class="mc-beat">Two minutes on this saves an argument at the table later.</p>
+    </section>
+
+    <section class="mc">
+      <h3 class="mc-h"><span>The shape</span>Three beats, in this order</h3>
+      <p class="mc-do"><b>1</b>What stood out the <b>first time</b> you met them. Not the story of how you met &mdash; the detail you noticed.</p>
+      <p class="mc-do"><b>2</b>What you love about <b>them</b>. Not about the relationship, not about us, not about how far we have come. Them.</p>
+      <p class="mc-do"><b>3</b>What you <b>hope for</b> in this next chapter. Do not stop at the compliment.</p>
+      <p class="mc-beat">That is a whole vow. Those three beats plus two promises and you are finished.</p>
+    </section>
+
+    <section class="mc">
+      <h3 class="mc-h"><span>At the table</span>Four questions, answered apart</h3>
+      <p class="mc-beat">Write on paper, no conferring, no editing. Ten minutes each. Then stop and eat.</p>
+      <ul class="mc-check"><li>The first thing I noticed about you</li><li>The thing you do that nobody else would notice</li><li>The hardest thing we got through &mdash; and what you did</li><li>One thing I promise to keep doing when it is boring</li></ul>
+      <p class="mc-beat">The answers in that order are already the vow. One, two, three, then the promise.</p>
+    </section>
+
+    <section class="mc">
+      <h3 class="mc-h"><span>The promises</span>Specific, or they are not promises</h3>
+      <p class="mc-do"><b>No</b>&ldquo;I promise to always make you happy.&rdquo; Nobody can keep that and everyone has heard it.</p>
+      <p class="mc-do"><b>Yes</b>&ldquo;I promise to make the coffee.&rdquo; Small, true, keepable &mdash; and the room will laugh and believe you.</p>
+      <p class="mc-beat">Two or three promises, not ten. One of them small enough to be funny.</p>
+    </section>
+
+    <section class="mc">
+      <h3 class="mc-h"><span>Before you sleep</span>Read it out loud, once</h3>
+      <ul class="mc-check"><li>Anything you stumble over is a sentence written for the page, not the mouth. Cut it</li><li><b>Time it.</b> Over ninety seconds, cut your <i>second-best</i> paragraph &mdash; the weakest one is already gone</li><li>Say their name at least once. It lands every time</li><li>No inside joke that needs explaining, nothing about money, nobody who is not in the room</li></ul>
+    </section>
+
+    <section class="mc">
+      <h3 class="mc-h"><span>On the card</span>Summer hands them over Thursday morning</h3>
+      <ul class="mc-check"><li>Draft on paper. Copy onto the card <b>once</b> &mdash; not three times until it is neat</li><li>Print, do not join the letters. Big enough to read at arm&rsquo;s length with wet eyes</li><li>The Canyons is outdoors. A card holds in the wind; a loose sheet of paper does not</li><li>Francis has the rings from the rehearsal. <b>Nobody holds your card</b> &mdash; it goes in your own pocket</li></ul>
+    </section>
+
+    <section class="mc">
+      <h3 class="mc-h"><span>If you want them</span>The three you sent</h3>
+      <div class="trip-go" style="margin-bottom:4px"><a href="https://youtube.com/shorts/pks6KqERlUw" target="_blank" rel="noopener">The three swaps &mdash; Speeches by Lindsay</a></div>
+      <div class="trip-go" style="margin-bottom:4px"><a href="https://www.youtube.com/shorts/X3yw4O90zgI" target="_blank" rel="noopener">Four tips &mdash; Mark Your Ceremony</a></div>
+      <div class="trip-go" style="margin-bottom:4px"><a href="https://www.youtube.com/shorts/SlmKzIV27IU" target="_blank" rel="noopener">Somebody&rsquo;s actual vows, read aloud</a></div>
+      <p class="mc-beat">The first one is where the three beats above come from. The third is worth it for tone &mdash; listen to how slowly she goes.</p>
+    </section>
+  </div>
+</div>
+
 <div class="modal" id="mc" hidden>
   <div class="modal-in">
     <div class="modal-head"><span style="flex:1"></span><button class="close" id="mcClose" aria-label="Close">&#10005;</button></div>
@@ -2137,7 +2200,7 @@ details[open] > .hire-steps{display:flex; flex-direction:column; gap:11px; paddi
   }
 })();
 
-const BUILD = "202610071140";
+const BUILD = "202610071325";
 document.documentElement.dataset.build = BUILD;
 (async () => {
   try {
@@ -3339,7 +3402,7 @@ function renderSpyCount() {
 /* Every screen and sheet is a history entry, so the phone's own back gesture
    walks back through them instead of leaving the site entirely. State is
    {view, ov}: the screen underneath, and the sheet on top of it if any. */
-const SHEETS = ["plan", "after", "spy", "help", "out", "album", "who", "shot", "music", "summer", "trip", "prints", "mc"];
+const SHEETS = ["plan", "after", "spy", "help", "out", "album", "who", "shot", "music", "summer", "trip", "prints", "mc", "vows"];
 const here = () => history.state || { view: "welcome" };
 
 function applyState(st) {
@@ -3355,6 +3418,7 @@ function applyState(st) {
   if (st.ov === "after" && !onSunday(ME)) st = { ...st, ov: undefined };   // still only theirs
   if (st.ov === "plan" && SUNDAY_ONLY.includes(ME)) st = { ...st, ov: undefined };
   if (st.ov === "trip" && ME !== "Patrick") st = { ...st, ov: undefined };   // ours, hash included
+  if (st.ov === "vows" && !(ME === "Joy" || ME === "Patrick")) st = { ...st, ov: undefined };
   SHEETS.forEach((id) => { $("#" + id).hidden = st.ov !== id; });
   if (st.view === "studio") requestAnimationFrame(redrawAllSheets);
 }
@@ -4153,6 +4217,7 @@ function renderMe() {
     : "The Canyons B&amp;B &middot; Queenstown, New Zealand";
   $("#btnSummer").hidden = !isSummer;
   $("#btnTrip").hidden = ME !== "Patrick";
+  $("#btnVows").hidden = !(ME === "Joy" || ME === "Patrick");
   $("#btnPrints").hidden = !(ME && (PARTY[ME] || ME === "Summer"));
   $("#btnMc").hidden = ME !== "Grace";
   $("#btnStart").hidden = isSummer || sunOnly;
@@ -4485,6 +4550,8 @@ $("#btnPrints").onclick = () => go({ view: "welcome", ov: "prints" });
 $("#printsClose").onclick = back;
 $("#btnTrip").onclick = () => go({ view: "welcome", ov: "trip" });
 $("#tripClose").onclick = back;
+$("#btnVows").onclick = () => go({ view: "welcome", ov: "vows" });
+$("#vowsClose").onclick = back;
 $("#musicClose").onclick = back;
 $("#albumClose").onclick = back;
 $("#btnSpy").onclick = () => { if (!spyOpen()) return; renderSpy(); go({ view: "welcome", ov: "spy" }); };
