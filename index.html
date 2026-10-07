@@ -1431,7 +1431,7 @@ details[open] > .hire-steps{display:flex; flex-direction:column; gap:11px; paddi
       <li><span class="plan-when">5:45 pm</span><span class="plan-what">Shower, both of you, back to back<small>Twenty-five minutes of hot water and then three hours to recover. Stagger them and the second one is cold.</small></span></li>
       <li><span class="plan-when">6:30 pm</span><span class="plan-what">Dinner at Nest<small>At <b>Kamana Lakehouse, 139 Fernhill Road</b> &mdash; up the hill, the same side of town as the house you move into tomorrow. <b>Just the two of you</b>, three courses, and the table is yours until <b>8:30</b>. <b>This is where the vows get written</b> &mdash; take paper and two pens, answer the four questions apart, and do not read each other&rsquo;s. They hold it for fifteen minutes and no longer, so leave early enough. There is a fireplace in the lounge if you want a drink first.</small></span></li>
     </ul>
-    <p class="fl-note" style="margin-top:12px"><b>Today&rsquo;s assignment &mdash; sixteen frames<span class="shot-n" id="shotCount"></span></b>The wall, one photo at a time. Tap one when it is taken. Sunset is <b>8:01</b> and the light goes at <b>8:31</b>.</p>
+    <p class="fl-note" style="margin-top:12px"><b>Today&rsquo;s assignment &mdash; fifteen frames<span class="shot-n" id="shotCount"></span></b>The wall, one photo at a time. Tap one when it is taken. Sunset is <b>8:01</b> and the light goes at <b>8:31</b>.</p>
 
     <p class="seat-side">The lake road &middot; this afternoon</p>
     <ul class="mc-check shots">
@@ -1470,7 +1470,6 @@ details[open] > .hire-steps{display:flex; flex-direction:column; gap:11px; paddi
     <p class="seat-side">Later in the trip</p>
     <ul class="mc-check shots">
       <li data-s="f1">Vineyard, a glass of white, sunglasses &mdash; Gibbston on Sunday the 11th</li>
-      <li data-s="f2">The little white dog &mdash; whose, and where? Nobody has told me</li>
     </ul>
 
     <div class="trip-go" style="margin-bottom:4px"><a href="https://www.google.com/maps/search/?api=1&query=The%20Warehouse%2C%20Grant%20Road%2C%20Frankton%2C%20Queenstown" target="_blank" rel="noopener">Open Five Mile, Frankton in Maps</a></div>
@@ -2250,7 +2249,7 @@ details[open] > .hire-steps{display:flex; flex-direction:column; gap:11px; paddi
   }
 })();
 
-const BUILD = "202610081020";
+const BUILD = "202610081050";
 document.documentElement.dataset.build = BUILD;
 (async () => {
   try {
@@ -4612,7 +4611,7 @@ function paintShots() {
   const all = document.querySelectorAll("#trip .shots li[data-s]");
   all.forEach((li) => li.classList.toggle("sdone", shotsDone.has(li.dataset.s)));
   const n = $("#shotCount");
-  if (n) n.textContent = shotsDone.size + " of " + all.length;
+  if (n) n.textContent = [...all].filter((li) => li.classList.contains("sdone")).length + " of " + all.length;
 }
 $("#trip").addEventListener("click", (e) => {
   const li = e.target.closest(".shots li[data-s]");
