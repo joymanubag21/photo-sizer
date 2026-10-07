@@ -373,6 +373,40 @@ a.btn{text-decoration:none}
 .fl-docs .fl-go{margin-top:0; padding:0 10px}
 .fl-docs .fl-go.wide{grid-column:1 / -1}
 /* The reference shots: the one part of a print sheet worth keeping as a photo. */
+/* A script read aloud off a phone: the said and the done can never blur. */
+.mc{margin:0 0 22px}
+.mc-h{
+  display:flex; align-items:baseline; gap:10px; margin:26px 0 10px;
+  font-family:'Cormorant Garamond',Georgia,serif; font-weight:500; font-size:1.5rem; color:var(--ink);
+}
+.mc-h span{
+  flex:none; font-family:'Jost',sans-serif; font-size:var(--eb); font-weight:600;
+  letter-spacing:var(--tr); text-transform:uppercase; color:var(--green);
+}
+.mc-say{
+  margin:0 0 8px; padding:12px 16px; background:var(--surface); border:1px solid var(--line-2);
+  border-radius:var(--r-lg); font-family:'Cormorant Garamond',Georgia,serif;
+  font-size:1.3rem; line-height:1.35; color:var(--ink);
+}
+.mc-do{
+  margin:0 0 8px; padding:11px 14px; background:var(--surface-3); border-radius:var(--r-md);
+  font-size:13px; line-height:1.55; color:var(--ink-2);
+}
+.mc-do b{
+  display:block; margin-bottom:2px; font-size:var(--eb); font-weight:600;
+  letter-spacing:var(--tr); text-transform:uppercase; color:var(--green);
+}
+.mc-beat{margin:0 0 8px; padding:0 4px; font-size:13px; font-style:italic; color:var(--ink-3)}
+.mc-check{list-style:none; margin:0 0 8px; padding:0}
+.mc-check li{
+  position:relative; padding:7px 0 7px 28px; font-size:14px; color:var(--ink);
+  border-bottom:1px solid var(--line);
+}
+.mc-check li:last-child{border-bottom:0}
+.mc-check li:before{
+  content:""; position:absolute; left:4px; top:9px; width:14px; height:14px;
+  border:1.5px solid var(--line-2); border-radius:3px;
+}
 .pages{display:grid; gap:10px}
 .pg{
   display:block; padding:16px 18px; background:var(--surface);
@@ -1010,6 +1044,12 @@ details[open] > .hire-steps{display:flex; flex-direction:column; gap:11px; paddi
         <span class="eyebrow">For the wedding party</span>
         <span class="wc-h">Runsheet and music</span>
         <span class="wc-p">Every time for the day, and what plays when.</span>
+      </button>
+
+      <button class="wcard" type="button" id="btnMc" hidden>
+        <span class="eyebrow">Just for you</span>
+        <span class="wc-h">Your script</span>
+        <span class="wc-p">Every line, every cue, in order.</span>
       </button>
 
       <button class="wcard" type="button" id="btnPrints" hidden>
@@ -1685,6 +1725,247 @@ details[open] > .hire-steps{display:flex; flex-direction:column; gap:11px; paddi
   </div>
 </div>
 
+<!-- Grace only. She reads this live, holding a microphone, one thumb on the
+     screen - so what she says and what she does never look alike. -->
+<div class="modal" id="mc" hidden>
+  <div class="modal-in">
+    <div class="modal-head"><span style="flex:1"></span><button class="close" id="mcClose" aria-label="Close">&#10005;</button></div>
+    <div class="spy-head">
+      <p class="spy-kicker">Saturday 10 October &middot; Wakatipu Grill</p>
+      <h2 class="spy-h">Your <em>script</em></h2>
+      <p class="spy-lede">Everything in quotes is yours to say. Everything in a grey box is something to do.</p>
+    </div>
+
+    <section class="mc">
+      <h3 class="mc-h"><span>Before you start</span>Your five rules</h3>
+      <ul class="mc-check"><li>Speak clearly, a little slower than feels natural</li><li>Smile before the punchline, pause after it</li><li>Do not fill every silence &mdash; let music, applause and feeling breathe</li><li>Keep transitions short unless this says otherwise</li><li>Check Joy all evening: dress, bouquet, water, photos, timing, comfort</li></ul>
+      <p class="mc-beat">Scroll one section at a time. Everything in quotes is yours to say; everything in a grey box is something to do or a cue for the DJ.</p>
+    </section>
+
+    <section class="mc">
+      <h3 class="mc-h"><span>5:15</span>Welcome, housekeeping and their story</h3>
+      <p class="mc-do"><b>Wait</b>Let the room settle. The DJ takes every music cue from you.</p>
+      <p class="mc-do"><b>DJ</b><b>Celebrate Good Times (Come On)</b> &mdash; loud enough to lift the room, quiet enough that you are heard.</p>
+      <p class="mc-say">&ldquo;Good evening, everyone!&rdquo;</p>
+      <p class="mc-say">&ldquo;Can I ask everyone to please remain standing for just a moment?&rdquo;</p>
+      <p class="mc-say">&ldquo;First of all, welcome, and thank you all so much for being here tonight to celebrate two very special people &mdash; Joy and Patrick.&rdquo;</p>
+      <p class="mc-do"><b>DJ</b>Music down, still playing.</p>
+      <p class="mc-say">&ldquo;And before we get started, I want to do a very quick energy check.&rdquo;</p>
+      <p class="mc-say">&ldquo;Can I hear your loudest cheer for Joy and Patrick?&rdquo;</p>
+      <p class="mc-beat">They cheer.</p>
+      <p class="mc-say">&ldquo;Okay&hellip; that was very polite.&rdquo;</p>
+      <p class="mc-beat">Pause. Look around.</p>
+      <p class="mc-say">&ldquo;Come on, guys &mdash; I know we can do better than that!&rdquo;</p>
+      <p class="mc-say">&ldquo;One more time &mdash; let me hear you!&rdquo;</p>
+      <p class="mc-beat">Louder.</p>
+      <p class="mc-say">&ldquo;YES! That&rsquo;s much better!&rdquo;</p>
+      <p class="mc-say">&ldquo;Now THAT sounds like a wedding!&rdquo;</p>
+      <p class="mc-say">&ldquo;Thank you, everyone. You can take your seats &mdash; you&rsquo;ve officially passed the energy check.&rdquo;</p>
+      <p class="mc-say">&ldquo;Now, make yourselves comfortable, because we&rsquo;ve got a wonderful evening ahead of us.&rdquo;</p>
+      <p class="mc-say">&ldquo;For those who don&rsquo;t know me, I&rsquo;m Grace &mdash; Joy&rsquo;s sister and Maid of Honour. And it seems my sister has discovered the ultimate wedding hack: instead of hiring an MC, simply give the Maid of Honour a microphone and hope for the best.&rdquo;</p>
+      <p class="mc-say">&ldquo;But honestly, it is such a privilege to be standing here tonight, surrounded by the people who mean the most to Joy and Patrick.&rdquo;</p>
+      <p class="mc-do"><b>DJ</b>Music stops.</p>
+    </section>
+
+    <section class="mc">
+      <h3 class="mc-h"><span>Housekeeping</span>The practical bit</h3>
+      <p class="mc-say">&ldquo;First, if you&rsquo;ve had a few drinks already and you&rsquo;re wondering where the toilets are &mdash; don&rsquo;t panic.&rdquo;</p>
+      <p class="mc-do"><b>Fill in</b>The toilets are &mdash; <b>say where</b>. Find out before 5:15.</p>
+      <p class="mc-say">&ldquo;If you need anything throughout the evening, our wonderful events team will be around to help.&rdquo;</p>
+      <p class="mc-say">&ldquo;And please follow any instructions from the team, particularly if we move outside for photographs and the sparkler send-off later.&rdquo;</p>
+      <p class="mc-say">&ldquo;And of course, phones are very welcome tonight! Take photos, take videos, get your selfies &mdash; and capture all those special moments.&rdquo;</p>
+      <p class="mc-say">&ldquo;You&rsquo;ll find a QR code around the venue. Just scan it with your phone, tap &lsquo;Open the Album&rsquo;, and upload your favourite photos and videos &mdash; no app needed!&rdquo;</p>
+      <p class="mc-say">&ldquo;And some of your photos will even be printed here tonight for you to take home.&rdquo;</p>
+      <p class="mc-say">&ldquo;So get snapping, everyone &mdash; let&rsquo;s fill Joy and Patrick&rsquo;s album with memories from tonight!&rdquo;</p>
+    </section>
+
+    <section class="mc">
+      <h3 class="mc-h"><span>Their story</span>How they met</h3>
+      <p class="mc-say">&ldquo;Now that we&rsquo;ve covered the important housekeeping &mdash; and established that I&rsquo;m already slightly stressed &mdash; let&rsquo;s talk about the two people who actually brought us all here today.&rdquo;</p>
+      <p class="mc-do"><b>DJ</b><b>This Will Be (An Everlasting Love)</b>, Toners &mdash; under your voice.</p>
+      <p class="mc-say">&ldquo;Because if you&rsquo;re anything like me, you probably know one of them really well&hellip; and the other one you&rsquo;ve mostly heard about through stories.&rdquo;</p>
+      <p class="mc-say">&ldquo;Joy and Patrick actually met online.&rdquo;</p>
+      <p class="mc-say">&ldquo;Yes &mdash; online dating really did work.&rdquo;</p>
+      <p class="mc-say">&ldquo;So for anyone who is still swiping&hellip; there is hope.&rdquo;</p>
+      <p class="mc-say">&ldquo;Patrick made the first move.&rdquo;</p>
+      <p class="mc-say">&ldquo;Which is probably the most important decision he has ever made.&rdquo;</p>
+      <p class="mc-say">&ldquo;Their first date was during the pandemic, so naturally, romance looked a little different.&rdquo;</p>
+      <p class="mc-say">&ldquo;They met in a car park, had pizza and beer&hellip;&rdquo;</p>
+      <p class="mc-say">&ldquo;Joy had the pizza. Patrick had the beer.&rdquo;</p>
+      <p class="mc-say">&ldquo;And somehow, from a pandemic car-park date involving pizza and beer, we ended up here tonight.&rdquo;</p>
+      <p class="mc-say">&ldquo;So, ladies and gentlemen&hellip; I think you&rsquo;ve now learned a little bit about our bride and groom.&rdquo;</p>
+      <p class="mc-say">&ldquo;But now it&rsquo;s time to actually welcome them.&rdquo;</p>
+    </section>
+
+    <section class="mc">
+      <h3 class="mc-h"><span>5:30</span>The entrance</h3>
+      <ul class="mc-check"><li>Guests seated</li><li>Bridal party ready</li><li>DJ ready</li><li>Couple ready</li></ul>
+      <p class="mc-do"><b>DJ</b><b>I Gotta Feeling</b>. You have about <b>27 seconds</b> of talking.</p>
+      <p class="mc-say">&ldquo;Alright, ladies and gentlemen, it is officially time to get this celebration started!&rdquo;</p>
+      <p class="mc-say">&ldquo;Get your phones ready, and get those hands ready to clap!&rdquo;</p>
+      <p class="mc-say">&ldquo;We&rsquo;re about to welcome the amazing people who will stand beside Joy and Patrick today.&rdquo;</p>
+      <p class="mc-say">&ldquo;Let&rsquo;s give them the welcome they deserve!&rdquo;</p>
+      <p class="mc-do"><b>Final cue</b><b>&ldquo;LADIES AND GENTLEMEN&hellip; OUR ENTOURAGE!&rdquo;</b></p>
+      <p class="mc-do"><b>Timing</b>The party walks in on the words <b>&ldquo;I gotta feeling&rdquo;</b> &mdash; 0:29 into the song. Music keeps playing.</p>
+      <p class="mc-say">&ldquo;And now, I need everyone on their feet.&rdquo;</p>
+      <p class="mc-say">&ldquo;Ladies and gentlemen, please welcome our newlyweds &mdash; MR AND MRS PATRICK AND JOY YAP!&rdquo;</p>
+      <p class="mc-do"><b>DJ</b><b>Shut Up and Dance</b>. Music stops after their dance.</p>
+      <p class="mc-say">&ldquo;Let&rsquo;s all cheer for our newlyweds &mdash; the main reason why we are all gathered here. Let&rsquo;s give them a round of applause once more.&rdquo;</p>
+    </section>
+
+    <section class="mc">
+      <h3 class="mc-h"><span>5:40</span>The family dances</h3>
+      <p class="mc-say">&ldquo;And now, please welcome Joy and dad, along with Patrick and mom, to the dance floor for two special family dances. Let&rsquo;s give them a warm round of applause as they celebrate this beautiful moment together.&rdquo;</p>
+      <p class="mc-do"><b>DJ</b><b>The Way You Look Tonight</b>, Michael Bubl&eacute;.</p>
+      <p class="mc-say">&ldquo;Thank you so much, mum and dad, for sharing such a beautiful moment with us &mdash; and for being such an important part of this celebration.&rdquo;</p>
+      <p class="mc-say">&ldquo;So, ladies and gentlemen, please join me in welcoming our newlyweds, Joy and Patrick, for their first dance as husband and wife.&rdquo;</p>
+      <p class="mc-say">&ldquo;Let&rsquo;s give them a big round of applause.&rdquo;</p>
+      <p class="mc-do"><b>DJ</b><b>Thinking Out Loud</b>.</p>
+    </section>
+
+    <section class="mc">
+      <h3 class="mc-h"><span>The cake</span>First decision as a married couple</h3>
+      <p class="mc-say">&ldquo;Thank you, Joy and Patrick.&rdquo;</p>
+      <p class="mc-say">&ldquo;And now, another very important part of married life&hellip;&rdquo;</p>
+      <p class="mc-say">&ldquo;The cake.&rdquo;</p>
+      <p class="mc-say">&ldquo;This is the first major decision they&rsquo;ll be making together as a married couple.&rdquo;</p>
+      <p class="mc-say">&ldquo;Let&rsquo;s see how they negotiate this one.&rdquo;</p>
+      <p class="mc-say">&ldquo;Ladies and gentlemen, let&rsquo;s give them a round of applause as they cut their wedding cake!&rdquo;</p>
+      <p class="mc-do"><b>DJ</b><b>Build Me Up Buttercup</b>.</p>
+    </section>
+
+    <section class="mc">
+      <h3 class="mc-h"><span>5:50</span>Entr&eacute;e</h3>
+      <p class="mc-say">&ldquo;Alright everyone, you&rsquo;ve done very well so far.&rdquo;</p>
+      <p class="mc-say">&ldquo;You&rsquo;ve applauded, you&rsquo;ve danced, you&rsquo;ve survived my introduction&hellip;&rdquo;</p>
+      <p class="mc-say">&ldquo;Now it&rsquo;s time for the important stuff.&rdquo;</p>
+      <p class="mc-say">&ldquo;Dinner is being served!&rdquo;</p>
+      <p class="mc-say">&ldquo;Please enjoy your entr&eacute;e.&rdquo;</p>
+    </section>
+
+    <section class="mc">
+      <h3 class="mc-h"><span>6:20</span>Main course</h3>
+      <p class="mc-say">&ldquo;I hope everyone enjoyed their entr&eacute;e.&rdquo;</p>
+      <p class="mc-say">&ldquo;And don&rsquo;t worry &mdash; we&rsquo;re not keeping you waiting.&rdquo;</p>
+      <p class="mc-say">&ldquo;The main course is coming straight out.&rdquo;</p>
+      <p class="mc-beat">Main served at 6:25.</p>
+    </section>
+
+    <section class="mc">
+      <h3 class="mc-h"><span>6:40</span>Speeches</h3>
+      <p class="mc-do"><b>Order</b>Lara Mae &rarr; <b>you</b> &rarr; Francis. <b>Four minutes each, maximum.</b></p>
+      <p class="mc-say">&ldquo;Ladies and gentlemen, may I please have your attention.&rdquo;</p>
+      <p class="mc-say">&ldquo;We&rsquo;re now moving into the speeches.&rdquo;</p>
+      <p class="mc-say">&ldquo;And we&rsquo;re going to start with someone very special to Joy and Patrick.&rdquo;</p>
+      <p class="mc-say">&ldquo;Please put your hands together for Lara Mae.&rdquo;</p>
+      <p class="mc-beat">After Lara Mae:</p>
+      <p class="mc-say">&ldquo;Thank you, Lara Mae.&rdquo;</p>
+      <p class="mc-say">&ldquo;And now it&rsquo;s my turn.&rdquo;</p>
+      <p class="mc-do"><b>You</b>Your Maid of Honour speech. Four to five minutes.</p>
+      <p class="mc-beat">After your speech:</p>
+      <p class="mc-say">&ldquo;And now, continuing with the speeches, please welcome Patrick&rsquo;s best man, Francis.&rdquo;</p>
+    </section>
+
+    <section class="mc">
+      <h3 class="mc-h"><span>6:45</span>The quiet check</h3>
+      <p class="mc-do"><b>Do not announce this</b>Nothing is said out loud. This one is just you, moving.</p>
+      <ul class="mc-check"><li>Check the planner</li><li>Check Joy</li><li>Water available</li><li>Ready for the next thing</li></ul>
+    </section>
+
+    <section class="mc">
+      <h3 class="mc-h"><span>7:10</span>Wedding trivia</h3>
+      <p class="mc-do"><b>Host</b><b>Lara</b>, about 15 minutes.</p>
+      <p class="mc-say">&ldquo;Alright everyone, I hope you&rsquo;re ready for a little test.&rdquo;</p>
+      <p class="mc-say">&ldquo;It&rsquo;s time for wedding trivia!&rdquo;</p>
+      <p class="mc-say">&ldquo;I&rsquo;m going to hand this one over to Lara, who&rsquo;s going to put all of you to the test.&rdquo;</p>
+    </section>
+
+    <section class="mc">
+      <h3 class="mc-h"><span>7:25</span>Sunset photos</h3>
+      <p class="mc-do"><b>Nothing to say</b>This is all Maid of Honour work.</p>
+      <ul class="mc-check"><li>Joy&rsquo;s dress</li><li>Bouquet</li><li>Photographer</li><li>Keep the guests occupied</li><li>Sparklers</li><li>People ready for the patio</li></ul>
+    </section>
+
+    <section class="mc">
+      <h3 class="mc-h"><span>7:35</span>Sparkler send-off</h3>
+      <p class="mc-say">&ldquo;Alright everyone, we&rsquo;re heading outside for something a little more magical.&rdquo;</p>
+      <p class="mc-say">&ldquo;Please follow the team&rsquo;s instructions and get yourselves into position for the sparkler send-off.&rdquo;</p>
+      <p class="mc-say">&ldquo;And when Joy and Patrick come through, let&rsquo;s make some noise for them!&rdquo;</p>
+    </section>
+
+    <section class="mc">
+      <h3 class="mc-h"><span>7:45</span>Dessert</h3>
+      <p class="mc-say">&ldquo;Ladies and gentlemen, dessert is now being served. Please enjoy!&rdquo;</p>
+    </section>
+
+    <section class="mc">
+      <h3 class="mc-h"><span>7:52</span>Nelly and Vicente</h3>
+      <p class="mc-say">&ldquo;Ladies and gentlemen, may I have your attention once again.&rdquo;</p>
+      <p class="mc-say">&ldquo;We&rsquo;re now going to hear from two very special people in Joy&rsquo;s life.&rdquo;</p>
+      <p class="mc-say">&ldquo;They have been there through every chapter, every milestone, and everything that has brought us to this day.&rdquo;</p>
+      <p class="mc-say">&ldquo;Please join me in welcoming our parents, Nelly and Vicente.&rdquo;</p>
+      <p class="mc-do"><b>Four minutes</b>Let the emotion breathe. Do not rush them.</p>
+      <p class="mc-beat">After:</p>
+      <p class="mc-say">&ldquo;Thank you, Mom and Dad, for those beautiful words.&rdquo;</p>
+    </section>
+
+    <section class="mc">
+      <h3 class="mc-h"><span>8:00</span>The duet</h3>
+      <p class="mc-say">&ldquo;And now, we&rsquo;re going to move from speeches to a little live entertainment.&rdquo;</p>
+      <p class="mc-say">&ldquo;Please give a big round of applause for JP and Marge.&rdquo;</p>
+      <p class="mc-do"><b>Song</b><b>Finally Found Someone</b>.</p>
+    </section>
+
+    <section class="mc">
+      <h3 class="mc-h"><span>8:05</span>A story, please</h3>
+      <p class="mc-say">&ldquo;Alright everyone, it&rsquo;s time for some wedding games. To take us through the games, we have someone special &mdash; one of Joy&rsquo;s best friends, Lara!&rdquo;</p>
+      <p class="mc-do"><b>Lara calls these five</b><b>Jun2x</b> &mdash; the first time you met Joy or Patrick &middot; <b>Loren</b> &mdash; the moment you knew these two were it &middot; <b>Nikka</b> &mdash; a time Patrick made you cry laughing &middot; <b>Sam</b> &mdash; a travel disaster starring either of them &middot; <b>Jane</b> &mdash; the story you will still be telling at their 50th. Ninety seconds each.</p>
+    </section>
+
+    <section class="mc">
+      <h3 class="mc-h"><span>8:20</span>Joy and Patrick speak</h3>
+      <p class="mc-say">&ldquo;Ladies and gentlemen, we&rsquo;ve reached one of the final moments of our evening.&rdquo;</p>
+      <p class="mc-say">&ldquo;And now, let&rsquo;s hear from the two very special people at the heart of tonight&rsquo;s celebration &mdash; Joy and Patrick.&rdquo;</p>
+      <p class="mc-say">&ldquo;Please give a huge round of applause for Joy and Patrick!&rdquo;</p>
+    </section>
+
+    <section class="mc">
+      <h3 class="mc-h"><span>8:30</span>Dance floor</h3>
+      <p class="mc-say">&ldquo;Thank you, Joy and Patrick.&rdquo;</p>
+      <p class="mc-say">&ldquo;And with that, the formal part of our evening is officially over.&rdquo;</p>
+      <p class="mc-say">&ldquo;Which means there&rsquo;s only one thing left to do.&rdquo;</p>
+      <p class="mc-say">&ldquo;DANCE!&rdquo;</p>
+      <p class="mc-say">&ldquo;The dance floor is officially open!&rdquo;</p>
+    </section>
+
+    <section class="mc">
+      <h3 class="mc-h"><span>9:00</span>Closing, if the venue calls it</h3>
+      <p class="mc-say">&ldquo;Ladies and gentlemen, we&rsquo;ve reached the end of our evening.&rdquo;</p>
+      <p class="mc-say">&ldquo;On behalf of Joy and Patrick, thank you so much for being here, for celebrating with them and for making today so special.&rdquo;</p>
+      <p class="mc-say">&ldquo;You&rsquo;ve been a wonderful audience&hellip; and I have successfully completed both of my jobs without getting fired.&rdquo;</p>
+      <p class="mc-say">&ldquo;One final time, let&rsquo;s hear it for Joy and Patrick!&rdquo;</p>
+      <p class="mc-say">&ldquo;Have a safe journey home, everyone, and good night!&rdquo;</p>
+    </section>
+
+    <section class="mc">
+      <h3 class="mc-h"><span>If it stalls</span>Lines to reach for</h3>
+      <p class="mc-say">&ldquo;We&rsquo;re just giving our newlyweds a moment &mdash; apparently weddings don&rsquo;t always run on Google Calendar time.&rdquo;</p>
+      <p class="mc-say">&ldquo;Well&hellip; this is awkward.&rdquo;</p>
+      <p class="mc-say">&ldquo;I&rsquo;ll give everyone five seconds to finish that conversation&hellip; five&hellip; four&hellip; three&hellip;&rdquo;</p>
+      <p class="mc-say">&ldquo;I love this story, but we&rsquo;re working with a very strict wedding budget&hellip; and apparently that includes storytelling time.&rdquo;</p>
+      <p class="mc-say">&ldquo;I&rsquo;m going to stop you there before this becomes a Netflix series.&rdquo;</p>
+      <p class="mc-say">&ldquo;And this is the part where I pretend I know exactly what&rsquo;s happening.&rdquo;</p>
+    </section>
+
+    <section class="mc">
+      <h3 class="mc-h"><span>All night</span>Your other job</h3>
+      <ul class="mc-check"><li>Water for Joy</li><li>Dress, hem, train</li><li>Bouquet</li><li>Makeup and hair</li><li>Photographer cues</li><li>Sunset photo timing</li><li>Sparklers ready</li><li>Check Joy before the speeches</li><li>Check Joy before the games</li><li>Check Joy before dancing</li><li>Phone and this sheet within reach</li></ul>
+      <p class="mc-beat">You are not there to talk constantly. You are there to make the evening feel effortless, keep everyone informed, protect the timing, and make sure Joy enjoys her wedding.</p>
+    </section>
+
+  </div>
+</div>
+
 <div class="modal" id="summer" hidden>
   <div class="modal-in">
     <div class="modal-head"><span style="flex:1"></span><button class="close" id="summerClose" aria-label="Close">&#10005;</button></div>
@@ -1845,7 +2126,7 @@ details[open] > .hire-steps{display:flex; flex-direction:column; gap:11px; paddi
   }
 })();
 
-const BUILD = "202610060327";
+const BUILD = "202610070543";
 document.documentElement.dataset.build = BUILD;
 (async () => {
   try {
@@ -3047,7 +3328,7 @@ function renderSpyCount() {
 /* Every screen and sheet is a history entry, so the phone's own back gesture
    walks back through them instead of leaving the site entirely. State is
    {view, ov}: the screen underneath, and the sheet on top of it if any. */
-const SHEETS = ["plan", "after", "spy", "help", "out", "album", "who", "shot", "music", "summer", "trip", "prints"];
+const SHEETS = ["plan", "after", "spy", "help", "out", "album", "who", "shot", "music", "summer", "trip", "prints", "mc"];
 const here = () => history.state || { view: "welcome" };
 
 function applyState(st) {
@@ -3059,6 +3340,7 @@ function applyState(st) {
   // swapping to a name outside the party while the sheet is up must close it
   if (st.ov === "music" && !(ME && (PARTY[ME] || ME === "Summer"))) st = { ...st, ov: undefined };
   if (st.ov === "prints" && !(ME && (PARTY[ME] || ME === "Summer"))) st = { ...st, ov: undefined };
+  if (st.ov === "mc" && ME !== "Grace") st = { ...st, ov: undefined };
   if (st.ov === "after" && !onSunday(ME)) st = { ...st, ov: undefined };   // still only theirs
   if (st.ov === "plan" && SUNDAY_ONLY.includes(ME)) st = { ...st, ov: undefined };
   if (st.ov === "trip" && ME !== "Patrick") st = { ...st, ov: undefined };   // ours, hash included
@@ -3861,6 +4143,7 @@ function renderMe() {
   $("#btnSummer").hidden = !isSummer;
   $("#btnTrip").hidden = ME !== "Patrick";
   $("#btnPrints").hidden = !(ME && (PARTY[ME] || ME === "Summer"));
+  $("#btnMc").hidden = ME !== "Grace";
   $("#btnStart").hidden = isSummer || sunOnly;
   $("#btnSpy").hidden = isSummer || sunOnly;
   // the footnote promises something about cards the reader may not have
@@ -4185,6 +4468,8 @@ $("#btnAlbum").onclick = () => go({ view: "welcome", ov: "album" });
 $("#btnMusic").onclick = () => go({ view: "welcome", ov: "music" });
 $("#btnSummer").onclick = () => { renderSummer(); go({ view: "welcome", ov: "summer" }); };
 $("#summerClose").onclick = back;
+$("#btnMc").onclick = () => go({ view: "welcome", ov: "mc" });
+$("#mcClose").onclick = back;
 $("#btnPrints").onclick = () => go({ view: "welcome", ov: "prints" });
 $("#printsClose").onclick = back;
 $("#btnTrip").onclick = () => go({ view: "welcome", ov: "trip" });
