@@ -403,11 +403,32 @@ a.btn{text-decoration:none}
   border-bottom:1px solid var(--line);
 }
 .mc-check li:last-child{border-bottom:0}
-.shots li{cursor:pointer; -webkit-tap-highlight-color:transparent}
-.shots li.sdone{color:var(--ink-3); text-decoration:line-through; text-decoration-color:var(--line-2)}
+.shots{list-style:none; margin:0 0 8px; padding:0}
+.shots li{
+  position:relative; display:flex; gap:11px; align-items:center;
+  padding:8px 0 8px 27px; border-bottom:1px solid var(--line);
+  cursor:pointer; -webkit-tap-highlight-color:transparent;
+}
+.shots li:last-child{border-bottom:0}
+.shots li:before{
+  content:""; position:absolute; left:4px; top:50%; margin-top:-7px; width:14px; height:14px;
+  border:1.5px solid var(--line-2); border-radius:3px;
+}
+.shots img{
+  flex:none; width:50px; height:58px; object-fit:cover; border-radius:5px;
+  background:var(--surface); border:1px solid var(--line);
+}
+.shot-t{flex:1; font-size:14px; line-height:1.3; color:var(--ink)}
+.shot-t b{display:block; font-weight:500}
+.shot-w{
+  display:block; margin-top:3px; font-size:var(--eb); font-weight:600;
+  letter-spacing:var(--tr); text-transform:uppercase; color:var(--ink-3);
+}
+.shots li.sdone .shot-t{color:var(--ink-3); text-decoration:line-through; text-decoration-color:var(--line-2)}
+.shots li.sdone img{opacity:.42}
 .shots li.sdone:before{background:var(--green); border-color:var(--green)}
 .shots li.sdone:after{
-  content:""; position:absolute; left:8.5px; top:12.5px; width:6px; height:3px;
+  content:""; position:absolute; left:8.5px; top:50%; margin-top:-3.5px; width:6px; height:3px;
   border-left:1.6px solid #fff; border-bottom:1.6px solid #fff; transform:rotate(-45deg);
 }
 .shot-n{float:right; font-size:var(--eb); font-weight:600; letter-spacing:var(--tr); color:var(--ink-3)}
@@ -1431,45 +1452,33 @@ details[open] > .hire-steps{display:flex; flex-direction:column; gap:11px; paddi
       <li><span class="plan-when">5:45 pm</span><span class="plan-what">Shower, both of you, back to back<small>Twenty-five minutes of hot water and then three hours to recover. Stagger them and the second one is cold.</small></span></li>
       <li><span class="plan-when">6:30 pm</span><span class="plan-what">Dinner at Nest<small>At <b>Kamana Lakehouse, 139 Fernhill Road</b> &mdash; up the hill, the same side of town as the house you move into tomorrow. <b>Just the two of you</b>, three courses, and the table is yours until <b>8:30</b>. <b>This is where the vows get written</b> &mdash; take paper and two pens, answer the four questions apart, and do not read each other&rsquo;s. They hold it for fifteen minutes and no longer, so leave early enough. There is a fireplace in the lounge if you want a drink first.</small></span></li>
     </ul>
-    <p class="fl-note" style="margin-top:12px"><b>Today&rsquo;s assignment &mdash; fifteen frames<span class="shot-n" id="shotCount"></span></b>The wall, one photo at a time. Tap one when it is taken. Sunset is <b>8:01</b> and the light goes at <b>8:31</b>.</p>
-
-    <p class="seat-side">The lake road &middot; this afternoon</p>
-    <ul class="mc-check shots">
-      <li data-s="a1">Cheek kiss, both in sunglasses, snow and the lake behind you</li>
-      <li data-s="a2">Wide &mdash; mountains and water filling the frame, his lips on her temple, both eyes closed</li>
-      <li data-s="a3">Backs to the camera, arms thrown wide at the water</li>
-      <li data-s="a4">Sunglasses selfie, the Remarkables over your shoulders</li>
-      <li data-s="a5">Close daylight cheek kiss &mdash; her eyes shut, no sunglasses</li>
-    </ul>
-
-    <p class="seat-side">Nest &middot; from 6:30</p>
-    <ul class="mc-check shots">
-      <li data-s="b1">Clinking red wine, looking at each other and not at the lens</li>
-      <li data-s="b2">Her hand with the ring, resting over his, on the table</li>
-      <li data-s="b3">Cheek kiss in the warm light, both eyes closed</li>
-    </ul>
-
-    <p class="seat-side">7:50 &middot; step outside before dessert</p>
-    <ul class="mc-check shots">
-      <li data-s="c1">Silhouette kiss with the sun between you &mdash; <b>8:01</b>, and it will not wait</li>
-    </ul>
-
-    <p class="seat-side">Driving back &middot; after 8:30</p>
-    <ul class="mc-check shots">
-      <li data-s="d1">Town lights behind you in the dark, cheek kiss</li>
-    </ul>
-
-    <p class="seat-side">Saturday</p>
-    <ul class="mc-check shots">
-      <li data-s="e1">Her profile under the veil, candlelit, off the shoulder</li>
-      <li data-s="e2">The bow and the veil from directly behind</li>
-      <li data-s="e3">The two of you in the lamplit room, her in white</li>
-      <li data-s="e4">Close indoor cheek kiss, her smiling straight down the lens</li>
-    </ul>
-
-    <p class="seat-side">Later in the trip</p>
-    <ul class="mc-check shots">
-      <li data-s="f1">Vineyard, a glass of white, sunglasses &mdash; Gibbston on Sunday the 11th</li>
+    <p class="fl-note" style="margin-top:12px"><b>The shot list &mdash; twenty-four frames<span class="shot-n" id="shotCount"></span></b>The board, one frame at a time, in its own order. Tap a row when it is taken. Sunset is <b>8:01</b> and the light goes at <b>8:31</b>.</p>
+    <div class="trip-go" style="margin-bottom:8px"><a href="shots/board.webp" target="_blank" rel="noopener">Open the whole board</a></div>
+    <ul class="shots">
+      <li data-s="s01"><img src="shots/01.webp" alt="" loading="lazy" width="340" height="396"><span class="shot-t"><b>1. Here we go &hearts;</b><span class="shot-w">The beginning &middot; On the way in</span></span></li>
+      <li data-s="s02"><img src="shots/02.webp" alt="" loading="lazy" width="340" height="396"><span class="shot-t"><b>2. Touchdown</b><span class="shot-w">Queenstown arrival &middot; Landing &mdash; you may have it</span></span></li>
+      <li data-s="s03"><img src="shots/03.webp" alt="" loading="lazy" width="340" height="396"><span class="shot-t"><b>3. Our first view</b><span class="shot-w">Queenstown &middot; Any lookout</span></span></li>
+      <li data-s="s04"><img src="shots/04.webp" alt="" loading="lazy" width="340" height="396"><span class="shot-t"><b>4. Coffee stop</b><span class="shot-w">Glenorchy &middot; Glenorchy, today</span></span></li>
+      <li data-s="s05"><img src="shots/05.webp" alt="" loading="lazy" width="340" height="396"><span class="shot-t"><b>5. Bennett&rsquo;s Bluff</b><span class="shot-w">Scenic drive &middot; Today, on the way out</span></span></li>
+      <li data-s="s06"><img src="shots/06.webp" alt="" loading="lazy" width="340" height="396"><span class="shot-t"><b>6. So beautiful</b><span class="shot-w">Glenorchy views &middot; Glenorchy road, today</span></span></li>
+      <li data-s="s07"><img src="shots/07.webp" alt="" loading="lazy" width="340" height="396"><span class="shot-t"><b>7. Exploring together</b><span class="shot-w">Queenstown &middot; The lakefront</span></span></li>
+      <li data-s="s08"><img src="shots/08.webp" alt="" loading="lazy" width="340" height="396"><span class="shot-t"><b>8. This ring</b><span class="shot-w">The yes &middot; Tonight at Nest</span></span></li>
+      <li data-s="s09"><img src="shots/09.webp" alt="" loading="lazy" width="340" height="396"><span class="shot-t"><b>9. Date nights</b><span class="shot-w">Good food &middot; Tonight at Nest</span></span></li>
+      <li data-s="s10"><img src="shots/10.webp" alt="" loading="lazy" width="340" height="396"><span class="shot-t"><b>10. Wine day</b><span class="shot-w">Our kind of day &middot; Gibbston, Sunday</span></span></li>
+      <li data-s="s11"><img src="shots/11.webp" alt="" loading="lazy" width="340" height="396"><span class="shot-t"><b>11. On the road</b><span class="shot-w">More adventures &middot; Any drive</span></span></li>
+      <li data-s="s12"><img src="shots/12.webp" alt="" loading="lazy" width="340" height="396"><span class="shot-t"><b>12. Unwind</b><span class="shot-w">Just us &middot; If there is a tub</span></span></li>
+      <li data-s="s13"><img src="shots/13.webp" alt="" loading="lazy" width="340" height="396"><span class="shot-t"><b>13. Always you</b><span class="shot-w">The laughs &middot; Any time</span></span></li>
+      <li data-s="s14"><img src="shots/14.webp" alt="" loading="lazy" width="340" height="396"><span class="shot-t"><b>14. Evenings like this</b><span class="shot-w">The little moments &middot; Tonight, 8:01</span></span></li>
+      <li data-s="s15"><img src="shots/15.webp" alt="" loading="lazy" width="340" height="396"><span class="shot-t"><b>15. Side by side</b><span class="shot-w">Through it all &middot; Today, the lake road</span></span></li>
+      <li data-s="s16"><img src="shots/16.webp" alt="" loading="lazy" width="340" height="396"><span class="shot-t"><b>16. My favourite</b><span class="shot-w">Real us &middot; Saturday</span></span></li>
+      <li data-s="s17"><img src="shots/17.webp" alt="" loading="lazy" width="340" height="396"><span class="shot-t"><b>17. Writing our vows</b><span class="shot-w">Today &middot; Tonight at Nest</span></span></li>
+      <li data-s="s18"><img src="shots/18.webp" alt="" loading="lazy" width="340" height="396"><span class="shot-t"><b>18. Almost Mrs.</b><span class="shot-w">Tomorrow &middot; Saturday morning</span></span></li>
+      <li data-s="s19"><img src="shots/19.webp" alt="" loading="lazy" width="340" height="396"><span class="shot-t"><b>19. The wedding day</b><span class="shot-w">Our forever &middot; Saturday</span></span></li>
+      <li data-s="s20"><img src="shots/20.webp" alt="" loading="lazy" width="340" height="396"><span class="shot-t"><b>20. Just married</b><span class="shot-w">A new chapter &middot; Saturday</span></span></li>
+      <li data-s="s21"><img src="shots/21.webp" alt="" loading="lazy" width="340" height="396"><span class="shot-t"><b>21. Together always</b><span class="shot-w">Wherever &middot; The road trip</span></span></li>
+      <li data-s="s22"><img src="shots/22.webp" alt="" loading="lazy" width="340" height="396"><span class="shot-t"><b>22. Our adventure</b><span class="shot-w">For a lifetime &middot; Tonight, 8:01</span></span></li>
+      <li data-s="s23"><img src="shots/23.webp" alt="" loading="lazy" width="340" height="396"><span class="shot-t"><b>23. Always &amp; Forever</b><span class="shot-w">Through it all &middot; Any time</span></span></li>
+      <li data-s="s24"><img src="shots/24.webp" alt="" loading="lazy" width="340" height="396"><span class="shot-t"><b>24. The rest of our lives &hearts;</b><span class="shot-w">Just the beginning &middot; Any evening</span></span></li>
     </ul>
 
     <div class="trip-go" style="margin-bottom:4px"><a href="https://www.google.com/maps/search/?api=1&query=The%20Warehouse%2C%20Grant%20Road%2C%20Frankton%2C%20Queenstown" target="_blank" rel="noopener">Open Five Mile, Frankton in Maps</a></div>
@@ -2249,7 +2258,7 @@ details[open] > .hire-steps{display:flex; flex-direction:column; gap:11px; paddi
   }
 })();
 
-const BUILD = "202610081050";
+const BUILD = "202610081135";
 document.documentElement.dataset.build = BUILD;
 (async () => {
   try {
