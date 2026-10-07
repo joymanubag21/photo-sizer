@@ -403,6 +403,14 @@ a.btn{text-decoration:none}
   border-bottom:1px solid var(--line);
 }
 .mc-check li:last-child{border-bottom:0}
+.shots li{cursor:pointer; -webkit-tap-highlight-color:transparent}
+.shots li.sdone{color:var(--ink-3); text-decoration:line-through; text-decoration-color:var(--line-2)}
+.shots li.sdone:before{background:var(--green); border-color:var(--green)}
+.shots li.sdone:after{
+  content:""; position:absolute; left:8.5px; top:12.5px; width:6px; height:3px;
+  border-left:1.6px solid #fff; border-bottom:1.6px solid #fff; transform:rotate(-45deg);
+}
+.shot-n{float:right; font-size:var(--eb); font-weight:600; letter-spacing:var(--tr); color:var(--ink-3)}
 .mc-check li:before{
   content:""; position:absolute; left:4px; top:9px; width:14px; height:14px;
   border:1.5px solid var(--line-2); border-radius:3px;
@@ -1423,6 +1431,48 @@ details[open] > .hire-steps{display:flex; flex-direction:column; gap:11px; paddi
       <li><span class="plan-when">5:45 pm</span><span class="plan-what">Shower, both of you, back to back<small>Twenty-five minutes of hot water and then three hours to recover. Stagger them and the second one is cold.</small></span></li>
       <li><span class="plan-when">6:30 pm</span><span class="plan-what">Dinner at Nest<small>At <b>Kamana Lakehouse, 139 Fernhill Road</b> &mdash; up the hill, the same side of town as the house you move into tomorrow. <b>Just the two of you</b>, three courses, and the table is yours until <b>8:30</b>. <b>This is where the vows get written</b> &mdash; take paper and two pens, answer the four questions apart, and do not read each other&rsquo;s. They hold it for fifteen minutes and no longer, so leave early enough. There is a fireplace in the lounge if you want a drink first.</small></span></li>
     </ul>
+    <p class="fl-note" style="margin-top:12px"><b>Today&rsquo;s assignment &mdash; sixteen frames<span class="shot-n" id="shotCount"></span></b>The wall, one photo at a time. Tap one when it is taken. Sunset is <b>8:01</b> and the light goes at <b>8:31</b>.</p>
+
+    <p class="seat-side">The lake road &middot; this afternoon</p>
+    <ul class="mc-check shots">
+      <li data-s="a1">Cheek kiss, both in sunglasses, snow and the lake behind you</li>
+      <li data-s="a2">Wide &mdash; mountains and water filling the frame, his lips on her temple, both eyes closed</li>
+      <li data-s="a3">Backs to the camera, arms thrown wide at the water</li>
+      <li data-s="a4">Sunglasses selfie, the Remarkables over your shoulders</li>
+      <li data-s="a5">Close daylight cheek kiss &mdash; her eyes shut, no sunglasses</li>
+    </ul>
+
+    <p class="seat-side">Nest &middot; from 6:30</p>
+    <ul class="mc-check shots">
+      <li data-s="b1">Clinking red wine, looking at each other and not at the lens</li>
+      <li data-s="b2">Her hand with the ring, resting over his, on the table</li>
+      <li data-s="b3">Cheek kiss in the warm light, both eyes closed</li>
+    </ul>
+
+    <p class="seat-side">7:50 &middot; step outside before dessert</p>
+    <ul class="mc-check shots">
+      <li data-s="c1">Silhouette kiss with the sun between you &mdash; <b>8:01</b>, and it will not wait</li>
+    </ul>
+
+    <p class="seat-side">Driving back &middot; after 8:30</p>
+    <ul class="mc-check shots">
+      <li data-s="d1">Town lights behind you in the dark, cheek kiss</li>
+    </ul>
+
+    <p class="seat-side">Saturday</p>
+    <ul class="mc-check shots">
+      <li data-s="e1">Her profile under the veil, candlelit, off the shoulder</li>
+      <li data-s="e2">The bow and the veil from directly behind</li>
+      <li data-s="e3">The two of you in the lamplit room, her in white</li>
+      <li data-s="e4">Close indoor cheek kiss, her smiling straight down the lens</li>
+    </ul>
+
+    <p class="seat-side">Later in the trip</p>
+    <ul class="mc-check shots">
+      <li data-s="f1">Vineyard, a glass of white, sunglasses &mdash; Gibbston on Sunday the 11th</li>
+      <li data-s="f2">The little white dog &mdash; whose, and where? Nobody has told me</li>
+    </ul>
+
     <div class="trip-go" style="margin-bottom:4px"><a href="https://www.google.com/maps/search/?api=1&query=The%20Warehouse%2C%20Grant%20Road%2C%20Frankton%2C%20Queenstown" target="_blank" rel="noopener">Open Five Mile, Frankton in Maps</a></div>
     <div class="trip-go" style="margin-bottom:4px"><a href="https://www.google.com/maps/dir/?api=1&origin=Queenstown%2C%20New%20Zealand&destination=Glenorchy%2C%20New%20Zealand" target="_blank" rel="noopener">Open the Glenorchy drive in Maps</a></div>
     <p class="fl-note" style="margin-top:12px"><b>What to wear</b>Ordinary clothes &mdash; it is a walk-through, not a dress rehearsal.</p>
@@ -2200,7 +2250,7 @@ details[open] > .hire-steps{display:flex; flex-direction:column; gap:11px; paddi
   }
 })();
 
-const BUILD = "202610080925";
+const BUILD = "202610081020";
 document.documentElement.dataset.build = BUILD;
 (async () => {
   try {
@@ -4552,6 +4602,26 @@ $("#btnPrints").onclick = () => go({ view: "welcome", ov: "prints" });
 $("#printsClose").onclick = back;
 $("#btnTrip").onclick = () => go({ view: "welcome", ov: "trip" });
 $("#tripClose").onclick = back;
+
+/* Sixteen frames off the wall Joy sent. Ticks live on the phone that took the
+   photo, so hers and Patrick's lists are separate on purpose. */
+const SHOTS_KEY = "jp-shotlist";
+let shotsDone = new Set();
+try { shotsDone = new Set(JSON.parse(localStorage.getItem(SHOTS_KEY) || "[]")); } catch (e) { /* private window */ }
+function paintShots() {
+  const all = document.querySelectorAll("#trip .shots li[data-s]");
+  all.forEach((li) => li.classList.toggle("sdone", shotsDone.has(li.dataset.s)));
+  const n = $("#shotCount");
+  if (n) n.textContent = shotsDone.size + " of " + all.length;
+}
+$("#trip").addEventListener("click", (e) => {
+  const li = e.target.closest(".shots li[data-s]");
+  if (!li) return;
+  shotsDone.has(li.dataset.s) ? shotsDone.delete(li.dataset.s) : shotsDone.add(li.dataset.s);
+  try { localStorage.setItem(SHOTS_KEY, JSON.stringify([...shotsDone])); } catch (e) { /* private window */ }
+  paintShots();
+});
+paintShots();
 $("#btnVows").onclick = () => go({ view: "welcome", ov: "vows" });
 $("#vowsClose").onclick = back;
 $("#musicClose").onclick = back;
