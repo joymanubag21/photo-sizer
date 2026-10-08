@@ -1207,7 +1207,7 @@ details[open] > .hire-steps{display:flex; flex-direction:column; gap:11px; paddi
       </li>
       <li>
         <span class="plan-when">4:45 pm</span>
-        <span class="plan-what">We move to the Hilton<small>About 25 minutes. Your seat is under <b>Find yourself</b> below.</small></span>
+        <span class="plan-what">We move to the Hilton<small>About 20 minutes. Your seat is under <b>Find yourself</b> below.</small></span>
       </li>
       <li>
         <span class="plan-when">5:15 pm</span>
@@ -2258,7 +2258,7 @@ details[open] > .hire-steps{display:flex; flex-direction:column; gap:11px; paddi
   }
 })();
 
-const BUILD = "202610090045";
+const BUILD = "202610090105";
 document.documentElement.dataset.build = BUILD;
 (async () => {
   try {
@@ -3783,9 +3783,9 @@ const ROUTES = {
     ], note: "Leaving at 4:45 like everyone else would put you at the Grill at <b>5:24</b>, nine minutes after the room is "
       + "supposed to be seated. That is the only reason this run goes early.", map: ["canyons", "lake", "hilton"] },
     home: { rows: [
-      ["10:25 pm", "Drop two at the lake house", "Lara Mae and Cathlyn. <b>25 minutes</b> from the Hilton &mdash; the other seven have their own cars."],
-      ["10:32 pm", "Drop two at Haka House", "Marge and Sam, 6 Henry Street. <b>7 minutes</b> on."],
-      ["10:46 pm", "Drop three at the Arrowtown house", "Marvin, Jane and Trixie. <b>14 minutes</b> from Haka House &mdash; the last drop."]
+      ["10:25 pm", "Drop two at the lake house", "Lara Mae and Cathlyn. <b>22 minutes</b> from the Hilton &mdash; the other seven have their own cars."],
+      ["10:33 pm", "Drop two at Haka House", "Marge and Sam, 6 Henry Street. <b>8 minutes</b> on."],
+      ["10:48 pm", "Drop three at the Arrowtown house", "Marvin, Jane and Trixie. <b>15 minutes</b> from Haka House &mdash; the last drop."]
     ], map: ["hilton", "lake", "haka", "arrowtown"] }
   },
   /* Out with Marvin, back in his own car. */
@@ -3805,7 +3805,7 @@ const ROUTES = {
       ["5:29 pm", "At the Hilton", "<b>26 minutes</b>. The reception opens at 5:15 and the bridal party comes in at 5:30, so go straight to your seats."]
     ], map: ["canyons", "lake", "hilton"] },
     home: { rows: [
-      ["10:25 pm", "Back to the lake house", "<b>25 minutes</b> from the Hilton, in your own time."]
+      ["10:25 pm", "Back to the lake house", "<b>22 minutes</b> from the Hilton, in your own time."]
     ], map: ["hilton", "lake"] }
   },
   Sai: {
@@ -3819,7 +3819,7 @@ const ROUTES = {
       ["5:29 pm", "At the Hilton", "<b>26 minutes</b>. The reception opens at 5:15 and the bridal party comes in at 5:30, so go straight to your seats."]
     ], map: ["canyons", "lake", "hilton"] },
     home: { rows: [
-      ["10:25 pm", "Back to the lake house", "<b>25 minutes</b> from the Hilton, in your own time."]
+      ["10:25 pm", "Back to the lake house", "<b>22 minutes</b> from the Hilton, in your own time."]
     ], map: ["hilton", "lake"] }
   },
   JP: {
@@ -3833,7 +3833,7 @@ const ROUTES = {
       ["5:29 pm", "At the Hilton", "<b>26 minutes</b>. The reception opens at 5:15 and the bridal party comes in at 5:30, so go straight to your seats."]
     ], map: ["canyons", "lake", "hilton"] },
     home: { rows: [
-      ["10:25 pm", "Back to the lake house", "<b>25 minutes</b> from the Hilton, in your own time."]
+      ["10:25 pm", "Back to the lake house", "<b>22 minutes</b> from the Hilton, in your own time."]
     ], map: ["hilton", "lake"] }
   },
   Franklin: {
@@ -4572,7 +4572,7 @@ function renderRides(q) {
       + (cer ? leg(cerLabel, { rows: cer, note: warn, who: outD, map: trips ? myTrip.map : mapOf(outD, "ceremony") })
              : leg("To the ceremony", [warn || "Check with Joy."]))
       + (rec ? leg("To the reception", { rows: rec, who: recD, map: mapOf(recD, "reception") })
-             : leg("To the reception", [`With <b>${recD}</b>, straight to the Hilton. About 25 minutes.`]))
+             : leg("To the reception", [`With <b>${recD}</b>, straight to the Hilton. About 18 minutes.`]))
       + (home ? leg("Going home", { rows: home, who: car.driver, map: mapOf(car.driver, "home") })
               : leg("Going home", [HOME_BY_NAME[me] || `<b>${car.driver}</b> ${HOME_BY_HOUSE[stay.place] || "takes you home"}.`]));
   }
