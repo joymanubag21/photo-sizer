@@ -2258,7 +2258,7 @@ details[open] > .hire-steps{display:flex; flex-direction:column; gap:11px; paddi
   }
 })();
 
-const BUILD = "202610082340";
+const BUILD = "202610082355";
 document.documentElement.dataset.build = BUILD;
 (async () => {
   try {
@@ -3684,8 +3684,9 @@ const RENTALS = {
     label: "Van 2 &middot; the 10th to the 15th",
     until: Date.parse("2026-10-15T11:00:00Z"),
     at: [
-      ["8:00 am", "Collect Van 2", "The hour reception opens, on the morning of the wedding. <b>Angelo</b> drives you "
-        + "from the Arrowtown house straight to the branch &mdash; no airport, no Zone C, no shuttle."],
+      ["From 8:00 am", "Collect Van 2", "<b>Angelo</b> leaves the Arrowtown house at <b>8:00</b> and drops you at the branch, "
+        + "then drives straight home. No airport, no Zone C, no shuttle. Reception is open <b>8:00 am to 6:00 pm</b>, so the "
+        + "hour you arrive is not tight &mdash; your own first pickup run is not until 2:00 pm."],
       ["The desk", "Yes Rentals, Frankton", "{BRANCH}."]
     ],
     stops: [
@@ -3748,8 +3749,8 @@ const ROUTES = {
        someone the rows name. Marvin reads it off his own hire card instead,
        because his out-driver is himself. */
     early: { rows: [
-      ["8:00 am", "Marvin to Yes Rentals, Frankton", "43 Brookes Road, for Van 2. Angelo drives him from the Arrowtown house "
-        + "and comes straight back &mdash; they skip the airport and the Zone C shuttle entirely."]
+      ["8:00 am", "Leave the Arrowtown house", "Angelo takes Marvin to <b>Yes Rentals, 43 Brookes Road, Frankton</b> for Van 2, "
+        + "drops him at the door and drives straight back. No airport, no Zone C, no shuttle."]
     ], map: ["arrowtown", "branch"] },
     /* Six out, six back. Marvin took all seven from the lake house on 2026-10-08, so
        this run no longer crosses Queenstown and back - Malaghans Road goes
