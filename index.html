@@ -2258,7 +2258,7 @@ details[open] > .hire-steps{display:flex; flex-direction:column; gap:11px; paddi
   }
 })();
 
-const BUILD = "202610081510";
+const BUILD = "202610081605";
 document.documentElement.dataset.build = BUILD;
 (async () => {
   try {
@@ -3686,9 +3686,7 @@ const RENTALS = {
       ["8:00 am", "Collect Van 2", "Queenstown Airport &mdash; the morning of the wedding, and the hour reception opens. "
         + "<b>Patrick</b> is there too, handing the Aqua back."],
       ["On arrival", "Call {TEL}", "Then follow the airport signs to <b>Zone C</b> and wait there."],
-      ["The desk", "Yes Rentals, Frankton", "{BRANCH}."],
-      ["Then", "Take Patrick to the family Airbnb", "Thompson Street. <b>14 minutes</b> from the branch, and he has no other way there."],
-      ["Thu 15 Oct", "Back at Christchurch Airport", "<b>8:00 am</b>."]
+      ["The desk", "Yes Rentals, Frankton", "{BRANCH}."]
     ],
     stops: [
       "You and <b>Casie</b> are both named on this booking, so either of you can sign for it &mdash; and either of you can hand it back.",
@@ -3832,11 +3830,11 @@ const ROUTES = {
   },
   Franklin: {
     ceremony: { rows: [
-      ["2:40 pm", "Leave the family Airbnb", "Franklin, Nelly, Vicente, Blondie, Elisha, Nathaniel and Patrick, from Thompson Street. The runsheet&rsquo;s own time for the groom and guests."],
+      ["2:40 pm", "Leave the family Airbnb", "Franklin, Nelly, Vicente, Blondie, Elisha and Nathaniel, from Thompson Street. Six aboard &mdash; the groom went ahead on the earlier run, at 2:08."],
       ["2:50 pm", "At the Canyons", "<b>8 minutes</b> from Thompson Street."]
     ], map: ["airbnb", "canyons"] },
     reception: { rows: [
-      ["4:45 pm", "The Canyons to the Hilton", "Seven again &mdash; Jun2x brought Nieves out, and Patrick goes on with Joy. About 25 minutes."]
+      ["4:45 pm", "The Canyons to the Hilton", "Seven &mdash; Nieves came out on the other van and gets in here. The groom goes on with his bride. About 25 minutes."]
     ], map: ["canyons", "hilton"] },
     home: { rows: [
       ["10:20 pm", "Drop everyone at the family Airbnb", "Nelly, Vicente, Blondie, Elisha, Nathaniel and Nieves. <b>16 minutes</b> from the Hilton."]
@@ -3856,9 +3854,9 @@ const ROUTES = {
        leaving the Airbnb, which is a different journey in the same van. */
     ceremony: [
       { label: "To the ceremony &middot; the men", map: ["airbnb", "dublin", "canyons"], rows: [
-        ["2:08 pm", "Leave the Airbnb", "Francis, Gavin, Joie and Nieves. Five aboard."],
-        ["2:12 pm", "4 Dublin Street, for Erwan", "<b>4 minutes</b> across town from Thompson Street. Allow <b>3</b> to load. Six aboard."],
-        ["2:23 pm", "Drop them at the Canyons", "<b>8 minutes</b> from Dublin Street. Away again by <b>2:30</b>, or the bride waits."]
+        ["2:08 pm", "Leave the Airbnb", "Francis, Gavin, Joie, Nieves and <b>Patrick</b>. Six aboard."],
+        ["2:12 pm", "4 Dublin Street, for Erwan", "<b>4 minutes</b> across town from Thompson Street. Allow <b>3</b> to load. <b>Seven aboard</b>."],
+        ["2:23 pm", "Drop them at the Canyons", "<b>8 minutes</b> from Dublin Street. The groom is here first, as he should be. Away again by <b>2:30</b>, or the bride waits."]
       ] },
       { label: "To the ceremony &middot; the bride", map: ["hotel", "canyons"], rows: [
         ["2:45 pm", "At the hotel", "<b>15 minutes</b> back from the Canyons. Joy, Grace, Norrie, Lara Mae and Cathlyn come straight off their 2:15 photo session."],
@@ -3867,7 +3865,7 @@ const ROUTES = {
       ] }
     ],
     reception: { rows: [
-      ["4:45 pm", "Leave the Canyons", "Joy, Grace and the three bridesmaids, and Erwan as far as the hotel. <b>Seven aboard</b>."],
+      ["4:45 pm", "Leave the Canyons", "Joy and Patrick, Grace and the three bridesmaids, and Erwan as far as the hotel. <b>Eight aboard</b>."],
       ["5:00 pm", "Drop Erwan at the hotel", "594 Frankton Road, <b>15 minutes</b> and straight on the way &mdash; his own car is there and he drives himself to the reception."],
       ["5:11 pm", "At the Hilton", "<b>9 minutes</b> on. Doors at 5:15 and the bridal party in at 5:30."]
     ], map: ["canyons", "hotel", "hilton"] },
@@ -3909,7 +3907,7 @@ const CEREMONY_BY_NAME = {
   "Grace": "At <b>6:30 am</b> Jun2x takes you to Joy and Patrick&rsquo;s hotel for makeup, and you stay with Joy there. "
     + "You leave together at <b>" + RUN_BRIDE + "</b> &mdash; Jun2x has taken the men ahead and comes back for you. He drives you the rest of the day.",
   "Joy": "Your photo session with the bridesmaids is <b>2:15 to 2:45</b> at the hotel, then <b>Jun2x</b> takes you all at <b>2:50 pm</b>. You are at the Canyons at 3:05, ten minutes before the aisle.",
-  "Patrick": "You are at the family Airbnb from the morning &mdash; Marvin brings you there after the Aqua goes back. <b>Franklin</b> takes you to the Canyons at <b>2:40 pm</b>.",
+  "Patrick": "You hand the Aqua back at <b>8:00 am</b> at Queenstown Airport, the same desk and hour Marvin collects Van 2, and you are at the family Airbnb from then. <b>Jun2x</b> takes you to the Canyons at <b>2:08 pm</b> with the men &mdash; you are there well before the bride.",
   "Jane": "Straight to the ceremony from the Arrowtown house.",
   "Trixie": "Straight to the ceremony from the Arrowtown house."
 };
