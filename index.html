@@ -2258,7 +2258,7 @@ details[open] > .hire-steps{display:flex; flex-direction:column; gap:11px; paddi
   }
 })();
 
-const BUILD = "202610081435";
+const BUILD = "202610081510";
 document.documentElement.dataset.build = BUILD;
 (async () => {
   try {
@@ -3777,11 +3777,10 @@ const ROUTES = {
     ], note: "The reception opens at <b>5:15</b> and the bridal party comes in at <b>5:30</b>. This run lands between the two, "
       + "so take your seats rather than stop at the door.", map: ["canyons", "lake", "hilton"] },
     home: { rows: [
-      ["10:25 pm", "Drop two at the lake house", "Lara Mae and Cathlyn. <b>25 minutes</b> from the Hilton &mdash; JP, Daisy and Abby have their own car."],
-      ["10:32 pm", "Drop two at 4 Dublin Street", "Norrie and Erwan. <b>7 minutes</b> on."],
-      ["10:37 pm", "Drop two at Haka House", "Marge and Sam, 6 Henry Street &mdash; 400 m from Dublin Street."],
-      ["10:51 pm", "Drop three at the Arrowtown house", "Marvin, Jane and Trixie. <b>14 minutes</b> from Haka House &mdash; the last drop."]
-    ], map: ["hilton", "lake", "dublin", "haka", "arrowtown"] }
+      ["10:25 pm", "Drop two at the lake house", "Lara Mae and Cathlyn. <b>25 minutes</b> from the Hilton &mdash; the other seven have their own cars."],
+      ["10:32 pm", "Drop two at Haka House", "Marge and Sam, 6 Henry Street. <b>7 minutes</b> on."],
+      ["10:46 pm", "Drop three at the Arrowtown house", "Marvin, Jane and Trixie. <b>14 minutes</b> from Haka House &mdash; the last drop."]
+    ], map: ["hilton", "lake", "haka", "arrowtown"] }
   },
   /* Out with Marvin, back in his own car. */
   /* The two couples ride out with Marvin and drive themselves back in. Written
@@ -3868,8 +3867,10 @@ const ROUTES = {
       ] }
     ],
     reception: { rows: [
-      ["4:45 pm", "The Canyons to the Hilton", "Joy and Grace, and the three bridesmaids and Erwan stay aboard. <b>Seven</b>, and about <b>25 minutes</b>."]
-    ], map: ["canyons", "hilton"] },
+      ["4:45 pm", "Leave the Canyons", "Joy, Grace and the three bridesmaids, and Erwan as far as the hotel. <b>Seven aboard</b>."],
+      ["5:00 pm", "Drop Erwan at the hotel", "594 Frankton Road, <b>15 minutes</b> and straight on the way &mdash; his own car is there and he drives himself to the reception."],
+      ["5:11 pm", "At the Hilton", "<b>9 minutes</b> on. Doors at 5:15 and the bridal party in at 5:30."]
+    ], map: ["canyons", "hotel", "hilton"] },
     home: { rows: [
       ["10:10 pm", "Joy and Patrick to their hotel", "594 Frankton Road, <b>9 minutes</b> from the Hilton."],
       ["10:20 pm", "Home to the family Airbnb", "Jun2x, Joie, Gavin, Grace and Francis. <b>8 minutes</b> on &mdash; the last drop."]
@@ -3891,13 +3892,20 @@ const HOTEL_RUN = "At <b>6:30 am</b> Jun2x takes you to Joy and Patrick&rsquo;s 
    right for everybody except the four Jun2x already has in his van at the
    Canyons. Marvin leaves there with twelve in a twelve-seater, so they cannot
    get in even though he drives them home later. */
+/* Erwan's car sits at the hotel until the reception, so from 5:00 pm he is
+   driving and Marvin no longer calls at Dublin Street at all. Norrie lives at
+   the same address, so she rides home with him rather than with the van. */
+const HOME_BY_NAME = {
+  "Erwan": "Your own car is at the Hilton, so you drive yourself and Norrie back to <b>4 Dublin Street</b> whenever you like.",
+  "Norrie": "<b>Erwan</b> drives you both home to 4 Dublin Street in his own car &mdash; it is at the Hilton from the reception on."
+};
 const RECEPTION_BY_NAME = {
   "Lara Mae": "Jun2x", "Cathlyn": "Jun2x", "Norrie": "Jun2x", "Erwan": "Jun2x"
 };
 const CEREMONY_BY_NAME = {
   "Lara Mae": HOTEL_RUN,
   "Cathlyn": HOTEL_RUN,
-  "Norrie": "At <b>6:30 am</b> Jun2x collects you at <b>4 Dublin Street</b> for makeup at Joy and Patrick&rsquo;s hotel, and takes you on to the ceremony from there &mdash; leaving by <b>" + RUN_BRIDE + "</b>, with Joy. <b>Marvin</b> brings you home afterwards.",
+  "Norrie": "At <b>6:30 am</b> Jun2x collects you at <b>4 Dublin Street</b> for makeup at Joy and Patrick&rsquo;s hotel, and takes you on to the ceremony from there &mdash; leaving by <b>" + RUN_BRIDE + "</b>, with Joy. <b>Erwan</b> drives you home at the end.",
   "Grace": "At <b>6:30 am</b> Jun2x takes you to Joy and Patrick&rsquo;s hotel for makeup, and you stay with Joy there. "
     + "You leave together at <b>" + RUN_BRIDE + "</b> &mdash; Jun2x has taken the men ahead and comes back for you. He drives you the rest of the day.",
   "Joy": "Your photo session with the bridesmaids is <b>2:15 to 2:45</b> at the hotel, then <b>Jun2x</b> takes you all at <b>2:50 pm</b>. You are at the Canyons at 3:05, ten minutes before the aisle.",
@@ -4551,7 +4559,7 @@ function renderRides(q) {
     const cerLabel = trips ? myTrip.label : "To the ceremony";
     const recD = RECEPTION_BY_NAME[me] || car.driver;
     const rec = rowsOf(recD, "reception");
-    const homeRows = rowsOf(car.driver, "home");
+    const homeRows = HOME_BY_NAME[me] ? null : rowsOf(car.driver, "home");
     const home = homeRows;
     const warn = CEREMONY_BY_NAME[me] || CEREMONY_BY_HOUSE[stay.place] || "";
     legs = (early ? leg("Getting ready", { rows: early, who: outD, map: mapOf(outD, "early") }) : "")
@@ -4560,7 +4568,7 @@ function renderRides(q) {
       + (rec ? leg("To the reception", { rows: rec, who: recD, map: mapOf(recD, "reception") })
              : leg("To the reception", [`With <b>${recD}</b>, straight to the Hilton. About 25 minutes.`]))
       + (home ? leg("Going home", { rows: home, who: car.driver, map: mapOf(car.driver, "home") })
-              : leg("Going home", [`<b>${car.driver}</b> ${HOME_BY_HOUSE[stay.place] || "takes you home"}.`]));
+              : leg("Going home", [HOME_BY_NAME[me] || `<b>${car.driver}</b> ${HOME_BY_HOUSE[stay.place] || "takes you home"}.`]));
   }
   legs = hire + legs;
   $("#driverRoute").innerHTML = !legs ? "" : `
