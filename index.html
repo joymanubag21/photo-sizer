@@ -2258,7 +2258,7 @@ details[open] > .hire-steps{display:flex; flex-direction:column; gap:11px; paddi
   }
 })();
 
-const BUILD = "202610081415";
+const BUILD = "202610081435";
 document.documentElement.dataset.build = BUILD;
 (async () => {
   try {
@@ -3868,7 +3868,7 @@ const ROUTES = {
       ] }
     ],
     reception: { rows: [
-      ["4:45 pm", "The Canyons to the Hilton", "About 25 minutes."]
+      ["4:45 pm", "The Canyons to the Hilton", "Joy and Grace, and the three bridesmaids and Erwan stay aboard. <b>Seven</b>, and about <b>25 minutes</b>."]
     ], map: ["canyons", "hilton"] },
     home: { rows: [
       ["10:10 pm", "Joy and Patrick to their hotel", "594 Frankton Road, <b>9 minutes</b> from the Hilton."],
@@ -3887,6 +3887,13 @@ const CEREMONY_BY_HOUSE = {
   "Haka House": "<b>Marvin</b> collects you here at about <b>2:17 pm</b>, straight out of Arrowtown."
 };
 const HOTEL_RUN = "At <b>6:30 am</b> Jun2x takes you to Joy and Patrick&rsquo;s hotel for makeup, and collects you from there again for the ceremony &mdash; leaving by <b>" + RUN_BRIDE + "</b>, with Joy. <b>Marvin</b> brings you home afterwards.";
+/* The reception leg normally comes from the car that takes you home, which is
+   right for everybody except the four Jun2x already has in his van at the
+   Canyons. Marvin leaves there with twelve in a twelve-seater, so they cannot
+   get in even though he drives them home later. */
+const RECEPTION_BY_NAME = {
+  "Lara Mae": "Jun2x", "Cathlyn": "Jun2x", "Norrie": "Jun2x", "Erwan": "Jun2x"
+};
 const CEREMONY_BY_NAME = {
   "Lara Mae": HOTEL_RUN,
   "Cathlyn": HOTEL_RUN,
@@ -4542,15 +4549,16 @@ function renderRides(q) {
     const myTrip = trips && (trips.find((t) => t.rows.some(([, w, o]) => names30(w + " " + o, me))) || trips[trips.length - 1]);
     const cer = trips ? myTrip.rows : rowsOf(outD, "ceremony");
     const cerLabel = trips ? myTrip.label : "To the ceremony";
-    const rec = rowsOf(car.driver, "reception");
+    const recD = RECEPTION_BY_NAME[me] || car.driver;
+    const rec = rowsOf(recD, "reception");
     const homeRows = rowsOf(car.driver, "home");
     const home = homeRows;
     const warn = CEREMONY_BY_NAME[me] || CEREMONY_BY_HOUSE[stay.place] || "";
     legs = (early ? leg("Getting ready", { rows: early, who: outD, map: mapOf(outD, "early") }) : "")
       + (cer ? leg(cerLabel, { rows: cer, note: warn, who: outD, map: trips ? myTrip.map : mapOf(outD, "ceremony") })
              : leg("To the ceremony", [warn || "Check with Joy."]))
-      + (rec ? leg("To the reception", { rows: rec, who: car.driver, map: mapOf(car.driver, "reception") })
-             : leg("To the reception", [`With <b>${car.driver}</b>, straight to the Hilton. About 25 minutes.`]))
+      + (rec ? leg("To the reception", { rows: rec, who: recD, map: mapOf(recD, "reception") })
+             : leg("To the reception", [`With <b>${recD}</b>, straight to the Hilton. About 25 minutes.`]))
       + (home ? leg("Going home", { rows: home, who: car.driver, map: mapOf(car.driver, "home") })
               : leg("Going home", [`<b>${car.driver}</b> ${HOME_BY_HOUSE[stay.place] || "takes you home"}.`]));
   }
