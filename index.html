@@ -2258,7 +2258,7 @@ details[open] > .hire-steps{display:flex; flex-direction:column; gap:11px; paddi
   }
 })();
 
-const BUILD = "202610081635";
+const BUILD = "202610082340";
 document.documentElement.dataset.build = BUILD;
 (async () => {
   try {
@@ -3631,7 +3631,8 @@ const ADDR = {
   hotel:     "594 Frankton Road, Queenstown 9348",
   canyons:   "The Canyons B&B, 13 Watties Track, Arthur's Point, Queenstown 9371",
   hilton:    "Wakatipu Grill, 79 Peninsula Rd, Kelvin Heights, Queenstown 9300",
-  haka:      "Haka House Queenstown, 6 Henry Street, Queenstown 9300"
+  haka:      "Haka House Queenstown, 6 Henry Street, Queenstown 9300",
+  branch:    "Yes Rentals, 43 Brookes Road, Frankton, Queenstown 9300"
 };
 function dirLink(keys) {
   const pt = (k) => encodeURIComponent(ADDR[k] + ", New Zealand");
@@ -3683,9 +3684,8 @@ const RENTALS = {
     label: "Van 2 &middot; the 10th to the 15th",
     until: Date.parse("2026-10-15T11:00:00Z"),
     at: [
-      ["8:00 am", "Collect Van 2", "Queenstown Airport &mdash; the morning of the wedding, and the hour reception opens. "
-        + "Nobody is waiting on you: Patrick drives himself."],
-      ["On arrival", "Call {TEL}", "Then follow the airport signs to <b>Zone C</b> and wait there."],
+      ["8:00 am", "Collect Van 2", "The hour reception opens, on the morning of the wedding. <b>Angelo</b> drives you "
+        + "from the Arrowtown house straight to the branch &mdash; no airport, no Zone C, no shuttle."],
       ["The desk", "Yes Rentals, Frankton", "{BRANCH}."]
     ],
     stops: [
@@ -3744,6 +3744,13 @@ for (const r of Object.values(RENTALS)) {
 
 const ROUTES = {
   Angelo: {
+    /* Named so the filter shows this to Angelo: an early leg only appears for
+       someone the rows name. Marvin reads it off his own hire card instead,
+       because his out-driver is himself. */
+    early: { rows: [
+      ["8:00 am", "Marvin to Yes Rentals, Frankton", "43 Brookes Road, for Van 2. Angelo drives him from the Arrowtown house "
+        + "and comes straight back &mdash; they skip the airport and the Zone C shuttle entirely."]
+    ], map: ["arrowtown", "branch"] },
     /* Six out, six back. Marvin took all seven from the lake house on 2026-10-08, so
        this run no longer crosses Queenstown and back - Malaghans Road goes
        straight from the Arrowtown house to Arthur's Point. */
